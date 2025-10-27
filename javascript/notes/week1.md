@@ -95,3 +95,6 @@ Die Browser-Konsole ist Teil der Entwicklungswerkzeuge für die Webentwicklung u
      - Welche Konfigurationsmöglichkeiten habe icch beim Live-Server speziell bei größeren projekten? 
      - Mich interessiert auch, wie diese Tools in Testgetriebene Entwicklungsprozesse integriert werden können, um dies als bestPractise mitzunehmen. 
      Mir hat die Nutzung den direkten Zusammenhang zwischen der Theorie der der Code-Logik und der visuellen Umsetzung verständlicher gemacht. Weitere Vertiefung erkenne ich als notwendig an.
+
+## Was ich morgen lernen will?
+Mehr insights über Datentypen in JavaScript,also Typecasts / Datentyp-Konvertierungen sicher beherrschen.

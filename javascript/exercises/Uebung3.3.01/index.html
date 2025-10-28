@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<head>
+    <Title>Übung 3.3.01</Title>
+</head>
+<body>
+    <script>
+        // Erstelle ein JavaScript-Programm, das folgende Aufgaben erfüllt: 
+
+        // a) Definiere eine Variable temperatur und weise ihr eine Ganzzahl zu, die die aktuelle Temperatur darstellt. 
+
+        // b) Definiere eine Variable istWarm, die einen Boolean-Wert speichert. Dieser Wert soll true sein, wenn die temperatur höher als 25 Grad ist. 
+
+        // c) Definiere zwei Variablen anzahlBesucher und maxBesucher mit Ganzzahlen als Werte. Die Variable anzahlBesucher soll die aktuelle Anzahl der Besucher darstellen und maxBesucher die maximale Anzahl der Besucher, die gleichzeitig anwesend sein dürfen. 
+
+        // d) Definiere eine Variable istUeberfuellt, die einen Boolean-Wert speichert. Dieser Wert soll true sein, wenn die anzahlBesucher größer als maxBesucher ist. 
+
+        // e) Gib auf der Konsole aus, ob es warm ist und ob der Ort überfüllt ist, indem du die Variablen istWarm und istUeberfuellt verwendest.
+        
+
+    //--------------------------
+    // Aufgabe a)
+        let temparatur = 25;
+
+    //--------------------------
+    // Aufgabe b)
+
+         if (temparatur > 25) {
+                temparatur == temparatur;
+             } else {
+                temparatur = 0;
+            }// Die Umwandlung in einen Booleschen Operator gibt nur false wieder wenn der Wert 0 ist.
+        let istWarm = Boolean(temparatur);
+
+    //--------------------------
+    // Aufgabe c)
+    let anzahlBesucher = 15;
+    let maxBesucher = 15;
+    //--------------------------
+    // Aufgabe d)
+    let istUeberfuellt;
+    if (anzahlBesucher > maxBesucher){
+        istUeberfuellt = 1;
+        } else {
+            istUeberfuellt = 0;
+            }
+    istUeberfuellt = Boolean(istUeberfuellt)
+    //--------------------------
+    // Aufgabe e)
+            console.log("istWarm", istWarm);
+            console.log("Ist es überfüllt?", istUeberfuellt);
+
+    
+
+    </script>
+</body>

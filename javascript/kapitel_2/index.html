@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="de">
+    <head>
+    <script src="script.js" defer></script>
+    <script src="app.js" type "module" defer></script>
+    <title>Mehrwertsteuer berechnen</title>
+
+</head>
+<body>
+    <h1>Hallo Welt!</h1>
+    <script>
+            const x = 199.90;
+            const mwstSatz = 19;
+            const mwst = x * mwstSatz / 119;
+            console.log("Die Mehrwertsteuer beträgt: ", mwst)
+    </script>
+
+    <p><h1>Variablen mit let deklarieren</h1></p>
+    let x1 = 20;
+    let y1 = 1;
+    let x2 = 65;
+    let y2 = 4;
+    console.log(x1,y1,x2,y2);
+    <script>
+        let x1 = 20;
+        let y1 = 1;
+        let x2 = 65;
+        let y2 = 4;
+        console.log(x1,y1,x2,y2);
+    </script>
+    <p><h1>Unterschiede zwischen const und let</h1></p>
+    const ist eine Konstante, während let sich überschreiben lässt. 
+    Beispiel let:
+    let alter = 45
+    alter = 20
+    console.log("Alter: ", alter)
+    Dies führt zum Ausgabewert "Alter:  20"
+    <script>
+        let alter = 45
+        alter = 20
+        console.log("Alter: ", alter)
+    </script>
+        Beispiel const:
+        const drink = "Kaffee";
+        drink = "Wasser";
+        console.log("Drink: ", drink)
+        
+   <p>
+        <br\>
+        Dies führt zu einer exception da drink eine Konstante Variable ist. 
+   </p> 
+    <p > <br\>
+        index.html:59 Uncaught TypeError: Assignment to constant variable. at index.html:59:15
+    </p>
+
+
+    <script>
+        const drink = "Kaffee";
+        drink = "Wasser";
+        console.log("Drink: ", drink)
+    </script>
+
+    <p><h1>Mehrere Variablen deklarieren</h1></p>
+        <p > <br\>
+            Statt mehrere Variablen pro Zeile zu schreiben, kann man auch sogenannte Mehrfachzuweisungen nutzen.
+        </p>
+            let q,w,e;
+            const a=10, b=20, c=30;
+    <script>
+            let q,w,e;
+            const a=10, b=20, c=30;
+    </script>
+    <p>
+        <h1>Rechnen mit Variablen</h1>
+    <br\>
+    const x11 = 20, y11 = 1, x22 = 65, y22 = 4;
+    let steigung = (y2-y1) / (x2-x1);
+    console.log ("Steigung", steigung);
+    console.log("y bei x = 100", 100 * steigung);
+    
+    </p>
+<script>
+    const x11 = 20, y11 = 1, x22 = 65, y22 = 4;
+    let steigung = (y2-y1) / (x2-x1);
+    console.log ("Steigung", steigung);
+    console.log("y bei x = 100", 100 * steigung);
+</script>
+</body>
+<!-- Man kann JavaScript Anweisungen mit einem HTML-Script Tag direkt in das HTML Dokument setzen oder als Datei mit .js in eine gesonderte Datei schreiben. Das script-Tag bindet die externe JavaScript Datei mit einem src-Attribut ein.
+ Dieses element kann an beliebiger Stelle stehen, im head- oder im body-Tag. Empfohlen wird der head-Tag -->
+ <!-- Module organisieren Script Dateien, indem sie anwendungen in überschaubare Teile herunterbrechen und sie in separaten Dateien speichern. Diese Fragmente werden als Module importiert. Das type-Attribut des script Elements kennzeichnet JavaScript Dateien als Module. -->
+</html>

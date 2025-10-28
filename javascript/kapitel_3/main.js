@@ -1,0 +1,99 @@
+const dies = 42;
+const das = 42.0;
+if (dies === das) {
+console.log("dies und das sind dieselben Werte");
+} // Semikolon nicht hinter schließenden geschweiften Klammern
+else {console.log("dies und das sind unterschiedlich");
+} // Ausgabe in Browserkonsole ergibt: dies und das sind dieselben Werte
+
+let x = 20;
+let y = (x/0);
+console.log (y); // Konsole gibt zurück: Infinity
+
+let a = 10;
+let b = 12;
+a = 0;
+b = 0;
+let ergebnis = a/b;
+console.log("Ergebnis ist:", ergebnis); // Ergebnis ist: NaN
+
+const str1 = 'Schnee'
+const str2 = 'ball'
+let ergebnis2 = str1 + str2
+console.log("Ergebnis ist", ergebnis2) //Ergebnis ist Schneeball
+
+const q = 129
+const w = 23
+const mwst = `Im Betrag ${q + q * w / 100} € sind ${q*w /100} € MwSt. enthalten`;
+console.log(mwst, typeof mwst); //Im Betrag 158.67000000000002 € sind 29.67 € MwSt. enthalten
+
+let gallery;
+console.log("gallery", gallery) //Consoleoutput: gallery undefined
+     
+
+const schrank = [];
+if (schrank.length >0) {
+    ("Elemente Ausgeben");
+}   else {
+    console.log("Nichts im Schrank!");
+} //Konsolen Log: Nichts im Schrank! die array.length Funktion prüft die länge des arrays
+let i = "-15.89";
+console.log("i", i, typeof i); //Datentyp ist ein String
+i = -15.89;
+console.log("i", i, typeof i); // Datentyp ist Number
+let numb = parseInt(i); //es wird alles bis zum ersten nicht numerischen zeichen geparst
+console.log("numb", numb, typeof numb); //log: numb -15 number
+
+const f = "15.89€"
+let floatnum = parseFloat(f); //parseFloat parst bis zum nicht numerischen zeichen aber berücksichtigt den dezimalpunkt
+console.log("floatnum", floatnum, typeof floatnum); //log: floatnum 15.89 number
+
+const g = "-15.89"
+let numnum = Number(g);
+console.log("numnum", numnum, typeof numnum); //log:numnum -15.89 number
+
+let u = "-24.56";
+let uni = +u; // Unary Operator oder Plus- Operator sorgt auch für Datentypkonvertierung
+console.log("Unary", uni, typeof uni); // log: Unary -24.56 number - auch der Unary Operator akzeptiert nur valide zahlen, bei nicht numerischen gibt er NaN zurück
+// nun wollen wir prüfen ob NaN vorliegt
+const euro = "17.79 €"
+const mwst2 = euro * 19;
+console.log("euro * 19",euro * 19);
+     if (mwst2 == NaN) { //NaN kann nicht mit NaN verglciehen werden, daher braucht man die funktion isNaN()
+console.log("Keine Umwandlung möglich");
+     }
+     else {
+console.log("Mehrwertsteuer", mwst2); //log: Mehrwertsteuer NaN
+     }
+if (isNaN(mwst2)) {
+     console.log("mwst2 ist keine Zahl"); // log: mwst2 ist keine Zahl
+     }
+ // nun wandle ich den String mit parseFloat um und die isNaN Prüfung ergibt, das die Variable einen zahlenwert enthält:
+let unary1 = parseFloat(euro);
+if (isNaN(unary1)) {
+    console.log("unary1 ist keine Zahl!", unary1, typeof unary1);
+} else {
+    console.log("unary1 ist eine Zahl!", unary1, typeof unary1);
+} // unary1 ist eine Zahl! 17.79 number
+
+let h = 12345;
+result = h.toString();
+console.log("h wurde umgewandelt", result, typeof result ); //log: h wurde umgewandelt 12345 string
+
+const bnum = 256;
+const bumw = Boolean(bnum);
+console.log("Boolean´sche Umwandlung bumw ist gleich:", bumw, typeof bumw); //Boolean#sche Umwandlung bumw ist gleich: true boolean
+ 
+
+// Umwandlung eines String in einen Boolean
+const text1 = "Initiavite";
+const leertext = "";
+console.log("text1", Boolean(text1), text1, typeof text1) //log: text1 true Initiavite string
+console.log("Leertext", Boolean(leertext),leertext, typeof leertext); //log: Leertext false  string
+
+const result1 = "10"
+const result2 = 5
+result3 = result1 + result2
+console.log(result3); //log:"105"
+console.log(0 == "0"); //log:true
+console.log(0 === "0"); //log: false

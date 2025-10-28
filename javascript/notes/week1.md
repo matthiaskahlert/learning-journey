@@ -12,7 +12,7 @@ Daher sollte das HTML sicherheitshalber vom Validator geprüft werden.
     - [x] Protokoll abschicken zur Bewertung
 - [x] Schlage Markup Validation Service nach - (Ausprobiert https://validator.w3.org/#validate_by_input)
 - [x]  Frage beantworten, warum ich JavaScript nutzen will, zb Serverkommunikation für Testing, Design und Layout von Webseiten oder Animation und Effekte. (Serverkommunikation sollte für mich der Fokus sein)
-- [x] nachschlagen was das defer-Attribut ist (habe auch async gelernt und defer angewendet beim einbinden einer separaten .js datei
+- [x] nachschlagen was das defer-Attribut ist (habe auch async gelernt und defer angewendet beim einbinden einer separaten .js datei)
 - [ ] VS code erweiterungen installieren https://lms.velptec.de/mod/velptecpdfinstruct/view.php?id=93727
     - [x]   live server
     - [ ]   Material Icon Theme

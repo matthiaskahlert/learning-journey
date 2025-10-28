@@ -30,6 +30,8 @@ Daher sollte das HTML sicherheitshalber vom Validator geprüft werden.
     - [ ]    JSON
     - [ ]    Node Essentials
     - [ ]    Path Intellisense
+    - [ ] Switch Anweisung lernen
+    - [ ] 
 
 ## Learningfacts Kapitel 1 - HTML und CSS
 - Cascading ist das Einfließen von Stilen aus vorangegangenen CSS Regeln.
@@ -98,3 +100,87 @@ Die Browser-Konsole ist Teil der Entwicklungswerkzeuge für die Webentwicklung u
 
 ## Was ich morgen lernen will?
 Mehr insights über Datentypen in JavaScript,also Typecasts / Datentyp-Konvertierungen sicher beherrschen.
+## Learningfacts Kapitel 3 - Grundlegende Datentypen
+    - 3.1 Es gibt folgende Datentypen:
+        - Number (Integer oder Float)
+        - Strings
+        - Boolean
+        - Null (leer, absichtliche abwesenheit eines Wertes)
+        - Undefined (Variable der noch kein Wert zugewiesen wurde)
+        - BigInt (Zshlrn zu groß für Number)
+            Beispiel: Zum erzeugen ein n an die Integerzahl anhängen oder BigInt() aufrufen: let big = 123456789123n; 
+        - Symbol (unveränderlicher Wert, z.B. um eindeutige Eigenschaften zu definieren)
+    - 3.2 
+        - Integer und Float
+        In JavaScript sind Int und Float vom Typ Number.
+        Zahlen werden im 64-bit Gleitkommaformat gespeichert.
+        Wenn man ein int und ein float addiert, entstehen minimale fehler bei der Konvertierung der Zahlen. Dies führt zu ungenauigkeiten bei der darstellung von Brüchen. Es handelt sich also um Annäherungen an den nicht exakt zu treffenden Wert.
+        - Nngative Zahlen, unendlich und NaN kennt JavaScript auch. unendlich wird mit dem Schlüsselwort Infinity definiert. NaN (Not a Number) entsteht wenn der code zu einer ungültigen Zahl führt, beispielsweise wenn man versucht, zwei Variablen mit dem Wert 0 durch null zu teilen, allerdings gilt es zu beachten, dass die Browserkonsole keinen Fehler ausgibt.
+    - 3.3
+        - Boolsche Werte
+        true und false beziehungsweise 1 und 0 sind die unterste Ebene. Variablen vom Typ Boolean können nur einen Wert annehmen: true oder false, dies wird genutzt bei if/else Abfragen und Schleifen wie while oder "switch" anweisungen.
+        Boole#sche Operatoren sind && (logisches AND), || (logisches OR), und ! (logisches NOT).
+        - a&&b true wenn beide Operanden true sind
+        - x||y true wenn mindestens einer der beiden Operanden true ist
+        - !c gibt das Gegenteil des Wahrheitswertes von c zurück
+    - 3.4 Strings - Zeichenketten
+        - Alles in Hochkommas ist ein String!
+        - Erlaubte Hochkommas sind 
+            Backtick                ``
+            einfaches Hochkomma     ''
+            doppeltes Hochkomma     ""
+            Anführungszeichen und apostrophe sind nicht erlaubt. Strings können zusammengeführt werden mit +, dies nennt man Konkatenation was in diesem Fall eine Verknüpfung der Stringss darstellt.
+            const str1 = 'Schnee'
+            const str2 = 'ball'
+            let ergebnis = str1 + str2
+            console.log("Ergebnis ist", ergebnis)
+            Strings in Hochkomma dürfen keinen Zeilenumbruch haben, mit Backticks geht es allerdings. Innerhalb von Backticks dürfen auch variablen stehen!
+                Variablen in Strings stehen in geschweiften Klammern {} und ihnen geht ein $ Zeichen voran:
+                const q = 129
+                const w = 23
+                const mwst = `Im Betrag ${q + q * w / 100} € sind ${q*w /100} € MwSt. enthalten`;
+                console.log(mwst);
+        - typeof kann den Datentyp hinterfragen: console.log(mwst, typeof mwst); gibt den Wert von mwst und string als output in die Konsole.
+        - Variablen, die ohne Wert mit let deklariert sind, wird der Wert undefined zugewiesen.
+        - null wird zugewiesen, wenn man anzeigen möchte, dass kein Wert zugewiesen wurde. Es gibt einen Wert empty, den man herausfinden kann, indem man die Länge des Strings oder eines arrays prüft.
+            const schrank = [];
+            if (schrank.length >0) {
+                ("Elemente Ausgeben");
+            }   else {
+                console.log("Nichts im Schrank!");
+            } //Konsolen Log: Nichts im Schrank! die array.length Funktion prüft die länge des arrays
+    3.6 Datentyp Konvertierungen
+        JavaScript verzichtet auf einen expliziten Datentyp bei der deklaration von Variablen. vorteil ist: Geschwindigkeit, Nachteil: Bei Problemen ist die Fehlersuche schwierig.
+        Die Konvertierung eines String in einen Number Datentyp ist notwendig bei der Erfassung von Usereingaben auf Webseiten in einem Formularfeld, da die Werte als Strings ankommen. 
+        - Es gibt die funktion parseInt() um diese Datentypumwandlung vorzunehmen. Es wird alles bis zum ersten nicht numerischen zeichen geparst. 
+        - mit parseFloat() wird der Dezimalpunkt berücksichtigt.
+        - eine weitere Konvertierung ist Number(), diese Methode akzeptiert Ziffern, den Dezimalpunkt und auch vorzeichen wie - und + gibt allerdings NaN zurück, wenn ein anderes Zeichen im String ist.
+        Unary Operator oder Plus-Operator ist auch eine option:
+        let u = "24.56";
+        let uni = +u;
+        console.log("Unary", uni, typeof uni);
+        NaN wird gebraucht wenn sichergestellt werden muss, das für Operationen ein zahlenwert vorliegt. 
+        Mit der funktion isNAN() wird geprüft ob der Variable ein Zahlenwert zugrunde liegt.
+        - Number zu String
+        Die Funktion .toString() wandelt einen Variablenwert in einen String um.
+        let h = 12345;
+            result = h.toString();
+            console.log("h wurde umgewandelt", result, typeof result ); //log: h wurde umgewandelt 12345 string
+        In der Klammer kann auch ein Parameter stehen, wenn es sich vorher um eine Number gehandelt hat, man kann dann die Zahlenbasis angeben.
+        - Number zu Boolean
+        Nur 0 liefert false, alles andere liefert den Wert true nach Datentypkonvertierung. Beispiel:
+            const bnum = 256;
+            const bumw = Boolean(bnum);
+            console.log("Boolean´sche Umwandlung bumw ist gleich:", bumw, typeof bumw);
+        - String zu Boolean
+        nur ein leerer String führt zu false
+        - implizite Datentypumwandlung
+        JavaScript wandelt automatisch Werte von einem Datentyp in einen anderen um, dies kann aber Fallstricke mit sich führen (Thema Konkatenation also Verknüpfung von Strings Beispiel:
+            const result1 = "10"
+            const result2 = 5
+            result3 = result1 + result2
+            console.log(result3); //log:"105"
+        console.log(0 == "0"); log:true // hier wandelt JavaScript automatisch um
+        console.log(0 === "0"); log: false //bei === keine umwandkung, typen sind verschieden (Zahl und String)
+
+        

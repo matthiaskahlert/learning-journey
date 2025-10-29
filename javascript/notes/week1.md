@@ -5,7 +5,7 @@ Um das gelernte Wissen anwenden zu können ntiere ich mir die Lerninhalte und Be
 
 
 ## Todo Liste
-    Todo:      
+       
 - [x] Wöchentliches Kompetenzprotokoll vorbereiten
     - [x] Protokoll - Themengebiete eingrenzen
     - [x] Protokoll - Vier Kategoriengebiete beschreiben und Kernfragen beantworten
@@ -123,7 +123,7 @@ Die Browser-Konsole ist Teil der Entwicklungswerkzeuge für die Webentwicklung u
      - Mich interessiert auch, wie diese Tools in Testgetriebene Entwicklungsprozesse integriert werden können, um dies als Best-Practice mitzunehmen. 
      Mir hat die Nutzung den direkten Zusammenhang zwischen der Theorie der Code-Logik und der visuellen Umsetzung verständlicher gemacht. Weitere Vertiefung erkenne ich als notwendig an.
 
-## Was ich morgen lernen will?
+## Was ich morgen lernen will - Tag 1?
 
 Mehr insights über Datentypen in JavaScript, also Typecasts / Datentyp-Konvertierungen sicher beherrschen.
 
@@ -243,7 +243,7 @@ JavaScript wandelt automatisch Werte von einem Datentyp in einen anderen um, die
   console.log(0 === "0"); log: false //bei === keine umwandkung, typen sind verschieden (Zahl und String)
 ```
 
-## Was ich morgen lernen will?
+## Was ich morgen lernen will - Tag 2?
 
 Mehr insights über zusammengesetzte Datentypen in JavaScript, also Objekte wie das DOM.
 
@@ -450,5 +450,5 @@ Methoden regulärer Objekte: exec() und test()
     test() prüft ob ein String dem Muster entspricht.
     Man kann also Strings auf reguläre Ausdrücke prüfen.
 
-## Was ich morgen lernen will?
+## Was ich morgen lernen will - Tag3?
 Mehr insights über Schleifen, Abfragen, Ablaufkontrollen!

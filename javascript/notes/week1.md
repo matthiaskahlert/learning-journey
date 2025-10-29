@@ -352,29 +352,45 @@ console.log(`Das 1. Zeichen des Strings ist ${a1}.`);
 
 Ein String hat Eigenschaften wie: Unterteilen, Suchen und Ersetzen.
 In der Browserkonsole kann man mit console.log("String", str1.__proto__); alle Möglichkeiten der String Eigenschaften sehen.
-Die wichtigsten für uns sind 
-- replace()
-- indexOf() - gibt den ersten gefundenen index des Zeichens des strings zurück. es hilft, sich den string als Array vorzustellen. Jedes Zeichen des Strings hat eine Indexnummer, beginnend mit der 0.
+
+Wichtige Methoden: 
+- replace(searchValue, replaceValue)
+ Ersetzt das erste Vorkommen von SearchValue durch replaceValue
+- replaceAll(searchValue, replaceValue)
+Ersetzt alle Vorkommen von searchValue.
+- indexOf(substring)
+Gibt den ersten gefundenen index des Zeichens des strings zurück. Es hilft, sich den string als Array vorzustellen. Jedes Zeichen des Strings hat eine Indexnummer, beginnend mit der 0.
 - search()
 - split()
-- includes() - gibt true zurück, wenn die gesuchte Zeichenfolge im String enthalten ist.
-    beispiel:
-    const randomQuote = "Aller Anfang ist schwer!";
-    console.log(randomQuote.includes("Anfang"));
-- string.substring(start,end) - start für das erste Zeichen end für das letzte. mit nur einem argument gibt substring() den Teilstring von start bis ende zurück.
+- includes()
+Gibt true zurück, wenn die gesuchte Zeichenfolge im String enthalten ist.
+
+           const randomQuote = "Aller Anfang ist schwer!";
+           console.log(randomQuote.includes("Anfang"));
+  
+- string.substring(start,end)
+  start für das erste Zeichen end für das letzte. mit nur einem argument gibt substring() den Teilstring von start bis ende zurück.
 - string.replace()
 - string.replaceAll()
 - string.toLowerCase()
 - string.toUpperCase()
-Die Methode string.charAt() gibt das Zeichen des Strings an einem Index zurück. 
- der string.charCodeAt() gibt den Unicode Wert zurück (In UTF-16)
- string.match durchducht einen string nach einer zeichenkette und gibt den ersten treffer zurück
- - string.slice() extrahiert einen Teil aus dem String mit start (inklusive) und end (exklusive)Argumenten. string.slice kann auch vom ende her zählen also mit negativen Werten als string.slice(-5) gibt es die letzten fünf Zeichen des Strings aus.
- string.localeCompare() vergleicht zwei Strings unter Einbeziehung der Sprache miteinander und gibt einen numerischen Wert zurück. Es gibt drei Argumente:
+- string.charAt()
+  gibt das Zeichen des Strings an einem Index zurück. 
+- string.charCodeAt()
+  gibt den Unicode Wert zurück (In UTF-16)
+- string.match
+  durchducht einen string nach einer zeichenkette und gibt den ersten treffer zurück
+- string.slice()
+  extrahiert einen Teil aus dem String mit start (inklusive) und end (exklusive)Argumenten.
+- string.slice
+  kann auch vom ende her zählen also mit negativen Werten als string.slice(-5) gibt es die letzten fünf Zeichen des Strings aus.
+- string.localeCompare()
+  vergleicht zwei Strings unter Einbeziehung der Sprache miteinander und gibt einen numerischen Wert zurück. Es gibt drei Argumente:
 
-1. Zeichenkette die verglichen wird
-2. Länderkürzel (Weglassen, denn Browser default genutzt werden soll)
-3. sensitivity, optional, default ist nicht case sensitiv. es geht u-kf-upper und u-kf-lower, sowie u-kn-true (für die sortierung von zahlen)
+              1. Zeichenkette die verglichen wird
+              2. Länderkürzel (Weglassen, denn Browser default genutzt werden soll)
+              3. sensitivity, optional, default ist nicht case sensitiv. es geht u-kf-upper und u-kf-lower, sowie u-kn-true (für die sortierung von zahlen)
+              
 - string.split() teilt einen string bei jedem vorkommen eines Zeichens oder Teilstrings und speichert die Teile in einem Array. Dies kann nützlich sein beim trennen einer CSV.
 - string.trim() entfernt "Weißraum" also Leerzeichen, Tabstops, Zeilenumbrüche am Anfang und am Ende eines Strings. Dies kann wichtig sein, wenn man daten aus Eingabefeldern von Formularen übernimmt!
 - es gibt auch string.trimLeft() und string.trimRight() wenn man nur an einer Seite die Leerzeichen entfernen möchte.
@@ -389,6 +405,7 @@ Reguläre Ausdrücke werden z.B. genutzt um Benutzereingaben zu prüfen, sie kö
 
 Reguläre Ausdrücke enthalten ein Suchmuster aus Metazeichen für irreguläre Zeichenfolgen. Das Metazeichen für Zahlen ist Beispielsweise \d oder [0-9]. Ein Suchmuster für fünf Zahlen wäre dem zur Folge \d5 oder [0-9]{5}
     es gibt weitere Platzhalter:
+    
         - \w Buchstabe, Ziffer oder Unterstrich
         - \W ein Sonderzeichen
         - \d eine Ziffer zwischen 0-9
@@ -397,7 +414,9 @@ Reguläre Ausdrücke enthalten ein Suchmuster aus Metazeichen für irreguläre Z
         - \S Jedes Zeichen ausser Weißraum
         - \b Wortgrenze
         - \B keine Wortgrenze
+        
 Metazeichen wie ^und $ suchen am anfang bzw am Ende eines Strings
+
         - . findet alle Zeichen außer Zeilenende
         - ^ Anfang eines Strings
         - $ Ende eines Strings
@@ -409,21 +428,21 @@ Metazeichen wie ^und $ suchen am anfang bzw am Ende eines Strings
         
 #### Zeichenklassen
 
-- [xyz] beliebiger Buchstabe x, y oder z
-- [^xyz] jeder buchstabe außer xyz
-- [0-9] Ziffern 0-9
-- [a-z] jeder Kleinbuchstabe von a-z
-- [A-Za-z0-9] alle Buchstaben und Ziffern
-- [a-zß-ü] alle Kleinbuchstaben und Umlaute
+    - [xyz] beliebiger Buchstabe x, y oder z
+    - [^xyz] jeder buchstabe außer xyz
+    - [0-9] Ziffern 0-9
+    - [a-z] jeder Kleinbuchstabe von a-z
+    - [A-Za-z0-9] alle Buchstaben und Ziffern
+    - [a-zß-ü] alle Kleinbuchstaben und Umlaute
 
         
 #### Replikatoren
-- {n,m} mindestens n mal höchstens m mal
-- {n,} mindestens n mal
-- {n} genau n mal
-- * 0 mal oder öfter, äquivalent zu {0,}
-- + 1 mal oder öfter, äquivalent zu {1,}
-- ? 0 oder 1 mal, äquivalent zu {0,1}
+    - {n,m} mindestens n mal höchstens m mal
+    - {n,} mindestens n mal
+    - {n} genau n mal
+    - * 0 mal oder öfter, äquivalent zu {0,}
+    - + 1 mal oder öfter, äquivalent zu {1,}
+    - ? 0 oder 1 mal, äquivalent zu {0,1}
         
 Methoden regulärer Objekte: exec() und test()
     analog zu suchmethoden search() bei Strings bieten diese beiden suchmethoden für Regex.Die Methoden werden auf dem Regex ausgeführt, ihr Argument ist der String: regex.exec(string)

@@ -31,7 +31,7 @@ Daher sollte das HTML sicherheitshalber vom Validator geprüft werden.
     - [ ]    Node Essentials
     - [ ]    Path Intellisense
     - [ ] Switch Anweisung lernen
-    - [ ] 
+    - [ ] Verstehen wie der querySelector funktioniert
 
 ## Learningfacts Kapitel 1 - HTML und CSS
 - Cascading ist das Einfließen von Stilen aus vorangegangenen CSS Regeln.
@@ -60,7 +60,7 @@ Daher sollte das HTML sicherheitshalber vom Validator geprüft werden.
 ## Übungsaufgabe 2.2.Ü.01
 Die Aufgabe erschien mir einfach, aber durch das einbinden der separaten .js Datei kam es sozusagen zu einem Laufzeitfehler, welchen ich mit dem defer attribut beheben konnte. Anfangs hatte ich fehlerhafterweise auch noch den scr typ "module" zugewiesen, welcher den console output blockierte. das entfernen des modules führte zur lösung. ich habe mich für eine constante bei dem Namen entschieden, und für eine let variable beim alter.
 
-## Kompetenzprotokoll
+## Kompetenzprotokoll 1
 Um Schwerpunkte und einen Fokus bei meinem Lernfortschritt zu setzen, wende ich das Prizip des Kompetenzprotokolls an. Dies ist ein Teil der Prüfungsleistung in meiner Weiterbildung. Hierbei bearbeite ich das Gelernte wöchentlich in den vier Kategorien:
 - Einordnen und Strukturieren: Theorie erklären
 - Verstehen und Verknüpfen: Praxisbeispiel erklären
@@ -100,6 +100,9 @@ Die Browser-Konsole ist Teil der Entwicklungswerkzeuge für die Webentwicklung u
 
 ## Was ich morgen lernen will?
 Mehr insights über Datentypen in JavaScript,also Typecasts / Datentyp-Konvertierungen sicher beherrschen.
+
+## Tag2
+
 ## Learningfacts Kapitel 3 - Grundlegende Datentypen
     - 3.1 Es gibt folgende Datentypen:
         - Number (Integer oder Float)
@@ -183,4 +186,161 @@ Mehr insights über Datentypen in JavaScript,also Typecasts / Datentyp-Konvertie
         console.log(0 == "0"); log:true // hier wandelt JavaScript automatisch um
         console.log(0 === "0"); log: false //bei === keine umwandkung, typen sind verschieden (Zahl und String)
 
-        
+## Was ich morgen lernen will?
+Mehr insights über zusammengesetzte Datentypen in JavaScript, also objekte wie das DOM.
+
+## Tag 3
+## Learningfacts Kaptitel 4 - zusammengesetzte Datentypen
+Komplexe Datentypen nennt man Onbejte, sie können mehr als eine Komponente speichern. So kann ein Objekt beispielsweise einen String, Numbers und einen Booleanwert enthalten. Objekte erkennt man an den geschweiften Klammern:
+const kurs = { 
+    title:      "Stricken für Anfänger",
+    coach:      "Julia",
+    places:     12,
+    started:    true,
+    location:   "Hamburg",
+}
+Das Objekt kurs hat auch Informsationen wie title und places, welche man als Eigentchaften bezeichnet, englisch properties. von aussen spricht man das Objekt folgendermaßen an:
+kurs.places ist eine Eigenschaft des Objekts und stellt eine besondere Form von Variable dar. So kann man sie auch ändern:
+kurs.places = 14;
+kurs.title = "Stricken für Anfänger - Teil II";
+...
+- Das wichtigste Objekt ist das DOM (Document Object Model), es ist die Schnittstelle zum HTML-Dokument. Objekte haben Eigenschaften, und Methoden für die einfachen Datentypen Strings, Number, Boolean.
+
+-Math Object
+Es gibt gobale Objekte, die man nicht erzeugen muss, um sie zu nutzen, man kann sie direkt einsetzen, wie das Objekt Math.
+Gibt man in der Browserkonsole "Math." ein, werden einem die verschiedenen Komponenten von Math angezeigt.
+Die mathematischen Konstanten werden mit dem Math Objekt entsprechend genutzt wie: 
+Math.PI, 
+Math.SQRT1_2 (Quadratwurzel von 1/2),
+Math.LN10 (Logarithmus Naturalis zur Basis 10)
+Die Konstanten werden in Großbuchstaben geschrieben.
+Andere Methoden nicht:
+Math.cos()
+Math.trunc() (gibt den Wert vor dem Komma zurück, entfernt Nachkommastellen)
+Math.floor() rundet ab, bei negativen Zahlen also Math.floor(-2.7) -> ergibt -3
+Math.random() (erzeugt einen random wert zwischen 0 und 1)
+Math.max() (gibt die größte von null oder mehr Zahlen wieder)
+Math.min() (gibt die kleinste von null oder mehr Zahlen wieder)
+
+- Operanden und Operatoren
+Die üblichen mathematischen Operatoren bei JavaScript sind:
+    - Addition          +
+    - Division          /
+    - Multiplikation    *
+    - Subtraktion       -
+    - Inkrement         ++ (Kurzform für +1)
+    - Dekrement         -- (Kurzform für -1)
+    - Exponent          **
+    - Modulo            %  (Reminder: gibt nur den Rest zurück. 7 % 3 = 1, also 7 geteilt durch drei sind 2, mit dem Rest 1)
+    - Negation          -
+Man kann die Modulo Berechnung auch nutzen um zu prüfen ob ein Wert gerade oder ungerade ist, bei einer division durch zwei haben gerade Zahlen keinen Rest.
+
+const num = 23
+if (num % 2 === 0) {
+    console.log(`${num} ist eine gerade Zahl`)
+} else {
+    console.log(`${num} ist eine ungerade Zahl`)
+} //23 ist eine ungerade Zahl
+
+
+- Zuweisungen
+Das Gleichheitszeichen ist auch ein Operator, es weist der Variablen auf der linken Seite einen Wert zu.
+
+Zuweisen                    =
+Addieren und zuweisen       +=
+Subtrahieren und zuweisen   -=
+Dividieren und zuweisen     /=
+Multiplizieren und zuweisen *=
+Exponent und zuweisen       **=
+Modulo und zuweisen         %=
+
+- Vergleichsoperatoren
+hat denselben Wert      ==
+strenges gleich         ===
+ungleicch               !=
+strenges ungleich       !==
+größer als              >
+kleiner als             >
+größer oder gleich      >=
+kleiner oder gleich     <=
+
+- String Länge - string length
+Ein String hat eine Länge, dies ist eine Eigenschaft.
+Eigenschaften werden (wie bei Objekten) mit einem punkt vor dem Variablennamen geschrieben.
+const str1 = "Matthias Kahlert"
+const stringLänge = str1.length;
+console.log(` Der String ${str1} hat die Stringlänge von ${stringLänge}.`);
+
+const a1 = str1[0]; //JavaScript erreicht jedes Zeichen im String mit einem index aus eckigen Klammern. es Beginnt bei 0 zu zählen. 
+console.log(`Das 1. Zeichen des Strings ist ${a1}.`);
+
+Ein String hat Eigenschaften wie: Unterteilen, Suchen und Ersetzen.
+In der Browserkonsole kann man mit console.log("String", str1.__proto__); alle Möglichkeiten der String Eigenschaften sehen.
+Die wichtigsten für uns sind 
+- replace()
+- indexOf() - gibt den ersten gefundenen index des Zeichens des strings zurück. es hilft, sich den string als array vorzustellen. JEdes Zeichen des Strings hat eine Indexnummer, beginnend mit der 0.
+- search()
+- split()
+- includes() - gibt true zzurück, wenn die gesuchte Zeichenfolge im String enthalten ist.
+    beispiel:
+    const randomQuote = "Aller Anfang ist schwer!";
+    console.log(randomQuote.includes(Anfang));
+- string.substring(start,end) - start für das erste Zeichen end für das letzte. mit nur einem argument gibt substring() den Teilstring von start bis ende zurück.
+- string.replace()
+- string.replaceAll()
+- string.toLowerCase()
+- string.toUpperCase()
+Die Methode string.charAt() gibt das Zeichen des Strings an einem Index zurück. 
+ der string.charCodeAt() gibt den Unicode Wert zurück (In UTF-16)
+ string.match durchducht einen string nach einer zeichenkette und gibt den ersten treffer zurück
+ - string.slice() extrahiert einen Teil aus dem String mit start (inklusive) und end (exklusive)Argumenten. string.slice kann auch vom ende her zählen also mit negativen Werten als string.slice(-5) gibt es die letzten fünf Zeichen des Strings aus.
+ string.loxaleCompare() vergleicht zwei Strings unter einbeziehung der sprache miteinander und gibt einen numerischen wert zurück.es gibt drei argumente
+
+1. Zeichenkette die verglichen wird
+2. Länderkürzel (Weglassen, denn browser default genutzt werden soll)
+3. sensitivity, optional, default ist nicht case sensitiv. es geht u-kf-upper und u-kf-lower, sowie u-kn-true (für die sortierung von zahlen)
+- string.split() teilt einen string bei jedem vorkommen eines Zeichens oder Teilstrings und speichert die Teile in einem Array. Dies kann nützlich sein beim trennen einer CSV.
+- string.trim() entfernt "Weißraum" also Leerzeichen, tabstops, Zeilenumbrüche am Anfang und am Ende eines Strings. Dies kann wichtig sein, wenn man daten aus Eingabefeldern von Formularen übernimmt!
+- es gibt auch string.trimLeft() und string.trimRight() wenn man nur an einer Seite die Leerzeichen entfernen möchte.
+
+- 4.10 Reguläre Ausdrücke
+Reguläre ausdrücke werden z.B. genutzt um Benutzereingaben zu prüfen, sie können verhindern, dass zb HTML Tags in Eingabefelder geschrieben werden, bzw das diee Ignoriert werden. Man spricht von Regex (Regular Expressions)
+    - Metazeichen und Suchmuster
+    Reguläre Ausdrücke enthalten ein Suchmuster aus Metazeichen für  irreguläre Zeichenfolgen. Das Metazeichen für Zahlen ist Beispielsweise \d oder [0-9]. Ein Suchmuster für fünf Zahlen wäre demzufolge \d5 oder [0-9]{5}
+    es gibt weitere Platzhalter:
+        - \w Buchstabe, Ziffer oder Unterstrich
+        - \W ein Sonderzeichen
+        - \d eine Ziffer zwischen 0-9
+        - \D ein Zeichen, dass keine Ziffer ist
+        - \s ein Weißraum
+        - \S Jedes Zeichen ausser Weißraum
+        - \b Wortgrenze
+        - \B keine Wortgrenze
+    Metazeichen wie ^und $ suchen am anfang bzw am Ende eines Strings
+        - . findet alle Zeichen außer Zeilenende
+        - ^ Anfang eines Strings
+        - $ Ende eines Strings
+        - | Alternativen
+        - () Teile des Suchmusters abgrenzen
+        - [] Zeichenklassen
+        - {} Replikatoren
+    Zeichenklassen
+        - [xyz] beliebiger Buchstabe x, y oder z
+        - [^xyz] jeder buchstabe außer xyz
+        - [0-9] Ziffern 0-9
+        - [a-z] jeder Kleinbuchstabe von a-z
+        - [A-Za-z0-9] alle Buchstaben und Ziffern
+        - [a-zß-ü] alle Kleinbuchstaben und Umlaute
+    Replikatoren
+        - {n,m} mindestens n mal höchstens m mal
+        - {n,} mindestens n mal
+        - {n} genau n mal
+        - * 0 mal oder öfter, äquivalent zu {0,}
+        - + 1 mal oder öfter, äquivalent zu {1,}
+        - ? 0 oder 1 mal, äquivalent zu {0,1}
+    Methoden regulärer Objekte: exec() und test()
+    analog zu suchmethoden search() bei Strings bieten diese beiden suchmethoden für Regex.Die Methoden werden auf dem Regex ausgeführt, ihr Argument ist der String: regex.exec(string)
+    exec() findet die erste Position eines Suchmusters oder null
+    test() prüft ob ein String dem Muster entspricht.
+    Man kann also strings auf reguläre ausdrücke prüfen.
+

@@ -47,11 +47,13 @@ Daher sollte das HTML sicherheitshalber vom Validator geprüft werden.
 - Variablen haben Gültigkeitsbereiche (Scope) und gelten nur in dem Block, in dem sie deklariert wurden.
 - Die Syntax ist die Grammatik der Programmiersprache. Es gibt 
 - Operatoren (zb boolsche, oder Mathematische wie AND, OR, NOT, +, - =) wobei das Gleichheitszeichen ein Zuweisungsoperator ist. Beispiel: 
+        ...js
         const breite = 200;
         const höhe = 125;
         let fläche = breite * höhe;
+        ...
 - Ausdruck (Expression), was eine Kombination aus Variablen, Operatoren und Werten darstellt
-        let fläche = breite * höhe;
+
 - Semikolon - Regel, nicht hinter schließenden geschweiften Klammern, nur hinter Anweisungen.
 - Schlüsselwörter (Keywords) beispielsweise let und const
 - Kommentare (Comments) alles auf einer Zeile nach // sowie zwischen /* ... */ ist ein Kommentar und wird nicht ausgeführt bzw vom Browser ignoriert.
@@ -203,7 +205,7 @@ Das Objekt kurs hat auch Informationen wie title und places, welche man als Eige
 kurs.places ist eine Eigenschaft des Objekts und stellt einen besonderen Typ einer Variablen dar. So kann man sie auch ändern:
 kurs.places = 14;
 kurs.title = "Stricken für Anfänger - Teil II";
-...
+
 - Das wichtigste Objekt ist das DOM (Document Object Model), es ist die Schnittstelle zum HTML-Dokument. Objekte haben Eigenschaften, und Methoden für die einfachen Datentypen Strings, Number, Boolean.
 
 -Math Object
@@ -344,3 +346,5 @@ Reguläre Ausdrücke werden z.B. genutzt um Benutzereingaben zu prüfen, sie kö
     test() prüft ob ein String dem Muster entspricht.
     Man kann also Strings auf reguläre Ausdrücke prüfen.
 
+## Was ich morgen lernen will?
+Mehr insights über Schleifen, Abfragen, Ablaufkontrollen!

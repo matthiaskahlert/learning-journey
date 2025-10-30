@@ -19,11 +19,17 @@ Verwende für jede Bedingung eine eigene Nachricht.
  */
 
 //a)
-let alter = 16
+let alter = 15
 let begleitet = true
 
 //b)
 if (alter>=16) {
-    begleitet=false;
-    console.log(`Die Person darf den film sehen`);
-}
+        console.log(`Die Person darf den Film sehen`);
+} else if (alter<16 && begleitet){ 
+    console.log(`Die Person muss begleitet werden.`)
+    } else {
+            console.log(`Die Person darf den Film nicht sehen.`)
+    }
+// aktuelles problem, die vaiable begleitet wird nicht genutzt. 
+// ich muss also entsprechend den boolean setzen wenn die bedingung erfüllt ist und mit logischen operatoren arbbeiten sowas wie (alter <=15 && begleitet = true)
+

@@ -153,7 +153,7 @@ console.log(replaceAll);
 // Umwandlung in GROß oder kleinbuchstaben mit string.toLowerCase()
 const spruch = "DIES IST EIN TOLLER TEXT!";
 console.log(spruch.toLowerCase()); //log:dies ist ein toller text!
-console.log(spruch.toLowerCase().includes("toll")); // hier werden zwei MEthoden miteinander auf einen string angewendet! JavaScript entwickelt den String von links nach rechts.
+console.log(spruch.toLowerCase().includes("toll")); // hier werden zwei Methoden miteinander auf einen string angewendet! JavaScript entwickelt den String von links nach rechts.
 
 
 //Übung Strings ersetzen - man beachte, es wird nur in dem console.log ersetzt, die variable bleibt unberührt (ist ja auch eine konstante)

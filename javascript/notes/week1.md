@@ -361,6 +361,7 @@ Ersetzt alle Vorkommen von searchValue.
 - indexOf(substring)
 Gibt den ersten gefundenen index des Zeichens des strings zurück. Es hilft, sich den string als Array vorzustellen. Jedes Zeichen des Strings hat eine Indexnummer, beginnend mit der 0.
 - search()
+Mit einem RegEx sucht search() auch nach Variationen des Suchmusters.
 - split()
 - includes()
 Gibt true zurück, wenn die gesuchte Zeichenfolge im String enthalten ist.
@@ -379,11 +380,13 @@ Gibt true zurück, wenn die gesuchte Zeichenfolge im String enthalten ist.
 - string.charCodeAt()
   gibt den Unicode Wert zurück (In UTF-16)
 - string.match
-  durchducht einen string nach einer zeichenkette und gibt den ersten treffer zurück
+  durchsucht einen String nach einer Zeichenkette und gibt den ersten Treffer zurück. Mit Nutzung von regulären ausdrücken gibt es alle Treffer zurück. Wenn Match mit regEx genutzt wird (regEx sitzen in Schrägstrichen anstatt in hochkommas), wird es um zwei Parameter erweitert. i ( case insensitiv) und g (global) durchsucht den ganzen String.
 - string.slice()
   extrahiert einen Teil aus dem String mit start (inklusive) und end (exklusive)Argumenten.
 - string.slice
   kann auch vom ende her zählen also mit negativen Werten als string.slice(-5) gibt es die letzten fünf Zeichen des Strings aus.
+- string.sort()
+Sortierreihenfolge basiert auf UTF-16 codewerten. Problematisch bei Zahlen: [1, 100000, 21, 30, 4]
 - string.localeCompare()
   vergleicht zwei Strings unter Einbeziehung der Sprache miteinander und gibt einen numerischen Wert zurück. Es gibt drei Argumente:
 
@@ -394,6 +397,13 @@ Gibt true zurück, wenn die gesuchte Zeichenfolge im String enthalten ist.
 - string.split() teilt einen string bei jedem vorkommen eines Zeichens oder Teilstrings und speichert die Teile in einem Array. Dies kann nützlich sein beim trennen einer CSV.
 - string.trim() entfernt "Weißraum" also Leerzeichen, Tabstops, Zeilenumbrüche am Anfang und am Ende eines Strings. Dies kann wichtig sein, wenn man daten aus Eingabefeldern von Formularen übernimmt!
 - es gibt auch string.trimLeft() und string.trimRight() wenn man nur an einer Seite die Leerzeichen entfernen möchte.
+- array.join()
+Methode um array elemente in einen string zu übergeben. in der Klammer kann ein separator stehen, default (also wenn keiner gegeben ist) wird ein Komma gesetzt.
+
+´´´js
+const stadtnamenString = gefundeneStaedte.join();
+console.log(stadtnamenString); //log: Berlin,Köln,München,Hamburg,Leipzig,Dortmund
+´´´
 
 
 ### 4.10 Reguläre Ausdrücke
@@ -412,7 +422,7 @@ Reguläre Ausdrücke enthalten ein Suchmuster aus Metazeichen für irreguläre Z
         - \D ein Zeichen, dass keine Ziffer ist
         - \s ein Weißraum
         - \S Jedes Zeichen ausser Weißraum
-        - \b Wortgrenze
+        - \b Wortgrenze (Ein Wort beginnt und endet an Wortgrenzen.)
         - \B keine Wortgrenze
         
 Metazeichen wie ^und $ suchen am anfang bzw am Ende eines Strings
@@ -452,3 +462,156 @@ Methoden regulärer Objekte: exec() und test()
 
 ## Was ich morgen lernen will - Tag3?
 Mehr insights über Schleifen, Abfragen, Ablaufkontrollen!
+
+
+## Tag 4
+## Learningfacts Kapitel 5.1-5.4 Abfragen und Schleifen
+### 5.1 Abfragen und Schleifen
+If/else Abfragen sind nötig f++ür die Logik von komplexen Abläufen.
+Die beiden Grundlegenden Methoden sind 
+* Verzweigungen: if/else, switch
+* Schleifen und Iterationen (while,for)
+
+*Verzweigungen*
+```js
+if (Bedingung){
+    Anweisungen;
+} else {
+    Anweisungen;
+}
+
+
+switch (Ausdruck) {
+    case label1:
+        Anweisungen;
+        break;
+    case label2:
+        Anweisungen;
+        break;
+    ...
+}
+``` 
+
+*Schleifen*
+```js
+while (Bedingung) {
+    Anweisungen;
+} 
+
+do {
+    Anweisungen;
+} while (Bedingung);
+```
+
+*Iteration*
+```js
+for (Anweisung; Bedingung; Anweisung) {
+    Anweisungen;
+}
+```
+### 5.2 if.then-else
+die if-Abfrage führt Anweisungen nur aus, wenn die Vedingun erfüllt ist.
+Bedingung kann alles sein, was true oder false zurückgibt. Zur Formulierung nutzt man logische- und Vergleichsoperatoren.
+Anweisungen können auch weitere if/else Bedingungen darstellen, und somit tiefer verschachtelte Anweisungen, dies braucht man z.B. wenn mehr als nur "endweder oder" vorliegt, also mehrere optionen.
+Die geschweiften Klammern in der if-Abfrage erzeugen den Gültigkeitsbereich der Variablen den sog. Block-scope.
+Wichtig: Variablen die im Block scope deklariert werden, sind ausserhalb der geschweiftenklammern dem zur folge nicht Gültig, bzw gelten als undefiniert / nicht bekannt.
+
+Es gibt eine Kurzform der if-/else, wenn nur eine Anweisung vorliegt:
+
+```js
+if (x>=y) console.log(`${x}>=${y}`);
+else console.log(`${x} ist nicht >= ${y}`)
+```
+Bei mehreren Optionen beginnt das verschachteln der Abfragen:
+
+### 5.3 switch
+
+JavaScripts switch case führt die Anweisungen in einer Liste auf. Insbesondere bei komplexeren if/else Abfragen bietet switch eine bessere Übersicht über die Alternativen.
+
+```js
+const country = "Frankreich";
+switch (country) {
+    case "Deutschland":
+        console.log("Deutschland");
+        break;
+
+    case "Frankreich":
+        console.log("Frankreich");
+        break;
+
+    case "Irland":
+        console.log("Irland");
+        break;
+
+    default:
+        console.log(`Weder Deutschland, Frankreich oder Irland`);
+}
+```
+break sorgt dafür, dass der case verlassen wird, default ist für Fälle, in denen keine der Bedingungen zutrifft.
+fehlt das break, werden die anweisungen des folgenden switch cases auch durchgeführt.
+
+Wenn man die gleiche Variable in verschiedenen switch cases benötigt, kann man sich den block scope zur nutze machen:
+
+```js
+const auswahl = "Äpfel";
+switch(auswahl) {
+    case "Birnen":
+        const wahl = "Birnen";
+        console.log(`${wahl}`);
+        break;
+
+    case "Äpfel":
+        const wahl = "Äpfel";
+        console.log(`${wahl}`);
+        break;
+
+    default:
+        console.log(`${auswahl} nicht im Angebot`); // log: Uncaught SyntaxError: Identifier 'wahl' has already been declared
+    }
+
+```
+daher kann man geschweifte Kmallern setzen im case und den Gültigkeitsbereich der Variablen auf den case beschränken:
+```js
+    case "Birnen":
+        {
+        const wahl = "Birnen";
+        console.log(`${wahl}`);
+        }
+```
+
+
+### Regex: Wörter mit Großbuchstaben finden
+Es gibt die Aufgabe eine Variable mit Stadtnamen zu erstellen und mithilfe von Regex alle Wörter, die mit einem Großbuchstaben beginnen (also Stadtnamen) zu finden. Der einfachheit halber habe ich auf andere Wörter mit Großbuchstaben verzichtet.
+#### Beispieltext:
+```js
+const text = `Berlin ist schön groß.
+Köln ist bekannt.
+München begeistert viele.
+Hamburg ist toll!
+Leipzig wächst schnell.
+Dortmund ist auch halbwegs bekannt.`;
+```
+#### Lösung mit Regex
+```js
+const gefundeneStaedte = text.match(/\b[A-Z][a-zß-ü]{1,}/g);
+console.log(gefundeneStaedte); 
+// Ausgabe: ['Berlin', 'Köln', 'München', 'Hamburg', 'Leipzig', 'Dortmund']
+
+```
+#### Erklärung des Regex
+| Teil           | Bedeutung                                                                            |
+| -------------- | ------------------------------------------------------------------------------------ |
+| `/…/`          | Trennt das **Regex-Muster** vom restlichen Code                                      |
+| `\b`           | **Wortgrenze** → stellt sicher, dass das Muster am Anfang eines Wortes beginnt       |
+| `[A-Z]`        | Das erste Zeichen muss **ein Großbuchstabe** sein                                    |
+| `[a-zß-ü]{1,}` | Danach kommen **ein oder mehrere Kleinbuchstaben** (inklusive `ß` und Umlaute `äöü`) |
+| `g`            | **global flag** → durchsucht den gesamten String, nicht nur den ersten Treffer       |
+
+Finde alle Wörter, die mit einem Großbuchstaben beginnen (also Stadtnamen).
+
+#### Funktionsweise
+1. match() sucht im Text nach allen Stellen, die auf das Regex passen.
+
+2. Jedes Wort, das mit einem Großbuchstaben beginnt und danach nur Kleinbuchstaben hat, wird zurückgegeben.
+
+3. Ergebnis ist ein Array aller gefundenen Stadtnamen.

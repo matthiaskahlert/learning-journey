@@ -11,7 +11,8 @@
 // Zahl wird generiert
 let zufall = Math.trunc(Math.random()*100) +1; //Math.random() generiert eine Zahl zwischen 0 und 1, Math.trunc entfernt die Nachkommastellen, *100 skaliert auf 0-99, +1 verschiebt auf 1-100
 // console.log(`Die erzeugte Zahl ist ${zufall}`); // kontrolle als unit test
-let input = prompt("Errate die Zahl zwischen 1 und 100 oder gib exit ein um das Spiel zu beendem!"); // Nutzereingabe über prompt, als string
+let input = prompt(`Bitte vor der ersten Zahleneingabe mit f12 die Browserkonsole öffnen!
+    Errate die Zahl zwischen 1 und 100 oder gib exit ein um das Spiel zu beendem!`); // Nutzereingabe über prompt, als string
 // input = 50; // unit test ohne prompt eingabe für die geratene Zahl
 // console.log(typeof input); // Kontrolle des Datentyps der Eingabe
 

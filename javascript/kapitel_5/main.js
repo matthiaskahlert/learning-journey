@@ -283,3 +283,46 @@ Zahl ist.
 Für die wirklich ambitionierten Programmierer: Kann die Aufgabe mit
 einer einzigen Zeile gelöst werden? Tipp: Nutze den Ternary-Operator – eine
 kompakte Schreibweise für eine bedingte Zuweisung. */
+const fizz = 3
+const buzz = 5
+const fizzbuzz = fizz * buzz  
+for (let i = 0; i <=100;i++){
+    if (i % fizzbuzz === 0 && i !=0) {
+        console.log(`FizzBuzz! ${i} ist ein ganzzahliges Vielfaches von ${fizz} und ${buzz}`);
+    } else { if (i % buzz ===0 && i !=0){
+                 console.log(`Buzz! ${i} ist ein ganzzahliges Vielfaches von ${buzz}`);
+    } else { if (i % fizz===0 && i !=0){
+                console.log(`Fizz! ${i} ist ein ganzzahliges Vielfaches von ${fizz}`);
+    } else console.log(i);
+
+    }
+    
+}
+
+}
+console.log("Fertig!!");
+
+{
+const fizz = 3
+const buzz = 5
+const fizzbuzz = fizz * buzz
+let i = 0
+
+while (i<=100) {
+    if (i % fizzbuzz===0 && i !=0){
+        console.log(`FizzBuzz! ${i} ist ein ganzzahliges Vielfaches von ${fizz} und ${buzz}`);
+    } else {if (i % buzz ===0 && i !=0){
+                console.log(`Buzz! ${i} ist ein ganzzahliges Vielfaches von ${buzz}`);
+    } else {if(i % fizz===0 && i !=0){
+                console.log(`Fizz! ${i} ist ein ganzzahliges Vielfaches von ${fizz}`);                               
+    } else {console.log(i);} //Wenn ich nur eine Ausgabe pro Zahl will, muss ich das console.log(i) in ein else packen, das nur greift, wenn keine Fizz/Buzz/FizzBuzz-Bedingung zutrifft
+    } 
+    } i++;
+}
+console.log("Fertig!");
+}
+
+let n;
+let foo;
+n = foo ?? "default";
+console.log("nullish", n); //log:nullish default

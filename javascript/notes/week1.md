@@ -11,7 +11,7 @@ Um das gelernte Wissen anwenden zu können ntiere ich mir die Lerninhalte und Be
     - [x] Protokoll - Vier Kategoriengebiete beschreiben und Kernfragen beantworten
     - [x] Protokoll abschicken zur Bewertung
 - [x] Schlage Markup Validation Service nach - (Ausprobiert https://validator.w3.org/#validate_by_input)
-- [x]  Frage beantworten, warum ich JavaScript nutzen will, zb Serverkommunikation für Testing, Design und Layout von Webseiten oder Animation und Effekte. Serverkommunikation sollte für mich der Fokus sein.
+- [x] Frage beantworten, warum ich JavaScript nutzen will, zb Serverkommunikation für Testing, Design und Layout von Webseiten oder Animation und Effekte. Serverkommunikation sollte für mich der Fokus sein.
 - [x] nachschlagen was das defer-Attribut ist (habe auch async gelernt und defer angewendet beim einbinden einer separaten .js datei)
 - [ ] VS code erweiterungen installieren https://lms.velptec.de/mod/velptecpdfinstruct/view.php?id=93727
     - [x]   live server
@@ -30,8 +30,9 @@ Um das gelernte Wissen anwenden zu können ntiere ich mir die Lerninhalte und Be
     - [ ]    JSON
     - [ ]    Node Essentials
     - [ ]    Path Intellisense
-    - [ ] Switch Anweisung lernen
-    - [ ] Verstehen wie der querySelector funktioniert
+- [x] Switch Anweisung lernen
+- [ ] Verstehen wie der querySelector funktioniert
+- [ ] Ternary Operator lernen
 
 
 ## Tag 1
@@ -699,7 +700,7 @@ for (let i = 0; i<12; i++){
 Die while-Schleife braucht nur eine Bedingung:
 
 ```js
-while (BEdingung) {
+while (Bedingung) {
     Anweisungen;
 }
 
@@ -712,7 +713,7 @@ while (i<10){
 Ohne die Schritte zählt die Schleife unendlich weiter und muss abgebrochen werden. Bei while-schleifen muss man *immer* sicherstellen, dass die Bedingung false wird.
 
 
-Wenn die anzahl der Durcchläuft bekannt ist, wählt man for-Schleifen, wenn nicht, ist while besser geeignet.
+Wenn die Anzahl der Durchläufe bekannt ist, wählt man for-Schleifen, wenn nicht, ist while besser geeignet.
 
 #### while-Schleifen verschachtelt
 
@@ -739,3 +740,87 @@ for (...) {
 ```
 
 
+####  Schleifen und logische Operatoren
+
+In logischen Operatoren hat jeder Wert einen inhärenten Booleschen Wert, truthy oder falsy. es gibt auch nullish
+
+```js
+    if (i % fizzbuzz===0 && i !=0){
+        console.log(`FizzBuzz! ${i} ist ein ganzzahliges Vielfaches von ${fizz} und ${buzz}`);
+
+
+```
+der ??-Operator ist der nullish Operator, er definiert null oder undefined.
+```js
+let n;
+let foo;
+n = foo ?? "default";
+console.log("nullish", n); //log:nullish default
+```
+foo ist initialisiert aber undefined, daher falsy. ?? prüft ob eine Variable einen Wert hat, falls nicht, wird ein Standardwert eingesetzt.
+
+### 5.9 Ternary Operator
+
+unary, binary und ternary Operator
+Unary (Einfache) Operatoren sind eine einstellige Verknüfung, also zb ! (Negation/not), -x (Vorzeichenänderung) xx++ (Inkrement)
+Binary (zweifache) Operatoren: einer vor und einer nach dem operator: Addition a+b
+Ternary (dreifache) Operatoren: Kurzform einer if / else abfrage. Beispiel:
+t = alter < 16 ? "10 €":"50€"
+der ternary operator kann als kurzform genutzt werden, wenn if/else zu komplex wird.
+ternary operatoren weisen Variablen einen Wert abhängig von Bedingungen zu, hingegen if/else Abfragen ermöglichen die Entscheidung, welcher Code ausgeführt wird.
+```js
+const foo = (Bedingung) ? wenn true : wenn false;
+```
+Bedingung = 1. Operand
+wenn true = 2. Operand
+wenn false = 3. Operand
+= Operator
+? Operator
+: Operator
+
+Beispiel:
+const begleitung = alter <=16 ? "begleitet" : "unbegleitet";
+
+##### Ternary mit Mehreren Anweisungen
+
+Ternary erlaubt mehrere anweisungen, diese werden in Runde Klammern geschrieben-
+
+Kurzform: bedingung ? (a, b, c) : (d, e, f);
+
+oder:
+
+bedingung
+  ? (anweisung1, anweisung2, anweisung3)
+  : (alternative1, alternative2, alternative3);
+
+
+const = radtour = {gefahren = 15; steigung = 3}
+let anleitung;
+radtour.gefahren > 10 ?(console.log("reicht")), (anleitung = "reicht"):(console.log("weiter")), (anleitung = "weiter, fahrt");
+
+### 5.10 Übung
+
+
+```js
+const foo = (Bedingung) ? wenn true : wenn false;
+```
+const farbe = "grün";
+let = style;
+style = farbe === "grün" ? "color:green" : "color:red";
+
+
+### 5.11 Implizite Typ-Konvertierungen in Abfragen
+
+in if-abfragen setzen wir runde Klammern(), alles in diesen Klammern wird zu einem Boole#schen Wert umgewandelt, jeder string der nicht leer ist und jede zahl die nicht 0 ist wird zu true.
+nur wenige werte werden zu false:
+
+const x = false;
+const val = 0;
+const empty = ""; //oder const empty = ''
+const nichts = null;
+const unknown = undefined;
+const notNum = NaN;
+
+Einen leeren String nutzen wir um in einem Eingabeformular zu prüfen, ob etwas im eingabefeld vorhanden ist, oder obdas Feld leer ist.
+
+Mit null prüfen wir, ob es ein angesprochenes HTML Element wirklich gibt, mit NaN ob eine Zahl eingegeben wurde.

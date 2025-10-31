@@ -727,4 +727,15 @@ while (i<=4){
     }
 }
 
+mit labels kann man aus Schleifen ausbrechen.
+```js
+labelName:
+for (...) {
+  ...
+  break labelName;
+}
+
+
+```
+
 

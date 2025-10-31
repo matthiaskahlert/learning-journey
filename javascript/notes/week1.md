@@ -615,3 +615,116 @@ Finde alle Wörter, die mit einem Großbuchstaben beginnen (also Stadtnamen).
 2. Jedes Wort, das mit einem Großbuchstaben beginnt und danach nur Kleinbuchstaben hat, wird zurückgegeben.
 
 3. Ergebnis ist ein Array aller gefundenen Stadtnamen.
+
+
+
+## Tag 5
+
+## Learningfacts Kapitel 5.5-5.11 Abfragen und Schleifen
+
+### 5.5 for-Schleifen
+#### Funktionsweise von Schleifen
+Durch wiederholungen greifen Schleifen wiederholt auf Daten zu. die for-Schcleife baut sich wie folgt auf:
+```js
+for ([Anfangsausdruck]; [Bedingung]; [Inkrement])
+Anweisung;
+
+for (let i = 0; i<= 9; i++) {
+    console.log(i) // Anweisung: mach was mit i
+}
+```
+
+| Teil                       | Bedeutung                                                        |Beispiel               |
+| -------------------------- | ---------------------------------------------------------------- | --------------------- |
+| Startwert/Anfangsausdruck  | Wird einmal an Anfang ausgeführt                                 | let i = 0             |
+| Bedingung                  | Wird vor jedem Durchlauf ausgeführt Wenn false Schleife endet    | i<5                   |
+| Inkrement / Schritt        | Wird nach jedem Durchlauf ausgeführt                             | i++ (erhöht i um 1)   |
+
+
+
+Da die Schleife die Variable mit jedem Durchlauf verändert, sind Konstanten hier ungeeignet für i.
+Auch hier: Geschweifte Klammern bilden einen Block-Scope.
+
+```js
+
+const step = 5
+for (i = 1; i<=20; i+=step) {
+    const result = i * 17;
+    console.log("result", `${i} * 17 = ${result}`);
+}
+
+```
+
+#### Verschachtelte for-Schleifen
+```js
+const hue = [14, 28, 95]
+const sat = [50, 100]
+
+for (let i =0; i<hue.length; i++) {
+    console.log(`${i}. Farbe: ${hue[i]}`)
+    for (let j=0; j<sat.length; j++) {
+        console.log(`Farbe hsl(${hue[i]}, ${sat[j]}%, 100%)`)
+    }
+}
+```
+
+Die innere Schleife läuft bis zur letzten Bedingung und geht dann wieder in die äußere.
+
+#### Break und continue
+break beendet eine Schleife vorzeitig und kann nur innerhalb von switch-,while- und for-Schleifen verwendet werden.
+
+```js
+for (let i = 0; i<12; i++){
+    console.log(i);
+    if (i===8) {
+        console.log("Schleife abbrechen");
+        break;
+    }
+}
+```
+In dem Beispiel zählt die Schleife nur bis 8, dann wird die break bedingung ausgeführt.
+
+continue überspringt index Werte und führt die Schleife an einer anderen stelle wieder aus.
+```js
+for (let i = 0; i<12; i++){
+    if (i===5 || i === 10){
+        console.log(`${i} überspringen`);
+        continue; // hier sagt continue:"ich bin fertig mit dem durchlauf", also bei index 5 und 10 wird die else Anweisung übersprungen.
+    } else{
+        console.log(`${i}`);
+    }
+}
+```
+### 5.6 while-Schleifen
+Die while-Schleife braucht nur eine Bedingung:
+
+```js
+while (BEdingung) {
+    Anweisungen;
+}
+
+let i = 0;
+while (i<10){
+    console.log(`${i} ist i.`);
+    i++
+}
+```
+Ohne die Schritte zählt die Schleife unendlich weiter und muss abgebrochen werden. Bei while-schleifen muss man *immer* sicherstellen, dass die Bedingung false wird.
+
+
+Wenn die anzahl der Durcchläuft bekannt ist, wählt man for-Schleifen, wenn nicht, ist while besser geeignet.
+
+#### while-Schleifen verschachtelt
+
+let i = 0
+while (i<=4){
+    console.log(`i ist ${i}`);
+    let j = 10;
+    while (j>5){
+        const result = i * j;
+        console.log(`${i} * ${j} = ${result}`);
+        j--;
+    }
+}
+
+

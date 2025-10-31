@@ -165,4 +165,121 @@ if (hour >=8.00 && hour <=10.00){     // HTML lernen
     console.log(`Kein Unterricht!`); //log:Kein Unterricht!
 }
 
+// Schleifen:
 
+const step = 5
+for (let i = 1; i<=20; i+=step) {
+    const result = i * 17;
+    console.log("result", `${i} * 17 = ${result}`);
+}
+
+const farbton = [14, 28, 95]
+const saettigung = [50, 100]
+
+for (let i =0; i<farbton.length; i++) {
+    console.log(`${i}. Farbe: ${farbton[i]}`)
+    for (let j=0; j<saettigung.length; j++) {
+        console.log(`Farbe hsl(${farbton[i]}, ${saettigung[j]}%, 100%)`) // hsl steht für Hue, Saturation, Lightness, also Farbton, Sättigung, Helligkeit.
+    }
+}
+
+
+/* log Ausgabe: 
+0. Farbe: 14
+main.js:182 Farbe hsl(14, 50%, 100%)
+main.js:182 Farbe hsl(14, 100%, 100%)
+main.js:180 1. Farbe: 28
+main.js:182 Farbe hsl(28, 50%, 100%)
+main.js:182 Farbe hsl(28, 100%, 100%)
+main.js:180 2. Farbe: 95
+main.js:182 Farbe hsl(95, 50%, 100%)
+main.js:182 Farbe hsl(95, 100%, 100%) */
+
+for (let i = 0; i<12; i++){
+    console.log(i);
+    if (i===8) {
+        console.log("Schleife abbrechen");
+        break;
+    }
+}
+for (let i = 0; i<12; i++){
+    if (i===5 || i === 10){
+        console.log(`${i} überspringen`); 
+        continue;   // hier sagt continue:"ich bin fertig mit dem durchlauf", also bei index 5 und 10 wird die else anweisung übersprungen.
+    } else {
+        console.log(`${i}`);
+    }
+}
+
+
+// while schleife
+let i = 0;
+while (i<10){
+    console.log(`${i} ist i.`)
+    i++;
+}
+
+// verschachtelte while schleifen
+{
+let i = 0
+while (i<=4){
+            console.log(`i ist ${i}`);
+            let j = 10;
+                while (j>5) {
+                    const result = i * j;
+                    console.log(`${i} * ${j} = ${result}`);
+                    j--;
+                            }
+            i++;
+            }
+}
+
+let summe = 0
+let a;
+outerloop:
+while (true){
+        a = 1
+
+        while (a<3){
+                summe +=a; //addiert 1 oder 2
+                if (summe > 12) {
+                    break outerloop; // beendet die öußere Schleife
+                }
+                console.log(`summe = ${summe} (a=${a})`);
+                a++;
+            }
+    }
+/* summe = 1 (a=1)
+main.js:248 summe = 3 (a=2)
+main.js:248 summe = 4 (a=1)
+main.js:248 summe = 6 (a=2)
+main.js:248 summe = 7 (a=1)
+main.js:248 summe = 9 (a=2)
+main.js:248 summe = 10 (a=1)
+main.js:248 summe = 12 (a=2) */
+
+{
+    outerLoop: // <-- Labelname
+    for (let i = 0; i < 3; i++) {
+    for (let j = 0; j < 3; j++) {
+        console.log(`i=${i}, j=${j}`);
+        if (i === 1 && j === 1) {
+        console.log("Beide Schleifen abbrechen!");
+        break outerLoop; // <-- beendet die äußere Schleife
+        }
+    }
+    }
+
+console.log("Fertig!");
+}
+
+/* Übung 5.7
+Gib die Zahlen von 1 bis 100 aus: Dabei sollen alle Vielfachen von 3 zusätzlich Fizz
+und alle Vielfachen von 5 Buzz ausgeben und am Ende auch noch FizzBuzz bei
+allen Vielfachen von 3 und 5. Löse die Aufgabe mit einer for-Schleife und mit einer
+while-Schleife. Der Modulo-Operator % prüft, ob eine Zahl ein Vielfaches einer
+Zahl ist. 
+
+Für die wirklich ambitionierten Programmierer: Kann die Aufgabe mit
+einer einzigen Zeile gelöst werden? Tipp: Nutze den Ternary-Operator – eine
+kompakte Schreibweise für eine bedingte Zuweisung. */

@@ -1,0 +1,29 @@
+## Todo Liste
+       
+- [x] Wöchentliches Kompetenzprotokoll vorbereiten
+    - [x] Protokoll - Themengebiete eingrenzen
+    - [x] Protokoll - Vier Kategoriengebiete beschreiben und Kernfragen beantworten
+    - [x] Protokoll abschicken zur Bewertung
+- [x] Schlage Markup Validation Service nach - (Ausprobiert https://validator.w3.org/#validate_by_input)
+- [x] Frage beantworten, warum ich JavaScript nutzen will, zb Serverkommunikation für Testing, Design und Layout von Webseiten oder Animation und Effekte. Serverkommunikation sollte für mich der Fokus sein.
+- [x] nachschlagen was das defer-Attribut ist (habe auch async gelernt und defer angewendet beim einbinden einer separaten .js datei)
+- [ ] VS code erweiterungen installieren https://lms.velptec.de/mod/velptecpdfinstruct/view.php?id=93727
+    - [x]   live server
+    - [ ]   Material Icon Theme
+    - [ ]  TODO highlight
+    - [ ]    Auto rename Tag
+    - [ ]    Für Kotlin: Kotlin IDE for Visual Studio Code
+    - [ ]    Für Python3: Python extension for Visual Studio Code
+    - [ ]    Für Java: Extension Pack for Java
+    - [ ]    Erweiterungen für Webentwicklung
+    - [ ]    Babel JavaScript
+    - [ ]    Dependency Analytics
+    - [ ]    ES7+ React/Redux/React-Native snip
+    - [ ]    ESLint
+    - [ ]    Jest
+    - [ ]    JSON
+    - [ ]    Node Essentials
+    - [ ]    Path Intellisense
+- [x] Switch Anweisung lernen
+- [ ] Verstehen wie der querySelector funktioniert
+- [ ] Ternary Operator lernen

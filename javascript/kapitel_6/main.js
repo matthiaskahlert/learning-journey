@@ -221,3 +221,5 @@ function fläche(breite,höhe){
     console.log(`Die Fläche eines Rechtecks mit einer Breite von ${breite} und einer Höhe von ${höhe} ist ${fläche}`)
 }
 fläche(30,20);
+
+

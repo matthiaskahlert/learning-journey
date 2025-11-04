@@ -543,7 +543,7 @@ switch(auswahl) {
     }
 
 ```
-daher kann man geschweifte Kmallern setzen im case und den Gültigkeitsbereich der Variablen auf den case beschränken:
+daher kann man geschweifte Klammern setzen im case und den Gültigkeitsbereich der Variablen auf den case beschränken:
 ```js
     case "Birnen":
         {

@@ -27,3 +27,4 @@
 - [x] Switch Anweisung lernen
 - [ ] Verstehen wie der querySelector funktioniert
 - [ ] Ternary Operator lernen
+- [ ] string.match vertiefen

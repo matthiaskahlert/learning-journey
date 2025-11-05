@@ -26,5 +26,6 @@
     - [ ]    Path Intellisense
 - [x] Switch Anweisung lernen
 - [ ] Verstehen wie der querySelector funktioniert
-- [ ] Ternary Operator lernen
+- [x] Ternary Operator lernen
 - [ ] string.match vertiefen
+- [ ] Intl.DateTimeFormat vertiefen

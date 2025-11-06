@@ -214,8 +214,9 @@ Die Eigenschaften des Objekts werden innerhabl der geschweiften Klammern deklari
 von aussen angesprochen werden eigenschaften mit dot-notation:
 const x = kinofilm.title;
 
-Nur wenn Eigenschaften mit einem Leerzeichen geschrieben werden, muss der Zugriff auf die Eigenschaft in eckigen Klammern stehen.
+Wenn Eigenschaften mit einem Leerzeichen geschrieben werden, muss der Zugriff auf die Eigenschaft in eckigen Klammern stehen.
 x = kinofilm["erster Teil"];
+Dies ist auch nötig, wenn die Eigenschaften Variablen sind.
 
 Objekte in Objekten
 Eigenschaften können selbst Objekte sein.
@@ -234,12 +235,12 @@ const kinofilm = {
 y=kinofilm.buch.author; // "JRR Tolkien
 ```
 
-Elemente von Objekten ändern:
+#### Elemente von Objekten ändern
 // Eigenschaft aus Objekt löschen
 
 delete kinofilm.published;
 // Eigenschaft hinzufügen
-kinofilm.hasOscae = true;
+kinofilm.hasOscar = true;
 // Eigenschaft ändern
 
 kinofilm.title = kinofilm.title + " Teil 1";
@@ -298,6 +299,7 @@ man kann for ... in auch auf Arrays anwenden, da sie auch Objekte sind.
 const imgArr = [1060, 1280, 1440, 1980];
 for (const key in imgArr){
     console.log(`${key}, ${imgArr[key]}`);
+}
 ```
 
 ### 7.3 Das Object document
@@ -458,8 +460,9 @@ es gibt ein eingebautes Objekt namens Date. es wird mit new Date() erzeugt.
 ```js
 const heute = new Date();
 console.log(heute); //Wed Nov 05 2025 14:07:30 GMT+0100 (Mitteleuropäische Normalzeit)
-```
-folgende Syntax wird angewendet, wobei der Monat in JavaScript bei 0 beginnt!
+
+// folgende Syntax wird angewendet, wobei der Monat in JavaScript bei 0 beginnt!
+
 const datumGestern = date(jahr, monat, tag, stunden minuten, sekunden, millisekunden)
 
 const dateGestern = new Date(2024,0,1,1,12,55,123);
@@ -468,20 +471,28 @@ console.log(dateGestern);
 Leichtere Schreibweise:
 const datum = new Date("2024-01-24 13:53:12")
 
-Das Datumsformat ist auch Lokalen Anforderungen unterworfen, im diesen zu entsprechen, kann man toLocaleString() nutzen um die Zeitangabe zu konvertieren.
+// Das Datumsformat ist auch Lokalen Anforderungen unterworfen, im diesen zu entsprechen, kann man toLocaleString() nutzen um die Zeitangabe zu konvertieren.
 const meeting = new Date().toLocaleString();
 console.log("Meeting", meeting);        Meeting 5.11.2025, 14:19:50
 
 toLocaleString() hat zwei optionale Parameter
-einen String für die JEweilie Sprache wie z.B. de-DE und options für Stil eigenschaften (f+ull, long, short)
+// einen String für die Jeweilie Sprache wie z.B. de-DE und options für Stil eigenschaften (f+ull, long, short)
 
 const week5 = new Date().toLocaleString("de-DE, {weekday: "short"});
 
-Das Inntl.DateTimeFormat-Object kann genutzt werden um herauszufinden in welcher Zeitzone ich mich gerade befinde.
+// Das Intl.DateTimeFormat-Object kann genutzt werden um herauszufinden in welcher Zeitzone ich mich gerade befinde.
 
 const f = new Date();
 f = Intl.DateTimeFormat().resolvedOptions().timeZone;
 console.log(date);
+
+// Date.now() stellt einen timestamp dar und gibt die Millisekunden seit dem 1.1.1970 wieder. Man benötigt es, um die Zeit zwischen zwei Terminen zu berechnen.
+
+const jetzt = Date.now()
+console.log("Jetzt", jetzt);
+const timestampToDate = new Date(jetzt);
+console.log(timestampToDate);
+```
 
 
 

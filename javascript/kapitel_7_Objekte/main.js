@@ -195,7 +195,9 @@ const wochentag = weihnachten2024.getDay();
 console.log(wochentag); 
 
 const tag1 = new Date(1970, 0,1)
-console.log(tag1);
+console.log(tag1); //Thu Jan 01 1970 00:00:00 GMT+0100 (Mitteleuropäische Normalzeit)
+// es war offenbar ein Donnerstag.
+
 
 
 

@@ -156,6 +156,7 @@ const temparatur = celsius => (celsius * 1.8) + 32;
 
 
 
+
 ```
 
 
@@ -379,9 +380,9 @@ const prudukteB {
     produktB.kategorie: "Haushalt"
 }
 ```
-Eina andere Methode kommt zum Einsatz, wenn das Skript eine gruppe von zzusammenhängenden Objekten erzeugen soll.
+Eina andere Methode kommt zum Einsatz, wenn das Skript eine gruppe von zusammenhängenden Objekten erzeugen soll.
 
-JavaScript rufe eine Konstruktor Funktion mit dem Schlüsselwort new auf.
+JavaScript ruft eine Konstruktor Funktion mit dem Schlüsselwort new auf.
 
 ```js
 const produkt = new Object();
@@ -393,7 +394,7 @@ function Produkt(kategorie, name, bild, showImage) {     // definiert die Konstr
     this.kategorie = kategorie;                         // legt fest, dass jedes Objekt eine eigenschaft kategorie bekommt
     this.name = name;
     this.bild=bild
-    this.showImage = function(){                        fügt jedem Objekt eine eigene Methode hunzu
+    this.showImage = function(){                        // fügt jedem Objekt eine eigene Methode hunzu
         console.log(`img src="${this.bild}"
         alt="${this.name}">`);
     }
@@ -585,3 +586,74 @@ Zwei Themengebiete, welche mir derzeit als sehr relevant erscheinen sind Funktio
     Ich habe auch  erkannt, dass das Zusammenspiel von JavaScript-Logik und DOM-Manipulation der Schlüssel ist, um Frontend-Tests gut strukturiert umzusetzen. 
     Für die kommenden Tage nehme ich mir vor, regelmäßig kleine Codebeispiele zu entwickeln, um Funktionen und Objekte gezielt zu kombinieren. 
     Ich möchte meinen Lernprozess bewusst fortführen, um langfristig ein tieferes technisches Verständnis für automatisierte Tests, Spielelogik und testgetriebene Entwicklung zu erlangen.
+
+
+## Learningfacts zum Thema Unit Tests
+
+console.error() ist — wie console.log() — eine Funktion des globalen console-Objekts in JavaScript.
+Sie wird verwendet, um Fehlermeldungen oder Warnungen gezielt auszugeben.
+
+
+console.error() ist:
+
+- Ein spezieller Konsolenbefehl für Fehlermeldungen
+
+- Gibt Text auf den Error-Stream (stderr) aus
+
+- Wird in der Konsole meist rot hervorgehoben
+
+- Ideal für Tests, Fehlerbehandlung, Logging und CI/CD-Systeme
+
+Das Thema stdin, stdout und stderr ist eher technischer Hintergrund, der später wichtig wird, wenn ich mit Backends, Tests, Tools oder Automatisierung arbeitete.
+
+Für jetzt reicht:
+
+🟢 stdout → normale Ausgabe (z. B. console.log)
+
+🔴 stderr → Fehlermeldungen (z. B. console.error)
+
+🔵 stdin → Eingabe (z. B. Tastatur, Datei, Scriptinput)
+
+
+
+if (auto.istVerkauft === true) {
+  console.log("Test bestanden: Das Auto wurde als verkauft markiert.");
+} else {
+  console.error(" ❌Test fehlgeschlagen: Das Auto ist nicht als verkauft markiert.");
+}
+### try/catch Blöcke
+Was ist try/catch?
+
+try/catch ist eine Struktur zur Fehlerbehandlung in JavaScript.
+Sie erlaubt:
+
+Code auszuführen, der potenziell Fehler verursachen könnte (try)
+
+Fehler abzufangen, ohne dass das Programm abstürzt (catch)
+
+```js 
+try {
+  riskyFunction();
+} catch (error) {
+  console.error("Fehler:", error.message);
+} finally {
+  console.log("Dieser Block läuft immer!");
+}
+
+try {
+  throw new Error("Datenbank nicht erreichbar");
+} catch (err) {
+  console.error("❌ Fehler:", err.message);
+}
+
+```
+
+try : „Versuche diesen Code“
+
+catch : „Wenn ein Fehler passiert, mach das“
+Die Klammern nach catch müssen eine Variable enthalten, sonst weiß JavaScript nicht, wo der Fehler gespeichert werden soll.
+
+finally : „Egal was passiert, führe diesen Code aus“
+
+## Was ich morgen lernen will - Tag 10
+Vertiefen des Wissens über Arrays

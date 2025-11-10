@@ -185,3 +185,74 @@ console.log(ergebnis); // 12
 const arr4 = [100,86[17,200,3], [0,14], 200];
 const newArr4 = arr4.flat(2);
 console.log(newArr4);
+
+
+/* Erstelle eine JavaScript-Funktion verwalteFilmSammlung, die ein Array von Filmobjekten verwaltet. 
+Jedes Filmobjekt soll folgende Eigenschaften haben: titel, jahr, genre, bewertung. 
+Die Funktion soll folgende Funktionalitäten bieten: 
+
+a) Hinzufügen eines neuen Films. 
+
+b) Aktualisieren der Bewertung eines Films durch den Titel. 
+
+c) Löschen eines Films durch den Titel. 
+
+d) Anzeigen aller Filme in der Konsole, sortiert nach dem Jahr der Veröffentlichung. 
+
+e) Suchen eines Films durch den Titel und Anzeigen der Details in der Konsole. 
+
+Verwende dabei Kontrollstrukturen, Schleifen, Bedingungen, und Objektmanipulationen, die du kennst. 
+Nutze die Konsole zur Ausgabe von Informationen.  */
+//a)  Hinzufügen eines neuen Films.
+function verwalteFilmSammlung(){
+    const filmSammlung = [];
+    return {
+        hinzufuegen: function(titel, jahr, genre, bewertung){
+            const neuerFilm = {titel, jahr, genre, bewertung};  
+            filmSammlung.push(neuerFilm);
+            console.log(`Film "${titel}" hinzugefügt.`);
+        },
+        aktualisieren: function(titel, neueBewertung){
+            const film = filmSammlung.find(f => f.titel === titel);   
+            if(film){
+                film.bewertung = neueBewertung;
+                console.log(`Bewertung von "${titel}" aktualisiert auf ${neueBewertung}.`);
+            } else {
+                console.log(`Film "${titel}" nicht gefunden.`);
+            }
+        },
+        loeschen: function(titel){
+            const index = filmSammlung.findIndex(f => f.titel === titel);   
+            if(index !== -1){
+                filmSammlung.splice(index, 1);
+                console.log(`Film "${titel}" gelöscht.`);
+            } else {
+                console.log(`Film "${titel}" nicht gefunden.`);
+            } 
+        },
+        anzeigenAlle: function(){
+            const sortierteFilme = [...filmSammlung].sort((a, b) => a.jahr - b.jahr); 
+            console.log("Filme in der Sammlung:");
+            sortierteFilme.forEach(film => {
+                console.log(`${film.titel} (${film.jahr}) - Genre: ${film.genre}, Bewertung: ${film.bewertung}`);
+            });
+        },
+        suchen: function(titel){
+            const film = filmSammlung.find(f => f.titel === titel);
+            if(film){
+                console.log(`Details zu "${titel}": Jahr: ${film.jahr}, Genre: ${film.genre}, Bewertung: ${film.bewertung}`);
+            } else {
+                console.log(`Film "${titel}" nicht gefunden.`);
+            }
+        }
+    };
+} 
+const meineFilme = verwalteFilmSammlung();
+meineFilme.hinzufuegen("Inception", 2010, "Sci-Fi", 8.8);
+meineFilme.hinzufuegen("The Matrix", 1999, "Action", 8.7);  
+meineFilme.anzeigenAlle();
+meineFilme.aktualisieren("Inception", 9.0); 
+meineFilme.suchen("Inception"); 
+meineFilme.loeschen("The Matrix"); 
+meineFilme.anzeigenAlle();
+

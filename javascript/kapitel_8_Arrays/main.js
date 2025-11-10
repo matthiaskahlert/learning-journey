@@ -91,3 +91,97 @@ console.log(satz.join(""));
 console.log(satz.join("! "));
 console.log(satz.join());
 console.log(satz.toString());
+
+// Destructure
+const spieler = ["Schrödinger", 135, "Blau-Weiß", "Jever"];
+const [name, punkte, ...rest] = spieler; // Hier bedeutet ...rest: Alle verbleibenden Elemente des Arrays kommen in eine neue Variable namens rest
+
+console.log( "name", name);
+
+console.log( "punkte", punkte);
+console.log("rest", rest);
+console.log("spieler", spieler)
+
+
+// anderes destructure beispiel:
+
+// Create an Object
+const person = {
+  firstName: "Max",
+  lastName: "Mustermann",
+  age: 50
+};
+
+// Destructuring
+let {firstName, lastName, age: alter} = person;
+console.log(alter) // 50
+
+
+// Array.isArray()
+const liste = [5,8,37, 45]
+console.log("typeof person", typeof person); //object
+console.log("person = Array?", Array.isArray(person)); // Array? false - denn person ist ein Objekt mit benannten Eigenschaften
+console.log("typeof liste", typeof liste); //object
+console.log("liste = Array?", Array.isArray(liste)); // Array? true - denn liste ist ein Array mit nummerierten Einträgen
+
+console.log("spieler = Array?", Array.isArray(spieler)); // spieler = Array? true
+
+
+// array.sort()
+
+const sortier = ["Juwel", "über", "drei", "Ärger", 28, ".rose", "%"];
+sortier.sort();
+console.log("sortier ist", sortier);
+
+const numerischesArray = [3,45,567456,34,13541345,6,468,2,234];
+numerischesArray.sort();
+console.log(numerischesArray); // [13541345, 2, 234, 3, 34, 45, 468, 567456, 6]
+numerischesArray.sort((a,b) => a-b);
+console.log((numerischesArray)); // [2, 3, 6, 34, 45, 234, 468, 567456, 13541345]
+
+/* const numerischesArray = [3, 45, 567456, 34, 13541345, 6, 468, 2, 234];
+
+let vergleichsZaehler = 0;
+
+numerischesArray.sort((a, b) => {
+  vergleichsZaehler++;
+  return a - b;
+});
+
+console.log("Sortiertes Array:", numerischesArray);
+console.log("Anzahl der Vergleichsschritte:", vergleichsZaehler); */
+
+const sortiert = ['%', '.rose', 28, 'Juwel', 'drei', 'Ärger', 'über']
+const namen = ["Edda", "Kjell", "Matze"]
+sortiert.push(namen);
+console.log(sortiert);
+
+console.log(sortiert[7][2]); //Matze
+
+const blumen = ["Rosen", "Vergissmeinicht"];
+const pflanzen = ["Gänseblümchen", "Löwenzahn"];
+const newArr = [blumen,pflanzen];
+console.log(newArr);
+console.log(newArr[1][1]); // Löwenzahn
+
+//aneinanderreihing mit array.concat()
+let x = blumen.concat(pflanzen);
+console.log(x); // ['Rosen', 'Vergissmeinicht', 'Gänseblümchen', 'Löwenzahn']
+let y =[...blumen, ...pflanzen];
+console.log(y);
+
+// mit spread funktionsagrumente füttern
+function addiere (a,b,c){
+    return a+b+c;
+}
+const zahlen = [3,4,5];
+
+const ergebnis = addiere(...zahlen); // entspricht addiere(2, 5, 7)
+console.log(ergebnis); // 12
+
+
+
+// array.flat()
+const arr4 = [100,86[17,200,3], [0,14], 200];
+const newArr4 = arr4.flat(2);
+console.log(newArr4);

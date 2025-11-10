@@ -454,13 +454,7 @@ if (Bedingung){
 }
 
 
-switch (Ausdruck) {
-    case label1:
-        Anweisungen;
-        break;
-    case label2:
-        Anweisungen;
-        break;
+c
     ...
 }
 ``` 

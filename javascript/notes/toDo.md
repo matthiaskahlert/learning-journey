@@ -29,3 +29,8 @@
 - [x] Ternary Operator lernen
 - [ ] string.match vertiefen
 - [ ] Intl.DateTimeFormat vertiefen
+- [ ] Sets lernen
+- [ ] Maps lernen
+- [ ] NodeLists lernen
+- [ ] HTML collections die mit querySelectorAll oder getElementsByName gesammelt wurden
+- [ ] recherchieren, wie ich meine notes.md mit den main.js der aufgaben verknüpfen kann

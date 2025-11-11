@@ -118,3 +118,6 @@ console.log(filmSammlung);
 filmSammlung.sortieren();
 filmSammlung.suchen("Stargate");
 filmSammlung.suchen("Scarface");
+
+
+  

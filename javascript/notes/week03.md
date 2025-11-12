@@ -97,7 +97,7 @@ Dies passiert so lange bis das array sortiert ist.
 
 ### 8.4 Arrays verschachteln und zusammenführen
 
-array.push() hängt ein neues Element an das ende eines arrays. Wenn man nun ein array als element ousht, ist das array teil des arrays.
+array.push() hängt ein neues Element an das ende eines arrays. Wenn man nun ein array als element pusht, ist das array teil des arrays.
 
 const sortiert = ['%', '.rose', 28, 'Juwel', 'drei', 'Ärger', 'über']
 const namen = ["Edda", "Kjell", "Matze"]

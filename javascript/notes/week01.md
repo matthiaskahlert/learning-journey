@@ -18,8 +18,8 @@ Daher sollte das HTML sicherheitshalber vom Validator geprüft werden.
 - Cascading ist das Einfließen von Stilen aus vorangegangenen CSS Regeln.
 - Bei der Kommunikation mit dem Server via JavaScript geht es um das Einlesen und Weiterreichen von Benutzereingaben, hier reichen solide Grundlagen für CSS.
 - Man kann JavaScript Anweisungen direkt in die HTML Datei schreiben oder in eigene Dateien mit der Endung .js. Diese separaten .js Dateien kann man mit einem HTML script-Tag direkt in die HTML Datei einbinden. Beispiel: <script src="script.js" defer></script>
-- Es gibt Module die man im und exportieren kann. Module organisieren Script Dateien, indem sie anwendungen in überschaubare Teile herunterbrechen und sie in separaten Dateien speichern. Diese Fragmente werden als Module importiert. Das type-Attribut des script Elements kennzeichnet JavaScript Dateien als Module.
-- Da Browser HTML Dateien Zeile für Zeile laden, aber bei externen CSS Dateien den Inhalt komplett laden, kann es zu Latenzen kommen. Dies wird mit "just-in-time-loading" verhindert, dafür nutzt man die Attribute: defer und async. Mit defer lädt der Browser scripte erst vollständig (in derReihenfolge in der sie im code erscheinen), bevor er sie ausführt. Scripte mit async  werden ohne beachtung der Reihenfolge ausgeführt.
+- Es gibt Module die man im und exportieren kann. Module organisieren Script Dateien, indem sie Anwendungen in überschaubare Teile herunterbrechen und sie in separaten Dateien speichern. Diese Fragmente werden als Module importiert. Das type-Attribut des script Elements kennzeichnet JavaScript Dateien als Module.
+- Da Browser HTML Dateien Zeile für Zeile laden, aber bei externen CSS Dateien den Inhalt komplett laden, kann es zu Latenzen kommen. Dies wird mit "just-in-time-loading" verhindert, dafür nutzt man die Attribute: defer und async. Mit defer lädt der Browser scripte erst vollständig (in der Reihenfolge in der sie im code erscheinen), bevor er sie ausführt. Scripte mit async  werden ohne Beachtung der Reihenfolge ausgeführt.
 - Für JavaScript Entwicklung ist in den Browsern die Browserkonsole der Dreh- und Angelpunkt, z.B. in Chrome via F12 -> console. Man kann über Anweisungen im JavaScript Code oder direkt in der Browserkonsole arbeiten um beispielsweise Variablen und Objekte zu testen und Ihre Struktur aufzuzeigen. Die Konsolenausgabe im Script erfolgt über console.log(var1, var2, vae3...); Beispielsweise braucht man nur den namen einer Variable um den Variablenwert zu sehen. Beispiel const mwst = x * mwstSatz / 119;
         console.log(mwst);
   
@@ -44,12 +44,12 @@ Daher sollte das HTML sicherheitshalber vom Validator geprüft werden.
 - Schlüsselwörter (Keywords) beispielsweise let und const
 - Kommentare (Comments) alles auf einer Zeile nach // sowie zwischen /* ... */ ist ein Kommentar und wird nicht ausgeführt bzw vom Browser ignoriert.
 - Namen (Identifier) - ein Identifier ist ein Name den ich benutze um etwas zu benennen. Beispiel: Variablen (let name = "Matze";) - hier ist Variablen der Identifier, name die Variable und Matze der Wert, welcher der Variablen zugeordnet ist. Die Variable kann über den identifier angesprochen werden. Identifier müssen mit Buchstaben einem Dollarzeichen uoder einem Unterstrich beginnen. das erste Zeichen darf keine Ziffer sein, Bindestriche sind nicht erlaubt (wird als Minus interpretiert).
-- Hochkommas - Sie sind für String genutzt, entweder doppeltes oder einfaches Hochkomma, Backticks sind empfehlenswert, wenn der String Zeilenumbrüche oder Variablen enthalten soll.
+- Hochkommas - Sie sind für String genutzt, entweder doppeltes oder einfaches Hochkomma, Backticks sind empfehlenswert, wenn der String Zeilenumbrüche oder Variablen enthalten soll oder man Zeilenumbrüche braucht.
 ## Übungsaufgabe 2.2.Ü.01
 Die Aufgabe erschien mir einfach, aber durch das einbinden der separaten .js Datei kam es sozusagen zu einem Laufzeitfehler, welchen ich mit dem defer attribut beheben konnte. Anfangs hatte ich fehlerhafterweise auch noch den scr typ "module" zugewiesen, welcher den console output blockierte. Das entfernen des modules führte zur Lösung. ich habe mich für eine Konstante bei dem Namen entschieden, und für eine let variable beim alter.
 
 
-## Kompetenzprotokoll 1
+## Kompetenzprotokoll 1         
 
 Um Schwerpunkte und einen Fokus bei meinem Lernfortschritt zu setzen, wende ich das Prinzip des Kompetenzprotokolls an. Dies ist ein Teil der Prüfungsleistung in meiner Weiterbildung. Hierbei bearbeite ich das Gelernte wöchentlich in den vier Kategorien:
 - Einordnen und Strukturieren: Theorie erklären

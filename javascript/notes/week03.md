@@ -476,3 +476,103 @@ forEach hingegen nutzt nur die besettzten arraywerte
 arr1.forEach((elem,index) => {
     console.log(index, elem * 19 / 100);
 });
+
+## JSON - Java Script Object Notation
+
+### 9.1 JSON-Objekte und JSON-Arrays
+
+APIs (Application Program Interface) sind die Schnittstellen zwischen Programmen, Java Script kann hier viele Aufgaben erledigen um den Datenfluss zu gewährleisten, z.B. bilder aus einer Cloud laden und im CMS anzeigen.
+JSON ist ein Austauschformat für strukturierte daten.
+Beispiel11:
+```js
+{
+    "titel": "Mansfield Park",
+    "published":    "1814",
+    "seiten":380
+}
+```
+JSON folgt de Regeln wie Objekte in JavaScript geschrieben werden aber es gibt einige Unterschiede:
+
+Der Schlüssel muss in JSON in doppelten Hochkommas geschrieben werden!
+Strings in Werten müssen in doppelten Hochkommas geschrieben werden (also keine backticks).
+Zahlen dürfen in JSON nicht mit einer 0 beginnen (falls es eine Rolel spielt muss = als String geliefert werden).
+In Javascript dürfen Zahlen auch mit einem punkt Eenden, in JSON geht das nicht.
+in JSON: Nach dem letzten Element darf kein Komma stehen
+
+Oft liegen Arrays mit mehreren verschachtelten JSON Objekten vor. JSON Dateoien werden als .json gspeichert.
+```JSON
+const jsonObj = {
+    "author": "austen",
+    "firstname": "Jane",
+    "books": [
+        {"title": "Mansfield Park", "published": 1814},
+        {"title": "Stolz und Vorurteil", "published": 1813},
+        {"title": "Emma", "published": 1816},
+    ]
+}
+```
+Folgend ist ein JSON Array:
+
+```JSON
+const jsonObj = 
+[{
+    "author": "austen",
+    "firstname": "Jane",
+    "books": [
+        {"title": "Mansfield Park", "published": 1814},
+        {"title": "Stolz und Vorurteil", "published": 1813},
+        {"title": "Emma", "published": 1816},
+    ]
+}, {
+    "author": "Pratchett",
+    "firstname": "Terry",
+    "books": [
+        {"title": "Total verhext", "published": 1991},
+        {"title": "Lords and Ladys", "published": 1992},
+        {"title": "Ruhig Blut", "published": 1996},
+    ]
+}]
+```
+
+Nun haben wir eine Kommagetrennte Liste mit JSON.Objekten.
+Jeder Wert selbst kann wieder ein Objekt oder ein array sein.
+
+### 9.2 JSON-Objekte in Strings umwandeln
+
+#### JSON.parse()
+
+JSON kommt meist über die url eines API oder liegt als Datei als Folge von Zeichen.
+Zwecks Datenaustausch muss JavaScript diesen gelieferten String mit JSON.parse() in eine JSON Struktur umwandeln.
+Umgekehrt sendes ein Skript Daten mit JSON.stringify() als String an die Anwendung auf dem Server.
+
+
+JSON -> JSON.parse() -> JavaScript Objekt
+JavaScript Objekt -> JSON.stringify() -> JSON
+
+String
+`{"author": "austen","firstname": "Jane","books": [{"title": "Mansfield Park", "published": 1814},{"title": "Stolz und Vorurteil", "published": 1813},{"title": "Emma", "published": 1816},]}`
+
+Objekt
+{
+    "author": "austen",
+    "firstname": "Jane",
+    "books": [
+        {"title": "Mansfield Park", "published": 1814},
+        {"title": "Stolz und Vorurteil", "published": 1813},
+        {"title": "Emma", "published": 1816},
+    ]
+}
+JSON gibt es über alle Sprachen hinweg, wobei JavaScipt unnd Python über native Bordmittel verfügen, während andere Sprachen wie Java zusätzliche Bibliotheken benötigen um mit JSON umzugehen.
+#### Datenfluss
+Oft kommen die Daten aus einer Datenbank auf dem Server und werden von einer PHP Anwendung als JSON-String aufbereitet.
+Die Anwendung auf der Webseite holt die Daten z.B. mit einem
+XMLHttpRequest oder einem Fetch-API und wandelt sie mit JSON.Parse() in ein Objekt um.
+
+Grundprinzip: String wird an eine hilfsmethode übergeen, die eine Datenstruktur zurückgibt.
+
+const books = `{"author": "austen","firstname": "Jane","books": [{"title": "Mansfield Park", "published": 1814},{"title": "Stolz und Vorurteil", "published": 1813},{"title": "Emma", "published": 1816},]}`;
+const booksParsed = JSON.parse(books);
+console.log(booksParsed);
+
+console.log(booksParsed[1].author);
+console.log(`${booksParsed[1].firstname} ${booksParsed[1].author}`);

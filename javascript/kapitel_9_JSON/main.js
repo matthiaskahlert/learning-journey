@@ -4,3 +4,14 @@ console.log(booksParsed);
 
 console.log(booksParsed[1].author);
 console.log(`${booksParsed[1].firstname} ${booksParsed[1].author}`);
+
+const color = {
+number : 120, Tightness : 73, saturation : 75, name : "lightgreen"
+1
+description: "Helles Grün"
+kombi : function (elem) {
+elem.style - "background: hsl(${this.number},
+${this.saturation}%, ${this. lightness}%)';
+const myObjectString = JSON.stringify(color);
+console. log("myObjectString", myObjectString);
+console. log(encodeURIComponent(myObjectString));

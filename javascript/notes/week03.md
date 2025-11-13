@@ -482,8 +482,9 @@ arr1.forEach((elem,index) => {
 ### 9.1 JSON-Objekte und JSON-Arrays
 
 APIs (Application Program Interface) sind die Schnittstellen zwischen Programmen, Java Script kann hier viele Aufgaben erledigen um den Datenfluss zu gewährleisten, z.B. bilder aus einer Cloud laden und im CMS anzeigen.
-JSON ist ein Austauschformat für strukturierte daten.
-Beispiel11:
+JSON ist ein Austauschformat für strukturierte daten. JSON speichert aber keine Methoden von Objekten (Funktionen)!
+
+Beispiel:
 ```js
 {
     "titel": "Mansfield Park",
@@ -495,7 +496,7 @@ JSON folgt de Regeln wie Objekte in JavaScript geschrieben werden aber es gibt e
 
 Der Schlüssel muss in JSON in doppelten Hochkommas geschrieben werden!
 Strings in Werten müssen in doppelten Hochkommas geschrieben werden (also keine backticks).
-Zahlen dürfen in JSON nicht mit einer 0 beginnen (falls es eine Rolel spielt muss = als String geliefert werden).
+Zahlen dürfen in JSON nicht mit einer 0 beginnen (falls es eine Rolle spielt muss = als String geliefert werden).
 In Javascript dürfen Zahlen auch mit einem punkt Eenden, in JSON geht das nicht.
 in JSON: Nach dem letzten Element darf kein Komma stehen
 
@@ -541,13 +542,16 @@ Jeder Wert selbst kann wieder ein Objekt oder ein array sein.
 
 #### JSON.parse()
 
-JSON kommt meist über die url eines API oder liegt als Datei als Folge von Zeichen.
+JSON kommt meist über eine API-URL oder liegt als Datei im Textformat for.
 Zwecks Datenaustausch muss JavaScript diesen gelieferten String mit JSON.parse() in eine JSON Struktur umwandeln.
-Umgekehrt sendes ein Skript Daten mit JSON.stringify() als String an die Anwendung auf dem Server.
+Umgekehrt sendet ein Skript Daten mit JSON.stringify() als String an die Anwendung auf dem Server.
+
+| Richtung          | Methode            | Ergebnis          |
+| ----------------- | ------------------ | ----------------- |
+| JSON → JavaScript | `JSON.parse()`     | Objekt oder Array |
+| JavaScript → JSON | `JSON.stringify()` | JSON-String       |
 
 
-JSON -> JSON.parse() -> JavaScript Objekt
-JavaScript Objekt -> JSON.stringify() -> JSON
 
 String
 `{"author": "austen","firstname": "Jane","books": [{"title": "Mansfield Park", "published": 1814},{"title": "Stolz und Vorurteil", "published": 1813},{"title": "Emma", "published": 1816},]}`
@@ -563,10 +567,10 @@ Objekt
     ]
 }
 JSON gibt es über alle Sprachen hinweg, wobei JavaScipt unnd Python über native Bordmittel verfügen, während andere Sprachen wie Java zusätzliche Bibliotheken benötigen um mit JSON umzugehen.
+
 #### Datenfluss
 Oft kommen die Daten aus einer Datenbank auf dem Server und werden von einer PHP Anwendung als JSON-String aufbereitet.
-Die Anwendung auf der Webseite holt die Daten z.B. mit einem
-XMLHttpRequest oder einem Fetch-API und wandelt sie mit JSON.Parse() in ein Objekt um.
+Die Anwendung auf der Webseite holt die Daten z.B. mit einem XMLHttpRequest oder einem Fetch-API und wandelt sie mit JSON.Parse() in ein Objekt um.
 
 Grundprinzip: String wird an eine hilfsmethode übergeen, die eine Datenstruktur zurückgibt.
 ```JSON
@@ -584,3 +588,36 @@ JSON.parse() hat in dem String automatisch das array von Objekten erkennt.
 
 Wenn das Sktipt Daten an den Server sendet oder im Browser des users speichert, müssen diese Daten as String gesendet / gespeichert werden.
 JSON.stringify() sorgt dafür, es konvertiert Daten in eine JSON-formtierte Zeichenkette.
+Um diesen String sicher in einer URL oder Anfrage zu verwenden, wird er zusätzlich mit encodeURIComponent() kodiert.
+
+```js
+const color = {
+  number: 120,
+  lightness: 73,
+  saturation: 75,
+  name: "lightgreen",
+  description: "Helles Grün"
+};
+
+// Objekt → JSON-String
+const jsonString = JSON.stringify(color);
+
+// JSON-String → URL-sicher
+const encoded = encodeURIComponent(jsonString);
+
+// URL-sicherer String → wieder dekodieren
+const decoded = decodeURIComponent(encoded);
+
+// JSON-String → zurück in Objekt
+const parsed = JSON.parse(decoded);
+
+```
+| Funktion                  | Zweck                                      |
+| ------------------------- | ------------------------------------------ |
+| `JSON.stringify(obj)`     | Wandelt ein Objekt in einen JSON-String um |
+| `encodeURIComponent(str)` | Kodiert den String für URLs                |
+| `decodeURIComponent(str)` | Dekodiert den String wieder                |
+| `JSON.parse(str)`         | Wandelt JSON-String zurück in ein Objekt   |
+
+
+

@@ -2,7 +2,7 @@ const arr = [123,1234,465,27635];
 const arr2 = ["Foo", 234, arr, "bar", true];
 
 const stoff = new Array("Leinen", "Baumwolle", "Seide");
-// zugriff auf den ersten indes vom array stoff
+// zugriff auf den ersten index vom array stoff
 const wahl = `Ich bevorzuge ${stoff[1]} für T-shirts`;
 console.log("wahl: ", wahl); //wahl:  Ich bevorzuge Baumwolle für T-shirts
 console.log(stoff.length); //3

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<!-- 
+some example exercises from the llm of your choice
+1️⃣ Arrays
+
+Fragen:
+
+1. Erstelle ein Array fruits mit den Werten "Apfel", "Banane" und "Kirsche".
+
+Füge "Orange" am Ende hinzu.
+
+Entferne das erste Element.
+
+2. Gegeben ist das Array: [2, 5, 8, 3]
+
+Finde die Summe aller Zahlen mit einer Schleife.
+
+Finde die Summe aller Zahlen mit reduce().
+
+3. Welche Werte erzeugt folgender Code? 
+const colors = ["rot", "grün", "blau"];
+const newColors = colors.map(c => c.toUpperCase());
+console.log(newColors);
+
+2️⃣ Objekte / JSON
+
+Fragen:
+
+1. Erstelle ein Objekt person mit den Eigenschaften name: "Max" und alter: 25.
+
+Ändere das Alter auf 26.
+
+Gib den Namen über console.log() aus.
+
+2. Gegeben ist folgender JSON-String:
+console.log(person.farbe);
+Wandle ihn in ein Objekt um (JSON.parse) und gib die pages aus.
+
+Wandle das Objekt wieder in einen JSON-String (JSON.stringify).
+
+3. Was passiert, wenn du versuchst, auf eine nicht vorhandene Eigenschaft zuzugreifen?
+console.log(person.farbe);
+3️⃣ Arrow Functions
+
+Fragen:
+
+1. Schreibe eine Arrow Function quadriere, die eine Zahl nimmt und das Quadrat zurückgibt.
+
+Beispiel: quadriere(5) → 25
+
+2. Gegeben ist:
+const zahlen = [1, 2, 3, 4];
+Nutze eine Arrow Function mit map(), um alle Zahlen zu verdoppeln.
+
+3. Was ist der Unterschied zwischen diesen beiden Funktionen?
+const f1 = function(x){ return x*2; }
+const f2 = x => x*2;
+
+4️⃣ DOM
+
+Fragen:
+
+1. Erstelle in HTML ein <p>-Element mit der ID "demo".
+
+Greife mit JS darauf zu und ändere den Text auf "Hallo Welt!".
+
+2. Wie würdest du alle Elemente einer Klasse .item auswählen und deren Text in der Konsole ausgeben?
+
+3. Wie kannst du einen Button-Klick abfangen, um eine Nachricht anzuzeigen?
+
+Beispiel: "Button geklickt!"
+
+
+
+
+-->
+
+<html lang="de">
+<head>
+
+    <p>"Demo"</p>
+
+    <ul>
+    <li class="item">Eins</li>
+    <li class="item">Zwei</li>
+    <li class="item">Drei</li>
+</ul>
+</head>  
+<body>
+    <button id="meinButton">Klick mich!</button>
+    <script>
+// Array aufgaben
+// 1. 
+const fruits = ["Apfel", "Banane", "Kirsche"];
+fruits.shift();
+fruits.push("Orange");
+console.log(fruits);
+
+
+// 2.
+const arr = [2, 5, 8, 3]
+    let summe = 0;
+for (const key of arr) {
+
+    summe += key;
+    
+}   
+console.log(summe);
+
+const initialValue = 0
+const summe2 = arr.reduce((previousValue, currentValue) => previousValue + currentValue, 0);
+console.log(summe2);
+
+//3. newColors = ["ROT", "GRÜN", "BLAU"];
+
+// Objekte / JSON Aufgaben
+// 1.   
+const person = 
+{
+    name: "Max",
+    age: 25,
+}
+person.age = 26;
+console.log(person.name);
+
+// 2.
+const jsonStr = '{"title":"JS Grundlagen","pages":200}';
+const foo = JSON.parse(jsonStr);
+console.log(foo); // {"title":"JS Grundlagen","pages":200}
+console.log("pages", foo.pages);
+const bar = JSON.stringify(foo);
+
+// 3. 
+console.log(person.farbe); // undefined
+
+// Arrow Functions
+//1. 
+const quadriere = (x) => x * x;
+console.log(quadriere(5)); // 25
+
+//2. Nutze eine Arrow Function mit map(), um alle Zahlen zu verdoppeln.
+const zahlen = [1, 2, 3, 4];
+const verdoppelt = zahlen.map((zahl) => zahl * 2);
+console.log(verdoppelt); // [2, 4, 6, 8]
+//3. 
+// beide funktionen ergeben das gleiche ergebnis. sie nehmen den wert von x und multiplizieren ihn mit 2.
+
+// DOM Aufgaben
+//1. 
+const text = document.querySelector("p");
+text.textContent = "Hallo Welt!"; 
+
+//2.
+const allItems = document.querySelectorAll(".item");
+console.log(allItems); // Das gibt eine NodeList zurück. Um den Text jedes Elements auszugeben, kannst du forEach verwenden:
+
+// korrekte lösung:
+const x = allItems.forEach(item => console.log(item.textContent));
+console.log(x);
+
+//3. möglicherweise mit addEventListener?
+// Lösung
+const button = document.querySelector("button");
+button.addEventListener("click", () => alert("Button geklickt!"));
+
+
+</script>
+   
+
+
+</body>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <script src="main.js" defer></script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ClickStorm</title> <!-- oder dein gewählter Name -->
+    <style>
+        /* Vollbild-Viewport für das Spiel */
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            font-family: sans-serif;
+            background-color: #f0f0f0;
+        }
+
+        #game-area {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background-color: #222;
+        }
+
+        .target {
+            position: absolute;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        #hud {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            color: rgb(2, 182, 253);
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- HUD: Anzeige für Punkte und Leben -->
+    <div id="hud">
+        Punkte: <span id="score">0</span> | Leben: <span id="lives">3</span>
+    </div>
+
+    <!-- Spielfeld mit begrenztem Viewport -->
+    <div id="game-area-container" style="width:800px; height:600px; margin: 2rem auto; border: 2px solid orange; position: relative; background-color:#222;">
+        <div id="game-area" style="width:100%; height:100%; position:relative;"></div>
+    </div>
+
+    <!-- JS -->
+    <script src="game.js" defer></script>
+</body>
+
+</html>

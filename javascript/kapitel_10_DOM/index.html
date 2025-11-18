@@ -4,14 +4,40 @@
     <script src="main.js" defer></script>      <!-- defer garantiert, dass das DOM existiert, bevor dein JS läuft -->
     <meta charset="UTF-8">
     <title>JavaScript - Kapitel 10 - DOM</title>
+    <style>
+        /* Hellmodus (Standard) */
+        body.light {
+            background-color: white;
+            color: black;
+        }
+
+        /* Dunkelmodus */
+        body.dark {
+            background-color: #222;
+            color: #eee;
+        }
+
+        header {
+            padding: 1rem;
+            text-align: center;
+        }
+
+        button {
+            margin: 0.5rem;
+            padding: 0.5rem 1rem;
+        }
+    </style>
 </head>
-<body>
+<body class="light">
     <!-- Header Bereich -->
      <header id="site-header" style="background: lightblue; padding: 1rem; text-align: center;">
         <h1>JavaScript Kapitel 10 - DOM</h1>
+                <h1>Dark Mode Demo</h1>
+        <button id="toggle-mode">Dark Mode ein/aus</button>
+
         <nav>
-            <ul>
-                <p>Beispielnavigation</p>
+            <p>Beispielnavigation</p>
+            <ul>                
                 <li><a href="#">Start</a></li>
                 <li><a href="#">Über uns</a></li>
                 <li><a href="#">Kontakt</a></li>
@@ -51,5 +77,53 @@
             <button id="b3">Zum Warenkorb</button>
         </li>
     </ul>
+    <ul class="target">
+
+    </ul>
+    <ul id="blumen">
+        <li>
+            <p>Rosen</p>
+        </li>
+        <li>
+            <p>Magnolien</p>
+        </li>
+        <li>
+            <p>Lilien</p>
+        </li>
+        <li>
+            <p>Flieder</p>
+        </li>
+    </ul>
+    <div class="parent">
+        <figure>
+            <img src="images/tasse-und-buch.avif" width="500" height="360"
+            alt="...">
+            <figcaption>Poster 1: eine Tasse und ein Buch</figcaption>
+        </figure>
+            <figure>
+            <img src="images/tasse-und-buch.avif" width="500" height="360"
+            alt="...">
+            <figcaption>Poster 2: eine große runde dose</figcaption>
+        </figure>
+            <figure>
+            <img src="images/tasse-und-buch.avif" width="500" height="360"
+            alt="...">
+            <figcaption>Poster 3: irgendein text</figcaption>
+        </figure>
+        <figure class="stifte">
+            <figcaption>Ganz schön viele Holzstifte</figcaption>
+        </figure>
+    </div>
+    <div id="innertext">
+            <p> Nur der Text, der auf der Seite sichtbar ist.<br>
+            Was <span style="display:none">durch CSS</span> ausgeblendet ist, wird kein <em>innerText</em>.</p> 
+    </div>
+    <div id="trio">
+        <img src="images/stifte-01.png" width="500" height = "540">
+    </div>
+
+    <div id="regal2">
+
+    </div>
 </body>
 </html>

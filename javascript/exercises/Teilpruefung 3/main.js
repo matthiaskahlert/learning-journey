@@ -42,7 +42,7 @@ console.log(`Das Buch mit den meisten Seiten heißt "${seitenSortiert[0].titel}"
 
 
 //d) Erstelle ein neues Array, das nur die Titel der Bücher enthält, die vor dem Jahr 2000 veröffentlicht wurden. 
-const newArr = jsonParsed.filter(jsonParsed => jsonParsed.veröffentlicht<2000).map((jsonParsed => jsonParsed.titel)); // hier reduziere ich auf die Titel der Bücher, welche vor dem Jahr 2000 veröffentlicht wurden, Seitenanzahl und Veröffentlichungsjahr fallen weg per aufgabenstellunt "nur die Titel der Bücher..."
+const newArr = jsonParsed.filter(jsonParsed => jsonParsed.veröffentlicht<2000).map((jsonParsed => jsonParsed.titel)); // hier reduziere ich auf die Titel der Bücher, welche vor dem Jahr 2000 veröffentlicht wurden, Seitenanzahl und Veröffentlichungsjahr fallen weg per aufgabenstellung "nur die Titel der Bücher..."
 
 
 //e) Sortiere dieses Array alphabetisch und gib es aus. 

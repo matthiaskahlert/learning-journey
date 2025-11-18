@@ -1,0 +1,1 @@
+Hier sammle ich kleine Projekte, um das Gelernte praktisch anzuwenden.

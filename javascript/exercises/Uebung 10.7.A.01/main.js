@@ -18,30 +18,90 @@ Füge entsprechende Buttons hinzu, um die Sortierrichtung auszuwählen.
 e) Erstelle eine Funktion, die ein Produkt nach seiner id sucht und dieses Produkt aus dem Array entfernt. 
 Füge ein Eingabefeld für die id und einen Button zum Entfernen hinzu.   */
 
-// Button auswählen
+// Dark Mode
 const toggleBtn = document.getElementById("toggle-mode");
-
-// Klick-Event zum Umschalten
 toggleBtn.addEventListener("click", () => {
-    const body = document.body;
-
-    // Prüfen, ob dark vorhanden ist
-    if (body.classList.contains("dark")) {
-        body.classList.remove("dark");
-        body.classList.add("light");
-    } else {
-        body.classList.remove("light");
-        body.classList.add("dark");
-    }
-
-    console.log("Aktuelle Body-Klasse:", body.className);
+    document.body.classList.toggle("dark");
+    document.body.classList.toggle("light");
+    console.log("Aktuelle Body-Klasse:", document.body.className);
 });
-/* Seite startet hell (class="light").
 
-Klick auf „Dark Mode ein/aus“ → wechselt zu class="dark".
+// Produkte Array
+const produkte = [
+    { id: 1, name: "Apfel", preis: 0.5, kategorie: "Obst" },
+    { id: 2, name: "Brot", preis: 1.2, kategorie: "Backwaren" },
+    { id: 3, name: "Milch", preis: 0.8, kategorie: "Getränke" },
+    { id: 4, name: "Käse", preis: 2.5, kategorie: "Milchprodukte" },
+    { id: 5, name: "Karotte", preis: 0.3, kategorie: "Gemüse" }
+];
 
-Klick nochmal → wieder class="light".
+// DOM-Elemente
+const produktListe = document.getElementById("produkt-liste");
+const suchInput = document.getElementById("such-input");
+const suchButton = document.getElementById("such-button");
+const sortAscButton = document.getElementById("sort-asc-button");
+const sortDescButton = document.getElementById("sort-desc-button");
+const entfernenInput = document.getElementById("entfernen-input");
+const entfernenButton = document.getElementById("entfernen-button");
 
-CSS verändert automatisch Hintergrund und Textfarbe, weil wir unterschiedliche Klassen definiert haben. */
+// Produkte anzeigen
+function zeigeProdukte(array) {
+    produktListe.innerHTML = "";
+    array.forEach(produkt => {
+        const produktDiv = document.createElement("div");
+        produktDiv.classList.add("produkt");
 
+        produktDiv.innerHTML = `
+            <p>ID: ${produkt.id}</p>
+            <p>Name: ${produkt.name}</p>
+            <p>Preis: €${produkt.preis.toFixed(2)}</p>
+            <p>Kategorie: ${produkt.kategorie}</p>
+        `;
+        produktListe.appendChild(produktDiv);
+    });
+}
 
+// Initial anzeigen
+zeigeProdukte(produkte);
+
+// Suche
+function sucheProdukte() {
+    const suchBegriff = suchInput.value.toLowerCase();
+    const gefilterteProdukte = produkte.filter(p => p.name.toLowerCase().includes(suchBegriff));
+    zeigeProdukte(gefilterteProdukte);
+}
+
+// Suchbutton klicken
+suchButton.addEventListener("click", sucheProdukte);
+
+// Enter-Taste im Suchfeld
+suchInput.addEventListener("keyup", e => {
+    if (e.key === "Enter") sucheProdukte();
+});
+
+// Sortieren
+sortAscButton.addEventListener("click", () => {
+    zeigeProdukte([...produkte].sort((a, b) => a.preis - b.preis));
+});
+
+sortDescButton.addEventListener("click", () => {
+    zeigeProdukte([...produkte].sort((a, b) => b.preis - a.preis));
+});
+
+// Entfernen
+entfernenButton.addEventListener("click", () => {
+    const id = parseInt(entfernenInput.value);
+    const index = produkte.findIndex(p => p.id === id);
+    if (index !== -1) {
+        produkte.splice(index, 1);
+        zeigeProdukte(produkte);
+        entfernenInput.value = "";
+    } else {
+        alert("Produkt mit dieser ID nicht gefunden.");
+    }
+});
+
+// Enter-Taste im Entfernen-Feld
+entfernenInput.addEventListener("keyup", e => {
+    if (e.key === "Enter") entfernenButton.click();
+});

@@ -393,8 +393,10 @@ Die Methoden um neue Elemente ins DOM einzufügen uterscheiden sich in den Refer
 | innerHTML       |                     | Ersetzt das vollständige Element                                      |
 
 appendChild() und replaceChild() setzen das Fragment an der gewünschten Stelle im dokument ein.
+
+#### insertBefore()
 insertBefore() Element vor einem anderen element einfügen. 
-Für den Einsatz von insertBefore() muss das Referenz-Element identifiziert werden, vor dem ein neues Element erscheinen soll und das Eltern element der Rezferenz.
+Für den Einsatz von insertBefore() muss das Referenz-Element identifiziert werden, vor dem ein neues Element erscheinen soll und das Eltern element der Referenz.
 
 Beispiel: man möchte "Orange" vor "Banane" einfügen:
 ```html
@@ -440,3 +442,416 @@ before() und after() - vor oder nach einem Element einfügen
 Die übernahme von Daten z.B. für produktbeschreibungenn, die eine anwendung auf dem Server als JSON-Array liefert.
 Das array enthält die elemente jedes Produkts als Objekt.
 
+#### Eingabefelder <input>
+Für Eingabefelder braucht man diese Basics:
+
+* .value → Wert auslesen / setzen
+* input.addEventListener("input", …) → live reagieren
+* change → nach fertiger Eingabe
+* keydown → z. B. Enter abfangen
+* placeholder → Hilfetext
+* type & pattern → erlaubte Zeichen steuern
+
+Input auswählen wie bei jedem anderen DOM Element:
+```js
+const input = document.getElementById("entfernen-input");
+```
+
+
+Das ist das Wichtigste: Wert aus dem Eingabefeld lesen
+
+```js
+const wert = input.value;
+console.log(wert);
+```
+Immer .value, nicht innerText.
+
+
+Beispiel:
+```html
+<input type="number" id="entfernen-input" placeholder="ID zum Entfernen">
+<button id="entfernen-button">Entfernen</button>
+```
+Dies erstellt ein Eingabefeld, mit type kann man festlegen welche zeichen erlaubt sind (sicherer wäre hier ein pattern. der placeholder ist der text der angezeugt wird, wenn man noch nichts eingegeben hat, dient zur orientierung und zeigt den zweck des feldes.)
+
+```js
+const input = document.getElementById("entfernen-input");
+const button = document.getElementById("entfernen-button");
+
+button.addEventListener("click", () => {
+    const id = input.value;
+
+    if (id.trim() === "") {
+        console.log("Bitte eine ID eingeben!");
+        return;
+    }
+
+    console.log("Ich soll jetzt Produkt", id, "löschen");
+});
+```
+| Typ        | Bedeutung                 |
+| ---------- | ------------------------- |
+| `text`     | beliebige Zeichen         |
+| `number`   | Zahlen (nicht perfekt!)   |
+| `password` | Eingabe wird versteckt    |
+| `email`    | prüft E-Mail Format       |
+| `date`     | Kalenderauswahl           |
+| `checkbox` | an/aus                    |
+| `radio`    | Einzelauswahl             |
+| `search`   | wie text, aber mit Extras |
+
+Reagieren auf Benutzer-Eingaben
+```js
+// 🔹 Bei jeder Änderung:
+input.addEventListener("input", () => {
+    console.log(input.value);
+});
+
+//🔹 Erst wenn Fokus verlassen wird:
+input.addEventListener("change", () => {
+    console.log("Änderung abgeschlossen:", input.value);
+});
+
+// 🔹 Auf Enter-Taste reagieren:
+input.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+        console.log("Enter gedrückt:", input.value);
+    }
+});
+```
+
+#### Buttons
+Mit Buttons machst du drei Hauptsachen:
+
+* auswählen
+* auf Klick reagieren
+* Inhalt/Style/Verhalten ändern
+
+Ohne Event Listener geht gar nichts — das ist der Schlüssel:
+```js
+button.addEventListener("click", handler);
+```
+✅ 1. Einen Button im DOM auswählen
+Du holst dir den Button wie jedes andere Element:
+```js
+const button = document.querySelector("button");
+```
+
+oder über eine ID:
+```js
+<button id="meinButton">Drück mich</button>
+
+const button = document.getElementById("meinButton");
+```
+
+✅ 2. Auf Klicks reagieren → Event Listener
+Das ist der wichtigste Teil:
+```js
+button.addEventListener("click", () => {
+    console.log("Button wurde geklickt!");
+});
+```
+
+→ Damit reagierst du auf Benutzeraktionen.
+
+✅ 3. Inhalt des Buttons ändern
+Text ändern:
+```js
+button.innerText = "Los geht’s!";
+```
+
+HTML einfügen:
+```html
+button.innerHTML = "<strong>Start</strong>";
+```
+
+✅ 4. Button deaktivieren & aktivieren
+```js
+button.disabled = true;   // Button ausgrauen
+button.disabled = false;  // wieder aktivieren
+```
+
+✅ 5. Klassen ändern (für Styling)
+Du kannst Buttons dynamisch stylen:
+```js
+button.classList.add("aktiv");
+button.classList.remove("aktiv");
+button.classList.toggle("aktiv");
+```
+✅ 6. Button-Werte lesen (z. B. data-Attribute)
+```js
+<button id="b1" data-id="42">Löschen</button>
+
+const id = button.dataset.id;  // "42"
+```
+
+✅ 7. Einen Button per JavaScript erzeugen
+```js
+const neuerButton = document.createElement("button");
+neuerButton.innerText = "Klick mich";
+document.body.appendChild(neuerButton);
+```
+
+✅ 8. Standardverhalten verhindern (bei Formularbuttons)
+```js
+<button type="submit">Absenden</button>
+```
+
+Wenn du willst, dass das Formular nicht sofort abgeschickt wird:
+```js
+button.addEventListener("click", e => {
+    e.preventDefault();
+    console.log("Formular NICHT abgeschickt");
+});
+```
+🔵 Bonus: Häufige Button-Typen
+```js
+<button type="button">Normal</button>    <!-- macht nichts automatisch -->
+<button type="submit">Absenden</button>  <!-- Formular senden -->
+<button type="reset">Zurücksetzen</button> <!-- Formular leeren -->
+```
+
+#### addEventListener
+addEventListener ist eine Methode in JavaScript, mit der du einem HTML-Element einen Event-Handler zuweist.
+Ein Event ist z. B.:
+
+Klick auf einen Button (click)
+Eingabe in ein Feld (input)
+Mausbewegung (mousemove)
+Tastendruck (keydown)
+
+element.addEventListener(event, funktion);
+element → das HTML-Element, auf das du reagieren willst
+event → die Art von Event (z. B. "click", "input")
+funktion → was passieren soll, wenn das Event eintritt
+
+Eventtypen:
+| Event-Typ   | Beschreibung                      |
+| ----------- | --------------------------------- |
+| `click`     | Maus-Klick                        |
+| `dblclick`  | Doppelklick                       |
+| `input`     | Wert in einem Input-Feld geändert |
+| `keydown`   | Taste gedrückt                    |
+| `keyup`     | Taste losgelassen                 |
+| `mouseover` | Maus über Element                 |
+| `mouseout`  | Maus verlässt Element             |
+
+
+Beispiel:
+HTML:
+```html
+<input type="text" id="nameInput" placeholder="Name eingeben">
+<p id="ausgabe"></p>
+```
+
+JS:
+```js
+const input = document.getElementById("nameInput");
+const ausgabe = document.getElementById("ausgabe");
+
+input.addEventListener("input", () => {
+    ausgabe.textContent = "Du hast eingegeben: " + input.value;
+});
+```
+
+input.value → aktueller Wert des Feldes
+
+Aktualisiert live, während du tippst
+
+### 10.11 DOM elemente erzeugen und platzieren
+
+neben element.innerHTML gibt es noch weitere Methoden zum einfügen von Inhalten in das DOM:
+
+• createElement(elementName)
+• createAttribute(name)
+• createTextNode(data)
+
+
+createElement(elementName) erzeugt ein neues DOM-Element (Node).
+Man übergibt createElement() einen String mit dem Namen des HTML-Tags, z. B. div, img, p oder header.
+
+Das neue Element existiert zunächst nur im Speicher, es wird also noch nicht auf der Seite angezeigt. Um es ins DOM einzufügen, kann man z. B. appendChild() verwenden.
+
+beispiel:
+```js
+const header = document.createElement("header");
+console.log(header); //log <header></header>
+```
+
+Attribute wie class, id, oder src können mit createAttribute() erzeugtwerddnerzeugt werden.
+ein leichterer und unkomoplizierterer Weg ist aber element.setAttribute()
+mit element.setAttribute() kann man Attribute direkt mit ihrem Namen erzeugen.
+```js
+header.setAttribute("title", "Seitenkopf");
+
+// oder direkt über die eigenschaft
+
+header.className = "content";
+header.id = "content";
+```
+
+Die attribute sind direktlive, auch wenn der header noch im speicher schwebt.
+
+mit createTextNode() kann man Texte erzeugen. sie müssen mit element.appendChild() an ein element gebuden werden.
+
+```js
+const text = document.createTextNode("Neuer Text");
+header.appendChild(text);
+```
+
+gängiger ist die Methode innerText und innerHTML.
+
+innerText schreibt oder überschreibt reinen Text, auch HTML tags würden überscvhrieben werden.
+innerHTML schreibt oder überschreibt alle Elemente, aber kann auch HTML tags innerhalb des Strings in das dokument einsetzen.
+
+```js
+link.innerText = "DOM Elemente erzueugen!";
+link.innerHTML = `<a href="${home}"> Elemente erzeugen</a>`;
+```
+
+
+### 10.12 Elemente ersetzen und entfernen
+Methodenübersicht
+
+replaceChild(newchild, oldChild)
+removeChild(child)
+replaceWith(elem1, elem2, ...)
+remove()
+outerHTML
+
+replaceChild() ersetzt ein element durch ein anderes Element und geht dabei wir insertBefore() über das parent element.
+
+```js
+old.parentElement.replaceChild(new, old);
+// oder
+const fragment = old.parentElement.replaceChild(new,old);
+```
+
+removeChild()
+Genauso wie bei appendChild() und replaceChild() wird removeChild() über das Elternelement aufgerufen.
+
+Wenn du ein neues Element wieder entfernen willst, kannst du removeChild auf dem gleichen Parent aufrufen.
+
+
+outerHTML
+Element mit outerHTML ersetzen:
+outerHTML enthält das komplette HTML eines Elements selbst und seines Inhalts.
+
+Anders als innerHTML, das nur den Inhalt eines Elements zurückgibt.
+
+Du kannst den HTML-Code eines Elements komplett ersetzen, indem du outerHTML zuweist. Wichtig: das Original-Element existiert danach nicht mehr.
+
+Das neue HTML wird an seiner Stelle ins DOM gesetzt.
+<div id="demo">
+  <p>Hello World</p>
+</div>
+
+const div = document.getElementById("demo");
+
+console.log(div.innerHTML);
+// Ausgabe: <p>Hello World</p>
+
+console.log(div.outerHTML);
+// Ausgabe: <div id="demo"><p>Hello World</p></div>
+
+div.outerHTML = '<section id="demo"><p>Neuer Inhalt</p></section>';
+
+### 10.14  - CSS Stile und Klassen ändern
+
+Die Nutzung eines DarkMode auf einer Webseite ist ein gutes anwendungsbeispiel für dine CSS stiländerung in der praxis.
+
+#### elem.style
+elem.style → ändert nur einzelne Inline-Stile direkt am Element.
+Oft will man aber eine ganze CSS-Klasse anwenden oder wechseln, nicht nur einzelne Stile.
+elem.className → liest oder schreibt das class-Attribut als kompletten String.
+Wenn du className neu setzt, überschreibst du alle bisherigen Klassen.
+```js
+function showProducts() {
+const vasen = document.querySelector(".vasen");
+vasen.className = "vasen show";
+}
+document.querySelector("#more").onclick = showProducts;
+```
+
+
+#### elem.classList
+elem.classList → ein Objekt, das die CSS-Klassen eines Elements verwaltet.
+Mit classList kann man flexibel Klassen hinzufügen, entfernen oder toggeln (ein- und ausschalten).
+classList gibt eine DOMTokenList zurück, die wie ein Array funktioniert.
+Man kann z. B. forEach() benutzen, um über alle Klassen zu iterieren.
+
+Vorteil: Gerade bei vielen Klassen (wie z. B. in WordPress oder Drupal) ist classList viel einfacher und sicherer als className, weil man nicht alles überschreibt, sondern gezielt einzelne Klassen manipuliert.
+
+Kurz: classList = praktische, flexible Kontrolle über CSS-Klassen ohne Risiko, bestehende Klassen zu löschen
+
+#### classList.add() / classList.remove()
+classList.add() / classList.remove() → Klassen gezielt hinzufügen oder entfernen, ohne andere vorhandene Klassen zu löschen
+
+```js
+function showMore() {
+document.querySelector(".vasen").classList.add("show");
+
+}
+
+document.querySelector("#more").onclick = showMore;
+```
+#### classList.toggle()
+classList.toggle() → Schalter-Funktion: schaltet eine Klasse bei jedem Aufruf um (ein → aus → ein …).
+
+Praktisch z. B. für Dark Mode / Light Mode: Klick = umschalten.
+```js
+function switchTheme() {
+document. querySelector(".cl").classList.toggle("dark");
+if (cl.classList.contains("dark")) {
+document.querySelector("#switch") .textContent = "Light Theme";
+
+} else {
+document.querySelector("#switch").textContent = "Dark Theme";
+
+}
+}
+document.querySelector("#switch").onclick = switchTheme;
+```
+
+
+classList.contains("klasse") → prüft, ob ein Element eine bestimmte Klasse hat, z. B. um den Text oder das Verhalten abhängig vom Theme anzupassen.
+
+
+#### elem.style
+elem.style ermöglicht es, direkt einzelne CSS-Eigenschaften eines Elements zu ändern.
+Beispiel: elem.style.color = "red" oder elem.style.backgroundColor = "yellow".
+Vorteil: überschreibt nicht alle anderen Stile, sondern ändert nur die angegebenen Eigenschaften dynamisch.
+Achtung: elem.style wirkt nur auf Inline-Stile; für ganze CSS-Klassen ist classList oft die bessere Wahl.
+
+Kurz gesagt: elem.style = gezielte, dynamische Inline-Stiländerungen, ohne vorhandene Stile zu löschen
+
+HTML:
+```html
+<div class="block" style="background: wheat; color: green;">
+BLOCK
+</div>
+```
+
+JavaScript:
+```js
+const block = document.querySelector(".block");
+block.style.backgroundColor = "#efefef";
+block.style.border = "5px solid #AEE1EB";
+block.style.color = "navy";
+```
+
+
+#### elem.style.cssText 
+elem.style.cssText erlaubt, mehrere CSS-Eigenschaften auf einmal zu setzen.
+Beispiel: elem.style.cssText += "color: red; background-color: yellow;"
+Das += ist wichtig, damit bestehende Inline-Stile nicht überschrieben werden.
+Vorteil: übersichtlicher und kompakter als viele einzelne elem.style.xy-Zuweisungen.
+
+Kurz: cssText = flexible Mehrfach-Stiländerungen, ohne alte Inline-Stile zu verlieren.
+
+```js
+block. style. cssText +=    `display:flex;
+                            flex-direction: column;
+                            justify-content: center;
+                            text-align: center`;
+```

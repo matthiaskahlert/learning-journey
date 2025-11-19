@@ -37,6 +37,55 @@ array.includes() - prüft ob wert vorhanden, gibt true oder false zurück
 array.indexOf() - index des ersten vorkommens eines Wertes - oder gibt -1 zurück, wenn nichts gefunden
 array.lastIndexOf() - letzter Index der dem angegebenen wert entsppricht - oder gibt -1 zurück, wenn nichts gefunden
 
+#### exkurs zu attay.splice()
+
+1️⃣ Grundidee
+
+splice ändert ein Array direkt (in-place) und kann:
+
+Elemente entfernen
+Elemente hinzufügen
+Beides gleichzeitig
+
+Syntax:
+
+array.splice(start, deleteCount, item1, item2, ...);
+
+
+start → Index, ab dem etwas entfernt oder eingefügt wird (0-basiert)
+deleteCount → Anzahl der Elemente, die entfernt werden sollen
+item1, item2, ... → optionale Elemente, die eingefügt werden sollen
+
+Rückgabe: ein Array mit den entfernten Elementen
+
+2️⃣ Beispiele
+a) Elemente entfernen
+```js
+let arr = ["Apfel", "Banane", "Kirsche", "Dattel"];
+let removed = arr.splice(1, 2); // ab Index 1, 2 Elemente löschen
+console.log(arr);    // ["Apfel", "Dattel"]
+console.log(removed); // ["Banane", "Kirsche"]
+```
+b) Elemente hinzufügen
+```js
+let arr = ["Apfel", "Dattel"];
+arr.splice(1, 0, "Banane", "Kirsche"); // ab Index 1, 0 löschen, dafür 2 Elemente einfügen
+console.log(arr); // ["Apfel", "Banane", "Kirsche", "Dattel"]
+```
+c) Ersetzen
+```js
+let arr = ["Apfel", "Banane", "Kirsche"];
+arr.splice(1, 2, "Orange"); // ab Index 1, 2 Elemente löschen und "Orange" einfügen
+console.log(arr); // ["Apfel", "Orange"]
+```
+⚡ Merke
+
+splice verändert das Original-Array
+
+Rückgabe = entfernte Elemente
+
+Mit splice kannst du löschen, ersetzen oder einfügen – alles in einem Schritt
+
 #### arraymethoden verketten
 analog zu Strings und Objekten kann man Arrays verknüpfen.
 Es kommt darauf an, dass der Rückgabewert mit der folgenden Methode kompatibel ist.

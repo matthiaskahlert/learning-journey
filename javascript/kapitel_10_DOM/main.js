@@ -39,13 +39,14 @@ CSS verändert automatisch Hintergrund und Textfarbe, weil wir unterschiedliche 
 
 
 
-const menu = document.getElementById("menu"); // document.getElementById() ist eine DOM-Methode, mit der ich ein bestimmtes HTML-Element über seinen eindeutigen id-Wert auswähl
+const menu = document.getElementById("menu"); // document.getElementById() ist eine DOM-Methode, 
+// mit der ich ein bestimmtes HTML-Element über seinen eindeutigen id-Wert auswähle
 // alles zwischen den backticks wird in das nav Element geschrieben    
 menu.innerHTML = ` 
-    <u1>
+    <ul>
         <li><a href="page1">Seite 1</a></li>
         <li><a href="page1">Seite 2</a></li>
-    </u1>`;
+    </ul>`;
 
     const regal = document.getElementById("regal");
     console.log(regal.innerHTML);
@@ -151,7 +152,7 @@ const figcaption = document.querySelector(".stifte figcaption");
 const img = document.createElement('img');
 img.setAttribute ("src", "images/stifte-03.avif");
 img.setAttribute ("width", "70%");
-img.setAttribute ("heigth", "70%");
+img.setAttribute ("height", "70%");
 
 figcaption.parentElement.insertBefore(img,figcaption);
 
@@ -183,8 +184,8 @@ document.querySelector(".target").prepend(...lis); // sucht das erste Element mi
 
 // einfacherer Weg
 const imgs = [
-  `<img src="images/vase-04.jpg" alt: "Steingutvase" />`,
-  `<img src="images/vase-05.jpg" alt: "Rote Porzellanvase" />`
+  `<img src="images/vase-04.jpg" alt="Steingutvase" />`,
+  `<img src="images/vase-05.jpg" alt="Rote Porzellanvase" />`
 ]
 
 for (const item of imgs) {
@@ -331,7 +332,7 @@ for (const buch of bücher) {
     img.loading = "lazy"; //lädt erst wenn sichtbar
     container.appendChild(img);
 
-    link = document.createElement("p");
+    let link = document.createElement("p");
     a = document.createElement("a");
     a.href = buch.link;
     a.innerText = "Link zur Buchbesprechung";
@@ -341,3 +342,82 @@ for (const buch of bücher) {
     regal2.appendChild(container); // Container unter den vorhandenen Inhalt hängen
 }
 
+// replaceChild 
+// aus der Liste ul class?"target" in der die Vase images SVGAnimatedNumber, soll ein Child ersetzt 
+// der querySelector erfasst Elemente in diesem beispiel anhand eines Attribut Selektors.
+
+const imgages = document.querySelectorAll("img");       // Alle Bilder im DOM
+const old1 = Array.from(imgages).find(img => img.alt.includes("Steingutvase"));  // sucht nach dem String
+
+if (old1) {
+    console.log("Gefundenes Bild:", old1);
+} else {
+    console.log("Kein Bild mit 'Steingutvase' im alt-Attribut gefunden.");
+}
+
+
+const old = document.querySelector("img[alt=Steingutvase]");
+
+const newImage = document.createElement("img");
+newImage.src = "images/vase-03.jpg";
+newImage.alt = "Cracked Porzellan";
+const fragment = old.parentElement.replaceChild(newImage, old); // altes bild wird durch neues ersetzt
+
+
+
+// wenn man möchte kann man das entfernte fragment an anderer stelle erneut einfügen
+
+{
+    
+let elem = document.querySelector("section");
+if (!elem) {
+    // Tu was wenn elem nicht da
+    // Element existiert nicht → erstellen
+    elem = document.createElement("section");
+    document.body.appendChild(elem); 
+    console.log("Kein Element gefunden. Neues Element erstellt!");
+} else {
+    // tu was mit elem    
+    console.log("Element gefunden!");
+    document.appendChild(fragment); 
+    console.log("Fragment eingefügt!");
+
+}
+
+}
+
+const parent2 = newImage.parentElement;
+    if (parent2) {
+        parent2.removeChild(newImage);
+        console.log("Neues Bild wieder entfernt!");
+    
+} else {
+    console.log("Kein Bild gefunden.");
+}
+
+//remove()
+newImage.remove(); // entfernt newImage direkt aus dem DOM
+console.log(`Das element ${newImage.src} wurde entfernt!`);
+
+
+
+// replace with
+const galerie = document.querySelector(`a[href="galerie"]`);
+if (galerie) {
+    const link3 = document.createElement("a");
+    link3.href = "neu";
+    link3.innerText = "Neue Galerie";
+    galerie.replaceWith(link3);
+    console.log("Link ersetzt!");
+} else {
+    console.log("Kein Link gefunden!");
+}
+// etwas mit outerHTML ersetzen
+
+const figure = document.querySelector(".card figure" );
+figure.outerHTML =
+    `<figure class="ersatz">
+        <img src="images/imac-on-white.jpg"
+        width="2300" height="1644" alt="camera-on-blue" />
+    <figcaption>Tausche Computer gegen Kamera</figcaption>
+    </figure>`;

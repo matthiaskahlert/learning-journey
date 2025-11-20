@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<head>
+    <title>Übung 10.14.A.01</title>
+    <script src="main.js" defer></script>
+</head>
+<body>
+    <div id="todo-container">
+        <input id="todo-input" type="text" placeholder="ToDo text">
+        <button id="add-button">Hinzufügen</button>
+        <ul id="todo-list"></ul>
+
+    </div>
+<style>
+.gerade {
+    background-color: #f0f0f0;
+}
+
+.ungerade {
+    background-color: #ffffff;
+}
+
+#todo-list li {
+    display: flex;           /* Elemente nebeneinander */
+    justify-content: space-between; /* Text links, Button rechts */
+    align-items: center;     /* Vertikal zentrieren */
+    padding: 5px 10px;       /* etwas Innenabstand */
+    margin-bottom: 2px;      /* Abstand zwischen den Einträgen */
+    border-radius: 4px;      /* abgerundete Ecken optional */
+}
+#todo-list button {
+    cursor: pointer;         /* Mauszeiger als Hand */
+    padding: 2px 6px;        /* kleiner Button */
+}
+</style>
+</body>
+
+
+</html>

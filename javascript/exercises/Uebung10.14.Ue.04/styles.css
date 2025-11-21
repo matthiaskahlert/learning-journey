@@ -1,0 +1,9 @@
+/* style für einen rahmen um die divs*/
+.produkt {
+    border: 1px solid #000;
+    text-align: center;
+    width: 100%;
+    max-width: 500px;
+    padding: 1rem;
+}
+

@@ -30,7 +30,7 @@ console. log(encodeURIComponent(myObjectString)); // ersetzt Sonderzeichen (wie 
 // output:%7B%22number%22%3A120%2C%22lightness%22%3A73%
 // %3A75%2C%22name%22%3A%22lightgreen%22%2C%22description%22%3A%22Helles%20Gr%C3%BCn%22%7D
 
-// um es wieder lesbag zu machen kann man decodeURIComponent nutzen.
+// um es wieder lesbar zu machen kann man decodeURIComponent nutzen.
 // dies ergibt dann wieder einen JSON String, den ich mit  JSON.parse(...) wieder in ein Objekt umwandeln kann.
 
 

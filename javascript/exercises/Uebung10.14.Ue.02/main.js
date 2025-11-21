@@ -75,4 +75,39 @@ bibliothek.forEach(buch => {
     <td>1969</td>
   </tr>
 </table> */
+// d) Nutze die DOM-Methoden, um eine Tabelle im HTML-Dokument zu erstellen, die die Informationen jedes Buches aus dem Array bibliothek anzeigt. Verwende dabei document.createElement, innerHTML oder innerText und füge die Tabelle in ein bestehendes Element mit der ID buchListe ein.
 
+const table = document.createElement("table");
+const headerRow = document.createElement("tr");
+headerRow.innerHTML = ` 
+    <th>Titel</th>
+    <th>Autor</th>
+    <th>Jahr</th>
+`;
+table.appendChild(headerRow);   
+bibliothek.forEach(buch => {
+    const row = document.createElement("tr");
+    row.innerHTML = `
+        <td>${buch.titel}</td>  
+        <td>${buch.autor}</td>
+        <td>${buch.veröffentlicht}</td>
+    `;
+    table.appendChild(row);
+});
+// e) Füge CSS-Stile hinzu, um die Tabelle ansprechend zu gestalten. Verwende document.querySelector oder document.querySelectorAll, um Zugriff auf die Tabelle oder deren Zellen zu bekommen und ändere die Hintergrundfarbe der Zeilen abwechselnd, um die Lesbarkeit zu verbessern.
+table.style.borderCollapse = "collapse";
+table.style.width = "80%";
+
+table.querySelectorAll("th, td").forEach(cell => {
+    cell.style.border = "1px solid #000";
+    cell.style.padding = "0.1rem";
+    cell.style.textAlign = "center";
+    });
+table.querySelectorAll("th").forEach(th => {
+    th.style.backgroundColor = "#b1b1b1ff";
+    th.style.fontWeight = "bold";
+});
+table.querySelectorAll("td").forEach(td => {
+      td.style.backgroundColor = "#b8f7ffff";
+})
+container.appendChild(table);

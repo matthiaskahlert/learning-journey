@@ -1,0 +1,20 @@
+/* style für einen rahmen um die divs*/
+.produkt {
+    border: 1px solid #000;
+    text-align: center;
+    width: 100%;
+    max-width: 500px;
+    padding: 1rem;
+}
+
+/*style für den button */
+.produkt button {
+    cursor: pointer;
+    background-color: lightgray;
+    border-radius: 0.5rem;
+}
+
+/* Style für einen hover effekt des buttons */
+.produkt button:hover {
+    background-color: lightgreen;
+}

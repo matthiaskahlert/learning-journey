@@ -11,10 +11,10 @@ function
     ...
 }
 ```
-Sie bilden einen block von anweisungen, die das script mehrfach nutzen kann.
-Man kann Funktionen definieren, bevor man sie aufruft. Funktionen werden vom interpreter ignoriert, bis sie aufgerufen werden.
+Sie bilden einen Block von Anweisungen, die das script mehrfach nutzen kann.
+Man kann Funktionen definieren, bevor man sie aufruft. Funktionen werden vom Interpreter ignoriert, bis sie aufgerufen werden.
 
-Zur Reihenfolge von funktionen lässt sich sagen, dass JavaScript Funktionen ausführt, in der Reihenfolge in der sie aufgerufen werden (und nicht in der Reihenfolge, in der sie definiert werden). Man darf funktionen aufrufen, bevor sie definiert wurden.
+Zur Reihenfolge von Funktionen lässt sich sagen, dass JavaScript Funktionen ausführt, in der Reihenfolge in der sie aufgerufen werden (und nicht in der Reihenfolge, in der sie definiert werden). Man darf Funktionen aufrufen, bevor sie definiert wurden.
 
 ```js
 function hallo() {
@@ -41,7 +41,7 @@ rechnen(500,234);
 ### return - Rückgabewert von Funktionen
 
 Das return statement / Schlüsselwort beendet die Ausführung einer Funktion und gibt den Wert an den Funktionsaufruf zurück.
-Der console.log im Beispiel wird nicht ausgeführt, denn mit return wird die Funktion beendet. Nur mit Rückgabewert (return ...) kann ich Variablen außerhalb der funktion das Ergebnis zuweisen. Würde die funktion keinen Wert zurückgeben, wäre das Ergebnis undefined.
+Der console.log im Beispiel wird nicht ausgeführt, denn mit return wird die Funktion beendet. Nur mit Rückgabewert (return ...) kann ich Variablen außerhalb der Funktion das Ergebnis zuweisen. Würde die Funktion keinen Wert zurückgeben, wäre das Ergebnis "undefined".
 ```js
 function rechnen (a,b){
     const ergebnis = a - b
@@ -82,7 +82,7 @@ return inner();	würde das Ergebnis eines Aufrufs von inner() zurückgeben
 ### verschachtelte Funktionen
 
 Funktionen können innerhalb anderer Funktionen liegen.
-Variablen der *inneren Funktion* sind für die *äußere Funktion* undefined, während Variablen der *äußeren Funktion* für die *innere Funktion* sichebar sind!
+Variablen der *inneren Funktion* sind für die *äußere Funktion* undefined, während Variablen der *äußeren Funktion* für die *innere Funktion* sichtbar sind!
 ```js
 function outer() {
   function inner() {
@@ -106,21 +106,18 @@ const multiply = function(a, b) {
 };
 ```
 Funktionsausdrücke haben normalerweise keinen Namen und werden daher auch als anonyme Funktionen bezeichnet.
-Man könnte sie aber auch benennen also zb 
+Man könnte sie aber auch benennen also z.B.: 
 ```js
 const multiply = function name(a,b) { // dann würde man von einer named function expression sprechen.
     return a * b;
 };
 ```
 Von aussen würde man die Funktion weiterhin über multiply ansprechen, aber von innen kann man über name() auf sie rekursiv zugreifen.
-
-function expressions müssen hinter der schießenden geschweiften klammer mit semikolon abgeschlossen werden, da sie ein ausdruck sind und keine deklaration:
+function expressions müssen hinter der schießenden geschweiften Klammer mit Semikolon abgeschlossen werden, da sie ein Ausdruck sind und keine Deklaration:
 
 Einfache Eselsbrücke
-
-Deklaration: function … { … } → einfach schreiben, kein ;
-
-Ausdruck: const … = function() { … }; → wie jede andere Variable abschließen → ;
+Deklaration: function … { … } → einfach schreiben, kein Semokolon ;
+Ausdruck: const … = function() { … }; → wie jede andere Variable abschließen → Semokolon ;
 
 ### 6.5 Arrow Funktionen
 
@@ -136,7 +133,7 @@ wird zum
 ```js 
 const summe = (a,b) => a + b;
 ```
-Wenn die Funktion nur einen Parameter hat, dann fallen auch die runden klammern weg:
+Wenn die Funktion nur einen Parameter hat, dann fallen auch die runden Klammern weg:
 ```js
 const euro = x => x + " €";
 
@@ -161,9 +158,9 @@ const temparatur = celsius => (celsius * 1.8) + 32;
 
 
 
-#### Arrow funktionen mit Objekten als rückgabewert
-Man muss auf die Klammeretzung achten, wenn man arrow funktionen nutzen will um objekte zurückzugeben. Arrow Funktionen sitzen ja genau so in geschweiften Klammern wie Objekte. 
-Objekte in arrows müssen immer in runde klammern: () => ({ ... })
+#### Arrow Funktionen mit Objekten als Rückgabewert
+Man muss auf die Klammersetzung achten, wenn man arrow Funktionen nutzen will um Objekte zurückzugeben. Arrow Funktionen sitzen ja genau so in geschweiften Klammern wie Objekte. 
+Objekte in arrows müssen immer in runde Klammern: () => ({ ... })
 
 ```js
 const counter = [1,2,3,4,5];
@@ -176,7 +173,7 @@ counter.forEach(n => console.log(n * 2));       // Elemente weiterverarbeiten
 
 ### 6.6 Debugging
 
-Debugging ist die Kontrolle des Programmflusses um Fehler zu finden, mit breakpoints kann man schritt für schritt die Werte der Variablen und berechnungen durchgehen:
+Debugging ist die Kontrolle des Programmflusses um Fehler zu finden, mit breakpoints kann man Schritt für Schritt die Werte der Variablen und Berechnungen durchgehen:
 1. Öffne die Developer Tools (F12 oder Rechtsklick → „Untersuchen“).
 2. Gehe zum Sources-Tab.
 3. Setze Breakpoints auf die gewünschten Zeilen.
@@ -193,13 +190,12 @@ Debugging ist die Kontrolle des Programmflusses um Fehler zu finden, mit breakpo
 ## Learningfacts - Kapitel 7 - Objekte
 ### 7.1 Grundlagen
 
-Wenn die Logok von Programmen komplexer wird braucht man Objekte. Sie sind Paare von Schlüsseln und Werten. Das Document Object Model bildet alle Elemente der Webseite
-als JavaScript-Objekt ab.
+Wenn die Logik von Programmen komplexer wird braucht man Objekte. Sie sind Paare von Schlüsseln und Werten. Das Document Object Model (DOM) bildet alle Elemente der Webseite als JavaScript-Objekt ab.
 ```js
 const  objekt = {
     schlüssel1:    wert,
-    schlüssel2:     wert,
-    schlüssel3:     wert        // Das Komma hinter dem letzten Wert kann entfallen
+    schlüssel2:    wert,
+    schlüssel3:    wert        // Das Komma hinter dem letzten Wert kann entfallen
 }
 
 const kinofilm = {
@@ -209,17 +205,21 @@ const kinofilm = {
     "Erster Teil":  "Die Gefährten"
 }
 ```
-Die Eigenschaften des Objekts werden innerhabl der geschweiften Klammern deklariert. Die schlüsselnamen folgen den Regeln von Variablen, also klein beginnen, caseCamel, keine Zahl am anfang, keine Bindestriche, Schlüssel dürfen im Gegensatz zu Variablen aber leerzeichen beinhalten, brauchen dann aber hochkommas.
+Die Eigenschaften des Objekts werden innerhabl der geschweiften Klammern deklariert. Die Schlüsselnamen folgen den Regeln von Variablen, also klein beginnen, caseCamel, keine Zahl am Anfang, keine Bindestriche. Schlüssel dürfen im Gegensatz zu Variablen aber Leerzeichen beinhalten, brauchen dann aber Hochkommas.
 
 #### dot Notation
-von aussen angesprochen werden eigenschaften mit dot-notation:
+Von aussen angesprochen werden Eigenschaften mit dot-notation:
+```js
 const x = kinofilm.title;
+```
 
 Wenn Eigenschaften mit einem Leerzeichen geschrieben werden, muss der Zugriff auf die Eigenschaft in eckigen Klammern stehen.
+```js
 x = kinofilm["erster Teil"];
+```
 Dies ist auch nötig, wenn die Eigenschaften Variablen sind.
 
-Objekte in Objekten
+#### Objekte in Objekten
 Eigenschaften können selbst Objekte sein.
 ```js
 const kinofilm = {
@@ -237,19 +237,17 @@ y=kinofilm.buch.author; // "JRR Tolkien
 ```
 
 #### Elemente von Objekten ändern
-// Eigenschaft aus Objekt löschen
 
+```js
+// Eigenschaft aus Objekt löschen
 delete kinofilm.published;
 // Eigenschaft hinzufügen
 kinofilm.hasOscar = true;
 // Eigenschaft ändern
-
 kinofilm.title = kinofilm.title + " Teil 1";
-
-Objekte können Funktionen enthalten, man nennt sie  „Methoden von Objekten“.
-Der Zugriff auf die Elemente innerhalb der Funktion geschieht über das
-Schlüsselwort this, gefolgt vom Dot, gefolgt vom jeweiligen Schlüssel des
-Element.
+```
+Objekte können Funktionen enthalten, man nennt sie „Methoden von Objekten“.
+Der Zugriff auf die Elemente innerhalb der Funktion geschieht über das Schlüsselwort **this**, gefolgt vom Dot, gefolgt vom jeweiligen Schlüssel des Elements.
 
 ```js
     play:       function(){
@@ -262,11 +260,9 @@ Regel: Wenn du mit Funktionen auf Eigenschaften des eigenen Objekts zugreifen wi
 ### for-in Schleife in Objekten
 
 Objekte haben ihre eigene for-Schleife: for-in
-
 for...in läuft über alle Schlüssel (property names) eines Objekts.
 
 ```js
-
 const imgObj = {
     src:    "/media/image.jpg",
     width:  1080,
@@ -286,13 +282,9 @@ for (const key in imgObj){
 Das bedeutet:
 
 Beim 1. Durchlauf ist key = "src"
-
 Beim 2. Durchlauf key = "width"
-
 Dann key = "height"
-
 Und key = "alt"
-
 
 man kann for ... in auch auf Arrays anwenden, da sie auch Objekte sind.
 ```js
@@ -305,9 +297,9 @@ for (const key in imgArr){
 
 ### 7.3 Das Object document
 
-Scripte auf Webseiten greifen auf das Document Object Model (kurz DOM) zurück. Das DOM beschreibt die Elemente einer Webseite als Objekt.
-Das DOM muss nicht angelegt werden.
-HTML elemente wie head und body sind über das DOM ansprechbar.
+Scripte auf Webseiten greifen auf das **Document Object Model** (kurz DOM) zurück. Das DOM beschreibt die Elemente einer Webseite als Objekt.
+Das DOM muss nicht angelegt werden. HTML Elemente wie head und body sind über das DOM ansprechbar. V
+ertieft wird das DOM in meinen notes von [Notes von Woche 4](week04.md).
 
 ```js
 const head = document.head;
@@ -315,34 +307,26 @@ console.log(head)
 ```
 
 ***document*** ist also das Objekt, das alle Elemente der Webseite enthält!
-JavaScript kann über das DOM mit der Webseite reden, zb elemente auswählen, Inhalt ändern, Attribute Ändern. das DOM ist DIE verbindung zwischen HTML und JavaScript. Alles im Document Object Model ist ein Objekt, das JavaScript manipulieren kann.
+JavaScript kann über das DOM mit der Webseite reden, zb Elemente auswählen, Inhalt ändern, Attribute Ändern. das DOM ist DIE Verbindung zwischen HTML und JavaScript. Alles im Document Object Model ist ein Objekt, das JavaScript manipulieren kann.
 
 #### querySelector
-
-
 querySelector ist eine Methode des DOM mit der man ein einzelnes HTML Element auswählen kann.
-
 document.querySelector() → wählt ein HTML-Element aus.
 
-
+```js
 <button id="meinButton">Klick mich!</button>
 const button = document.querySelector("#meinButton");
 console.log(button); // zeigt das <button>-Element im Console-Log
-
+```
 #meinButton → selektiert das Element mit der ID meinButton.
-
 .klasse → selektiert Elemente nach CSS-Klasse.
-
 tagname → selektiert nach HT
 
 ML-Tag (z. B. p, div).
 Merksatz: querySelector = "Finde das Element, das zu diesem CSS-Selektor passt."
 
 #### addEventListener
-
-
 addEventListener ist eine Methode eines Elements, mit der du auf Ereignisse reagierst, z. B. Klicks, Mausbewegungen oder Tastendrücke.
-
 element.addEventListener() → reagiert auf Ereignisse, die auf diesem Element passieren.
 
 ```js
@@ -354,11 +338,8 @@ button.addEventListener("click", function() {
 
 ```
 "click" → das Event, auf das du reagieren willst.
-
 function() { ... } → die Funktion, die ausgeführt wird, wenn das Event passiert.
-
 Merksatz: addEventListener = "Wenn dieses Ereignis passiert, führe diese Funktion aus."
-
 💡 Tipp: querySelector + addEventListener sind ein Dream-Team: Zuerst das Element auswählen, dann sagen, was passieren soll, wenn der Nutzer damit interagiert.
 
 ### 7.4 Konstruktor Funktionen
@@ -380,9 +361,8 @@ const prudukteB {
     produktB.kategorie: "Haushalt"
 }
 ```
-Eina andere Methode kommt zum Einsatz, wenn das Skript eine gruppe von zusammenhängenden Objekten erzeugen soll.
-
-JavaScript ruft eine Konstruktor Funktion mit dem Schlüsselwort new auf.
+Eina andere Methode kommt zum Einsatz, wenn das Skript eine Gruppe von zusammenhängenden Objekten erzeugen soll.
+JavaScript ruft eine Konstruktor Funktion mit dem Schlüsselwort **new** auf.
 
 ```js
 const produkt = new Object();
@@ -400,7 +380,7 @@ function Produkt(kategorie, name, bild, showImage) {     // definiert die Konstr
     }
 }
 ```
-Erst das erzeugen mit dem Schlüsselwort new vor dem aufruf der Konstruktor Funktion weist den eigenschaften den Wert zu.
+Erst das erzeugen mit dem Schlüsselwort new vor dem aufruf der Konstruktor Funktion weist den Eigenschaften den Wert zu.
 ```js
 const p1 = new Produkt("Haushalt",
 "Bürste Minimale",
@@ -410,7 +390,7 @@ p1.showImage(); //// soll dies ausgeben: <img src="product-01.jpg" alt="Bürste 
 console.log(p2);
 
 ```
-Die namen von Konstruktor-Funktionen sollen mit einem Großbuchstaben beginnen.
+Die Namen von Konstruktor-Funktionen sollen mit einem Großbuchstaben beginnen.
 
 
 ### 7.5 Klassen
@@ -448,9 +428,8 @@ class ElektroAuto extends Auto {
 const meinEAuto = new ElektroAuto("Tesla", "blau", 75);
 meinEAuto.zeigeInfo(); // Tesla ist blau
 meinEAuto.zeigeBatterie(); // Batteriegröße: 75 kWh
-
 ```
-ElektroAuto erbt alles von Auto (marke, farbe, zeigeInfo) und fügt noch eigene Sachen hinzu (batterie, zeigeBatterie).Beim anlegen von Methoden braucht man das Schlüsselwort function nicht mehr. Alles, was in einer Klasse als Name + Klammern {} steht, ist eine Methode, auch ohne function davor.
+ElektroAuto erbt alles von Auto (marke, farbe, zeigeInfo) und fügt noch eigene Sachen hinzu (batterie, zeigeBatterie). Beim anlegen von Methoden braucht man das Schlüsselwort function nicht mehr. **Alles, was in einer Klasse als Name + Klammern {} steht, ist eine Methode, auch ohne function davor.**
 
 Wenn sich Klassen Ändern, erben auch erzeugte Klasseninstanzen diese Änderungen.
 
@@ -508,7 +487,7 @@ bzw. weiterführende Fragen formulieren
 Zwei Themengebiete, welche mir derzeit als sehr relevant erscheinen sind Funktionen und Objekte.
 
 
- ### Einordnen und strukturieren (Theorie erklären)
+### Einordnen und strukturieren (Theorie erklären)
  
     In der zweiten Weiterbildungswoche habe ich die Themengebiete Funktionen und Objekte als besonders interessant aber auch als herausfordernd empfunden. 
     Funktionen sind zentrale Bausteine jeder Programmiersprache und Objekte gehören zu den wichtigsten Konzepten in JavaScript, weil sie Daten und Verhalten gemeinsam abbilden können. 
@@ -599,11 +578,8 @@ Sie wird verwendet, um Fehlermeldungen oder Warnungen gezielt auszugeben.
 console.error() ist:
 
 - Ein spezieller Konsolenbefehl für Fehlermeldungen
-
 - Gibt Text auf den Error-Stream (stderr) aus
-
 - Wird in der Konsole meist rot hervorgehoben
-
 - Ideal für Tests, Fehlerbehandlung, Logging und CI/CD-Systeme
 
 Das Thema stdin, stdout und stderr ist eher technischer Hintergrund, der später wichtig wird, wenn ich mit Backends, Tests, Tools oder Automatisierung arbeitete.
@@ -611,9 +587,7 @@ Das Thema stdin, stdout und stderr ist eher technischer Hintergrund, der später
 Für jetzt reicht:
 
 🟢 stdout → normale Ausgabe (z. B. console.log)
-
 🔴 stderr → Fehlermeldungen (z. B. console.error)
-
 🔵 stdin → Eingabe (z. B. Tastatur, Datei, Scriptinput)
 
 
@@ -630,7 +604,6 @@ try/catch ist eine Struktur zur Fehlerbehandlung in JavaScript.
 Sie erlaubt:
 
 Code auszuführen, der potenziell Fehler verursachen könnte (try)
-
 Fehler abzufangen, ohne dass das Programm abstürzt (catch)
 
 ```js 

@@ -33,4 +33,5 @@
 - [x] Wöchentliches Kompetenzprotokoll vorbereiten Protokoll 2
     - [x] Protokoll - Themengebiete eingrenzen
     - [x] Protokoll - Vier Kategoriengebiete beschreiben und Kernfragen beantworten
-    - [x] Protokoll abschicken zur Bewertun
+    - [x] Protokoll abschicken zur Bewertung
+- [ ] Debugging in VSC und Browserkonsole vertiefen

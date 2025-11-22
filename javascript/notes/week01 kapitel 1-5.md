@@ -456,23 +456,11 @@ if (Bedingung){
 
 
 switch (Ausdruck) {
-
-
     case label1:
-
-
         Anweisungen;
-
-
         break;
-
-
     case label2:
-
-
         Anweisungen;
-
-
         break;
     ...
 }
@@ -720,8 +708,6 @@ for (...) {
   ...
   break labelName;
 }
-
-
 ```
 
 
@@ -732,8 +718,6 @@ In logischen Operatoren hat jeder Wert einen inhärenten Booleschen Wert, truthy
 ```js
     if (i % fizzbuzz===0 && i !=0){
         console.log(`FizzBuzz! ${i} ist ein ganzzahliges Vielfaches von ${fizz} und ${buzz}`);
-
-
 ```
 der ??-Operator ist der nullish Operator, er definiert null oder undefined.
 ```js

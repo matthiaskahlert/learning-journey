@@ -14,7 +14,7 @@ javascript/
 
 ## Tasks
 - [x] Repo init
-- [ ] I have to add examples when my course has started.
+- [x] Started JavaScript Course on 27th of Oct
 
 
 ## Schedule

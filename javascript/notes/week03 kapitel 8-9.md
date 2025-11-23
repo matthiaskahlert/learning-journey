@@ -4,44 +4,48 @@
 
 ## Learningfacts - Kapitel 8 - Arrays
 
-Ein Array ist ein Objekt in denm eine Liste von Werten gespeichert ist. Man spricht die einzelnen elemente über ihren Index an. Der Index startet bei 0.
+Ein Array ist ein Objekt in denm eine Liste von Werten gespeichert ist. Man spricht die einzelnen Elemente über ihren Index an. Der Index startet bei 0.
+```js
 const arr = [123,1234,465,27635];
-
+```
 Elemente können Zahlen sein, aber auch Strings, Objekte somit auch Andere Arrays.
 Man kann auch Datentypen mixen
+```js
 const arr2 = ["Foo", 234, arr, "bar", true];
-
-Man kann Arrays auch mit einem Konstruktor erstellen:
+```
+Man kann Arrays auch mit einem Konstruktor erstellen.
+```js
 const stoff = new Array("Leinen", "Baumwolle", "Seide");
 const wahl = `Ich bevorzuge ${stoff[1]} für T-shirts`;
 console.log("wahl", wahl);
-
+```
 ### 8.2 Arraymethoden
 Man braucht Arraymethoden im Document Object Model (DOM).
-Man kann sich spezielle ArrayMethoden in der Browserkonsole anzeigen lassen mit namen des arrays gefolgt von einem punkt. Dies ginge auch mit Object.getPrototypeOf(myarray)
-Manche Methoden Ändern das array und sind daher als destruktiv zu bezeichnen.
+Man kann sich spezielle ArrayMethoden in der Browserkonsole anzeigen lassen mit Namen des arrays gefolgt von einem punkt. 
+```js
+Object.getPrototypeOf(myarray)
+```
+Manche Methoden ändern das Array und sind daher als destruktiv zu bezeichnen.
 
 
 wichtige sind:
-array.push() - Einfügen am Ende eines Arrays
-
+- array.push() - Einfügen am Ende eines Arrays
+```js
     const stoffLen = stoff.push("Viskose", "Jeans")
-
-array.pop() - entfernt letzten eintrag und gibt ihn aus
-array.unshift() - Einfügen am Anfang des Arrays - Ähnlich wie push
-array.shift() - Erstes Element Löschen
-slice(startIndex, endIndex) - Teil des arrays kopieren. der endIndex ist exclusiv, also wird nicht mit aufgeführt.
-array.splice(startindex, Anzahl der zu entfernenden Elemente) - Ausschneiden von Elementen
-array.reverse() - Umkehrung der Elementreihenfolge.
-array.includes() - prüft ob wert vorhanden, gibt true oder false zurück
-array.indexOf() - index des ersten vorkommens eines Wertes - oder gibt -1 zurück, wenn nichts gefunden
-array.lastIndexOf() - letzter Index der dem angegebenen wert entsppricht - oder gibt -1 zurück, wenn nichts gefunden
+```
+- array.pop() - entfernt letzten Eintrag und gibt ihn aus
+- array.unshift() - Einfügen am Anfang des Arrays - Ähnlich wie push
+- array.shift() - Erstes Element löschen
+- slice(startIndex, endIndex) - Teil des Arrays kopieren. der endIndex ist exclusiv, also wird nicht mit aufgeführt.
+- array.splice(startindex, Anzahl der zu entfernenden Elemente) - Ausschneiden von Elementen
+- array.reverse() - Umkehrung der Elementreihenfolge.
+- array.includes() - prüft ob Wert vorhanden, gibt true oder false zurück
+- array.indexOf() - index des ersten vorkommens eines Wertes - oder gibt -1 zurück, wenn nichts gefunden
+- array.lastIndexOf() - letzter Index der dem angegebenen wert entsppricht - oder gibt -1 zurück, wenn nichts gefunden
 
 #### exkurs zu attay.splice()
 
-1️⃣ Grundidee
-
-splice ändert ein Array direkt (in-place) und kann:
+Sslice ändert ein Array direkt (in-place) und kann:
 
 Elemente entfernen
 Elemente hinzufügen
@@ -52,13 +56,13 @@ Syntax:
 array.splice(start, deleteCount, item1, item2, ...);
 
 
-start → Index, ab dem etwas entfernt oder eingefügt wird (0-basiert)
-deleteCount → Anzahl der Elemente, die entfernt werden sollen
-item1, item2, ... → optionale Elemente, die eingefügt werden sollen
+start: Index, ab dem etwas entfernt oder eingefügt wird (0-basiert)
+deleteCount: Anzahl der Elemente, die entfernt werden sollen
+item1, item2, ... : optionale Elemente, die eingefügt werden sollen
 
 Rückgabe: ein Array mit den entfernten Elementen
 
-2️⃣ Beispiele
+2️Beispiele
 a) Elemente entfernen
 ```js
 let arr = ["Apfel", "Banane", "Kirsche", "Dattel"];
@@ -78,29 +82,27 @@ let arr = ["Apfel", "Banane", "Kirsche"];
 arr.splice(1, 2, "Orange"); // ab Index 1, 2 Elemente löschen und "Orange" einfügen
 console.log(arr); // ["Apfel", "Orange"]
 ```
-⚡ Merke
+Merke
 
 splice verändert das Original-Array
-
 Rückgabe = entfernte Elemente
-
 Mit splice kannst du löschen, ersetzen oder einfügen – alles in einem Schritt
 
 #### arraymethoden verketten
 analog zu Strings und Objekten kann man Arrays verknüpfen.
 Es kommt darauf an, dass der Rückgabewert mit der folgenden Methode kompatibel ist.
-
+```js
 const farben = ["grün", "blau", "rot", "gelb", "schwarz", "weiß"];
 const str = farben.splice(2,5).reverse().toString();
 console.log("str:", str);
-
-join() - Array Elemente zu einem String zusammenführen
-array.join() wandelt array Elemente in einen String um, man kann trennzeichen angeben.
-
+```
+- join() - Array Elemente zu einem String zusammenführen
+- array.join() wandelt array Elemente in einen String um, man kann trennzeichen angeben.
+```js
     const satz = ["Nutze", "den", "Tag"];
 
 console.log(satz.join(""));
-
+```
 #### Array Destructure und Rest-Operator
 
 Mit destructure kann man arrayinhalten variablen zuweisen:
@@ -129,15 +131,17 @@ Methode:
 Array.isArray() - prüfen ob ein objekt ein array ist
 
 ### 8.3 Arrays sortieren
-array.sort() sorttiert arrays in aufsteigender Reihenfolge, es gibt den die sortierung basiert auf unicode index. Umlaute wandern ans ende, zahlen vor buchstaben, groß vor kleinschreibung etc.
+array.sort() sorttiert arrays in aufsteigender Reihenfolge. Die sortierung basiert auf unicode index. Umlaute wandern ans Ende, Zahlen vor Buchstaben, groß- vor kleinschreibung etc.
 
-wenn keine strings vorliegen kann man die vergleichsfunktion nutzen
-
+Wenn keine Strings vorliegen kann man die Vergleichsfunktion nutzen:
+```js
 const numerischesArray = [3,45,567456,34,13541345,6,468,2,234];
 numerischesArray.sort()
 console.log(numerischesArray); // [13541345, 2, 234, 3, 34, 45, 468, 567456, 6]
+```
 dies zeigt, für numerisches sortieren braucht man eine vergleichsfunktion:
-numerischesArray.sort((a,b) => a-b);
+
+        numerischesArray.sort((a,b) => a-b);
 
 ich sage JavaScript hier: z.B. vergleiche (3, 45) → 3 - 45 = -42
 negativ
@@ -146,43 +150,47 @@ Dies passiert so lange bis das array sortiert ist.
 
 ### 8.4 Arrays verschachteln und zusammenführen
 
-array.push() hängt ein neues Element an das ende eines arrays. Wenn man nun ein array als element pusht, ist das array teil des arrays.
-
+- array.push() hängt ein neues Element an das ende eines arrays. Wenn man nun ein array als element pusht, ist das array teil des arrays.
+```js
 const sortiert = ['%', '.rose', 28, 'Juwel', 'drei', 'Ärger', 'über']
 const namen = ["Edda", "Kjell", "Matze"]
 sortiert.push(namen);
+```
+Wenn ich nun auf ein Element des Arrays zugreifen will, brauche ich zwei Positionen, den Index indem das Array ist und die Indexposition des gewünschten Elements.
 
-Wenn ich nun auf ein element des arrays zugreifen will, brauche ich zwei positionen, den indes indem das array ist und die indexposition des gewünschten elements.
-
-console.log(sortiert[7[3]]);
+    console.log(sortiert[7[3]]);
 
 
 Man kann arrays auch folgendermaßen zusammenführen
+```js
 const blumen = ["Rosen", "Vergissmeinicht"];
 const pflanzen = ["Gänseblümchen", "Löwenzahn"];
 const newArr = [blumen,pflanzen];
 console.log(newArr);
 console.log(newArr[1][1]);
+```
 
 #### 8.4.2 array.concat
-array.concat() - Elemente aneinanderhängen
-let x = blumen.concat(pflanzen)
+- array.concat() - Elemente aneinanderhängen
+  
+        let x = blumen.concat(pflanzen)
 
 concat() fügt Arrays zusammen, aber nur eine Ebene tief. Verschachtelte Arrays bleiben verschachtelt.
 
 #### 8.4.3 spread-Operator – Array-Elemente aneinanderhängen
 statt concat mann man auch den spread operator nutzen
-
+```js
 const arr = [1,2,3]; 
 const neu = [0, ...arr, 4]; // ergibt [0,1,2,3,4]
 let y =[...blumen, ...pflanzen];
-
+```
 s... kann iterierbare Objekte auseinanderziehen.
 
 Iterierbare Objekte sind z. B.: Arrays, Strings, Sets, Maps.
 
 man kann mit spread Elemente eines Arrays auf die
 Argumente einer Funktion verteilen:
+```js
 function addiere (a,b,c){
     return a+b+c;
 }
@@ -190,17 +198,18 @@ const zahlen = [3,4,5];
 
 const ergebnis = addiere (...zahlen);
 cosole.log(ergebnis);
+```
 
-array.flat()
+- array.flat()
 array.flat erzeugt ein neues array, welchesverschachtelte arrays auf einer Ebene angibt. es hat einen optionalen parameter depth, der die tiefe angibt bis zu der das array abgeflacht wird.
-
+```js
 const arr4 = [100,86[17,200,3], [0,14], 200];
 const newArr4 = arr4.flat(2);
 console.log(newArr4);
+```
+
 ### 8.5 Arrays durchlaufen
-
-
-for-Schleifen sind gut geeignet um durch arrays zu laufen, sie sprechen jedes element einzeln an.
+for-Schleifen sind gut geeignet um durch Arrays zu laufen, sie sprechen jedes Element einzeln an.
 Beispiel:
 ```js
 const arr = ["Kirschen", "Pfirsiche", "Erdbeeren"];
@@ -230,6 +239,7 @@ for (const elem of json){
 ```
 
 man kann bei for..of auch break, continue und return nutzen.
+
 kurze wiederholung:
 break - bricht die aktuelle Schleife oder ein switch sofort ab.
 continue - überspringt den Rest der aktuellen iteration.
@@ -257,15 +267,15 @@ for (const [index, elem] of arr.entries()){
     }
 }
 ```
-arr.entries() verleiht der äußeren Schleife einen index, in der inneren Schleife ist key der index.
+- arr.entries() verleiht der äußeren Schleife einen index, in der inneren Schleife ist key der index.
 
 #### forEach()
 bei forEach() muss man die länge des arrays nicht mehr kennen.
 forEach ruft für jedes Element des Arrays automatisch eine Callback-Funktion auf.
-
+```js
 array.forEach(
     function(currentValue, index, array), thisArg);
-
+```
 forEach führt eine sogenannte Callback funktion aus, welche drei Parameter hat: 
 currentValue (erforderlich) - aktuelles Element
 index (optional) - index des aktuellen elements
@@ -278,31 +288,30 @@ Also:
 Du gibst eine Funktion weiter, und die andere Funktion ruft sie zu einem passenden Zeitpunkt wieder auf („call back“ = „zurückrufen“).
 
 Einfaches Beisiel:
-arr.forEach((elem) => { console.log(elem)});
 
-statt elem könnte hier auch eine andere variable stehen
+    arr.forEach((elem) => { console.log(elem)});
 
+Anstatt elem könnte hier auch eine andere Variable stehen.
+```js
 const score = [17, 129, 27, 8, 51, 99, 12];
     score.forEach((elem)=>{
         if (elem>50) console.log(elem)
     });
+```
 
+Die Callback Funktion wird für jedes Element durchgeführt da sie als Argument der forEach Funktion angegeben wird.
 
-
-
-Die Callback funktion wird für jedes element durchgeführt da sie als argument der forEach funktion angegeben wird.
-
-Rückgabewert - forEach gibt nichts zurück (undefined)
-
+Rückgabewert - forEach gibt **nichts** zurück (undefined)
+```js
 const images = ["tulpe.jpg","rose.jpg","veilchen.jpg","nelke.jpg", ];
 images.forEach(
     (elem, index)=>{
         const tag = <img src="${elem}"> ;
         console.log(`i:${index}`, tag);
         });
-
+```
 forEach kann auch einfach den namen einer Funktion aufrufen.
-
+```js
 const images = ["product01.jpg", "product02.jpg"];
 function insertGallery(item) { // funktion die ein bild rstellt und es in den container Gallery hinzufügt
         const img = document.createElement("img");
@@ -310,6 +319,7 @@ function insertGallery(item) { // funktion die ein bild rstellt und es in den co
         document.querySelector("#gallery").append(img);
     }
 images.forEach(insertGallery);
+```
 
 #### Mit forEach über Arrays von Objekten iterieren
 Dies wird oft genutzt wenn man mit dynamischen anwendungen auf dem Server kommuniziert und Daten z.B. im JSON Format übertragen werden.
@@ -335,11 +345,12 @@ const preise = [3,22,11,30];
 const mwst = preise.map(number=>number*19/100);
 console.log("mwst", mwst); //mwst (4) [0.57, 4.18, 2.09, 5.7]
 ```
-Das orginal array bleibt unangetastet, es wird auf das neue array gemappt, wenn es auf zahlen, strings und Booleans angewendet wurd. 
+Das orginal Array bleibt unangetastet, es wird auf das neue Array gemappt, wenn es auf Zahlen, Strings und Booleans angewendet wurd. 
 map() erstellt immer ein neues Array, aber bei Objekten kopiert es nur die Referenzen, nicht die Objekte selbst.
 Willst du die Objekte unverändert lassen, musst du sie explizit klonen.
 
 beispiel:  halbiere die Mehrwertsteuer für jedes zweite Produkt.
+```js
 const preise = [3,22,11,30];
 const geschenkt = preise.map((number,i)=>{
     if (i % 2 === 0){
@@ -350,12 +361,12 @@ const geschenkt = preise.map((number,i)=>{
 
 });
 console.log("geschenkt",  geschenkt);
-
+```
 map() kommt zum einsatz, wenn man nur wenige Werte eines arrays Ändern möchte.
 
 mapping mit objekten in array:
 die produkte auf platz 0 und 2 sollen 25% rabbatt erhalten
-
+```js
 const product = [
     {name:"Waschmaschine", preis: 399.00, lager: 117},
     {name:"Kühlschrank", preis: 459.00, lager: 32},
@@ -379,50 +390,51 @@ const deal = product.map((item, idx) => {
 });
 console.log("deal", deal);
 console.log(product.map(obj=>obj.name));
+```
+
 ### 8.6 Callbacks
 
-Wie zuvor beschrieben wird die callback funktion einer anderen funktion als argument übergeben und nur zu gegebener zeit (zb nach abschluss einer aktion) aufgerufen.
-dh callback funktionen lösen nicht direkt auf ondern nur bei bestimmten ereignissen oder in bestimmten umgebungen.
+Wie zuvor beschrieben wird die callback Funktion einer anderen Funktion als Argument übergeben und nur zu gegebener zeit (zb nach Abschluss einer Aktion) aufgerufen.
+dh callback Funktionen lösen nicht direkt auf sondern nur bei bestimmten Ereignissen oder in bestimmten Umgebungen.
 
 
 #### array.filter() spezielle elemente aus arrays filtern
 
 syntax:
 
-const neuesArray = array.filter(callback);
-
+    const neuesArray = array.filter(callback);
 
 Neben forEach() ist filter() auch eine funktion höherer ordnung. filter() hat ein array als Rückgabewert.
 
 
 Was passiert?
 filter() = „Schau dir jedes Element an, gib true/false zurück, und nur true kommt ins neue Array.“
-
+```js
 const city = ["Amsterdam", "Berlin", "Göttingen", "Bielefeld", "Hannover", "Bonn", "Köln"];
 const kurz = city.filter((name)=> name.length < 5);
 console.log("Werte des Arrays mit weniger als 5 Zeichen", kurz) //Werte des Arrays mit weniger als 5 Zeichen (2) ['Bonn', 'Köln']
+```
+filter() weist den Rückgabewert einer Variablen zu: kurz
+Die callback Funktion lautet: (name)=> name.length < 5
 
-filter() weist den rüückgabewert einer variablen zu: kurz
-die callback funktion lautet: (name)=> name.length < 5
-
-die callback muss true oder false ergeben damit filter den wert in das neue array aufnimmt ( oder nicht).
+Die callback muss true  ergeben damit filter den Wert in das neue array aufnimmt.
 
 
 array.forEach() oder array.map() ?
 
 Für das Beispiel oben wäre array.forEach() komplizierter als array.filter(), da es keinen Rückgabewert hat.
 Innerhalb der Callback funktion muss eine Abfrage klären, ob das jeweilige Element mit push() in das Ergebnis übernommen wird oder nicht.
-
+```js
 const kurzMitForEach = [];
 city.forEach((elem) => {
     if (elem.length > 5){
         kurzMitForEach.push(elem)
     }
 });
-
+```
 
 jedes element mit array.map() bearbeiten
-
+```js
 const preise = [68.50, 70, 120, 12, 7];
 
 const mwst = preise.map((preis)=>preis*19/100);
@@ -432,9 +444,9 @@ const output = preise.map(function(preis){
     return preis.toFixed(2) + " €";
 });
 console.log("Output:", output); // Output: (5) ['68.50 €', '70.00 €', '120.00 €', '12.00 €', '7.00 €']
-
+```
 zum vergleich mit array.forEach()
-
+```js
 const result = [];
 preise.forEach((preis) => {
     result.push(preis.toFixed(2) + " €");
@@ -442,9 +454,9 @@ preise.forEach((preis) => {
 console.log("map result", result);
 
 array.map-Chaining
-
+```
 durch dot notation kann man mehrere mmap aufgaben verketten
-
+```js
 const punkte = [25,9,100,400,900];
 
 const calculus = punkte
@@ -461,34 +473,34 @@ const rabatt = preise
     .filter((preis) => preis >= 100)
     .map((over)=> (over - (0.1 * over)).toFixed(2));
     console.log("rabatt", rabatt);
+```
+Beachte: das Semikolon schließt die Verkettung ab.
 
-    beachte: das semikolin schließt die verkettung ab.
 
-
-array.reduce()
-die reduce funktion reduziert array inhalte auf einen einzelnen rückgabewert.
+- array.reduce()
+Die reduce funktion reduziert Array Inhalte auf einen einzelnen Rückgabewert.
 reduce: läuft über ein Array und fasst alle Elemente zu einem einzigen Wert zusammen (z.B. Summe, Produkt, Objekt), 
-wobei ein Akkumulator über die Iterationen hinweg aktualisiert wird.
-
+Wobei ein Akkumulator über die Iterationen hinweg aktualisiert wird.
+```js
     const arr = [1,2,3,4,5,6,7,8,9,10];
     const initialValue = 0
     const summe = arr.reduce((previousValue, currentValue) =>
         previousValue + currentValue, initialValue // previousValue ist hier der akkumulator also der return wert der letzten iteration
     );
 console.log("summe", summe);
-
+```
 läst man den initialValue weg, ist der erste array wert der startwert.
-
+```js
 const summe2 = arr.reduce((prev, curr) =>
     prev + curr, 15
 );
 console.log("summe mit initialValue = 15", summe2);
-
+```
 praxisbeispiel JSON-Array filtern
 reduce, filter, find und map kann man gut nutzen bei der verarbeitung von JSON-Arrays
 Beispiel:
 filtere alle Produkte vom typ Buch und berechne den gesammtwert im Lager
-
+```js
 const produkte = [
     {"art": "Buch", "no":1724, "preis":"3.75", "lager":27},
     {"art": "Kalender", "no":475, "preis":"13.99", "lager":13},
@@ -507,10 +519,10 @@ produkte.filter(function(obj){
         return((parseFloat(prev) + parseFloat(curr)).toFixed(2))
     };
     console.log("buchwert", buchwert);
-
+```
 
 ### 8.8 Sparse Arrays - Arrays mit Lücken
-
+```js
 const arr1 = [1,,3];
 console.log(arr1[1]); // undefined
 
@@ -519,12 +531,15 @@ console.log("arr1 mit Index100",arr1);
 for (let i = 0; i<arr1.length; i++) {
     console.log (i, arr1[i]*19/100 + " ");
 }
-beim erstellen oder vergeben von indizes erhält man leicht arrays mit lücken.
-for schleifen behandeln auch die lücken
-forEach hingegen nutzt nur die besettzten arraywerte
+```
+Beim erstellen oder vergeben von Indizes erhält man leicht Arrays mit Lücken.
+for schleifen behandeln auch die Lücken,
+forEach hingegen nutzt nur die besetzten arraywerte.
+```js
 arr1.forEach((elem,index) => {
     console.log(index, elem * 19 / 100);
 });
+```
 
 ## JSON - Java Script Object Notation
 
@@ -547,7 +562,7 @@ Der Schlüssel muss in JSON in doppelten Hochkommas geschrieben werden!
 Strings in Werten müssen in doppelten Hochkommas geschrieben werden (also keine backticks).
 Zahlen dürfen in JSON nicht mit einer 0 beginnen (falls es eine Rolle spielt muss = als String geliefert werden).
 In Javascript dürfen Zahlen auch mit einem punkt Eenden, in JSON geht das nicht.
-in JSON: Nach dem letzten Element darf kein Komma stehen
+in JSON: Nach dem letzten Element darf kein Komma stehen.
 
 Oft liegen Arrays mit mehreren verschachtelten JSON Objekten vor. JSON Dateoien werden als .json gspeichert.
 ```JSON
@@ -606,6 +621,7 @@ String
 `{"author": "austen","firstname": "Jane","books": [{"title": "Mansfield Park", "published": 1814},{"title": "Stolz und Vorurteil", "published": 1813},{"title": "Emma", "published": 1816},]}`
 
 Objekt
+```js
 {
     "author": "austen",
     "firstname": "Jane",
@@ -615,6 +631,7 @@ Objekt
         {"title": "Emma", "published": 1816},
     ]
 }
+```
 JSON gibt es über alle Sprachen hinweg, wobei JavaScipt unnd Python über native Bordmittel verfügen, während andere Sprachen wie Java zusätzliche Bibliotheken benötigen um mit JSON umzugehen.
 
 #### Datenfluss
@@ -624,6 +641,8 @@ Die Anwendung auf der Webseite holt die Daten z.B. mit einem XMLHttpRequest oder
 Grundprinzip: String wird an eine hilfsmethode übergeen, die eine Datenstruktur zurückgibt.
 ```JSON
 const books = `[{"author": "austen","firstname": "Jane","books": [{"title": "Mansfield Park", "published": 1814},{"title": "Stolz und Vorurteil", "published": 1813},{"title": "Emma", "published": 1816}]}, {"author": "Pratchett","firstname": "Terry","books": [{"title": "Total verhext", "published": 1991},{"title": "Lords and Ladys", "published": 1992},{"title": "Ruhig Blut", "published": 1996}]}]`;
+```
+```js
 const booksParsed = JSON.parse(books);
 console.log(booksParsed);
 
@@ -659,8 +678,8 @@ const decoded = decodeURIComponent(encoded);
 
 // JSON-String → zurück in Objekt
 const parsed = JSON.parse(decoded);
-
 ```
+
 | Funktion                  | Zweck                                      |
 | ------------------------- | ------------------------------------------ |
 | `JSON.stringify(obj)`     | Wandelt ein Objekt in einen JSON-String um |

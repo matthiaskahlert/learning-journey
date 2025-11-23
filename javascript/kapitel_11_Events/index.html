@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript - Kapitel 11 - Events</title>
+    <script src="main.js" defer></script>
+
+</head>
+<body>
+    <header>
+        <h1>JavaScript Kapitel 11 - Events</h1>
+    </header>
+<button onclick="markiere(this)">Klick mich</button>
+<!-- .zoomit sagt:
+Wenn sich etwas am Stil ändert (z. B. transform), dann animiere diese Änderung über 1 Sekunde.
+
+.zoomIn sagt:
+Skaliere das Bild auf das Doppelte (scale(2)). -->
+<style>
+    .zoomit {transition: 1s}
+    .zoomIn {
+        transform: scale(2); transition: 1s
+    }
+</style>
+<!-- das img hat eine klasse zoomit -->
+<img class="zoomit" src="images/garn.jpg" width="200" height="200"> 
+</body>
+
+</html>

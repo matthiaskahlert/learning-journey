@@ -5,78 +5,71 @@
 ## Learningfacts - Kapitel 10 - DOM - Document Object Model
 
 Das HTML wird mit Java Script zum DOM. Java Script kann die Elemente einzeln ansprechen und so mit dem DOM Informationen an andere Anwendungen weiterreichen.
-Das DOM erzeugt eine Baumstruktur, in der jedes HTML element einzeln erreicht wird.
+Das DOM erzeugt eine Baumstruktur, in der jedes HTML Element einzeln erreicht wird.
 Die Elemente werden Nodes genannt. Nicht nur Elemente, sondern auch Attribute wie src- oder img-tags bilden nodes.
 Mit console.dir(document) in der Browserkonsole kann man die properties des DOM in der Baumstruktur inspizieren.
 Über dot-notation kann man sich unterelemente explizit rauspicken, z.B. console.dir(document.links) u die linksammlung (HTML Collection) zu inspizieren.
-Eckige Klammern deuten an, dass es sich um eine Arrayähnliche struktur handelt und die elemente einen 
-index haben.
+Eckige Klammern deuten an, dass es sich um eine Arrayähnliche Struktur handelt und die Elemente einen Index haben.
 
 ### Methode  document.getElementById().
 Um nicht über den index nach Elementen der Webseite suchen zu müssen, nutzt man die Methode:
-document.getElementById().
+
+    document.getElementById().
 
 document.getElementById() ist eine DOM-Methode, mit der ich ein bestimmtes HTML-Element über seinen eindeutigen id-Wert auswähle.
 
 ```js
-
 const element = document.getElementById("meinElement");
 ```
-
-
 
 Man benutzt es um:
 
 - HTML-Elemente gezielt auszulesen
-
 - Inhalte zu ändern (textContent, innerHTML, …)
-
 - Styles zu setzen (style.color = "red")
-
 - Events zu registrieren (addEventListener)
-
 - Formularelemente zu steuern (Input-Werte auslesen oder setzen)
 
 Kurzform:
 getElementById() verbindet JavaScript direkt mit einem bestimmten HTML-Element, damit ich es im DOM manipulieren kann.
 
 ### 10.2 - Zugriff auf DOM Elemente
-
+```js
 console.dir(document); // zeigt ein Verzeichnis der Eigenschaften eines Objekts 
 
 console.dir(document); // zeigt die Elemente des DOM
+```
 Folgend eine Liste von HTML collections:
-• document.all
+- document.all
 listet alle HTML-Elemente der Webseite in einer HTMLAllCollection auf –
 heute »deprecated« (veraltet), aber interessant.
-• document.anchors
+- document.anchors
 eine HTMLCollection aller Links der Seite.
-• document.body
+- document.body
 ein Objekt mit allen Elementen des body-Elements.
-• document.cookie
+- document.cookie
 ein String mit den Informationen zu den Cookies der Seite.
-• document.forms
+- document.forms
 eine HTMLCollection aller form-Elemente der Seite.
-• document.images
+- document.images
 gibt alle img-Elemente des Dokuments als HTMLCollection zurück.
-• document.isConnected
+- document.isConnected
 gibt true zurück, wenn eine Verbindung zum Internet besteht, sonst false.
-• document.lastModified
+- document.lastModified
 Datum der letzten Änderung des Dokuments.
-• document.links
+- document.links
 gibt alle a-Elemente des Dokuments als HTMLCollection zurück.
-• document.location
+- document.location
 gibt ein Location-Objekt mit Informationen über die URL zurück und öffnet
 die Möglichkeit, die URL zu ändern.
-• document.styleSheets
+- document.styleSheets
 Liste der CSS-Dateien der Seite
 
 ### 10.3 - DOM Methoden und Eigenschaften
-• getElementById() hatte ich schon kennengelernt. In komplexen Fällen in denen getElementsById zu aufwändig wird, bieten sich folgende Methoden an:
-
-• document.getElementsByTagName()
+- getElementById() hatte ich schon kennengelernt. In komplexen Fällen in denen getElementsById zu aufwändig wird, bieten sich folgende Methoden an:
+- document.getElementsByTagName()
 gibt alle Elemente mit einem HTML-Tag-Namen als HTML Collection zurück
-• document.getElementByClassName()
+- document.getElementByClassName()
 gibt alle Elemente mit einem HTML-class-Namen als HTML Collection zurück
 ```js
 const items = document.getElementsByClassName("item");
@@ -84,17 +77,16 @@ console.log(items[0]);      // erstes Element
 console.log(items.length);  // Anzahl
 ```
 
-• – HTML-Tag-Name
+#### HTML-Tag-Name
 Jedes Element hat einen Tag-Namen, z. B. DIV, P, UL, LI, A usw.
 Mit getElementsByTagName("tag") kann ich alle Elemente dieses Typs im DOM auswählen.
 Zugriff über dot-notation für Tag-Namen gibt es nicht direkt - man muss getElementsByTagName() nutzen.
 ```js
 const paragraphs = document.getElementsByTagName("p");
 console.log(paragraphs.length); // Anzahl aller <p>-Elemente
-
 ```
 
-• class-Attribut
+- class-Attribut
 das class-Attribut bildet eine Ausnahme bei der dot.notation, denn der Zugriff erfolgt über className.
 ```js
     const className = regal.className;
@@ -105,17 +97,15 @@ das class-Attribut bildet eine Ausnahme bei der dot.notation, denn der Zugriff e
     regal.classList.add("neu");    // fügt Klasse hinzu
     regal.classList.remove("alt"); // entfernt Klasse
     regal.classList.toggle("aktiv"); // fügt hinzu oder entfernt je nach Zustand
-
-
 ```
 className gibt alle Klassen des elements als String zurück.
 getAttribute verwendet den realen Namen des Attributs.
 
-setAttribute(attributname, Werte) Überschreibt das Attribut oder setzt es.
+- setAttribute(attributname, Werte) Überschreibt das Attribut oder setzt es.
 
 #### CSS-Stile ändern
 
-• elem.style überschreibt css stile.
+- elem.style überschreibt css stile.
 ```js
 regal.style.color = "red";      // Textfarbe ändern
 regal.style.backgroundColor = "yellow"; // Hintergrundfarbe ändern
@@ -137,19 +127,22 @@ einige Beispiele:
     regal.style.textAlign = "center";
 ```
 
-• style.cssText() – CSS kompakt einbringen
+- style.cssText() – CSS kompakt einbringen
 Wenn mehr als eine Eigenschaft geändert wird, braucht elem.style.xy viele Zeilen. 
 Eleganter und gut lesbar ist elem.style.cssText.
 cssText() kann CSS-Eigenschaften auslesen und schreiben.
-.
+
 Bevor man Eigenschaften überschreibt, sollte man auf die existenz des Elements prüfen:
+```js
 const item = document.getElementById("#item");
 console.log("item", item);
+```
 Wenn item nicht existiert, gibt die zuweisung null zurück
+```js
 if (item !== null){
     item.style.cssText = "font-size: 2rem";
-
 }
+```
 
 ### 10.4 Zugriff mit CSS-Selektoren – querySelector() und querySelectorAll()
 
@@ -164,9 +157,9 @@ const nav = document.querySelector("header");
 console.log(header);
 ```
 
-Wenn das Dokument mehr als nur ein angefragtes Element enthält, wird es nur das erste gefundene zurückgeben. Für den zugriff aus alle Elemente einer CSS Klasse braucht man querySelectorAll().
+Wenn das Dokument mehr als nur ein angefragtes Element enthält, wird es nur das erste gefundene zurückgeben. Für den Zugriff aus alle Elemente einer CSS Klasse braucht man querySelectorAll().
 
-das Argument von querySelector() ist ein string der Typ-Selektoren (z.B. h1, input, p), class- oder id-Selektoren (z.B. .foo, #bar) und attribut-Selektoren (z.B. input[type="password"]) darstellt.
+Das Argument von querySelector() ist ein string der Typ-Selektoren (z.B. h1, input, p), class- oder id-Selektoren (z.B. .foo, #bar) und attribut-Selektoren (z.B. input[type="password"]) darstellt.
 
 ```js
 const h3 = document.querySelector(`h3`); // erstes element von h3
@@ -175,13 +168,13 @@ const main = document.querySelector("#main"); // erstes element mit id="main"
 const search = document.querySelector("input[type=`search`]"); // erstes input element mit type=`search`
 ```
 
-Um auf elemente an einer bestimmten Position zuzugreifen, nutzt querySelector() sogenannte Pseoduklassen. man erkennt sie am einfachen Doppelpunkt (:hover oder :first-child).
+Um auf Elemente an einer bestimmten Position zuzugreifen, nutzt querySelector() sogenannte Pseoduklassen. man erkennt sie am einfachen Doppelpunkt (:hover oder :first-child).
 
-Elementtypen.
+#### Elementtypen
 
-💡 Merke:
-nth-child() zählt alle Kinder eines Eltern-Elements, egal welchen Typ,
-nth-of-type() zählt nur Kinder eines bestimmten Typs (z. B. nur <li>).
+Merke:
+- nth-child() zählt alle Kinder eines Eltern-Elements, egal welchen Typ,
+- nth-of-type() zählt nur Kinder eines bestimmten Typs (z. B. nur <li>).
 
 CSS Stile mit querySelector() Ändern
 
@@ -189,34 +182,34 @@ CSS Stile mit querySelector() Ändern
 const teaser = document.querySelector(".teaser");
 teaser.style.backgroundColor = "var(--magna-color-rot)";
 ```
-dont trust HTML, denn wenn kein element mit dem selektor existiert, gibt querySelector() null zurück.
+dont trust HTML, denn wenn kein Element mit dem Selektor existiert, gibt querySelector() null zurück.
 
 ```js
 const elem = document.querySelector(".selector");
 console.log("elem", elem);
-
 ```
 
 Erst der Versuch, dem nicht vorhandenen Element eine Eigenschaft zuzuweisen
 oder den Inhalt zu ändern, bringt einen Syntaxfehler zum Vorschein.
 
 besser ist es zu prüfen ob das element existiert:
+```js
 if (elem !== null) {
     elem.style.color = "green ";
     } else {
         console.log("Element existiert nicht");
     }
-
+```
 #### document.querySelectorAll() – alle Elemente, die zu einem CSS-Selektor passen
 
-document.querySelectorAll() gibt alle Elemente mit einem CSS-Selector als NodeList zurück. Argument ist ein String mit den gesuchten CSS-Elementen.
+- document.querySelectorAll() gibt alle Elemente mit einem CSS-Selector als NodeList zurück. Argument ist ein String mit den gesuchten CSS-Elementen.
 
 
-•  document.querySelectorAll('main img'); // alle img-Elemente unterhalb von main
-•  document.querySelectorAll('.ci.post'); // alle elemente mit class="post ci"
-•  document.querySelectorAll('input[type="number"]'); // alle inputs mit type ="number"
-•  document.querySelectorAll('li:nth-child(odd)'); // alle elemente mit ungeradem index
-•  document.querySelectorAll('img[src*="/img/"]'); // alle Bilder mit der Zeichenkette /img( im src Attribut)
+-  document.querySelectorAll('main img'); // alle img-Elemente unterhalb von main
+-  document.querySelectorAll('.ci.post'); // alle elemente mit class="post ci"
+-  document.querySelectorAll('input[type="number"]'); // alle inputs mit type ="number"
+-  document.querySelectorAll('li:nth-child(odd)'); // alle elemente mit ungeradem index
+-  document.querySelectorAll('img[src*="/img/"]'); // alle Bilder mit der Zeichenkette /img( im src Attribut)
 
 
 *= ist ein css selector trick:
@@ -228,9 +221,8 @@ element[attribut^="anfang"] /* alle, die mit diesem Wert beginnen */
 element[attribut$="ende"]   /* alle, die mit diesem Wert enden */
 
 NodeLists - Listen von Elementen
-Der rückgabewert von querySelectorAll() ist eine NodeList. sie sehen so aus wie arrays, sind aber statische Listen. Man kann array Methoden auf NodeLists nutzen
-NodeLists haben einen Index – item(index) – und unterstützen die Iteration mit
-forEach().
+Der Rückgabewert von querySelectorAll() ist eine NodeList. Sie sehen so aus wie arrays, sind aber statische Listen. Man kann Array Methoden auf NodeLists nutzen
+NodeLists haben einen Index – item(index) – und unterstützen die Iteration mit forEach().
 ```js
 listElems.forEach(item => console.log(item.innerText));
 ```
@@ -241,53 +233,53 @@ console.log("listElems[2]", listElems[2].innerText); // listElems[2] Der Herr de
 
 Wie wählt man Elemente im DOM aus?
 * Nach ID
-document.getElementById("name");
+  
+      document.getElementById("name");
 
 HTML:
-<div id="name"></div>
+
+    <div id="name"></div>
 
 * Nach Klasse
 
 In querySelector brauchst du einen Punkt:
 
-document.querySelector(".box"); 
+    document.querySelector(".box"); 
 
 HTML:
-<div class="box"></div>
+
+    <div class="box"></div>
 
 * Nach Tag
 
 Ohne Punkt:
 
-document.querySelector("p");
+    document.querySelector("p");
 
 HTML:
-<p>Hallo</p>
+
+    <p>Hallo</p>
 
 * Klasse + Tag zusammen
-document.querySelector(".list li");
+  
+        document.querySelector(".list li");
 
 HTML:
-<ul class="list">
-    <li>Eintrag</li>
-</ul>
+
+    <ul class="list">
+        <li>Eintrag</li>
+    </ul>
 
 Bedeutung: Alle <li> inside eines Elements mit der Klasse .list.
 
 
 
-Merksatz (ganz kurz)
+Merksatz
 
 ID → ohne Zeichen → "idName"
-
 Klasse im Selektor → mit Punkt → ".klasse"
-
 Tag → einfach nur "tag"
-
 HTML selbst → nie mit Punkt → class="name"
-
-
-💡 Merksatz:
 
 createElement = Neues Element im Speicher erstellen
 appendChild = Element in den DOM „einfügen“ und sichtbar machen
@@ -354,8 +346,8 @@ const $$ = (s) => document.querySelectorAll(s);
 
 
 ### 10.5 DOM-Navigation
-Die sicherste und einfachte Methode für Elementzugriffe ist der querySelector() in verbindung mit einem CSS selektor.
-Falls keine Klassen oder Attribute zur Verfügung stehen kann man über die Verwandschaftsverhältnisse auf die elemente zugreifen.
+Die sicherste und einfachte Methode für Elementzugriffe ist der querySelector() in Verbindung mit einem CSS selektor.
+Falls keine Klassen oder Attribute zur Verfügung stehen kann man über die Verwandschaftsverhältnisse auf die Elemente zugreifen.
 
 #### DOM - Verwandschaftsbeziehungen
 Folgend eine Liste von DOM eigenschaften
@@ -371,10 +363,10 @@ Folgend eine Liste von DOM eigenschaften
 
 ### 10.6 innerHTML, innerText und TextContent
 
-item.innerText gibt den sichtbaren Textinhalt eines elements zurück.
-innerText überschreibt auch den Inhalt eines Elements.
-innerHTML überschreibt den Inhalt eines elements, kann dabei aber auch HTML-Tags mitsamt Attributen setzen.
-textContent gibt den gesamten Textinhalt eines Elements zurück. HTML tags werden nicht ausgewertet sondern angezeigt.
+- item.innerText gibt den sichtbaren Textinhalt eines Elements zurück.
+- innerText überschreibt auch den Inhalt eines Elements.
+- innerHTML überschreibt den Inhalt eines Elements, kann dabei aber auch HTML-Tags mitsamt Attributen setzen.
+- textContent gibt den gesamten Textinhalt eines Elements zurück. HTML tags werden nicht ausgewertet sondern angezeigt.
 
 ### 10.7 Elemente ins DOM einfügen
 
@@ -434,13 +426,11 @@ newNode → das Element, das du einfügen willst - "Was soll eingefügt werden?"
 referenceNode → das Kind, vor dem eingefügt werden soll  - "Vor welchem Kind soll es eingefügt werden?"
 
 append(), prepend() – am Ende bzw. am Anfang einfügen
-
 before() und after() - vor oder nach einem Element einfügen
 
 ### 10.9 Komplexe Strukturen einfügen
-
-Die übernahme von Daten z.B. für produktbeschreibungenn, die eine anwendung auf dem Server als JSON-Array liefert.
-Das array enthält die elemente jedes Produkts als Objekt.
+Die Übernahme von Daten z.B. für Produktbeschreibungenn, die eine Anwendung auf dem Server als JSON-Array liefert.
+Das Array enthält die Elemente jedes Produkts als Objekt.
 
 #### Eingabefelder <input>
 Für Eingabefelder braucht man diese Basics:
@@ -457,22 +447,19 @@ Input auswählen wie bei jedem anderen DOM Element:
 const input = document.getElementById("entfernen-input");
 ```
 
-
 Das ist das Wichtigste: Wert aus dem Eingabefeld lesen
-
 ```js
 const wert = input.value;
 console.log(wert);
 ```
 Immer .value, nicht innerText.
 
-
 Beispiel:
 ```html
 <input type="number" id="entfernen-input" placeholder="ID zum Entfernen">
 <button id="entfernen-button">Entfernen</button>
 ```
-Dies erstellt ein Eingabefeld, mit type kann man festlegen welche zeichen erlaubt sind (sicherer wäre hier ein pattern. der placeholder ist der text der angezeugt wird, wenn man noch nichts eingegeben hat, dient zur orientierung und zeigt den zweck des feldes.)
+Dies erstellt ein Eingabefeld, mit type kann man festlegen welche Zeichen erlaubt sind (sicherer wäre hier ein pattern. der placeholder ist der text der angezeugt wird, wenn man noch nichts eingegeben hat, dient zur Orientierung und zeigt den Zweck des Feldes.)
 
 ```js
 const input = document.getElementById("entfernen-input");
@@ -500,7 +487,7 @@ button.addEventListener("click", () => {
 | `radio`    | Einzelauswahl             |
 | `search`   | wie text, aber mit Extras |
 
-Reagieren auf Benutzer-Eingaben
+##### Reagieren auf Benutzer-Eingaben mit addEventListener
 ```js
 // 🔹 Bei jeder Änderung:
 input.addEventListener("input", () => {
@@ -521,7 +508,7 @@ input.addEventListener("keydown", (e) => {
 ```
 
 #### Buttons
-Mit Buttons machst du drei Hauptsachen:
+Buttons haben drei Hauptaufgaben:
 
 * auswählen
 * auf Klick reagieren
@@ -655,7 +642,6 @@ input.addEventListener("input", () => {
 ```
 
 input.value → aktueller Wert des Feldes
-
 Aktualisiert live, während du tippst
 
 ### 10.11 DOM elemente erzeugen und platzieren
@@ -666,21 +652,20 @@ neben element.innerHTML gibt es noch weitere Methoden zum einfügen von Inhalten
 • createAttribute(name)
 • createTextNode(data)
 
-
 createElement(elementName) erzeugt ein neues DOM-Element (Node).
 Man übergibt createElement() einen String mit dem Namen des HTML-Tags, z. B. div, img, p oder header.
 
 Das neue Element existiert zunächst nur im Speicher, es wird also noch nicht auf der Seite angezeigt. Um es ins DOM einzufügen, kann man z. B. appendChild() verwenden.
 
-beispiel:
+Beispiel:
 ```js
 const header = document.createElement("header");
 console.log(header); //log <header></header>
 ```
 
-Attribute wie class, id, oder src können mit createAttribute() erzeugtwerddnerzeugt werden.
-ein leichterer und unkomoplizierterer Weg ist aber element.setAttribute()
-mit element.setAttribute() kann man Attribute direkt mit ihrem Namen erzeugen.
+Attribute wie class, id, oder src können mit createAttribute() erzeugt werden.
+Ein leichterer und unkomplizierterer Weg ist aber element.setAttribute()
+Mit element.setAttribute() kann man Attribute direkt mit ihrem Namen erzeugen.
 ```js
 header.setAttribute("title", "Seitenkopf");
 
@@ -690,9 +675,8 @@ header.className = "content";
 header.id = "content";
 ```
 
-Die attribute sind direktlive, auch wenn der header noch im speicher schwebt.
-
-mit createTextNode() kann man Texte erzeugen. sie müssen mit element.appendChild() an ein element gebuden werden.
+Die attribute sind direkt live, auch wenn der header noch im speicher schwebt.
+Mit createTextNode() kann man Texte erzeugen. Sie müssen mit element.appendChild() an ein Element gebuden werden.
 
 ```js
 const text = document.createTextNode("Neuer Text");
@@ -701,8 +685,8 @@ header.appendChild(text);
 
 gängiger ist die Methode innerText und innerHTML.
 
-innerText schreibt oder überschreibt reinen Text, auch HTML tags würden überscvhrieben werden.
-innerHTML schreibt oder überschreibt alle Elemente, aber kann auch HTML tags innerhalb des Strings in das dokument einsetzen.
+- innerText schreibt oder überschreibt reinen Text, auch HTML tags würden überscvhrieben werden.
+- innerHTML schreibt oder überschreibt alle Elemente, aber kann auch HTML tags innerhalb des Strings in das dokument einsetzen.
 
 ```js
 link.innerText = "DOM Elemente erzueugen!";
@@ -713,11 +697,11 @@ link.innerHTML = `<a href="${home}"> Elemente erzeugen</a>`;
 ### 10.12 Elemente ersetzen und entfernen
 Methodenübersicht
 
-replaceChild(newchild, oldChild)
-removeChild(child)
-replaceWith(elem1, elem2, ...)
-remove()
-outerHTML
+- replaceChild(newchild, oldChild)
+- removeChild(child)
+- replaceWith(elem1, elem2, ...)
+- remove()
+- outerHTML
 
 replaceChild() ersetzt ein element durch ein anderes Element und geht dabei wir insertBefore() über das parent element.
 
@@ -729,16 +713,13 @@ const fragment = old.parentElement.replaceChild(new,old);
 
 removeChild()
 Genauso wie bei appendChild() und replaceChild() wird removeChild() über das Elternelement aufgerufen.
-
 Wenn du ein neues Element wieder entfernen willst, kannst du removeChild auf dem gleichen Parent aufrufen.
 
 
 outerHTML
 Element mit outerHTML ersetzen:
 outerHTML enthält das komplette HTML eines Elements selbst und seines Inhalts.
-
 Anders als innerHTML, das nur den Inhalt eines Elements zurückgibt.
-
 Du kannst den HTML-Code eines Elements komplett ersetzen, indem du outerHTML zuweist. Wichtig: das Original-Element existiert danach nicht mehr.
 
 Das neue HTML wird an seiner Stelle ins DOM gesetzt.
@@ -746,6 +727,7 @@ Das neue HTML wird an seiner Stelle ins DOM gesetzt.
   <p>Hello World</p>
 </div>
 
+```js
 const div = document.getElementById("demo");
 
 console.log(div.innerHTML);
@@ -755,6 +737,7 @@ console.log(div.outerHTML);
 // Ausgabe: <div id="demo"><p>Hello World</p></div>
 
 div.outerHTML = '<section id="demo"><p>Neuer Inhalt</p></section>';
+```
 
 ### 10.14  - CSS Stile und Klassen ändern
 

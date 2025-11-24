@@ -85,6 +85,9 @@ button.addEventListener("click", function() { ... });
 // oder als Arrow-Funktion
 button.addEventListener("click", () => {});
 ```
+
+
+
 Mit dem eventListener behandelt man Events für window, document und individuelle Elemente der Webseite und ruft eine Funktion als EventHandler auf, sobald das Event feuert.
 
 
@@ -131,6 +134,8 @@ addEventListener soll oft auf eine Gruppe von elementen reagieren, zb alle einga
   ```
 blur bedeutet: Das Input-Feld verliert den Fokus (z. B. man klickt heraus oder tabbt weiter).
 elem.closest("label") sucht das nächstgelegene <label> um das Input herum..append(elem.value) hängt den eingegebenen Text als reinen Textknoten hinter das Label.
+Ein Event Handler kann mit elem.onclick = null; entfernt werden.
+
 
 ##### removeEventListener() Die Beobachtung eines Elements beenden
 mit removeEventListener() kann man den eventhandler von einem event entkoppeln / lösen. dies geht jedoch nicht mit anonymen funktionen. 
@@ -248,11 +253,9 @@ Beispiel: Klick auf ein Bild → event.target ist genau dieses Bild.
 after()
 
 Hängt Text oder ein neues Element direkt hinter ein bestehendes Element an.
-
 Wird oft verwendet, um zusätzliche Informationen anzuzeigen, z. B. den Namen einer gewählten Frucht.
 
 Praktischer Tipp:
-
 Nach dem Einfügen kann der Event-Listener mit removeEventListener() entfernt werden, damit ein erneuter Klick nicht erneut etwas anhängt.
 
 ```js
@@ -274,9 +277,7 @@ frucht.forEach(item => {
 1️⃣ Auswahl der Elemente
 const frucht = document.querySelectorAll(".frucht img");
 
-
 Es werden alle <img>-Elemente ausgewählt, die sich innerhalb eines Elements mit der Klasse .frucht befinden.
-
 Ergebnis: Eine NodeList mit allen Fruchtbildern.
 
 2️⃣ Event-Listener für jeden Klick hinzufügen
@@ -288,7 +289,6 @@ frucht.forEach(item => {
 
 
 Für jedes Bild wird ein Click-Event hinzugefügt.
-
 Die Funktion myCaption wird ausgeführt, wenn man auf ein Bild klickt.
 
 3️⃣ Alt-Text auslesen
@@ -373,9 +373,13 @@ Mit event.preventDefault() kannst du diese Standardaktionen verhindern.
 Dadurch kann dein Skript z. B. Formulardaten prüfen, bevor sie abgeschickt werden, oder eigene Aktionen nach einem Link-Klick durchführen.
 Die Methode wird mit leeren runden Klammern aufgerufen: event.preventDefault().
 
+
+#### Eingabeformulare prüfen
 Beim Absenden eines Formulars löst der Browser ein submit-Event aus.
 
 Mit evt.preventDefault() kann man dieses Standardverhalten verhindern, damit das Formular nicht sofort an den Server gesendet wird.
+Unterhalb von preventDefault() kann mein Skript jetzt fortfahren und die Aktionen durchführen, die geplant sind z.b. bevor das submit event stattfindet.
+
 
 Dadurch kann das Skript zuerst validieren, ob alle Eingaben korrekt sind.
 Typischer Ablauf bei der Validierung
@@ -390,3 +394,55 @@ Name: mindestens 3 Zeichen, Buchstaben + Sonderzeichen (inkl. Umlaute).
 Telefonnummer: mindestens 7 Zeichen, Ziffern + Klammern/Bindestriche erlaubt.
 E-Mail: Buchstaben/Ziffern vor @, danach Domain + 2–6 Zeichen Endung.
 Nachricht: mindestens 30 Zeichen.
+
+### 11.8 Event Delegation - ein Event Handler für viele Elemente
+
+Wenn viele gleiche events behandelt werden müssen setzt man eine Event Delegation auf ein gemeinsames ElternElement.
+
+```html
+<div class="gallery">
+<div class="ding">
+  <img src="musik.jpg" width="920" height="612">
+  <div class="del">X</div>
+</div>
+...
+</div>
+```
+```js
+const gallery = document.querySelector(".gallery");
+
+gallery.addEventListener("click", (evt) => {
+if (evt.target.className === "del") {
+evt.target.parentElement.remove()
+}
+});
+```
+Bei einem Klick auf das gallery-Element prüft evt.target.className, ob ein Element mit dieser CSS-Klasse vorliegt. 
+Wenn das der Fall ist, greift evt.target.parentElement auf das umfassende Element zu, 
+also auf das div-Element mit der CSS-Klasse ding. 
+remove() löscht das  Element.
+
+### 11.9 Ereignisse des Window-Objekts
+
+Das Window-Objekt repräsentiert das Browserfenster und löst Ereignisse wie Laden der Seite, Ändern der Fenstergröße, Schließen und Scrollen aus. 
+Viele dieser Events müssen heute jedoch kaum noch direkt beobachtet werden:
+
+defer und async bei Skripten machen zusätzliche Lade-Event-Handler oft überflüssig.
+CSS Media Queries übernehmen Layout-Anpassungen bei Größenänderungen des Fensters.
+Lazily geladene Inhalte lassen sich inzwischen ohne Scroll-Events realisieren – HTML bietet loading="lazy" und JavaScript den IntersectionObserver, der ältere, aufwendige Scroll-Abfragen ersetzt.
+Window-Events werden wie Document-Events mit addEventListener behandelt, nur dass man dafür das globale window-Objekt anspricht.
+
+| Event            | Beschreibung                                                                                             |
+|------------------|-----------------------------------------------------------------------------------------------------------|
+| load             | löst aus, wenn das Dokument mit allen Ressourcen (Bilder, CSS-Dateien, Skripte usw.) vollständig geladen wurde. |
+| domContentLoaded | löst aus, wenn das Dokument geladen wurde, aber die externen Ressourcen noch nicht verfügbar sind.        |
+| unload           | löst aus, wenn der Benutzer die Seite verlässt oder das Dokument geschlossen wird.                        |
+| beforeunload     | löst aus, bevor der Benutzer die Seite verlässt; kann genutzt werden, um den Benutzer vor ungeseherten Änderungen zu warnen. |
+| resize           | löst aus, wenn das Browserfenster vergrößert oder verkleinert wird.                                      |
+| scroll           | löst aus, wenn der Benutzer das Dokument scrollt.                                                         |
+
+```js
+window.addEventListener("resize", function() {
+// Behandlung des resize-Events
+
+});```

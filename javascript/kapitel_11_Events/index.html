@@ -20,9 +20,73 @@ Skaliere das Bild auf das Doppelte (scale(2)). -->
     .zoomIn {
         transform: scale(2); transition: 1s
     }
+  /* Nur für die Sichtbarkeit */
+  #klick {
+    padding: 10px 20px;
+    font-size: 1.1rem;
+    cursor: pointer;
+  }
+
+  .color {
+    margin-top: 20px;
+    padding: 15px;
+    font-size: 1.2rem;
+    background: lightgray;
+  }
+
+  /* Klassen, die per JS umgeschaltet werden */
+  .dark {
+    background: orange;
+  }
+
+  .black {
+    color: black;
+  }
 </style>
 <!-- das img hat eine klasse zoomit -->
 <img class="zoomit" src="images/garn.jpg" width="200" height="200"> 
+
+<h2>Callback-Funktionen Beispiel</h2>
+<button id="klick">klick!</button>
+
+<div class="color">Ich ändere meine Darstellung, wenn du auf den Button klickst.</div>
+
+<div class="columns">
+    <label><input class="feld" placeholder="Ort"></label>
+    <label><input class="feld" placeholder="Straße"></label>
+    <label><input class="feld" placeholder="Land"></label>
+</div>
+
+
+<div id="meinDiv" style="width:300px; height:200px; border:1px solid black;">
+  Bewege die Maus hier
+</div>
+<p>Mausposition: <span id="anzeige">0, 0</span></p>
+
+
+<input id="textfld" type="text" placeholder="Geben sie einen Text ein">
+
+<input type="text" id="search" placeholder="Suchbegriff eingeben">
+<input type="text" id="inputField" placeholder="Tippe hier etwas">
+<div id="output"></div>
+
+<!-- klassisches kontaktforlumar -->
+<form id="myform">
+    <input id="reqname" type="text" placeholder="Name">
+    <span class="emsg" id="errName"></span>
+
+    <input id="reqemail" type="email" placeholder="Email">
+    <span class="emsg" id="errEmail"></span>
+
+    <input id="reqphone" type="tel" placeholder="Telefon">
+    <span class="emsg" id="errPhone"></span>
+
+    <textarea id="reqtext" placeholder="Ihr Anliegen"></textarea>
+    <span class="emsg" id="errText"></span>
+
+    <button type="submit">Absenden</button>
+</form>
+
 </body>
 
 </html>

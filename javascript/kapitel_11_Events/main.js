@@ -8,10 +8,10 @@ markiere(this) ruft die Funktion auf und übergibt den Button.
 el.style.background färbt genau diesen Button gelb. */
 const img = document.querySelector(".zoomit"); // holt das img Element mit der Klasse zoomit
 
-img.onmouseover = function() { // wenn der mauszeiger das element betritt . css macht transform: scale(2) - bild zoomt hinein
+img.onmouseover = function() { // wenn der mauszeiger das element betritt - css macht transform: scale(2) - bild zoomt hinein
 this.classList.add("zoomIn");
 }
-img.onmouseout = function() { // mauszeiger verlässt das element . bild zoomt wieder heraus
+img.onmouseout = function() { // mauszeiger verlässt das element - bild zoomt wieder heraus
 this.classList.remove("zoomIn")
 }
 img.ontouchend = function() {
@@ -49,7 +49,7 @@ function blurField(evt) {
 input.forEach((elem) => {
   elem.addEventListener("blur", blurField);
 });
-input [2].removeEventListener("blur", blurField) // entfernt den eventlistener für den dritten input
+input[2].removeEventListener("blur", blurField) // entfernt den eventlistener für den dritten input
 input[2].remove(); // entfernt das element aus dem DOM
 
 const elem = document.querySelector("#meinDiv");
@@ -146,7 +146,7 @@ function checkText() {
     const val = document.querySelector("#reqtext").value.trim();
     const emsg = document.querySelector("#errText");
     if (!/^.{30,}$/.test(val)) {
-        emsg.innerText = "Bitte erklären Sie Ihr Anliegen kurz.";
+        emsg.innerText = "Bitte erklären Sie Ihr Anliegen kurz, aber mindestens mit 30 Zeichen.";
         return false;
     }
     emsg.innerText = "";

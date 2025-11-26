@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript - Kapitel 12</title>
+    <script src="main.js" defer></script>
+
+</head>
+<body>
+    <header>
+        <h1>JavaScript Kapitel 12 - Formulare Prüfen und versenden</h1>
+    </header>
+<p>Beispiel 1</p>
+<form id="loginForm">
+  <input type="text" name="username" id="usernameLogin" placeholder="username">
+  <button type="submit">Senden</button>
+</form>
+<p> Beispiel 2</p>
+<div class="test" id="output"></div>
+
+<form id="plzForm">
+  <input type="text" id="plz" name="plz" placeholder="Postleitzahl">
+  <button type="submit">Senden</button>
+</form>
+
+<p>Beispiel 3</p>
+
+<form action="formapp.php" method="post">
+  <div class="test" style="color: red"></div>
+
+  Name  
+  <input type="text" id="username" name="username" placeholder="username">
+
+  <br><br>
+
+  Ort  
+  <select id="ort" name="ort">
+    <option value="ms">Münster</option>
+    <option value="bb" selected="selected">Böblingen</option>
+    <option value="m">München</option>
+    <option value="hh">Hamburg</option>
+  </select>
+
+  <br><br>
+
+  Bemerkung  
+  <textarea id="bemerkung" name="bemerkung"></textarea>
+
+  <br><br>
+
+  <input type="radio" value="gelb" name="choice"> Gelb
+  <input type="radio" value="blau" name="choice"> Blau
+
+  <br><br>
+
+  <input type="checkbox" id="age" name="age"> mitmachen
+
+  <br><br>
+
+  <button type="submit">Senden</button>
+</form>
+
+
+</body>
+
+</html>

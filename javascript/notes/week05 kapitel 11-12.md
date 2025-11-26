@@ -445,4 +445,460 @@ Window-Events werden wie Document-Events mit addEventListener behandelt, nur das
 window.addEventListener("resize", function() {
 // Behandlung des resize-Events
 
-});```
+});
+```
+
+
+## Learningfacts - Kapitel 12 - Formulare prüfen und versenden
+Ein klassisches Webformular besteht aus zwei Teilen:
+
+1. HTML-Formular
+Enthält form-, input-, select- usw. Elemente.
+Jedes Eingabefeld nutzt ein name-Attribut, damit der Server die Daten als Name-Value-Paare empfangen kann.
+→ name = Identifier für das Feld
+→ value = Nutzer-Eingabe oder optionaler Vorgabewert
+
+2. PHP-Programm auf dem Server
+Empfängt die Daten aus dem Formular und verarbeitet sie. Das HTML-Formular wird so gestaltet, dass es genau die Daten liefert, die das PHP-Skript erwartet.
+
+JavaScript ist optional. Bei einfachen Formularen wie Kontakt- oder Kommentarformularen braucht man es nicht.
+Wenn JavaScript eingesetzt wird, übernimmt es die Rolle eines Vermittlers, z. B.:
+
+- verhindert das automatische Absenden des Formulars,
+- prüft Eingaben direkt im Browser,
+- gibt sofort Rückmeldungen, ohne die Seite neu zu laden.
+
+Als JavaScript-Programmierer muss man kein PHP können – man musst nur wissen, welche Namen und Werte das PHP-Skript erwartet.
+
+Beispiel: JS-Validierung
+
+Problem: Username zu kurz → muss mindestens 3 Zeichen haben.
+```js
+<form id="loginForm">
+  <input type="text" name="username" id="username">
+  <button type="submit">Senden</button>
+</form>
+
+<script>
+document.getElementById("loginForm").addEventListener("submit", function(e) {
+  const user = document.getElementById("username").value;
+
+  if (user.length < 3) {
+    e.preventDefault(); // Absenden verhindern
+    alert("Username muss mindestens 3 Zeichen lang sein.");
+  }
+});
+</script>
+
+```
+### Werte von Eingabefeldern lesen & schreiben – Überblick
+
+JavaScript prüft Eingaben vor dem Absenden, um unnötige Serveranfragen zu vermeiden.
+Der Server kann umgekehrt auch Werte zurückgeben, die JavaScript in Formularfelder einträgt.
+
+Beim Klick auf „Senden“ (submit) erstellt der Browser automatisch einen HTTP-Request aus allen name=value-Paaren des Formulars (Query-String). Das Zusammenbauen übernimmt der Browser – die Serveranwendung erhält die Daten bereits korrekt formatiert.
+
+Zugriff auf Formularfelder
+
+JavaScript greift auf Werte in Formularen genauso zu wie auf andere DOM-Elemente:
+
+- Über id
+document.getElementById("feld")
+oder
+document.querySelector("#feld")
+
+- Über name
+document.getElementsByName("username")[0]
+
+Das funktioniert, weil Formulare immer name-Attribute nutzen, um Werte für den Server eindeutig zu identifizieren.
+
+Absenden verhindern (Wichtig für Validierung)
+
+Beim Klick auf den Button löst der Browser ein submit-Event aus.
+Für eigene Prüfungen muss JavaScript dieses Ereignis abfangen und das Absenden stoppen:
+```js
+form.addEventListener("submit", e => {
+  e.preventDefault(); // verhindert HTTP-Request
+});
+
+```
+Eingaben erkennen (Events)
+
+Es gibt mehrere Events, um Eingaben zu überwachen:
+
+- blur – Feld verliert den Fokus (z. B. Klick neben das Feld)
+- change – Inhalt eines Felds ändert sich (nützlich für select)
+- input – reagiert auf jede Tastatureingabe (ähnlich: keydown)
+
+Praktischer Tipp
+
+Zum Testen ein kleines Ausgabefeld einbauen, das dir live zeigt, was eingegeben wurde (anstatt immer in die Konsole zu schauen).
+Vor Veröffentlichung wieder entfernen.
+
+Beispiel: Wert lesen, prüfen und wieder ins Feld schreiben
+
+Aufgabe: Nutzer soll eine Postleitzahl eingeben. Zulässig sind nur 5 Ziffern.
+```html
+<div class="test" id="output"></div>
+
+<form id="plzForm">
+  <input type="text" id="plz" name="plz">
+  <button type="submit">Senden</button>
+</form>
+
+<script>
+const plzInput = document.getElementById("plz");
+const output   = document.getElementById("output");
+const form     = document.getElementById("plzForm");
+
+// Eingaben live anzeigen
+plzInput.addEventListener("input", () => {
+  output.textContent = "Eingabe: " + plzInput.value;
+});
+
+// Form-Validierung
+form.addEventListener("submit", (e) => {
+  const val = plzInput.value;
+
+  if (!/^\d{5}$/.test(val)) {
+    e.preventDefault();
+    alert("PLZ muss genau 5 Ziffern enthalten.");
+    return;
+  }
+
+  // Beispiel: Wert aus Serverantwort wieder ins Feld schreiben
+  // plzInput.value = serverAntwort.plz;
+});
+</script>
+```
+
+### Checkboxen & Radiobuttons – Übersicht
+✔️ Checkboxen (<input type="checkbox">)
+
+Haben ein implizites value-Attribut
+→ Wenn kein eigener Wert vergeben wird, liefert .value immer "on"
+
+Haben zusätzlich eine checked-Eigenschaft
+→ checked = true (aktiviert)
+→ checked = false (nicht aktiviert)
+
+Zum Auslesen nutzt man meistens:
+```js
+checkbox.checked     // true/false
+checkbox.value       // "on" oder eigener Wert
+
+```
+Radiobuttons (<input type="radio">)
+
+Mehrere Radiobuttons teilen sich einen gemeinsamen Namen (name="...")
+Immer nur ein Radiobutton der Gruppe kann aktiv sein
+Auslesen erfolgt am einfachsten über das click-Event:
+
+```js
+radio.addEventListener("click", () => console.log(radio.value));
+
+```
+Um den aktiven Radiobutton zu finden:
+```js
+document.querySelector('input[name="choice"]:checked').value;
+
+```
+focus-Event
+
+Wird ausgelöst, wenn ein Eingabefeld den Fokus erhält (z. B. durch Anklicken)
+Wird häufig genutzt, um das aktive Feld optisch hervorzuheben (z. B. Rahmenfarbe)
+
+Beispiel:
+```js
+input.addEventListener("focus", () => {
+  input.style.border = "2px solid blue";
+});
+
+```
+blur-Event
+
+Gegenstück zu focus
+Wird ausgelöst, wenn ein Element den Fokus verliert
+Praktisch für Validierungen oder um Eingaben zu speichern
+
+```js
+input.addEventListener("blur", () => {
+  console.log("Feld verlassen:", input.value);
+});
+
+```
+
+Bonus: CSS clamp() für Schriftgrößen
+
+clamp(min, preferred, max) begrenzt einen Wert auf einen definierten Bereich
+Wird häufig für responsive Schriftgrößen verwendet
+
+Beispiel:
+```js
+font-size: clamp(1rem, 2vw, 2rem);
+```
+
+Damit wird die Schriftgröße:
+
+nie kleiner als 1rem
+nie größer als 2rem
+
+dazwischen flexibel abhängig vom Viewport
+
+## 12.2 Formulardaten versenden
+
+Formulardaten versenden – Zusammenfassung
+1. Absenden des Formulars verhindern
+
+Bevor Formulardaten gesendet werden, prüft das Skript die Eingaben.
+Dazu wird das automatische Absenden durch evt.preventDefault() gestoppt.
+```js
+const form = document.querySelector("#form-element");
+
+function formSubmit(evt) {
+  evt.preventDefault(); // verhindert das Abschicken
+}
+
+form.addEventListener("submit", formSubmit);
+```
+
+2. Werte aus Feldern auslesen (klassische Methode)
+
+Formulare senden Name–Wert-Paare, wobei:
+
+der Name aus name="..." kommt
+
+der Wert aus .value oder .checked
+
+✔️ value für Text, Select, Textarea
+
+Beispiele:
+
+inputUsername.value
+ortSelection.value
+text.value
+
+✔️ checked für Checkboxen
+checkbox.checked   // true / false
+
+✔️ Radiobuttons (name-Gruppe)
+
+Radiobuttons mit gleichem name werden gesammelt:
+```js
+for (const item of radio) {
+  if (item.checked) {
+    console.log("choice", item.value);
+    break;
+  }
+}
+```
+
+3. FormData – moderne Methode zum Sammeln und Senden von Formulardaten
+
+FormData erleichtert das Auslesen und Übermitteln von Formulardaten:
+
+sammelt automatisch alle Felder
+
+berücksichtigt Name-Value-Paare
+
+encodiert Werte korrekt (z. B. Umlaute, Leerzeichen)
+
+spart eigenes Durchlaufen der Felder
+
+Beispiel:
+```js
+function formSubmit(evt) {
+  evt.preventDefault();
+
+  const data = new FormData(formdemo);
+
+  for (const [name, value] of data) {
+    console.log(name, value);
+  }
+}
+```
+
+Vorteile:
+
+Kein Durchhangeln durch einzelne Inputs
+
+Unterstützt mehrfach vorkommende Namen (z. B. Checkbox-Gruppen stadt[])
+
+Bereit für fetch() oder AJAX-Requests
+
+4. HTML-Beispiel für FormData
+<form action="formdata.php" method="post" id="formdemo">
+  <select name="artikel">
+    <option value="regenjacke">Regenjacke</option>
+    <option value="wanderstiefel">Wanderstiefel</option>
+    <option value="rucksack">Rucksack</option>
+  </select>
+
+  <input type="checkbox" name="stadt[]" value="München"> München
+  <input type="checkbox" name="stadt[]" value="Rüdesheim" checked> Rüdesheim
+  <input type="checkbox" name="stadt[]" value="Straßburg" checked> Straßburg
+
+  <textarea name="txt" id="txt">
+    Text mit Umlauten wie Ä, ß; und Semikolon
+  </textarea>
+
+  <input type="checkbox" name="mitm" id="mitm" checked> Mitmachen!
+
+  <button type="submit">Senden</button>
+</form>
+
+
+Besonderheit:
+stadt[] erzeugt ein Array mehrerer Werte, ideal für Mehrfachauswahl mit Checkboxen.
+
+Kurzfazit
+
+* preventDefault() verhindert das automatische Absenden, damit JavaScript vorher prüfen kann
+.value → Inhalt von Text/Select/Textarea
+.checked → Zustand von Checkbox und Radio
+
+* Radiobuttons → Gruppe über getElementsByName() durchlaufen
+* FormData → moderne, flexible, automatische Sammlung aller Formulardaten
+
+
+### FormData & typische Hürden bei Formularen – Zusammenfassung
+1. Typische Probleme bei Formularen
+
+Codierung:
+Sonderzeichen (Ä, ß, &, ;) müssen korrekt codiert werden, damit sie sauber übertragen werden.
+
+Checkboxen:
+
+Einzelne Checkbox → überträgt "on" (falls kein eigenes value gesetzt ist)
+Mehrere Checkboxen mit gleichem Namen (stadt[]) → erzeugen ein Array von Name–Value-Paaren
+
+2. Warum FormData diese Probleme löst
+
+Das FormData-Objekt…
+
+- sammelt alle Formularwerte automatisch
+- codiert Sonderzeichen korrekt
+- arbeitet direkt mit Name-Value-Paaren
+- eignet sich viel besser als das manuelle Auslesen per .value und .checked
+
+3. Wichtige Methoden von FormData
+### 3. Wichtige Methoden von FormData
+
+| Methode              | Zweck                                                            |
+|----------------------|------------------------------------------------------------------|
+| `get(name)`          | Gibt den Wert eines Felds zurück (bei mehrfachen Feldern den ersten). |
+| `entries()`          | Iterator über alle Name–Value-Paare (ideal zum Durchlaufen aller Felder). |
+| `append(name, value)`| Fügt ein neues Name–Value-Paar hinzu.                           |
+| `values()`           | Iterator, der nur die Werte liefert.                             |
+
+4. FormData anlegen und Werte auslesen
+```js
+const form = document.querySelector("#formdemo");
+
+function formData(evt) {
+  evt.preventDefault();
+  const data = new FormData(form);
+
+  const artikel = data.get("artikel");
+  const stadt   = data.get("stadt");
+  const txt     = data.get("txt");
+
+  console.log("data:", artikel, stadt, txt);
+}
+
+```
+Vorteil:
+Sauber, kompakt, keine manuelle Navigation durch einzelne Inputs nötig.
+
+5. Mit entries() alle Formularwerte durchlaufen
+
+entries() ist besonders nützlich, sobald ein Formular mehr als ein paar Felder enthält.
+```js
+function formData(evt) {
+  evt.preventDefault();
+  const data = new FormData(form);
+  const entries = data.entries();
+
+  for (const item of entries) {
+    console.log(item);   // item = [name, value]
+  }
+}
+```
+
+Ergebnis:
+Du bekommst für jedes Feld automatisch ein Array:
+```js
+["artikel", "regenjacke"]
+["stadt[]", "Rüdesheim"]
+["txt", "Text …"]
+…
+```
+Kurzfazit
+- Formulare liefern Name–Value-Paare → FormData macht das Automatisch
+- Codierung und Checkbox-Arrays sind typische Stolperfallen → FormData löst sie
+- get() für einzelne Werte, entries() für komplette Übersicht
+- Ideal für moderne Formverarbeitung und fetch()-Requests
+
+## 12.3 Datum und Dauer – Formulareingaben
+1. Datepicker in HTML
+
+Eingabefelder wie input type="date", type="datetime-local", type="month" oder type="week" zeigen im Browser einen Kalender oder spezielle Zeitfelder.
+
+Vorteil:
+
+- Einheitliche und benutzerfreundliche Eingabe
+- Keine manuelle Formatierung nötig
+Nachteil:
+
+- Browser-darstellung kann unterschiedlich sein
+- Intern wird das Datum immer ISO-formatiert (YYYY-MM-DD für date)
+
+Beispiel:
+
+<input type="date" id="datepicker" value="">
+
+2. Datum auslesen (Datepicker)
+
+Klassische Methode: .value → liefert einen String
+Mit Event Listener auf input kann der Wert sofort verarbeitet werden
+```js
+const date = document.querySelector("#datepicker");
+
+date.addEventListener("input", function() {
+  const d = this.value;             // String im Format YYYY-MM-DD
+  document.querySelector("#userinput").innerText = d;
+
+  const dateObj = new Date(d);      // Umwandlung in Date-Objekt
+  document.querySelector("#userinput").innerText += "\n" + dateObj;
+});
+```
+
+Alternative: .valueAsDate
+liefert direkt ein Date-Objekt, ohne new Date()
+
+Beispiel: 
+
+```js
+const dateObj = this.valueAsDate;
+```
+3. datetime-local – Datum + Uhrzeit
+
+Eingabe liefert ebenfalls einen String
+Muss für Berechnungen in ein Date-Objekt umgewandelt werden
+```js
+<input type="datetime-local" id="dt">
+
+const dt = document.querySelector("#dt");
+
+dt.addEventListener("input", function() {
+  console.log(this.value);           // String z.B. "2025-11-26T15:30"
+  const zeit = new Date(this.value);
+  console.log("zeit", zeit);        // Date-Objekt für Berechnungen
+});
+```
+4. Tipps für die Praxis
+
+- Event Handler auf input fangen Änderungen sofort ab
+- .value → String, .valueAsDate → Date-Objekt
+- Mit new Date(string) kann jeder String aus input in ein Date-Objekt umgewandelt werden
+- Optional: Attribute wie min, max, value einschränken oder Vorgaben machen

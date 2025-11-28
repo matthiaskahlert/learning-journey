@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<head>
+    <title>Teilprüfung 5</title>
+    <script src="main.js" defer></script>
+    <link rel="stylesheet" href="styles.css" />
+    <meta charset="UTF-8">
+</head>
+<body>
+    <header>
+        <h1>JavaScript Teilprüfung 5 von Matthias Kahlert</h1>
+
+        <p>Bitte zur Validierung auch die Browserkonsole öffnen.</p>
+    </header>
+    
+    <h2>Veranstaltungseinladung</h2>
+    <div id="msg"></div> <!-- Für Fehlernachrichten -->
+    <form id="eventForm">
+
+        Wie lautet der Titel der Veranstaltung: <br>
+        <input type="text" id="titel" placeholder="Titel"><br><br>
+
+        Tag der Veranstaltung: <br>
+        <input type="date" id="datum"><br><br>
+
+        Zu welcher Uhrzeit findet die Veranstaltung statt?: <br>
+        <input type="time" id="zeit" placeholder="Uhrzeit"><br><br>
+
+        <p id="dauerAnzeige"></p><br><br>
+
+        Wo findet die Veranstaltung statt: <br>
+        <input type="text" id="ort" placeholder="Ort"><br><br>
+
+        Wie beschreiben sie die Veranstaltung: <br>
+        <textarea id="beschreibung" placeholder="Beschreibung..."></textarea><br><br>
+        
+
+
+        <ul id="teilnehmer">
+        
+            <li>Teilnehmer Vorname: <br>
+                <input type = "text" id="vorname"><br><br>
+            </li>
+
+            <li>Teilnehmer Nachname: <br>
+                <input type="text" id="nachname"><br><br>
+            </li>
+
+            <li>
+            Teilnehmer E-Mail: <br>
+                <input type="email" id="email"><br><br>
+            </li>
+        </ul>
+<button type="button" id="addTeilnehmer">Teilnehmer hinzufügen</button>
+
+<h3>Bereits eingetragene Teilnehmer:</h3>
+<ul id="teilnehmerAnzeige"></ul>
+
+
+        <button type="submit">Senden</button>
+    </form>
+</body>

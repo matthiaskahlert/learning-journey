@@ -1,7 +1,10 @@
 /* Aufgabe: Formulare
 Entwickle ein JavaScript-Programm, das ein einfaches Anmeldeformular für ein Event handhabt. 
 Das Formular soll folgende Felder enthalten: Vorname, Nachname, E-Mail-Adresse und eine Auswahl für die Teilnahme an Workshops. 
-Jeder Workshop soll durch eine Checkbox repräsentiert werden. Es gibt drei Workshops zur Auswahl: "Webentwicklung Grundlagen", "Fortgeschrittene JavaScript-Techniken" und "Einführung in CSS". Zusätzlich soll es einen "Anmelden"-Button geben. Deine Aufgabe besteht darin, folgende Funktionalitäten zu implementieren: 
+Jeder Workshop soll durch eine Checkbox repräsentiert werden. 
+Es gibt drei Workshops zur Auswahl: "Webentwicklung Grundlagen", "Fortgeschrittene JavaScript-Techniken" und "Einführung in CSS". 
+Zusätzlich soll es einen "Anmelden"-Button geben. 
+Deine Aufgabe besteht darin, folgende Funktionalitäten zu implementieren: 
 
 a) Überprüfe beim Klick auf den "Anmelden"-Button, ob alle Felder (Vorname, Nachname, E-Mail-Adresse) ausgefüllt wurden. 
 Wenn eines der Felder leer ist, zeige eine entsprechende Fehlermeldung an. 

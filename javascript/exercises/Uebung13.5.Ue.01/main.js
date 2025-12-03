@@ -28,7 +28,7 @@ und die Seite bei der Anzeige der aktuellen Uhrzeit oder einer Erinnerung nicht 
 // Alle Erinnerungen werden hier gespeichert
 let reminders = [];
 
-// --- a) aktuelle Zeit aus API laden ---
+// --- b) aktuelle Zeit aus API laden ---
 async function loadTime() {
   const response = await fetch("https://worldtimeapi.org/api/timezone/Europe/Berlin");
   const data = await response.json();

@@ -697,13 +697,10 @@ for (const item of radio) {
 
 FormData erleichtert das Auslesen und Übermitteln von Formulardaten:
 
-sammelt automatisch alle Felder
-
-berücksichtigt Name-Value-Paare
-
-encodiert Werte korrekt (z. B. Umlaute, Leerzeichen)
-
-spart eigenes Durchlaufen der Felder
+- sammelt automatisch alle Felder
+- berücksichtigt Name-Value-Paare
+- encodiert Werte korrekt (z. B. Umlaute, Leerzeichen)
+- spart eigenes Durchlaufen der Felder
 
 Beispiel:
 ```js

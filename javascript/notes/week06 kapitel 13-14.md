@@ -1,0 +1,823 @@
+# Meine Markdown notes Woche 6
+
+## Tag 26
+
+## Learningfacts - Kapitel 13 - Asynchrones JavaScript
+### 13.1 Zeitgesteuerte Anwendungen
+
+
+-  JavaScript ist **single-threaded** → führt Anweisungen **nacheinander** aus.
+-  Lange laufende Aufgaben würden den Ablauf **blockieren** (z. B. `alert()`, Laden von Dateien, Serveranfragen).
+-  Asynchrones JS verhindert Blockaden: zeitaufwändige Aufgaben wandern in eine **Task Queue** und werden ausgeführt, wenn der **Call Stack frei** ist.
+-  Beispiele: `addEventListener()` wartet im Hintergrund und ruft später eine **Callback-Funktion** auf.
+-  Haupttechniken für Asynchronität: **Callbacks**, **Promises**, **async/await**.
+
+
+
+* **setTimeout()** und **setInterval()** gehören zu den ältesten APIs für asynchrone Abläufe.
+* Timer sind keine echten Events, verhalten sich aber ähnlich: Sie „schlafen“ eine bestimmte Zeit und führen danach ihre Callback-Funktion aus.
+* Die Callback-Funktion wird in eine **Warteschlange (Task Queue)** gelegt und ausgeführt, sobald die festgelegte Zeit verstrichen ist und der **Call Stack frei** ist.
+* Syntax: `window.setTimeout(action, timeout)` → führt eine Funktion nach einer angegebenen Zeit (in ms) aus.
+
+Warum setTimeout() und setInterval() APIs sind
+
+Beide Funktionen gehören nicht zum JavaScript-Kern der Sprache (ECMAScript), sondern zur Web API des Browsers.
+Browser stellen JavaScript zusätzliche Funktionen zur Verfügung, die außerhalb des eigentlichen JS-Engines laufen: z. B. DOM, fetch, Timers, Geolocation, Canvas usw.
+Diese bereitgestellten Funktionen bilden eine Schnittstelle („Application Programming Interface“) zwischen JavaScript und den Fähigkeiten des Browsers.
+setTimeout() und setInterval() sind Teil genau dieser Schnittstelle - also Browser-APIs.
+
+
+#### setTimeout()
+
+führt eine Funktion einmalig nach mindestens delay ms aus.
+blockiert nicht sondern läuft sofort weiter.
+
+Syntax:
+```js
+setTimeout(fn, delay);
+```
+#### setInterval()
+
+führt eine Funktion wiederholt alle interval ms aus
+
+Syntax:
+```js
+setInterval(fn, interval);
+```
+Timer stoppen
+```js
+clearTimeout(id);
+clearInterval(id);
+
+//Beispiel:
+const id = setTimeout(...); 
+clearTimeout(id);
+
+const id2 = setInterval(...);
+clearInterval(id2);
+
+```
+
+Merke: Delay/Interval = Mindestzeit, tatsächliche Ausführung erst, wenn der Call Stack frei ist.
+
+
+
+#### requestAnimationFrame()
+
+Was es macht:
+
+requestAnimationFrame() ist eine moderne Methode für flüssige Animationen in JavaScript.
+
+Sie sagt dem Browser: „Führe diese Funktion aus, bevor der nächste Bildschirm-Frame gezeichnet wird.“
+
+Im Gegensatz zu setTimeout oder setInterval passt sich requestAnimationFrame() automatisch der Bildschirmwiederholrate an (z. B. 60 FPS).
+
+Wenn die Seite gerade nicht sichtbar ist, pausiert der Browser die Animation automatisch → energiesparend.
+
+Funktionsweise:
+
+Du übergibst eine Callback-Funktion, die die Animation Schritt für Schritt aktualisiert.
+
+Am Ende der Callback-Funktion rufst du erneut requestAnimationFrame auf, um die Animation fortzusetzen.
+
+Syntax:
+```js
+// 1. callback definieren
+function animate(timestamp) {
+    // Animation hier aktualisieren
+    // z.B. Position eines Elements ändern
+
+    // nächsten Frame anfordern
+    requestAnimationFrame(animate);
+}
+
+// 2. Animation starten
+requestAnimationFrame(animate);
+```
+Hinweise:
+
+timestamp ist ein optionaler Parameter, den der Browser automatisch liefert (aktueller Zeitpunkt in Millisekunden).
+
+Ideal für Game-Loops oder jede Animation, die flüssig laufen soll.
+
+Vorteile gegenüber setTimeout/setInterval: flüssiger, synchronisiert mit Refresh-Rate, pausiert automatisch im Hintergrund.
+
+
+#### JS-Animationen – Kurzüberblick
+
+- setTimeout() → einfache, einmalige zeitbasierte Aktion; für Wiederholung rekursiv aufrufen.
+- setInterval() → wiederholt Funktion automatisch in festen Intervallen; weniger flexibel für Animationen.
+- requestAnimationFrame() → für flüssige Animationen, synchron mit Bildschirm-Frames, pausiert automatisch im Hintergrund.
+- Einschränkung klassischer JS-Animationen → läuft gleichmäßig wie ein Metronom; echtes „Easing“ nur mit CSS oder Web Animations API möglich.
+
+### 13.2 AJAX – XMLHTTPRequest – Kommunikation mit dem Server
+Web 2.0: Laden von Daten im Hintergrund
+
+Ziel: Kommunikation mit dem Server, ohne die Seite komplett neu zu laden.
+XMLHttpRequest / AJAX: Erste Technik für asynchronen Datenaustausch zwischen Client und Server.
+Unterstützt alle textbasierten Formate (nicht nur XML).
+Daten können im Hintergrund geladen werden → flüssigeres Nutzererlebnis.
+
+Modern: Meistens wird heute das Fetch-API verwendet, XMLHttpRequest ist aber noch verfügbar.
+
+HTTP-Grundlagen:
+
+Client: sendet Anfrage (z. B. Benutzerdaten).
+Server: liefert Antwort (HTML, Daten, Bilder usw.).
+Hauptmethoden für Datenübertragung:
+
+**GET: Daten werden in der URL übermittelt.**
+
+**POST: Daten werden im HTTP-Body übertragen, nicht sichtbar in der URL.**
+Unabhängig davon, ob GET oder POST verwendet wird, gibt der Server eine Antwort mit einem Status-Code zurück. Einige der häufigsten Statusmeldungen:
+
+| Statuscode | Bedeutung / Beschreibung                   |
+|------------|-------------------------------------------|
+| 100        | Fortsetzen – Prozess läuft noch           |
+| 200        | Erfolg – Anfrage erfolgreich bearbeitet  |
+| 201        | Neue Ressource erstellt                   |
+| 204        | Kein Inhalt zurückzusenden                |
+| 300        | Redirect / Weiterleitung zu anderer URL  |
+| 301        | Ressource dauerhaft verschoben            |
+| 304        | Ressource schon lokal, keine neuen Daten |
+| 400        | Client-Fehler, Anfrage fehlerhaft oder unzulässig  |
+| 401        | Keine Autorisierung                        |
+| 403        | Zugriff verboten                           |
+| 404        | Nicht gefunden                             |
+| 500        | Server-Fehler                              |
+
+AJAX / XMLHttpRequest – Daten mit dem Server austauschen
+Grundidee
+
+Mit JavaScript kannst du Daten von einem Server anfordern oder an eine Serveranwendung senden, ohne die ganze Seite neu zu laden. Dafür brauchst du nur ein HTML-Element, um die Daten anzuzeigen, z. B.:
+
+<div id="demo"></div>
+
+Aufbau eines XMLHttpRequest
+
+XHR-Objekt erstellen
+```js
+const xhr = new XMLHttpRequest();
+```
+
+Request öffnen
+```js
+xhr.open("POST", "app.php"); // Methode + URL der Serveranwendung
+```
+
+Event-Handler für Statusänderungen
+```js
+xhr.onreadystatechange = function() {
+    if (this.readyState === 4 && this.status === 200) {
+        const myObj = JSON.parse(this.responseText); // JSON in JS-Objekt
+        document.getElementById("demo").innerHTML = 
+            `Studentin: ${myObj.student} <br>
+             Alter: ${myObj.alter} <br>
+             Note: ${myObj.note}`;
+    }
+}
+```
+
+Request absenden
+```js
+xhr.send();
+```
+Wichtige Punkte
+
+readyState (Status des Requests):
+
+Wert	Bedeutung
+0	Request nicht initialisiert
+1	Verbindung zum Server aufgebaut
+2	Request empfangen
+3	Request wird ausgeführt
+4	Request abgeschlossen, Antwort bereit
+
+status: HTTP-Antwort-Code
+
+200 = Erfolg, Daten können verarbeitet werden
+
+responseText enthält die Antwort vom Server als Text.
+
+Mit JSON.parse() wandelst du JSON-Daten in ein JavaScript-Objekt um.
+
+Praktische Hinweise
+
+Zum Testen brauchst du einen Webserver, der PHP-Dateien ausführen kann. Ohne Server funktioniert nur das Abtippen / Syntax lernen.
+
+Moderne Anwendungen nutzen APIs, z. B. für Wetterdaten, Karten oder Social Media.
+
+APIs bestehen aus Befehlen, Funktionen, Protokollen und Objekten, die Daten im XML- oder JSON-Format bereitstellen.
+
+Ein praktisches Beispiel ist die Suche nach Synonymen über die Webseite OpenThesaurus (https://openthesaurus.de). 
+Das API unterstützt XML- und JSON- Abfragen. Man kann ein Suchwort eingeben und über einen Button die Anfrage an das API senden.
+
+### 13.3 Das Fetch-API – GET – Daten abholen
+fetch() – asynchron Daten holen und senden
+
+fetch() ist der moderne Nachfolger von XMLHttpRequest (XHR).
+Mit fetch() kannst du Daten vom Server abrufen oder dorthin senden – asynchron, also ohne die Seite neu zu laden.
+
+```js
+// Einfaches Beispiel: JSON-Datei laden
+fetch("konzerte-10.json")
+    .then((response) => {
+        console.log("Content-type:", response.headers.get("Content-Type"));
+        console.log("Redirected:", response.redirected);
+        console.log("Status:", response.status);
+        console.log("Status-text:", response.statusText);
+        console.log("Response type:", response.type);
+    })
+    .then((response) => console.log(response));
+
+```
+fetch(url) gibt ein Promise zurück.
+Ein Promise verspricht, dass die asynchrone Aktion entweder erfolgreich abgeschlossen wird oder fehlschlägt.
+
+Methoden von Promises:
+
+- .then() → wird ausgeführt, wenn die Aktion erfolgreich war
+- .catch() → wird ausgeführt, wenn ein Fehler passiert
+- .finally() → wird immer ausgeführt, egal ob Erfolg oder Fehler
+
+```js
+// Ein Promise erstellen
+const meinPromise = new Promise((resolve, reject) => {
+  // hier kann der asynchrone Code hin
+  const allesGut = true; // Beispielbedingung
+  if (allesGut) {
+    resolve("Erfolg!"); // Promise erfüllt
+  } else {
+    reject("Fehler!"); // Promise abgelehnt
+  }
+});
+
+// Mit dem Promise arbeiten, man nutzt da meistens .then und .catch methoden
+meinPromise
+  .then((ergebnis) => {
+    console.log(ergebnis); // Wird ausgeführt, wenn resolve() aufgerufen wurde
+  })
+  .catch((fehler) => {
+    console.error(fehler); // Wird ausgeführt, wenn reject() aufgerufen wurde
+  })
+  .finally(() => {
+    console.log("Promise ist abgeschlossen, egal ob Erfolg oder Fehler");
+  });
+```
+
+JSON-Daten abrufen
+
+```js
+fetch("konzerte-10.json")
+    .then((response) => response.json()) // response in JSON umwandeln
+        // Der Rückgabewert des ersten then() wird in das data-Argument des nächsten then() übergeben
+    .then((data) => {
+        console.log(data); // die Daten stehen hier zur Verfügung
+    })
+    .catch((error) => console.error("Fehler beim Laden:", error));
+
+```
+Der Rückgabewert des ersten .then() wird als Argument (data) in das nächste .then() übergeben.
+fetch() kann nicht nur JSON, sondern auch Textdateien abrufen:
+```js
+fetch("info.txt")
+    .then(response => response.text()) 
+    .then(text => console.log(text));
+
+```
+
+GET- und POST-Requests
+
+Ohne Optionen: fetch() macht einen einfachen GET-Request - lädt die Daten von der angegebenen URL.
+Will man Daten senden (z. B. POST), kann man fetch Optionen übergeben:
+```js
+fetch("app.php", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ name: "Sara", alter: 21 })
+})
+.then(response => response.json())
+.then(data => console.log(data));
+```
+Vorteile von fetch() gegenüber XHR
+
+- Bessere Lesbarkeit des Codes → weniger Callback-Hell
+- Rückgabe als Promise - einfaches Verketten von .then() und .catch()
+- Einfachere Handhabung von verschiedenen Datenformaten (JSON, Text, Blob, etc.)
+
+### REST-APIs
+
+Viele APIs funktionieren als REST-APIs (Representational State Transfer). Sie sind weit verbreitet und erlauben es, Daten zu senden, zu empfangen und zu bearbeiten. Zum Beispiel nutzt WordPress ein REST-API, damit Entwickler über HTTP auf Funktionen und Daten zugreifen können. Die Informationen werden meistens im JSON-Format bereitgestellt.
+Was ist eine REST-API?
+
+Eine REST-API ist eine Art, wie zwei Systeme über das Internet miteinander kommunizieren.
+Sie basiert auf HTTP – also denselben Regeln, mit denen auch Webseiten geladen werden.
+
+Kurz gesagt:
+REST-APIs stellen Daten bereit oder nehmen Daten entgegen – meist im JSON-Format.
+
+🔹 Wofür verwendet man REST-APIs?
+
+Daten lesen (z. B. Blogposts eines WordPress-Blogs abrufen)
+Daten erstellen
+Daten bearbeiten
+Daten löschen
+
+Viele moderne Webanwendungen (WordPress, Shopify, GitHub, OpenWeather usw.) bieten REST-APIs an.
+
+
+```md
+### 🔹 Wichtige HTTP-Methoden (CRUD)
+
+| Aktion | Bedeutung      | HTTP-Methode | Beispiel               |
+|--------|----------------|--------------|-------------------------|
+| Create | Anlegen        | POST         | neuen Nutzer erstellen |
+| Read   | Lesen          | GET          | Blogposts abrufen      |
+| Update | Aktualisieren  | PUT / PATCH  | Titel ändern           |
+| Delete | Löschen        | DELETE       | Beitrag löschen        |
+```
+
+
+REST-APIs arbeiten also meistens nach dem CRUD-Prinzip.
+
+🔹 Wie sieht eine typische REST-URL aus?
+https://example.com/wp-json/wp/v2/posts
+
+
+Diese URL gibt die Posts des WordPress-Blogs zurück.
+REST-APIs liefern ihre Daten fast immer als JSON.
+
+Beispiel-Antwort (vereinfacht):
+```js
+[
+  {
+    "id": 123,
+    "title": { "rendered": "Mein erster Beitrag" },
+    "content": { "rendered": "Hallo Welt!" }
+  }
+]
+```
+🔹 Mit fetch() auf eine REST-API zugreifen
+```js
+fetch("https://wordpress.org/news/wp-json/wp/v2/posts")
+  .then(response => response.json())
+  .then(data => {
+    console.log(data); // Array von Posts
+  })
+  .catch(error => console.error("Fehler:", error));
+```
+
+Warum funktioniert das gut?
+Weil fetch() ein Promise zurückgibt → der Code bleibt lesbar und asynchron.
+
+🔹 Vorteile von REST-APIs
+
+leicht zu verwenden
+nutzen standardisierte HTTP-Methoden
+JSON ist einfach und überall lesbar
+funktionieren in jeder Programmiersprache
+flexibel und schnell
+
+🔹 Wann treten Probleme auf?
+
+Manchmal blockieren Server Anfragen aus dem Browser wegen CORS („Cross-Origin Resource Sharing“).
+Dann erscheint im Browser z. B.:
+Access to fetch at ... has been blocked by CORS policy
+
+
+✔ REST = Regeln für den Datenaustausch über HTTP
+✔ Daten werden meist als JSON geliefert
+✔ CRUD über die Methoden GET, POST, PUT, DELETE
+✔ fetch() wird genutzt, um REST-APIs anzusprechen
+✔ Sehr häufig in modernen Webanwendungen (WordPress, API-Dienste usw.)
+
+
+### 13.5 Fetch Async/Await – warten auf die Antwort
+### Async & Await (einfach erklärt)
+
+JavaScript führt manche Aufgaben asynchron aus (z. B. fetch oder setTimeout).  
+Der Code danach läuft sofort weiter, obwohl die Aufgabe noch nicht fertig ist.
+
+async/await löst dieses Problem:
+
+- `async` macht eine Funktion asynchron (sie gibt ein Promise zurück)
+- `await` wartet darauf, dass ein Promise fertig wird, bevor der Code weiterläuft
+
+Damit kann man asynchronen Code schreiben, der aussieht wie normaler, linearer Code.
+
+Beispiel:
+
+```js
+async function load() {
+  const response = await fetch("daten.json");
+  const data = await response.json();
+  console.log(data);
+}
+
+function delay(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function count() {
+  for (let i = 1; i <= 5; i++) {
+    console.log(i);
+    await delay(1000); // echte Pause
+  }
+}
+
+count();
+```
+
+
+## Learningfacts Kapitel 14
+
+Das window-Objekt wird automatisch beim Laden des HTML-<body> erzeugt, enthält alle Browser-bezogenen Methoden, Eigenschaften und APIs (wie Cookies, Speicher, Geolocation, Fenstergröße, Events, Timer, URL) und stellt das document-Objekt als Unterobjekt bereit, sodass JavaScript über window auf das gesamte Browserfenster zugreifen kann.
+
+| Eigenschaft  | Beschreibung |
+|--------------|--------------|
+| protocol     | Protokoll mitsamt dem ersten Doppelpunkt – z.B. `http:`, `https:` oder `file:` (wenn die Webseite lokal gespeichert ist) |
+| host         | String aus Hostname und Portnummer, z.B. `localhost:5000`. Die Portnummer ist optional. |
+| port         | Portnummer für die Kommunikation mit dem Server (Port 80 für HTTP und Port 443 für HTTPS sind Standardports und werden oft ausgeblendet) |
+| pathname     | Teilstring der URL, Pfadnamen zu einer Ressource |
+| hash         | String für einen Anker, der mit einem Hash-Zeichen beginnt, z.B. `let anker = window.location.hash;` |
+| hostname     | Name des Servers, der Subdomain, Domainname oder IP-Adresse |
+| href         | String mit der vollständigen URL |
+| origin       | Komfort-String mit Protokoll, Hostname und Portnummer der URL |
+| search       | Ein String, der mit einem Fragezeichen beginnt, z.B. in GET-Anfragen als Query-Parameter |
+
+
+Beispiel-URL: `https://example.com:8080/ordner/datei.html?query=1#section1`
+
+| Eigenschaft  | Wert |
+|--------------|------|
+| protocol     | "https:" |
+| host         | "example.com:8080" |
+| port         | "8080" |
+| pathname     | "/ordner/datei.html" |
+| hash         | "#section1" |
+| hostname     | "example.com" |
+| href         | "https://example.com:8080/ordner/datei.html?query=1#section1" |
+| origin       | "https://example.com:8080" |
+| search       | "?query=1" |
+
+### URL mit `window.location` umleiten oder neu laden
+
+- Um den Browser auf eine andere Webseite weiterzuleiten, kannst du eine neue URL zuweisen:
+
+```js
+window.location.href = "https://example.com";
+Alternativ geht auch:
+
+js
+
+window.location.assign("https://example.com");
+
+### Das `window`-Objekt und das `navigator`-Objekt
+
+- **Web APIs** erweitern die Browser-Funktionalität, z. B. `fetch()` oder `requestAnimationFrame()`.
+- `window.navigator` liefert Informationen über Browser und System des Nutzers, z. B.:  
+  - `navigator.geolocation` → Standort  
+  - `navigator.cookieEnabled` → Cookies aktiviert?  
+  - `navigator.clipboard` → Zugriff auf Zwischenablage  
+  - `navigator.onLine` → online/offline Status  
+  - `navigator.language` → eingestellte Sprache  
+  - u. v. m.
+
+### Beispiel: `navigator.geolocation`
+
+```js
+if ("geolocation" in navigator) {
+    navigator.geolocation.getCurrentPosition(
+        (position) => {
+            console.log("Breite:", position.coords.latitude);
+            console.log("Länge:", position.coords.longitude);
+        },
+        (error) => {
+            console.error("Fehler beim Abrufen des Standorts:", error);
+        }
+    );
+} else {
+    console.log("Geolocation wird von diesem Browser nicht unterstützt.");
+}
+```
+getCurrentPosition(successCallback, errorCallback) ruft die aktuelle Position des Nutzers ab.
+
+position.coords enthält u. a. latitude (Breite) und longitude (Länge).
+
+
+### Position überwachen: `geolocation.watchPosition()` und `clearWatch`
+
+- Mit `navigator.geolocation.watchPosition()` kann die Position des Nutzers **fortlaufend überwacht** werden.  
+- Bei Positionsänderungen wird ein Callback aufgerufen, z. B. um ein Ziel zu erreichen oder die Route zu verfolgen.  
+- Überwachung beenden: `navigator.geolocation.clearWatch(watchId)` stoppt den laufenden Watch-Prozess.
+
+
+```js
+// Ziel-Koordinaten
+const ziel = {
+    latitude: 51.44238270,
+    longitude: 6.55372590
+};
+
+// Callback für Positionsänderungen
+function watchPosition(position) {
+    const coords = position.coords;
+
+    // Überprüfen, ob das Ziel erreicht ist (hier einfache Näherung)
+    if (
+        coords.latitude === ziel.latitude &&
+        coords.longitude === ziel.longitude
+    ) {
+        console.log("Ziel erreicht!");
+    } else {
+        console.log(`Aktuelle Position: ${coords.latitude}, ${coords.longitude}`);
+    }
+}
+
+// Fehler-Callback
+function watchError(error) {
+    console.log(`Fehler: ${error.code} - ${error.message}`);
+}
+
+// Optionen für Geolocation
+const watchOptions = {
+    enableHighAccuracy: true, // GPS nutzen, falls verfügbar
+    timeout: 5000,            // maximale Wartezeit für Position
+    maximumAge: 0             // keine zwischengespeicherte Position verwenden
+};
+
+// Position einmalig abrufen
+navigator.geolocation.getCurrentPosition(
+    watchPosition,
+    watchError,
+    watchOptions
+);
+
+// Position kontinuierlich überwachen
+const watchId = navigator.geolocation.watchPosition(
+    watchPosition,
+    watchError,
+    watchOptions
+);
+
+// Stoppen der Überwachung: navigator.geolocation.clearWatch(watchId);
+```
+
+Zum beenden der Überwachung kann man clearWatch aufrufen, um den zuvor gestarteten watchPosition-Prozess abzubrechen.
+
+### Leaflet: Geolocation für Karten in JavaScript
+
+- **Leaflet** ist eine Open-Source-JavaScript-Library, die das Arbeiten mit interaktiven Karten erleichtert.  
+- Du kannst Leaflet entweder über ein **CDN** einbinden oder die Dateien lokal auf deinem Webspace speichern.  
+- Für die Anzeige einer Karte benötigst du ein HTML-`<div>`-Element (z. B. mit der id `"map"`) und CSS, um die Größe festzulegen.  
+
+#### Grundfunktionen:
+- `setView([latitude, longitude], zoom)`  
+  → Positioniert die Karte auf eine bestimmte geografische Position und legt den Zoomfaktor fest.  
+- `L.tileLayer(urlTemplate).addTo(map)`  
+  → Lädt die Kartenkacheln, z. B. von **OpenStreetMap**, die in Kacheln aufgeteilt sind, um Ladezeiten zu optimieren.  
+- `L.marker([latitude, longitude]).addTo(map)`  
+  → Setzt einen Marker auf die Karte. Mit `bindPopup()` kannst du ein Popup hinzufügen, das beim Klicken erscheint.  
+
+#### Eigene Position anzeigen:
+- Beginne mit einer Standardposition, z. B. `[0, 0]`, und einem Marker auf dieser Position.  
+- Mit der **Geolocation-API** (`navigator.geolocation`) kannst du die aktuelle Position des Nutzers abrufen (`coords.latitude` und `coords.longitude`).  
+- Die Leaflet-Methode `update()` oder `setView()` verschiebt den Marker auf die aktuelle Position und zentriert die Karte.  
+- Ein sinnvoller Zoomfaktor (z. B. 10) zeigt die Umgebung der Position deutlich.  
+
+**Zusammengefasst:** Leaflet kombiniert Kartenanzeige, Marker und Popups mit der Geolocation-API, sodass du interaktive Karten erstellen kannst, die den Standort von Nutzern oder Objekten anzeigen.
+
+### Karte und DSGVO – Privatsphäre
+
+- Wenn eine Karte auf deiner Webseite eingebunden ist, wird sie von einem **externen Kartenserver** geladen.  
+- Dabei wird die **IP-Adresse des Besuchers** an den Kartenserver übertragen und dort protokolliert.  
+- Um die **DSGVO** einzuhalten, muss der Besucher **informiert werden**, dass seine Daten weitergegeben werden.  
+- Üblicherweise verwendet man **Cookies**, um die Zustimmung des Nutzers zu speichern, sodass er nicht bei jedem Besuch erneut zustimmen muss.
+
+### IntersectionObserver – Überwachung des sichtbaren Bereichs
+
+- **Was es macht:** Überwacht, ob ein Element in den sichtbaren Bereich (Viewport) der Webseite kommt oder ihn verlässt.  
+- **Wozu nützlich:**  
+  - Animationen erst starten, wenn Elemente sichtbar werden.  
+  - Ressourcen wie Bilder oder Videos nur laden, wenn sie benötigt werden.  
+  - Verbessert Ladezeiten und reduziert unnötigen Datentransfer.  
+
+- **Syntax:** Der `IntersectionObserver` wird mit zwei Argumenten erstellt:  
+  1. Eine **Callback-Funktion**, die ausgeführt wird, wenn das Element sichtbar wird oder den Viewport verlässt.  
+  2. Eine **Optionen-Objekt**, um Verhalten wie Sichtbarkeitsgrenzen einzustellen.
+
+- **Optionen:**  
+  - `root`: Das Element, in dem die Sichtbarkeit geprüft wird. `null` = Standard-Viewport.  
+  - `threshold`: Wert zwischen 0 und 1 oder Array von Werten, ab wann die Callback-Funktion ausgelöst wird. 0 = sobald ein Pixel sichtbar ist.  
+  - `rootMargin`: Abstand zum `root`-Element, ähnlich wie CSS-Margin.
+
+#### Syntax-Beispiel
+
+```js
+// Callback-Funktion
+function callback(entries, observer) {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      console.log('Element sichtbar:', entry.target);
+    } else {
+      console.log('Element nicht mehr sichtbar:', entry.target);
+    }
+  });
+}
+
+// Optionen für den Observer
+const options = {
+  root: null,            // Beobachtung im Viewport
+  threshold: 0.5,        // 50% des Elements müssen sichtbar sein
+  rootMargin: '0px 0px -10px 0px' // optionaler Margin
+};
+
+// Observer erstellen
+const observer = new IntersectionObserver(callback, options);
+
+// Element überwachen
+const targetElement = document.querySelector('#meinElement');
+observer.observe(targetElement);
+
+
+### 14.4 Web Animations API
+
+- **Was es ist:** API für JavaScript-Animationen, ähnlich wie CSS-Keyframes, aber flexibler.  
+- **Vorteile gegenüber CSS:**  
+  - Animationsstatus kann ausgelesen werden (läuft, pausiert, beendet).  
+  - Animationen können in Serie geschaltet werden.  
+  - Geschwindigkeit und Steuerung (Pause, playbackRate) möglich.  
+  - Debugging in der Konsole einfacher als bei CSS.
+
+- **Methode:** `element.animate(keyframes, options)`  
+  - **keyframes:** Array von CSS-Styles, z. B. `[ { transform: 'rotate(0deg)' }, { transform: 'rotate(360deg)' } ]`  
+  - **options:** Dauer, Anzahl der Wiederholungen, Easing usw.
+
+- **Animation steuern:**  
+```js
+const anim = element.animate(keyframes, options);
+anim.pause();               // Animation pausieren
+anim.playbackRate = 2;      // Geschwindigkeit verdoppeln
+anim.finished.then(() => {  // Code nach Ende der Animation
+  console.log('Animation beendet');
+});
+```
+In Serie schalten:
+
+js
+```js
+const anim1 = element.animate([...], {duration: 1000});
+anim1.finished.then(() => {
+  element.animate([...], {duration: 500}); // startet nach anim1
+});
+```
+Praxis: Eignet sich für Spiele, interaktive Webseiten oder komplexe Animationen, die CSS allein nicht leisten kann.
+
+Keypoints:
+
+- .animate() = Hauptfunktion für Animationen
+- .pause() / .playbackRate = Kontrolle der Animation
+- .finished.then() = Verkettung / Ablaufkontrolle
+
+### 14.5 Cookies – Gedächtnis für Webseiten
+
+- **Was sind Cookies:**  
+  - Kleine Datenpakete (bis 4 KB) im Browser des Nutzers, um Einstellungen, Login-Status oder Zustimmung zu speichern.  
+  - HTTP ist zustandslos; Cookies ermöglichen Webseiten, sich Nutzeraktionen zu merken.
+
+- **JavaScript-Cookies:**  
+  - `document.cookie` dient zum Setzen, Lesen und Löschen von Cookies.  
+  - Cookies bestehen aus `Name=Wert`-Paaren; mehrere Cookies werden durch `;` getrennt.  
+  - Werte sollten mit `encodeURIComponent()` codiert werden (z. B. Leerzeichen → `%20`).
+
+- **Cookie-Optionen:**  
+  - `max-age`: Lebensdauer in Sekunden (ersetzt `expires`)  
+  - `path`: Pfad, auf den das Cookie gilt (z. B. `/archiv/`)  
+  - `domain`: Gültige Domain/Subdomain (z. B. `.myhome.me` für alle Subdomains)  
+  - `secure`: Nur über HTTPS abrufbar  
+  - `HttpOnly`: Cookie nicht über JavaScript lesbar (serverseitig gesetzt)  
+  - `comment`, `version`: optional, Infos für Nutzer/Version
+
+- **Cookies setzen:**  
+```js
+document.cookie = "username=Max; max-age=604800; path=/; secure";
+```
+
+Cookie auslesen:
+```js
+function getCookie(name) {
+  const cookies = document.cookie.split("; ");
+  const found = cookies.find(c => c.startsWith(name + "="));
+  return found ? decodeURIComponent(found.split("=")[1]) : null;
+}
+console.log(getCookie("username")); // z. B. "Max"
+
+```
+
+Praxisbeispiel:
+
+Zustimmung für DSGVO speichern
+
+Theme oder Layout-Einstellungen merken
+
+Warenkorb-Daten zwischen Seitenbesuchen behalten
+
+Kernpunkte:
+
+Cookies = Browser-Gedächtnis für Webseiten
+
+Setzen, auslesen, löschen über document.cookie
+
+Optionen steuern Sichtbarkeit, Lebensdauer und Sicherheit
+
+
+## 📦 Web Storage – Local Storage & Session Storage
+
+### 🔍 Was ist Web Storage?
+Web Storage ist eine Browser-Technik, um Daten **im Browser** zu speichern – ohne Server und ohne Cookies.  
+Er ist **schneller**, **größer** (mehrere MB) und **einfacher zu benutzen** als Cookies und funktioniert **offline**.
+
+Es gibt zwei Speicherarten:
+
+- **localStorage** → dauerhaft, bleibt nach Browserneustart erhalten  
+- **sessionStorage** → nur für den aktuellen Tab, gelöscht beim Tab-Schließen  
+
+Beide speichern Daten als **Schlüssel/Wert-Paare** (Strings).
+
+---
+
+### 🧩 Schlüssel–Wert-Prinzip
+- Alles wird als **String** gespeichert.  
+- Objekte müssen mit `JSON.stringify()` gespeichert und mit `JSON.parse()` ausgelesen werden.
+
+---
+
+### 📊 Vergleich: localStorage vs. sessionStorage
+
+| Merkmal        | localStorage                         | sessionStorage                   |
+|----------------|--------------------------------------|----------------------------------|
+| Lebensdauer    | dauerhaft                            | bis Tab geschlossen wird         |
+| Datengröße     | mehrere MB                           | mehrere MB                       |
+| Einsatzzweck   | Themes, Sprache, Einstellungen       | Warenkorb, Formulare, temporäre Daten |
+| Sichtbarkeit   | Domain-weit (gleiche Domain)         | nur im aktuellen Tab             |
+| Datentyp       | Strings (Objekte per JSON)           | Strings (Objekte per JSON)       |
+
+---
+
+### 🛠️ Wichtige Methoden
+
+#### 🔸 Wert speichern
+```js
+localStorage.setItem("key", "value");
+sessionStorage.setItem("key", "value");
+🔸 Wert auslesen
+js
+Code kopieren
+localStorage.getItem("key");
+🔸 Wert löschen
+js
+Code kopieren
+localStorage.removeItem("key");
+🔸 Gesamten Speicher löschen
+js
+Code kopieren
+localStorage.clear();
+🧱 Objekte speichern (JSON notwendig!)
+Speichern:
+
+js
+Code kopieren
+const settings = { theme: "dark", fontSize: 16 };
+localStorage.setItem("settings", JSON.stringify(settings));
+Auslesen:
+
+js
+Code kopieren
+const saved = localStorage.getItem("settings");
+if (saved) {
+  const settingsObj = JSON.parse(saved);
+  console.log(settingsObj.theme);
+}
+🎨 Beispiel: Nutzerfarbe speichern
+Beim Klick Farbe speichern:
+
+js
+Code kopieren
+function setColor(color) {
+  localStorage.setItem("favoriteColor", color);
+  document.body.style.background = color;
+}
+Beim Laden wiederherstellen:
+
+js
+Code kopieren
+const savedColor = localStorage.getItem("favoriteColor");
+if (savedColor) {
+  document.body.style.background = savedColor;
+}
+🧹 Löschoption (für Übungen)
+html
+Code kopieren
+<button onclick="localStorage.removeItem('favoriteColor'); location.reload();">
+  Farbe zurücksetzen
+</button>

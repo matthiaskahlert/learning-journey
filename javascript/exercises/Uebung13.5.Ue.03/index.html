@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <title>JavaScript 13.5.Ue.02</title>
+    <script src="main.js" defer></script>
+    <!-- <link rel="stylesheet" href="styles.css" /> -->
+    <meta charset="UTF-8">
+</head>
+<body>
+<header>
+<h2>JavaScript Aufgabe 13.5.Ue.03</h2>
+<h3>Aufgabenverwaltung</h3>
+
+</header>
+
+  <h4>Task notieren, Priorität setzen und speichern</h4>
+
+<form id="taskForm">
+    <div class="task-container">
+        <label for="taskName">Beschreibung der Aufgabe:</label>
+        <textarea id="taskName" name="taskName" 
+                  placeholder="Bitte Aufgabe formulieren" required></textarea>
+        <br><br>
+    </div>
+
+    <div class="select-container">
+        <label for="prio">Priorität:</label> 
+        <select id="prio">
+          <option value="" selected="selected">Bitte wählen</option>
+          <option value="niedrig">niedrig</option>
+          <option value="mittel">mittel</option>
+          <option value="hoch">hoch</option>
+        </select><br><br>
+    </div>
+    <button type="submit">Aufgabe speichern</button><br><br>
+</form>
+    <button id="showTasksBtn" type="button">Aufgaben anzeigen</button><br><br>
+<h3>Aufgabenliste:</h3>
+<ul id="taskList"></ul>
+
+
+</body>
+</html>

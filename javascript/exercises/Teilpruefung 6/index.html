@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Teilprüfung 6</title>
+    <script src="main.js" defer></script>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+    <header>
+        <h1>JavaScript Teilprüfung 6 von Matthias Kahlert</h1>
+        <p>Bitte zur Validierung auch die Browserkonsole öffnen.</p>
+    </header>
+    
+    <h2>Task Tracker</h2>
+    <p class="intro-text">Erstelle, priorisiere und verfolge deine Aufgaben. Alle Aufgaben werden in einer übersichtlichen Liste angezeigt und nach Prio sortiert.</p>
+
+
+    <form id="taskForm">
+        Aufgabe formulieren: <br>
+        <textarea id="taskName" name="taskName" placeholder="Bitte Aufgabe formulieren" required></textarea><br><br>
+
+        Fälligkeitsdatum der Aufgabe: <br>
+        <input type="date" id="taskDate" name="taskDate" required><br><br>
+
+        Priorität auswählen: <br>
+        <select id="prio" required>
+            <option value="" selected="selected">Bitte wählen</option>
+            <option value="niedrig">niedrig</option>
+            <option value="mittel">mittel</option>
+            <option value="hoch">hoch</option>
+        </select><br><br>
+
+        <button type="submit">Aufgabe speichern</button>
+    </form>
+
+    <div class="task-container-list">
+        <h3>Aufgabenliste:</h3>
+        <ul id="taskList"></ul>
+    </div>
+</body>
+</html>

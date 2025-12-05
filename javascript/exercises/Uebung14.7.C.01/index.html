@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript 14.7.C.01</title>
+    <script src="main.js" defer></script>
+    <style>
+        #observerElement {
+            width: 200px;
+            height: 100px;
+            background-color: lightgray;
+            margin-top: 100vh; /* damit man scrollen muss */
+            transition: background-color 0.5s ease;
+        }
+
+        #animation {
+            width: 800px;
+            height: 250px;
+            background-color: orange;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h2>JavaScript Aufgabe 14.7.C.01</h2>
+        <h3>Web APIs – Window, Cookies, Observer, Animation, Fetch</h3>
+    </header>
+
+    <h3>a) Fenstergröße</h3>
+    <p id="windowSize">Wird geladen...</p>
+
+    <h3>b) Cookie-Status</h3>
+    <p id="cookieStatus">Wird geprüft...</p>
+
+    <h3>c) Anzahl der Besuche</h3>
+    <p id="besuche">Wird geladen...</p>
+
+    <h3>d) Animation</h3>
+    <div id="animation">Ich bewege mich!</div>
+
+    <h3>e) Intersection Observer</h3>
+    <p>Scrolle nach unten, bis das Element erscheint:</p>
+    <div id="observerElement">Beobachtetes Element</div>
+
+    <h3>f) Fetch API – Erste 5 Beiträge</h3>
+    <ul id="beiträge"></ul>
+
+</body>
+</html>

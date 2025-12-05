@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Learning Journey — vereinfachte Navigation</title>
+  <style>
+    /* grundlayout: nav links, content rechts */
+    body {
+      margin: 0;
+      display: flex;
+      font-family: Arial, sans-serif;
+      min-height: 100vh;
+      background: #0f1724;
+      color: #e6eef8;
+    }
+
+    nav {
+      width: 250px;
+      padding: 16px;
+      border-right: 1px solid rgba(255,255,255,0.1);
+      overflow-y: auto;
+    }
+
+    nav h1 {
+      font-size: 18px;
+      margin: 0 0 12px 0;
+      color: #60a5fa;
+    }
+
+    ul.tree {
+      list-style: none; /* entfernt bullets */
+      padding-left: 0;
+    }
+
+    li.item {
+      margin: 6px 0;
+    }
+
+    a.link {
+      color: inherit;
+      text-decoration: none;
+      padding: 4px 6px;
+      display: block;
+      border-radius: 4px;
+    }
+
+    a.link:hover {
+      background: rgba(255,255,255,0.05);
+    }
+
+    main {
+      flex: 1;
+      padding: 16px;
+      overflow: auto;
+    }
+
+    .viewer-iframe {
+      width: 100%;
+      height: 70vh;
+      border: none;
+      border-radius: 6px;
+      display: none;
+      background: white;
+    }
+
+    .md {
+      line-height: 1.6;
+      color: #d9eefc;
+      display: none;
+    }
+
+    .error {
+      color: #ffb4b4;
+      background: rgba(255,80,80,0.06);
+      padding: 10px;
+      border-radius: 6px;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <h1>Learning Journey</h1>
+    <ul class="tree" id="navTree"></ul>
+  </nav>
+
+  <main>
+    <iframe id="htmlFrame" class="viewer-iframe"></iframe>
+    <article id="mdContainer" class="md"></article>
+    <div id="status">Wähle einen Eintrag in der Navigation.</div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script>
+    (function(){
+      // === Konfiguration ===
+      const OWNER = "matthiaskahlert";
+      const REPO = "learning-journey";
+      const BRANCH = "main";
+      const API_BASE = "https://api.github.com";
+      const RAW_BASE = "https://raw.githubusercontent.com";
+
+      const navTree = document.getElementById("navTree");
+      const htmlFrame = document.getElementById("htmlFrame");
+      const mdContainer = document.getElementById("mdContainer");
+      const statusEl = document.getElementById("status");
+
+      // Hilfsfunktion: Inhalte aus GitHub Repository laden
+      async function fetchContents(path=""){
+        const url = `${API_BASE}/repos/${OWNER}/${REPO}/contents/${encodeURIComponent(path)}?ref=${BRANCH}`;
+        const resp = await fetch(url, {headers: {Accept: "application/vnd.github.v3+json"}});
+        if(!resp.ok) throw new Error(`Fehler beim Laden von ${path || '/'}: ${resp.status}`);
+        return resp.json();
+      }
+
+      // Wähle bevorzugte Datei im Ordner: index.html > any.html > README.md > any.md
+      function pickPreferredFile(files){
+        const map = {};
+        files.forEach(f => map[f.name.toLowerCase()] = f);
+        if(map["index.html"]) return map["index.html"].name;
+        const anyHtml = files.find(f => f.name.toLowerCase().endsWith(".html"));
+        if(anyHtml) return anyHtml.name;
+        if(map["readme.md"]) return map["readme.md"].name;
+        const anyMd = files.find(f => f.name.toLowerCase().endsWith(".md"));
+        if(anyMd) return anyMd.name;
+        return null;
+      }
+
+      // Rekursive Traversierung eines Verzeichnisses
+      async function traverseDir(path=""){
+        const items = await fetchContents(path);
+        const dirs = items.filter(i => i.type === "dir");
+        const files = items.filter(i => i.type === "file");
+
+        const hasHtmlOrMd = files.some(f => /\.(html|md)$/i.test(f.name));
+        const children = [];
+
+        for(const d of dirs){
+          try{
+            const child = await traverseDir(d.path);
+            if(child) children.push(child);
+          }catch(e){
+            console.warn("skip", d.path, e);
+          }
+        }
+
+        if(hasHtmlOrMd || children.length){
+          const preferred = pickPreferredFile(files);
+          return { name: path || REPO, path, preferredFile: preferred, children };
+        }
+        return null;
+      }
+
+      // Baue Navigation
+      function buildNavNode(node, container){
+        const li = document.createElement("li");
+        li.className = "item";
+
+        const displayName = node.path ? node.path.split("/").pop() : node.name;
+
+        let targetPath = node.preferredFile ? (node.path ? node.path + "/" : "") + node.preferredFile : null;
+
+        const a = document.createElement("a");
+        a.className = "link";
+        a.href = "#";
+        a.textContent = displayName;
+        a.dataset.path = targetPath || "";
+        a.addEventListener("click", (e)=>{
+          e.preventDefault();
+          if(!a.dataset.path) return;
+          loadFile(a.dataset.path);
+        });
+
+        li.appendChild(a);
+        container.appendChild(li);
+
+        if(node.children && node.children.length){
+          const ul = document.createElement("ul");
+          node.children.forEach(child => buildNavNode(child, ul));
+          container.appendChild(ul);
+        }
+      }
+
+      // Lade Datei (HTML oder Markdown) in den Viewer
+      async function loadFile(relPath){
+        htmlFrame.style.display = "none";
+        mdContainer.style.display = "none";
+        statusEl.style.display = "none";
+
+        const ext = relPath.split(".").pop().toLowerCase();
+        const rawUrl = `${RAW_BASE}/${OWNER}/${REPO}/${BRANCH}/${relPath}`;
+
+        try{
+          if(ext === "html"){
+            htmlFrame.src = rawUrl;
+            htmlFrame.style.display = "block";
+          } else if(ext === "md"){
+            const resp = await fetch(rawUrl);
+            if(!resp.ok) throw new Error(`Fehler: ${resp.status}`);
+            const text = await resp.text();
+            mdContainer.innerHTML = marked.parse(text);
+            mdContainer.style.display = "block";
+          } else {
+            mdContainer.innerHTML = `<div class="error">Dateityp wird nicht unterstützt: ${ext}</div>`;
+            mdContainer.style.display = "block";
+          }
+        }catch(e){
+          mdContainer.innerHTML = `<div class="error">Fehler beim Laden: ${e.message}</div>`;
+          mdContainer.style.display = "block";
+        }
+      }
+
+      // Aufbau der Navigation starten
+      async function buildNavigation(){
+        navTree.innerHTML = "";
+        statusEl.style.display = "block";
+        statusEl.textContent = "lade Verzeichnisstruktur...";
+
+        try{
+          const rootNode = await traverseDir("");
+          if(!rootNode){
+            navTree.innerHTML = '<li class="item">Keine Dateien (.html oder .md) gefunden.</li>';
+            return;
+          }
+          rootNode.children.forEach(child => buildNavNode(child, navTree));
+          statusEl.style.display = "none";
+        }catch(e){
+          statusEl.innerHTML = `<div class="error">Fehler: ${e.message}</div>`;
+        }
+      }
+
+      buildNavigation();
+
+    })();
+  </script>
+</body>
+</html>

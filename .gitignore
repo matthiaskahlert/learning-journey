@@ -1,0 +1,3 @@
+# um jupyter sicherheitskopie zu ignorieren
+.ipynb_checkpoints/ 
+

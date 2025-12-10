@@ -252,6 +252,47 @@ Anstatt immer das Terminal zu öffnen habe ich die extension code runner install
 | **Mutable**        | veränderbar    | `list`, `dict`, `set`           | Inhalt des Objekts kann **direkt geändert** werden. |
 | **Konstante**      | nicht zwingend | `PI = 3.14`                     | Variable soll **nicht neu zugewiesen** werden (nur Konvention in Python). |
 
+### strings
+Strings sind also unveränderbar. Beispiel:
+```py
+# Dieser Code funktioniert nicht:
+s = "Hallo"
+s[0] = "X"   # ❌ Fehler: str is immutable
+
+# Aber das geht:
+s = "Hallo"
+s = "X" + s[1:]   # 👍 neuer String wird erzeugt.
+# man kann auch replace nutzen mit dot.notation:
+s = s.replace("o", "X")
+print(s)  # XallX
+```
+
+Normale Strings dürfen NICHT über mehrere Zeilen gehen.
+Nur Strings mit drei Anführungszeichen (''' oder """) dürfen das.
+Warum?
+Weil Python den Zeilenumbruch als Ende der Anweisung interpretiert — außer man nutzt Triple-Quoted Strings, die ausdrücklich Mehrzeiligkeit erlauben.
+man kann einen zeilenumbruch aber auch mit eine escape sequenz lösen: \n in einem String erzeugt eine neue Zeile. bei größeren Texten nimmt man aber der einfachheit haber ein triple quote"""
+
+
+```py
+# formatted strings
+first = "Matthias"
+last = "Kahlert"
+# klassische Konkatenation (funktioniert, aber ist weniger elegant)
+full1 = first + " " + last # anstatt dieses ausdrucks gibt es formatierte strungs mit geschweiften klammern
+print(full1)
+
+# f-string empfohlen, ist moderner, schneller, eleganter
+full_formatted_string = f"{first} {last}"
+print(full_formatted_string)
+
+# geht auch mehrzeilig
+text = f"""
+Name: {first} {last}
+Status: Aktiv
+"""
+print(text)
+```
 ### 2.3 StandardTypen
 
 #### Integer (int) – Varianten Dezimal, Binär, Hexadezimal, Oktal
@@ -582,94 +623,84 @@ Einige Typfehler werden erst zur Laufzeit sichtbar
 
 …
 
-🗓️ Tag 2 – Thema / Schwerpunkt
+## 🗓️ Tag 2 – Thema / Schwerpunkt
 
-Learningfacts:
-
-…
-
-…
-
-Übungsaufgabe / Beispiel:
-
-// Beispiel oder Übung
+Übungen z.b. 
+[Übung 2.3.Ü.01](python\notes\week1.md)
 
 
-Reflexion:
 
-…
+## 🗓️ Tag 3 – Interaktive Programme (Kapitel 3)
+Learningfacts
 
-Was ich morgen lernen will:
+Interaktive Programme folgen dem EVA-Prinzip:
 
-…
+- Eingabe (E): Daten vom Benutzer (input())
+- Verarbeitung (V): Berechnung oder Manipulation der Daten
+- Ausgabe (A): Ergebnis anzeigen (print())
 
-Tag 3 – Thema / Schwerpunkt
+Python-Programme werden als .py-Dateien im VS Code erstellt, gespeichert und ausgeführt.
+input() liefert immer str; für Berechnungen ggf. int() oder float() nutzen.
+Kommentare mit # verbessern die Lesbarkeit.
+Einrückungen strukturieren Python-Code; falsches Einrücken → SyntaxError.
 
-Learningfacts:
+Codebeispiele
+Einfaches interaktives Programm
+```py
+name = input("Name: ")           # Eingabe
+gruß = f"Hallo {name}!"          # Verarbeitung + f-string
+print(gruß)                      # Ausgabe
 
-…
+# Volumen eines Zylinders (EVA-Prinzip)
+h = float(input("Höhe in m: "))       # Eingabe
+d = float(input("Durchmesser in m: ")) # Eingabe
+V = 3.14 * (d/2)**2 * h               # Verarbeitung
+print(f"Volumen des Zylinders: {V:.2f} m³") # Ausgabe
+```
+VS Code Workflow für Kapitel 3
 
-…
+Datei speichern: Strg + S
+Skript ausführen: Strg + Alt + N (Code Runner)
+Ausgabe prüfen → Fehler analysieren → Code anpassen → erneut ausführen
+Kommentare & Einrückungen beachten → sauberen, lesbaren Code schreiben
 
-Codebeispiele:
 
-// Beispielcode
+### Bugs finden
+
+Debugging: Fehler finden & beheben, wichtigste Lernquelle über Python und Logik.
 
 
-Was ich morgen lernen will:
+Fehlertypen
 
-…
+Syntaxfehler → Verstöße gegen Python-Regeln, Programm startet nicht
+Laufzeitfehler → Fehler während der Ausführung, z. B. Division durch 0
+Semantischer Fehler → Logischer Fehler, Programm läuft, Ergebnis falsch
 
-Kompetenzprotokoll Woche X
+Tipps zum Fehlerfinden
 
-Ziel: Das Gelernte in vier Kategorien reflektieren, um Theorie, Praxis und Relevanz zu verknüpfen.
+Sauberer, gut lesbarer Code → Fehler vermeiden
+Selbstkritisch testen, kleine Details prüfen
+Schrittweise entwickeln & testen → Fehler früh erkennen
+Fehler eingrenzen → problematische Stellen auskommentieren (##)
 
-1️⃣ Einordnen & Strukturieren (Theorie erklären)
+Praxisbeispiele
 
-…
+Syntaxfehler: print("Hallo → fehlendes "
 
-2️⃣ Verstehen & Verknüpfen (Praxisbeispiel erläutern)
+Laufzeitfehler: Division durch 0
 
-…
+Semantischer Fehler: statt Quadrat wird Zahl verdoppelt
 
-3️⃣ Anwenden & Bewerten (Berufliche Relevanz erörtern)
 
-…
 
-4️⃣ Reflektieren & Hinterfragen (Lernprozess reflektieren / Fragen formulieren)
+### ValueError ist eine Fehlermeldung
 
-…
+In Python wird ein ValueError ausgelöst, wenn ein Wert nicht in den erwarteten Typ konvertiert werden kann.
 
-Offene Fragen:
-
-…
-
-…
-
-🧩 Zusammenfassung der Woche
-
-Wichtigste Erkenntnisse:
-
-…
-
-…
-
-Tools / Konzepte, die ich neu verstanden habe:
-
-…
-
-…
-
-Schwierigkeiten / To-do für nächste Woche:
-
-…
-
-…
-
-💡 Nächste Woche – Fokus / Lernziele
-
-…
-
-…
-
-…
+Beispiele:
+```py
+int("123")   # klappt, liefert 123
+int("abc")   # löst einen ValueError aus, weil "abc" keine Zahl ist
+float("3.14")  # klappt, liefert 3.14
+float("abc")   # ValueError
+```

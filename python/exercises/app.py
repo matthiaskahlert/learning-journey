@@ -66,3 +66,39 @@ stadt = 'Dortmund'
 print(stadt[0] + stadt[1])  # Do  - erstes und zweites Element der Liste stadt
 print(len(set('aaab')))  # 2 - set entfernt duplikate, daher ist die länge 2
 print(bool([] + []))  # false - die leere liste ist false
+
+
+first = "Matthias"
+last = "Kahlert"
+# anstatt dieses ausdrucks gibt es formatierte strungs mit geschweiften klammern
+full1 = first + " " + last
+print(full1)
+full_formatted_string = f"{first} {last}"
+print(full_formatted_string)
+text = f"""
+Name: {first} {last}
+Status: Aktiv
+"""
+print(text)
+
+
+s = "Hallo"  # pylint: disable=invalid-name
+# s[0] = "X"   # ❌ Fehler: str is immutable
+
+# Aber das geht:
+s = "Hallo"
+s = "X" + s[1:]   # 👍 neuer String wird erzeugt.
+# man kann auch replace nutzen mit dot.notation:
+s = s.replace("o", "X")
+print(s)  # XallX
+
+
+# fehler1.py
+a1 = int(input('Zahl:'))
+ergebnis = a1 * 2
+print(ergebnis)
+
+# fehler2.py
+a2 = input('Zahl: ') # dies ist ein string, kein integer
+ergebnis = a2 ** 2 # TypeError: unsupported operand type(s) for ** or pow(): 'str' and 'int'
+print(ergebnis)

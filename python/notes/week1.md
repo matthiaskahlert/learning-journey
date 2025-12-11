@@ -55,7 +55,6 @@ x == 1  # True oder False
 ```
 #### Variablen – Vorstellung & Verhalten
 
-Variablen sind Namen für Werte (wie Etiketten oder Behälter).
 
 Wert anzeigen:
 ```python 
@@ -172,6 +171,21 @@ Python als Taschenrechner: Ausdruck eingeben → Ergebnis wird angezeigt
 2**8         # Potenzieren, 2 hoch 8
 5 % 2        # Modulo: Rest der Division, hier 1
 ```
+Ganzzahlige Division in Python (//)
+Die ganzzahlige Division (//) teilt zwei Zahlen und gibt nur den ganzzahligen Anteil zurück – ohne Dezimalstellen.
+// rundet immer ab (zu minus unendlich), nicht zur nächsten ganzen Zahl:
+
+```py
+# Positive Zahlen
+10 // 3    # 3
+7 // 2     # 3
+
+# Negative Zahlen (wichtig!)
+-10 // 3   # -4  (nicht -3!)
+-7 // 2    # -4  (nicht -3!)
+```
+
+
 | Operator      | Erklärung                                  |
 |---------------|-------------------------------------------|
 | `()`          | Klammern                                   |
@@ -582,10 +596,77 @@ Einige Typfehler werden erst zur Laufzeit sichtbar
 
 …
 
-🗓️ Tag 2 – Thema / Schwerpunkt
+## 🗓️ Tag 2 – Thema / Schwerpunkt
 
 Learningfacts:
+### slicing
+✅ Grundsyntax
+liste[start:stop:step]
 
+
+start → Index, bei dem das Slicing beginnt (inklusive)
+
+stop → Index, bei dem das Slicing endet (exklusive)
+
+step → Schrittweite (Standard = 1)
+
+Alle drei Teile sind optional.
+
+🔹 Beispiele
+1. Vom Anfang bis zu einem Index
+liste[:stop]
+
+
+Beispiel:
+
+zahlen = [10, 20, 30, 40, 50]
+print(zahlen[:3])
+# [10, 20, 30]
+
+2. Ab einem Index bis zum Ende
+liste[start:]
+
+
+Beispiel:
+
+print(zahlen[2:])
+# [30, 40, 50]
+
+3. Zwischen zwei Indizes
+liste[start:stop]
+
+
+Beispiel:
+
+print(zahlen[1:4])
+# [20, 30, 40]
+
+4. Mit Schrittweite
+liste[start:stop:step]
+
+
+Beispiel:
+
+print(zahlen[0:5:2])
+# [10, 30, 50]
+
+5. Rückwärts Slicing
+liste[::-1]
+
+
+Beispiel:
+
+print(zahlen[::-1])
+# [50, 40, 30, 20, 10]
+
+6. Rückwärts mit Start/Stop
+liste[stop:start:-1]
+
+
+Beispiel:
+
+print(zahlen[4:1:-1])
+# [50, 40, 30]
 …
 
 …

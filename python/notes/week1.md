@@ -828,17 +828,13 @@ Ziel: Das Gelernte in vier Kategorien reflektieren, um Theorie, Praxis und Relev
 
 Kompetenzprotokoll 3 – Einstieg in Python
 
-Dieses Kompetenzprotokoll dokumentiert meine Lernfortschritte der dritten Woche, in der ich erstmals intensiv mit Python gearbeitet habe. Im Fokus standen grundlegende Sprachkonzepte wie Variablen, Datentypen, Operatoren sowie der Unterschied zwischen veränderbaren und unveränderbaren Objekten.
+Dieses Kompetenzprotokoll dokumentiert meine Lernfortschritte der siebten Woche, in der ich erstmals intensiv mit Python gearbeitet habe. Im Fokus standen grundlegende Pythonkonzepte wie Variablen, Datentypen, Operatoren sowie der Unterschied zwischen veränderbaren und unveränderbaren Objekten.
 
 1. Einordnen und Strukturieren (Theorie)
 Variablen und Zuweisungen
+In Python erfolgt eine Zuweisung über den Ausdruck: name = wert.
 
-In Python erfolgt eine Zuweisung über den Ausdruck:
-```py
-name = wert
-```
-
-Eine Variable ist dabei kein Container, sondern verweist auf ein Objekt im Speicher. Wird ein neuer Wert zugewiesen, verweist der Variablenname auf ein neues Objekt.
+Eine Variable ist dabei kein Container, sondern ein Verweis (Reference) auf ein Objekt im Speicher. Wird ein neuer Wert zugewiesen, verweist der Variablenname auf ein neues Objekt.
 
 Beispiel:
 ```py
@@ -846,130 +842,78 @@ x = 1
 x = 5   # x verweist nun auf ein neues Objekt
 ```
 
-Python unterstützt außerdem Mehrfach- und Parallelzuweisungen:
+Im Gegensatz zu JavaScript, wo Zuweisungen mit destructure eher als Zusatzfeature existieren, bietet Python native und besonders einfache Mehrfach- und Parallelzuweisungen:
 ```py
 a = b = 10
 x, y = 1, 2
 ```
 Datentypen und Typ-Hierarchie
+Python stellt verschiedene grundlegende Datentypen bereit: Zahlen ( int, float, complex), Wahrheitswerte (bool), Leerer Wert (NoneType ), Sequenzen (str, tuple, list), Mengen (set) und Abbildungen (dict). Diese Datentypen unterscheiden sich insbesondere darin, ob sie veränderbar (mutable) oder unveränderbar (immutable) sind.
 
-Python stellt verschiedene grundlegende Datentypen bereit:
-
-- Zahlen: int, float, complex
-- Wahrheitswerte: bool
-- Leerer Wert: NoneType
-- Sequenzen: str, tuple, list
-- Mengen: set
-- Abbildungen: dict
-
-Diese Datentypen unterscheiden sich insbesondere darin, ob sie veränderbar (mutable) oder unveränderbar (immutable) sind.
-
-Mutable vs. Immutable
-
-- Immutable: int, float, str, tuple
-  - Änderungen erzeugen ein neues Objekt.
-
-- Mutable: list, dict, set
-  - Änderungen finden direkt am bestehenden Objekt statt.
-
-Dieses Konzept ist entscheidend für ein korrektes Verständnis von Python, insbesondere im Umgang mit Speicherverwaltung, Referenzen und Funktionsparametern.
+Bei Mutable Datentypen (list, dict, set) finden die Änderungen direkt am Objekt statt, während bei  Immutable Datentypen (int, float, strings, Tupel) Änderungen immer ein neues Objekt erzeugen. 
+Warum ist das wichtig? weil dieses Konzept entscheidend sein kann für ein korrektes Verständnis von Python, insbesondere im Umgang mit Speicherverwaltung, Referenzen und Funktionen. Es erklärt z.B., warum Listen in funktionen "verändert zurückkommen" können, Zahlen oder Strings jedoch nicht.
 
 2. Verstehen und Verknüpfen (Praxisbeispiele)
-Unveränderbarkeit von Strings
-
-Strings sind unveränderbar. Der Versuch, ein einzelnes Zeichen zu verändern, führt zu einem Fehler:
+Es folgen einige Praxisbeispiele über Unveränderbarkeit von Strings, welche ich in diesem Kompetenzprotokoll reflektieren möchte. Es zeigt: Strings sind unveränderbar. Der Versuch, ein einzelnes Zeichen zu verändern, führt zu einem "TypeError" Fehler.
 ```py
 s = "Hallo"
 s[0] = "X"   # TypeError: 'str' object does not support item assignment
 ```
 
-Ein neuer String entsteht stattdessen durch Neubildung:
+Um einen geänderten String zu erzeugen, muss ein neues Objekt gebaut werden:
 ```py
 s = "Hallo"
 s = "X" + s[1:]
 ```
-Unterschied zwischen list und set
-
-Listen erlauben Duplikate, Sets nicht:
+Betrachtet man den Unterschied zwischen list und set, erkennt man: Listen erlauben Duplikate, wohingegen Sets doppelte Werte automatisch entfernen.
 ```py
 l = [1, 2, 2, 3]
-s = {1, 2, 2, 3}   # doppelte Elemente werden entfernt
+s = {1, 2, 2, 3}   # doppelte Elemente werden entfernt - > {1, 2, 3}
 ```
-Speicheradressen und Objektidentität mit id()
-
-Die Funktion id() zeigt die Identität eines Objekts (oft dessen Speicheradresse).
-
-Immutable Beispiel: Typecast erzeugt ein neues Objekt
+Die Unveränderbarkeit kann man super mit einer Funktion für Speicheradressen und Objektidentität ("id()") untersuchen. Die Funktion id() zeigt die Identität eines Objekts (intern oft dessen Speicheradresse). dafür schauen wir auf ein Beispiel mit immutable - Bei einer Typkonvertierung entsteht hier also ein neues Objekt und  - wie sich herausstellt - daher eine neue ID:
 ```py
 c = 42
-print(id(c))        # Wert: 42 Typ: <class 'int'> ID: 140709883144264
+print("Wert:", c, "Typ:", type(c), "ID:", id(c)) 
+# print ausgabe ist Wert: 42 Typ: <class 'int'> ID: 140709883144264
 
-c = str(c)
-print(id(c))        #Wert: 42 Typ: <class 'str'> ID: 21627135164644
+c = str(c)   # Typecast: int → str
+print("Wert:", c, "Typ:", type(c), "ID:", id(c)) 
+# print ausgabe ist Wert: 42 Typ: <class 'str'> ID: 21627135164644
 ```
-
-Bei Änderungen oder Typecasts entstehen neue Objekte, daher ändert sich die Identität.
-
-Mutable Beispiel: Änderungen erfolgen am selben Objekt
+Obiges Praxisbeispiel zeigt, dass bei Änderungen von immutable objects oder Typecasts bzw Typenkonvertierungen neue Objekte entstehen! Es ändert sich die ID und damit die interne Speicheradresse. Diese Adressen unterscheiden sich auf jedem System, aber es zeigt, dass es ein neues Objekt ist, das auf einen anderen Bereich im Speicher verweist. Gleiches Vorgehen untersuchen wir nun anhand eines mutable Datentyps. Es stellt sich heraus, die Änderungen erfolgen am selben Objekt: 
 ```py
 l = [1, 2, 3]
-print(id(l))
+print("Wert:", l, "Typ:", type(l), "ID:", id(l)) #Wert: [1, 2, 3] Typ: <class 'list'> ID: 2047573815232
 
 l.append(4)
-print(id(l))        # gleiche ID
+print("Wert:", l, "Typ:", type(l), "ID:", id(l)) #Wert: [1, 2, 3, 4] Typ: <class 'list'> ID: 2047573815232
 ```
-
-Listen werden in-place verändert, weshalb die Identität unverändert bleibt.
-
-Diese Beobachtungen verdeutlichen den fundamentalen Unterschied zwischen veränderbaren und unveränderbaren Datentypen.
+Man erkennt: Listen werden "in-place" verändert, weshalb die Identität und der Speicherwert unverändert bleiben.
+Diese Beobachtungen verdeutlichen den grundlegenden Unterschied zwischen veränderbaren und unveränderbaren Datentypen und zeigen wie Python mit Objekten und Referenzen arbeitet
 
 3. Anwenden und Bewerten (berufliche Relevanz)
 
-Die behandelten Grundlagen sind für meine zukünftige Arbeit im Softwaretesting und in der testgetriebenen Entwicklung besonders relevant.
+Die behandelten Grundlagen sind für meine zukünftige Arbeit im Softwaretesting und in der testgetriebenen Entwicklung besonders relevant. Das gewonnene Verständnis von Datentypen und deren veränderbarkeit kann sich zukünftig auf die Qualität und Zuverlässigkeit meiner Tests auswirken.
+Zu wissen, wann eine Variable auf ein neues Objekt zeigt und wann ein bestehendes Objekt verändert wird kann entscheidens sein für Fehlersuche und Debugging, Reproduzierbarkeit und Rückverfolgbarkeit von Testergebnissen, das Verstehen von Funktionsparametern und auch für das Vermeiden von Seiteneffekten in Testfällen.
 
-Variablenverständnis
-
-Zu wissen, wann Variablen neue Objekte referenzieren und wann Objekte verändert werden, ist zentral für:
-
-- Fehlersuche und Debugging
-- Reproduzierbarkeit von Tests
-- das Verstehen von Funktionsparametern
-
-Mutable/Immutable im Testkontext
-
-Gerade beim Arbeiten mit Testdaten ist es wichtig zu erkennen:
-
-- wann Seiteneffekte auftreten können,
-- wie mutierbare Datenstrukturen ungewollt verändert werden,
-- wie man sichere Testdatenbasis schafft.
-
-Listen, Sets und Dictionaries bilden häufig JSON-Strukturen oder komplexe Testdatenmodelle ab. Ein sauberer Umgang damit verhindert fehlerhafte Testergebnisse.
-
-Grundlagen für Automatisierung
-
-Operatoren, Datentypen und Variablenkonzepte bilden die Basis für:
-
-- Assertions
-- Testskripte
-- kleine Automatisierungstools
-- Validierungen von API-Daten
-- den Einstieg in Frameworks wie PyTest oder Robot Framework
+Die Praxisbeispiele von Mutable/Immutable im Testkontext / Softwaretesting und beim Arbeiten mit Testdaten zeigen: Es ist wichtig einschätzen zu können, wann meine Testdaten (z.B. input daten bei Unit-Tests) unverändert bleiben, wann möglicherweise Seiteneffekte auftreten, z.B. wenn ich eine Liste an eine Funktion übergeben muss, wie Datenstrukturen eventuell ungewollt verändert werden und wie man eine sichere Testdatenbasis schafft
+Datenaustausch findet ja häufig in Form von JSON-Strukturen oder XML-Modelle statt. Das Konzept hilft mir am Ende des Tages, damit sauberer umzugehen um damit fehlerhafte Testergebnisse zu vermeiden.
+Die Grundlagen können mir in Bezug auf Automatisierung auch den Einstieg in Frameworks wie PyTest oder Robot Framework erleichtern z.B. bei der validierung von API-Daten.
 
 4. Reflektieren und Hinterfragen (Weiterentwicklung)
 
-Die erste Python-Woche hat mir ein stabiles Fundament vermittelt. Gleichzeitig sind dabei neue Fragen entstanden, die ich in den kommenden Wochen vertiefen möchte:
+Die erste Python-Woche hat mir einige Bausteine für ein stabiles Fundament vermittelt. Mein bisheriger Kurs und der PYthon kurs sind auch didaktisch unterschiedlich aufgebaut, ich habe den Eindruck dass der Selbststudium anteil in Python höher ist, komme aber aufgrund der Vorkenntnisse aus dem JavaScript kurs ganz okay zurecht damit. Gleichzeitig sind dabei neue Fragen entstanden, die ich versuchen werde, in den kommenden Wochen zu vertiefen:
 
-- Wie funktionieren Referenzen bei verschachtelten Listen und Dictionaries?
 
 - Worin unterscheiden sich Shallow Copy und Deep Copy?
 
 - Welche Datenstrukturen eignen sich besonders für umfangreiche Testdaten?
 
-- Wie lassen sich moderne Testing-Konzepte wie TDD mit Python umsetzen?
+- Wie lassen sich moderne Testing-Konzepte wie Test Driven Develeopment mit Python umsetzen?
 
-- Welche typischen Fehler entstehen im Umgang mit mutablen Daten?
+- Wie schreibe ich gute Unit-Tests mit Python?
 
-In der nächsten Woche möchte ich bewusst kleine Programme schreiben, um ein besseres Gefühl für Referenzen, Listenoperationen und Datentypumwandlungen zu entwickeln. Ziel ist es, besser zu verstehen, wie Python intern arbeitet und wie dieses Wissen im Testkontext angewendet werden kann.
+In der nächsten Woche möchte ich bewusst kleine Programme schreiben, um ein besseres Gefühl für Unis-Tests in Python zu bekommen.
 
 
 ## 🗓️ Tag 4 – Interaktive Programme (Kapitel 4)

@@ -110,3 +110,12 @@ print("Wert:", c, "Typ:", type(c), "ID:", id(c))
 
 c = str(c)   # Typecast: int → str
 print("Wert:", c, "Typ:", type(c), "ID:", id(c))
+
+
+l = [1, 2, 3]
+print(id(l))
+print("Wert:", l, "Typ:", type(l), "ID:", id(l))
+
+l.append(4)
+# gleiche ID, da Liste veränderbar ist
+print("Wert:", l, "Typ:", type(l), "ID:", id(l))

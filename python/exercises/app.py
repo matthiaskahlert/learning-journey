@@ -92,13 +92,21 @@ s = "X" + s[1:]   # 👍 neuer String wird erzeugt.
 s = s.replace("o", "X")
 print(s)  # XallX
 
-
-# fehler1.py
-a1 = int(input('Zahl:'))
+""" 
+# fehler1.py2
 ergebnis = a1 * 2
 print(ergebnis)
 
 # fehler2.py
-a2 = input('Zahl: ') # dies ist ein string, kein integer
-ergebnis = a2 ** 2 # TypeError: unsupported operand type(s) for ** or pow(): 'str' and 'int'
-print(ergebnis)
+a2 = input('Zahl: ')  # dies ist ein string, kein integer
+# TypeError: unsupported operand type(s) for ** or pow(): 'str' and 'int'
+ergebnis = a2 ** 2
+print(ergebnis) """
+
+
+print("-----------------------------------")
+c = 42
+print("Wert:", c, "Typ:", type(c), "ID:", id(c))
+
+c = str(c)   # Typecast: int → str
+print("Wert:", c, "Typ:", type(c), "ID:", id(c))

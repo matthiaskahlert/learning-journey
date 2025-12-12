@@ -822,25 +822,435 @@ Was ich morgen lernen will:
 
 …
 
-Kompetenzprotokoll Woche X
+Kompetenzprotokoll Woche 7
 
 Ziel: Das Gelernte in vier Kategorien reflektieren, um Theorie, Praxis und Relevanz zu verknüpfen.
 
-1️⃣ Einordnen & Strukturieren (Theorie erklären)
+Kompetenzprotokoll 3 – Einstieg in Python
 
-…
+Dieses Kompetenzprotokoll dokumentiert meine Lernfortschritte der dritten Woche, in der ich erstmals intensiv mit Python gearbeitet habe. Im Fokus standen grundlegende Sprachkonzepte wie Variablen, Datentypen, Operatoren sowie der Unterschied zwischen veränderbaren und unveränderbaren Objekten.
 
-2️⃣ Verstehen & Verknüpfen (Praxisbeispiel erläutern)
+1. Einordnen und Strukturieren (Theorie)
+Variablen und Zuweisungen
 
-…
+In Python erfolgt eine Zuweisung über den Ausdruck:
+```py
+name = wert
+```
 
-3️⃣ Anwenden & Bewerten (Berufliche Relevanz erörtern)
+Eine Variable ist dabei kein Container, sondern verweist auf ein Objekt im Speicher. Wird ein neuer Wert zugewiesen, verweist der Variablenname auf ein neues Objekt.
 
-…
+Beispiel:
+```py
+x = 1
+x = 5   # x verweist nun auf ein neues Objekt
+```
 
-4️⃣ Reflektieren & Hinterfragen (Lernprozess reflektieren / Fragen formulieren)
+Python unterstützt außerdem Mehrfach- und Parallelzuweisungen:
+```py
+a = b = 10
+x, y = 1, 2
+```
+Datentypen und Typ-Hierarchie
 
-…
+Python stellt verschiedene grundlegende Datentypen bereit:
+
+- Zahlen: int, float, complex
+- Wahrheitswerte: bool
+- Leerer Wert: NoneType
+- Sequenzen: str, tuple, list
+- Mengen: set
+- Abbildungen: dict
+
+Diese Datentypen unterscheiden sich insbesondere darin, ob sie veränderbar (mutable) oder unveränderbar (immutable) sind.
+
+Mutable vs. Immutable
+
+- Immutable: int, float, str, tuple
+  - Änderungen erzeugen ein neues Objekt.
+
+- Mutable: list, dict, set
+  - Änderungen finden direkt am bestehenden Objekt statt.
+
+Dieses Konzept ist entscheidend für ein korrektes Verständnis von Python, insbesondere im Umgang mit Speicherverwaltung, Referenzen und Funktionsparametern.
+
+2. Verstehen und Verknüpfen (Praxisbeispiele)
+Unveränderbarkeit von Strings
+
+Strings sind unveränderbar. Der Versuch, ein einzelnes Zeichen zu verändern, führt zu einem Fehler:
+```py
+s = "Hallo"
+s[0] = "X"   # TypeError: 'str' object does not support item assignment
+```
+
+Ein neuer String entsteht stattdessen durch Neubildung:
+```py
+s = "Hallo"
+s = "X" + s[1:]
+```
+Unterschied zwischen list und set
+
+Listen erlauben Duplikate, Sets nicht:
+```py
+l = [1, 2, 2, 3]
+s = {1, 2, 2, 3}   # doppelte Elemente werden entfernt
+```
+Speicheradressen und Objektidentität mit id()
+
+Die Funktion id() zeigt die Identität eines Objekts (oft dessen Speicheradresse).
+
+Immutable Beispiel: Typecast erzeugt ein neues Objekt
+```py
+c = 42
+print(id(c))        # Wert: 42 Typ: <class 'int'> ID: 140709883144264
+
+c = str(c)
+print(id(c))        #Wert: 42 Typ: <class 'str'> ID: 21627135164644
+```
+
+Bei Änderungen oder Typecasts entstehen neue Objekte, daher ändert sich die Identität.
+
+Mutable Beispiel: Änderungen erfolgen am selben Objekt
+```py
+l = [1, 2, 3]
+print(id(l))
+
+l.append(4)
+print(id(l))        # gleiche ID
+```
+
+Listen werden in-place verändert, weshalb die Identität unverändert bleibt.
+
+Diese Beobachtungen verdeutlichen den fundamentalen Unterschied zwischen veränderbaren und unveränderbaren Datentypen.
+
+3. Anwenden und Bewerten (berufliche Relevanz)
+
+Die behandelten Grundlagen sind für meine zukünftige Arbeit im Softwaretesting und in der testgetriebenen Entwicklung besonders relevant.
+
+Variablenverständnis
+
+Zu wissen, wann Variablen neue Objekte referenzieren und wann Objekte verändert werden, ist zentral für:
+
+- Fehlersuche und Debugging
+- Reproduzierbarkeit von Tests
+- das Verstehen von Funktionsparametern
+
+Mutable/Immutable im Testkontext
+
+Gerade beim Arbeiten mit Testdaten ist es wichtig zu erkennen:
+
+- wann Seiteneffekte auftreten können,
+- wie mutierbare Datenstrukturen ungewollt verändert werden,
+- wie man sichere Testdatenbasis schafft.
+
+Listen, Sets und Dictionaries bilden häufig JSON-Strukturen oder komplexe Testdatenmodelle ab. Ein sauberer Umgang damit verhindert fehlerhafte Testergebnisse.
+
+Grundlagen für Automatisierung
+
+Operatoren, Datentypen und Variablenkonzepte bilden die Basis für:
+
+- Assertions
+- Testskripte
+- kleine Automatisierungstools
+- Validierungen von API-Daten
+- den Einstieg in Frameworks wie PyTest oder Robot Framework
+
+4. Reflektieren und Hinterfragen (Weiterentwicklung)
+
+Die erste Python-Woche hat mir ein stabiles Fundament vermittelt. Gleichzeitig sind dabei neue Fragen entstanden, die ich in den kommenden Wochen vertiefen möchte:
+
+- Wie funktionieren Referenzen bei verschachtelten Listen und Dictionaries?
+
+- Worin unterscheiden sich Shallow Copy und Deep Copy?
+
+- Welche Datenstrukturen eignen sich besonders für umfangreiche Testdaten?
+
+- Wie lassen sich moderne Testing-Konzepte wie TDD mit Python umsetzen?
+
+- Welche typischen Fehler entstehen im Umgang mit mutablen Daten?
+
+In der nächsten Woche möchte ich bewusst kleine Programme schreiben, um ein besseres Gefühl für Referenzen, Listenoperationen und Datentypumwandlungen zu entwickeln. Ziel ist es, besser zu verstehen, wie Python intern arbeitet und wie dieses Wissen im Testkontext angewendet werden kann.
+
+
+## 🗓️ Tag 4 – Interaktive Programme (Kapitel 4)
+if … else – Zweiseitige Verzweigung
+
+Wenn Bedingung wahr → if-Block
+Sonst → else-Block
+
+alter = int(input("Wie alt bist du? "))
+
+if alter < 18:
+    print("Du bekommst eine Kinderkarte.")
+else:
+    print("Du bekommst eine reguläre Karte.")
+
+ if … elif … else – Mehrere Fälle unterscheiden
+
+Wenn es mehr als zwei Möglichkeiten gibt, benutzt man elif.
+
+Syntax:
+
+if bedingung1:
+    ...
+elif bedingung2:
+    ...
+else:
+    ...
+```py
+frage = input("Bitte stellen Sie Ihre Frage: ")
+
+if "Wann" in frage:
+    thema = "zum Liefertermin"
+    zustaendig = "Carla"
+elif "Rechnung" in frage:
+    thema = "zur Rechnung"
+    zustaendig = "Tom"
+else:
+    thema = ""
+    zustaendig = "Kim"
+
+print("Vielen Dank für Ihre Frage " + thema + ".")
+print(zustaendig + " hilft Ihnen gerne weiter.")
+
+```
+### Einrückung ist entscheidend!
+
+Alle Anweisungen eines Blocks müssen gleich eingerückt sein (meist 4 Leerzeichen)
+
+if, elif und else müssen bündig untereinander stehen
+
+Einrückungen und Blöcke
+
+In Python entstehen Blöcke durch Einrückung, nicht durch {} wie in anderen Sprachen.
+
+Beispiel:
+```py
+if x > 10:
+    print("x ist größer als 10")  # gehört zum Block
+print("fertig")  # außerhalb des Blocks
+```
+Üblich: 4 Leerzeichen
+
+Nach einem Doppelpunkt beginnt immer ein neuer Block
+
+Leerer Block benötigt pass:
+```py
+if x > 10:
+    pass  # Block muss existieren
+
+```
+### Operatoren
+
+| Beispiel                  | Operator | Erklärung               | Wahrheitswert |
+|---------------------------|----------|--------------------------|----------------|
+| 2 > 1                     | >        | größer                   | True           |
+| 1 > 1                     | >        | größer                   | False          |
+| 1 >= 1                    | >=       | größer oder gleich       | True           |
+| 2 >= 1                    | >=       | größer oder gleich       | True           |
+| 1 < 2                     | <        | kleiner                  | True           |
+| 1 <= 2                    | <=       | kleiner oder gleich      | True           |
+| 1 = 1 *(Syntaxfehler)*    | —        | Zuweisung, kein Vergleich | ❌ Fehler      |
+| 1 == 1.0                  | ==       | gleich                   | True           |
+| 'Mensch ' == 'Mensch '    | ==       | gleich                   | True           |
+| {1, 2} == {2, 1}          | ==       | gleich (ungeordnete Menge) | True         |
+| 2 != 3                    | !=       | ungleich                 | True           |
+| 2 != 2                    | !=       | ungleich                 | False          |
+| 'a' in 'Banane'           | in       | enthalten in             | True           |
+| 1 in {1, 2}               | in       | enthalten in             | True           |
+| 'I' not in 'Team'         | not in   | nicht enthalten in       | True           |
+
+Logische Operatoren: and, or, not
+```py
+a = True
+b = False
+
+a and b   # False (beide müssen True sein)
+a or b    # True  (mindestens einer True)
+not a     # False
+
+```
+### while schleife
+```py
+summe = 0
+eingabe = input("Zahl: ")
+
+while eingabe:
+    summe += float(eingabe)
+    eingabe = input("Zahl: ")
+
+print(summe) 
+// Eingabe leer → leerer String → boolean False → Schleife endet
+```
+
+Kurz-Zusammenfassung: Endloswiederholung, for-Schleifen & range()
+1. Endloswiederholung (Endlosschleife)
+
+Eine while-Schleife, deren Bedingung immer True ist, läuft unendlich weiter:
+
+while True:
+    print("läuft immer weiter")
+
+
+Das Programm stoppt nicht von selbst.
+Abbrechen:
+
+Strg + C
+
+Fenster schließen
+
+2. Iterationen (for-Schleifen)
+
+Eine Iteration bedeutet: Eine Kollektion (Liste, String, Menge ...) der Reihe nach durchlaufen und für jedes Element denselben Block ausführen.
+
+Beispiel:
+
+for i in [1, 2, 3]:
+    print(i)
+
+
+Ausgabe:
+
+1
+2
+3
+
+Eigenschaften:
+
+Laufvariable (i) nimmt nacheinander die Werte der Kollektion an.
+
+Reihenfolge bei Listen: fest
+
+Reihenfolge bei Mengen: zufällig, da Mengen ungeordnet sind.
+
+3. Tabellen oder Serien berechnen
+
+Beispiel: Werte von x und x² ausgeben:
+
+for x in [0, 1, 2, 3]:
+    print(x, x**2)
+
+### Wiederholungen mit range()
+
+range() erzeugt Zahlenfolgen.
+
+Standardform:
+range(n)
+
+
+liefert:
+
+0, 1, 2, ..., n-1
+
+
+Beispiel:
+
+for i in range(4):
+    print(i)
+
+
+Ausgabe:
+
+0
+1
+2
+3
+
+Mit Start- und Stop-Wert:
+range(start, stop)
+
+
+liefert:
+
+start, start+1, ..., stop-1
+
+
+Beispiel:
+
+for i in range(3, 7):
+    print(i)
+
+
+Ausgabe:
+
+3
+4
+5
+6
+
+Liste aus range machen:
+list(range(5))
+
+
+→ [0, 1, 2, 3, 4]
+
+5. Wichtigste Punkte (Rückblick)
+
+Block = Anweisungen mit gleicher Einrückung.
+
+if führt nur aus, wenn Bedingung wahr ist.
+
+if…else entscheidet zwischen zwei Blöcken.
+
+if…elif…else entscheidet zwischen mehreren Fällen.
+
+while wiederholt, solange eine Bedingung wahr ist.
+
+for durchläuft eine Kollektion oder ein range-Objekt.
+
+range() erzeugt Zahlenfolgen effizient.
+
+
+### Funktionen
+Grundaufbau einer Funktion
+```py
+def funktionsname(parameter):
+    # Codeblock (wird ausgeführt, wenn die Funktion aufgerufen wird)
+    return ergebnis
+
+⭐ Beispiel 1: einfache Funktion
+def hallo():
+    print("Hallo Welt!")
+
+```
+Aufruf:
+```py
+hallo()
+```
+⭐ Beispiel 2: Funktion mit Parametern
+```py
+def begruessen(name):
+    print("Hallo", name)
+```
+
+Aufruf:
+```py
+begruessen("Matthias")
+```
+
+⭐ Beispiel 3: Funktion mit Rückgabewert (return)
+```py
+def quadrat(x):
+    return x * x
+```
+
+Aufruf:
+```py
+erg = quadrat(4)
+print(erg)   # Ausgabe: 16
+```
+
+
+⭐ Wichtig:
+
+def leitet die Funktionsdefinition ein
+
+Eine Funktion
+
+kann Parameter bekommen
+kann Werte zurückgeben (return)
+kann beliebig oft verwendet werden
+
 
 Offene Fragen:
 

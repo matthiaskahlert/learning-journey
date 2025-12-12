@@ -170,6 +170,15 @@ let person: Person = { name: "John", age: 30 }; // beide Eigenschaften nötig
 ### 3. Literal Types
 
 Beschränken Werte auf feste Literale, statt alle Werte eines Typs zu erlauben.
+Normale Datentypen wie string oder number können viele verschiedene Werte haben (z. B. jeder beliebige Text oder jede Zahl).
+
+Literal Types dagegen erlauben nur ganz bestimmte, festgelegte Werte – also genau die Werte, die man vorgibt, und keine anderen.
+z.B.:
+
+let farbe: "rot" | "blau";
+Hier darf farbe nur „rot“ oder „blau“ sein – nichts anderes.
+
+
 Ideal für Zustände, Konfigurationen oder API-Endpunkte.
 
 Sehr typsicher und gut für Autocomplete in IDEs:
@@ -194,8 +203,8 @@ Typinferenz ist ein Feature, das TypeScript automatisch Typen erkennt, ohne dass
 
 TypeScript erkennt den Typ von Variablen anhand des Startwerts:
 ```typescript
-let message = "Hello"; // string
-let count = 42;        // number
+let message = "Hello"; // Typ string wird automatisch erkannt
+let count = 42;        // Typ number ebenso
 ```
 
 Auch bei Funktionen wird der Rückgabetyp automatisch abgeleitet:
@@ -238,7 +247,7 @@ Besonders nützlich, wenn TypeScript den Typ nicht automatisch erkennen kann, z.
 
 Syntax
 
-Angle-Bracket Syntax (älter, Konfliktgefahr mit JSX)
+Angle-Bracket Syntax (älter, Konfliktgefahr mit JSX denn diese Schreibweise verwendet genau dieselben spitzen Klammern wie JSX: < >)
 ```typescript
 let someValue: unknown = "this is a string";
 let strLength: number = (<string>someValue).length;
@@ -246,6 +255,9 @@ let strLength: number = (<string>someValue).length;
 
 As-Syntax (bevorzugt, besser lesbar, sicher mit JSX)
 ```typescript
+const username = value as string;
+...
+
 let otherValue: unknown = "another string";
 let otherLength: number = (otherValue as string).length;
 ```
@@ -260,7 +272,6 @@ Kurz gesagt:
 Type Assertions sind wie ein Vertrauensvorschuss an TypeScript – du sagst dem Compiler: „Vertrau mir, dieser Wert hat diesen Typ.“
 
 - Vorteil: Mehr Kontrolle und Präzision beim Typen-Handling
-
 - Nachteil: Kann die Typsicherheit umgehen, also vorsichtig einsetzen.
 
 ## 2.5 Generics
@@ -273,7 +284,7 @@ Besonders nützlich für: Container, Utilities, abstrakte Datenstrukturen.
 
 ### Grundidee
 
-Ein Typparameter (oft T) fungiert als Platzhalter für einen Typ, der erst bei der Verwendung bestimmt wird.
+Ein Typparameter (oft T) ist ein Platzhalter für einen Typ, der erst bei der Verwendung bestimmt wird. d.H. Generics erlauben dir, einen Typ erst später festzulegen, wenn die Funktion oder Klasse verwendet wird.
 
 Dadurch kann eine Funktion oder Klasse flexibel arbeiten, ohne Typinformationen zu verlieren.
 
@@ -281,21 +292,22 @@ Dadurch kann eine Funktion oder Klasse flexibel arbeiten, ohne Typinformationen 
 
 Generische Funktion
 ```typescript
-function identity<T>(arg: T): T {
+function identity<T>(arg: T): T { //"Gib mir etwas und ich gebe es dir im selben Typ zurück."
   return arg;
 }
 
-let result1 = identity<string>("hello"); // string
-let result2 = identity<number>(42);      // number
+let result1 = identity<string>("hello"); // string als typ wurde bei diesem aufruf festgelegt. identity(arg: string): string
+let result2 = identity<number>(42);      // number als typ wurde bei diesem aufruf festgelegt. identity(arg: number): number
 ```
 
 Generisches Interface & Klasse
 ```typescript
-interface Container<T> {
+// "Interface container: Ich habe etwas namens value vom Typ T und eine Funktion, die ein T zurückgibt:"
+interface Container<T> { 
   value: T;
   getValue(): T;
 }
-
+// Für diese Klasse ist T = number
 class NumberContainer implements Container<number> {
   constructor(public value: number) {}
   getValue(): number {
@@ -306,13 +318,13 @@ class NumberContainer implements Container<number> {
 
 Fortgeschrittene Generics
 
-Generische Constraints
+Generische Constraints bedeutet, ich schränke ein was T sein darf
 
 Beschränken, welche Typen erlaubt sind, z. B. nur Typen mit length:
 ```typescript
 interface Lengthwise { length: number; }
 
-function logLength<T extends Lengthwise>(arg: T): void {
+function logLength<T extends Lengthwise>(arg: T): void { // T extends Lengthwise = T muss ein Objekt sein, das eine length-Eigenschaft besitzt.
   console.log(arg.length);
 }
 
@@ -322,6 +334,13 @@ logLength(42);           // Fehler: number hat keine length
 ```
 
 Generische Klassen mit mehreren Typparametern
+Diese Klasse benutzt zwei Generics:
+
+K = Key-Typ
+
+V = Value-Typ
+
+
 ```typescript
 class DataStore<K, V> {
   private items: Map<K, V> = new Map<K, V>();
@@ -335,13 +354,19 @@ class DataStore<K, V> {
   }
 }
 
-const store = new DataStore<string, number>();
+const store = new DataStore<string, number>(); // hier lege ich fest K = string, V = number
 store.add("age", 30);
 console.log(store.get("age")); // 30
+
+store.add(99, 30);       // ❌ key ist keine string
+store.add("age", "alt"); // ❌ value ist keine number
 ```
 
 Kurz gesagt:
 Generics = flexible, typsichere Platzhalter für Typen, die dafür sorgen, dass du wiederverwendbaren Code schreiben kannst, ohne Typsicherheit zu verlieren.
+***weitere constraints sind extends keyof, extends string | number, etc.***
+
+
 
 ## 2.6 Utility Types
 
@@ -366,11 +391,12 @@ function updateTodo(todo: Todo, fieldsToUpdate: Partial<Todo>) {
 }
 
 const todo = { title: "Learn TS", description: "Study types", completed: false };
-const updatedTodo = updateTodo(todo, { completed: true });
+const updatedTodo = updateTodo(todo, { completed: true }); //nur completed wird übergeben, die anderen Werte bleiben unverändert.
 ```
 
 Pick<T, K> → wählt bestimmte Eigenschaften aus
 ```typescript
+// „Erzeuge einen neuen Typ, der nur title und completed aus Todo enthält.“
 type TodoPreview = Pick<Todo, "title" | "completed">;
 ```
 
@@ -379,6 +405,11 @@ Readonly<T> → macht alle Eigenschaften schreibgeschützt
 const readonlyTodo: Readonly<Todo> = { title: "Read docs", description: "TS docs", completed: false };
 // readonlyTodo.completed = true; // Fehler
 ```
+Readonly<Todo> verwandelt:
+
+title: string in readonly title: string
+description: string in readonly description: string
+completed: boolean in readonly completed: boolean
 
 Record<K, T> → erstellt ein Objekt mit vorgegebenen Schlüssel- und Werttypen
 ```typescript
@@ -410,7 +441,25 @@ Klassen sind zentrale Bausteine der objektorientierten Programmierung in TypeScr
 Sie definieren Objekte mit Eigenschaften (Properties) und Methoden.
 TypeScript erweitert JavaScript-Klassen um Features wie:
 
-- Zugriffsmodifizierer: public, private, protected
+- Zugriffsmodifizierer: public, private, protected Sie bestimmen, wo auf Eigenschaften und Methoden einer Klasse zugegriffen werden darf.
+
+public bedeutet:
+✔ Zugriff überall erlaubt
+– innerhalb der Klasse
+– außerhalb
+– in Unterklassen
+– im gesamten Programm
+
+private bedeutet:
+❌ kein Zugriff von außen
+❌ kein Zugriff aus Unterklassen
+✔ Zugriff nur innerhalb derselben Klasse
+
+protected bedeutet:
+✔ Zugriff in der Klasse selbst
+✔ Zugriff in abgeleiteten Klassen (Subklassen)
+❌ kein Zugriff von außen
+
 - readonly Properties: Werte, die nach der Initialisierung nicht mehr geändert werden können
 - Parameter Properties: Kombinieren Deklaration und Initialisierung von Properties direkt im Konstruktor
 

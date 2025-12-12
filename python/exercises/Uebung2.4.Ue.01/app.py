@@ -40,3 +40,5 @@ print("g:", frucht_set)
 laender_dict = {"Deutschland": "Berlin",
                 "Frankreich": "Paris", "Italien": "Rom"}  # h)
 print("h:", laender_dict)
+
+

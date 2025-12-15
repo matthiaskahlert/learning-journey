@@ -57,11 +57,12 @@ def zahl_eingeben_und_pruefen():
         print("Die Zahl ist Null.")
 
 
-"""e) benutzerinterface das die funktionen aufrufen kann also Eine echte Benutzerschnittstelle würde dem Nutzer ermöglichen, wiederholt Aktionen auszuwählen, z.B.:
-
-1. Nach einem Element in der Liste suchen
-2. Eine Zeichenkette in eine Zahl umwandeln
-3. Programm beenden """
+# e) benutzerinterface das die funktionen aufrufen kann also:
+# Eine echte Benutzerschnittstelle würde dem Nutzer ermöglichen,
+# wiederholt Aktionen auszuwählen, z.B.:
+# 1. Nach einem Element in der Liste suchen
+# 2. Eine Zeichenkette in eine Zahl umwandeln
+# 3. Programm beenden
 
 while True:
     print("\nWählen Sie eine Aktion:")

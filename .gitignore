@@ -1,3 +1,4 @@
 # um jupyter sicherheitskopie zu ignorieren
-.ipynb_checkpoints/ 
-
+.ipynb_checkpoints/
+# um json settings zu ignorieren
+.vscode/

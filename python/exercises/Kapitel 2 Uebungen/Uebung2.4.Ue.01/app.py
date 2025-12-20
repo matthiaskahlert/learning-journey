@@ -20,7 +20,7 @@ h) Erstelle ein Dictionary, dass drei verschiedene Länder als Schlüssel und de
   """
 
 
-namen = ["Peter", "Tim", "Nordi", "Georg", "Gregor"]  # a)
+namen = ["Peter", "Tim", "Nordi", "Georg", "Gregor"]  # a) liste mit namen
 print("a:", namen)
 # b) mit append kann ich nur ein element hinzufügen, mit extend mehrere
 namen.extend(["Max Mustermann", "Erika Musterfrau"])

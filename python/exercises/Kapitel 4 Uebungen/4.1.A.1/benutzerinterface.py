@@ -20,11 +20,11 @@ def pruefung_element_vorhanden(element):
 
 def element_suchen():
     user_input = input(
-        "Geben Sie ein Element ein (Format: buchstabe,zahl): ").lower()
+        'Geben Sie ein Element ein (Format: buchstabe,zahl) z.B. "g,5": ').lower()
     teile = user_input.split(",")  # trennt am Komma
 
     try:
-        # teile[0] ist string, teile[1] in int umwandeln strip entfernt leerzeichen
+        # teile[0] ist string, teile[1] muss man in int umwandeln, strip entfernt leerzeichen
         element = (teile[0].strip(), int(teile[1].strip()))
     except (IndexError, ValueError):
         print("Ungültiges Format. Bitte im Format buchstabe,zahl eingeben.")
@@ -39,9 +39,9 @@ def element_suchen():
 
 def zahl_eingeben_und_pruefen():
 
-    # c)
+    # c) 
 
-    gegebene_zeichenkette = input("geben sie eine Zahl ein")
+    gegebene_zeichenkette = input("Geben sie eine Zahl ein: ")
     print("Gegebene Zeichenkette:", gegebene_zeichenkette,
           type(gegebene_zeichenkette))  # gegebene_zeichenkette <class 'str'>
     zahl = int(gegebene_zeichenkette)

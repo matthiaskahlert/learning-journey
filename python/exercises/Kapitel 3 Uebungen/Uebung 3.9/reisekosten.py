@@ -7,10 +7,6 @@ einem Bus berechnet. Vom Benutzer werden folgende Angaben erfragt:
 Ausgegeben werden:
 • Die Gesamtkosten der Fahrt
 • Der Betrag, den jeder Teilnehmer und jede Teilnehmerin zahlen muss
-Möglicher Programmlauf:
-Übung 3: Welches Volumen hat das Haus?
-Schreibe ein interaktives Programm, das das Volumen eines Hauses mit
-Satteldach berechnet. Beachte die Abbildung 3.14.
  """
 # Autor: mkahlert
 # Letzte Änderung: 10.12.25
@@ -31,8 +27,11 @@ if anzahl_teilnehmer <= 0:
     print("Fehlerhafte Eingabe: Die Anzahl der Teilnehmer muss größer als 0 sein.")
     exit()  # Programm beenden
 # Verarbeitung: Berechnung der Gesamtkosten und Kosten pro Teilnehmer
-gesamt_kosten = bus_kosten + \
-    (hotel_kosten_pro_person * anzahl_teilnehmer) + reisefuehrer_kosten
+gesamt_kosten = (
+    bus_kosten
+    + (hotel_kosten_pro_person * anzahl_teilnehmer)
+    + reisefuehrer_kosten
+)
 kosten_pro_teilnehmer = gesamt_kosten / anzahl_teilnehmer
 # Ausgabe der Ergebnisse
 gesamt_kosten = round(gesamt_kosten, 2)

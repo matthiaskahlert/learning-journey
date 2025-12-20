@@ -26,7 +26,7 @@ durchschnitt = summe / len(liste)  # Berechnung des Durchschnitts der Zahlen
 print(f'Summe: {summe}, Durchschnitt: {durchschnitt}')
 
 # b)
-eingabe = input('Gib eine Zahl ein: ')  # Einlesen der Eingabe vom Benutzer.
+eingabe = input('Gib eine Zahl ein, es wird geprüft ob es int oder float ist: ')  # Einlesen der Eingabe vom Benutzer.
 # input() liefert immer einen String.
 try:
     # wenn Wert nicht in den erwarteten Typ konvertiert dann error

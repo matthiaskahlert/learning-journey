@@ -503,3 +503,115 @@ Skalierbar für größere Projekte.
 Nachteile:
 
 Etwas mehr Setup nötig als mit assert.
+
+
+## Exkurs zu List comprehension
+
+List comprehension ist Kompakte Listenerzeugung
+Allgemeine Form:
+```py
+Ausgabeliste = [<expr> for <obj> in Eingabeliste]
+```
+Erweiterte allgemeine Form
+```py
+Ausgabeliste = [<expr> for <obj> in Eingabeliste if <boolexpr>]
+```
+
+## Referenzen und Kopien
+Der Zuweisungsoperator „=„ erzeugt lediglich neue Referenzen auf eine Speicherstelle.
+```py
+a = [1, 2, 3]
+b = a
+```
+Jetzt passiert keine Kopie
+a und b zeigen auf dieselbe Liste im Speicher
+
+Man kann sich das so vorstellen:
+
+a ──┐
+    ├── [1, 2, 3]
+b ──┘
+
+b[0] = 10
+
+
+Du änderst das Objekt selbst (die Liste), nicht den Namen.
+
+Die Liste wird jetzt:
+
+[10, 2, 3]
+
+print(a)
+print(b)
+
+
+Ausgabe:
+
+[10, 2, 3]
+[10, 2, 3]
+
+
+✔️ Beide sehen die Änderung, weil es dieselbe Liste ist.
+
+🧠 Wichtiges Grundprinzip
+
+Variablen sind in Python nur Namen (Referenzen), keine Container
+
+a ist nicht die Liste
+
+a zeigt auf die Liste
+
+❗ Häufige Denkfalle
+
+Viele denken:
+
+„b = a kopiert die Liste“
+
+❌ Falsch
+✔️ Es kopiert nur die Referenz
+
+✅ Wie macht man eine echte Kopie?
+Variante 1: copy()
+
+```py
+a = [1, 2, 3]
+b = a.copy()
+
+b[0] = 10
+print(a)  # [1, 2, 3]
+print(b)  # [10, 2, 3]
+```
+
+Sind „richtige“ Kopien gewünscht erfolgt dies über das Modul copy.
+```py
+a = [1, 2, 3]
+b = a.copy()
+
+b[0] = 10
+print(a)  # [1, 2, 3]
+print(b)  # [10, 2, 3]
+```
+
+copy() erzeugt nur eine flache Kopie
+
+Beispiel:
+```py
+a = [[1, 2], [3, 4]]
+b = a.copy()
+
+b[0][0] = 99
+print(a)  # [[99, 2], [3, 4]]
+```
+
+➡️ Für verschachtelte Strukturen braucht man:
+```py
+import copy
+b = copy.deepcopy(a)
+```
+Merksatz:
+= erstellt keine Kopie, sondern eine neue Referenz auf dasselbe Objekt.
+
+copy() erzeugt eine flache Kopie.
+deepcopy() erzeugt eine vollständige, rekursive Kopie.
+
+## Module

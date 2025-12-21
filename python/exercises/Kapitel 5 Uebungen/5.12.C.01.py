@@ -103,7 +103,7 @@ print("Orginal Preis mit Mehrwertsteuer",preis_mit_steuer(produkte[0]["preis"]))
 # e)
 def preise_erhoehen(preise, prozent):
     return list(
-    map(lambda p: round(p * (1 + prozent / 100),2), preise) # gerundet auf s stellen, punkt vor strichrechnung - (1 + prozent / 100) = 1 + 10 / 100 = 1 + 0.10 = 1.10
+    map(lambda p: round(p * (1 + prozent / 100),2), preise) # gerundet auf 2 stellen, punkt vor strichrechnung - (1 + prozent / 100) = 1 + 10 / 100 = 1 + 0.10 = 1.10
     )
 print("Orginalpreise:",preise)
 print("Erhöhte Preise:",preise_erhoehen(preise, 10))

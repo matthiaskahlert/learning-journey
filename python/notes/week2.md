@@ -409,6 +409,11 @@ In einer return-Anweisung gibt sie ihr Berechnungsergebnis zurück.
 ### Zweck
 Mit Unit-Tests überprüft man automatisch, ob eine Funktion korrekt arbeitet.  
 Praktisch für kleine Funktionen und Übungen, bevor man das `unittest`-Modul benutzt.
+Ein unittest erfüllt folgende Kriterien:
+- Automatisch überprüfbar
+- Erwarteter Wert definiert
+- Test schlägt fehl bei Fehler
+- Von Test-Framework ausführbar
 
 ### Aufbau
 - `assert <Bedingung>` prüft, ob die Bedingung **wahr** ist.
@@ -441,6 +446,10 @@ test_berechne_durchschnitt()
 Direkt im Skript einsetzbar, für kleine Aufgaben ideal.
 
 Prüft, ob eine Bedingung wahr ist, sonst wird ein AssertionError ausgelöst.
+
+Print-Ausgaben sind keine Unit-Tests.
+Unit-Tests vergleichen automatisch IST mit SOLL.
+assert ist der kleinste echte Unit-Test.
 
 Beispiel:
 ```py

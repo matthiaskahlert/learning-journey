@@ -2,3 +2,6 @@
 .ipynb_checkpoints/
 # um json settings zu ignorieren
 .vscode/
+# von Python modulimport erzeugte Dateien für den (ohne punkt vor dem ordner, das beauche ich nur bei versteckten dateien
+__pycache__/
+*.pyc

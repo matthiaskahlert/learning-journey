@@ -206,7 +206,7 @@ Lambda Funktionen sind funktionsausdrücke in einer Zeile
 
 lambda Parameter: Ausdruck
 
-man nutzt es zv für map, filter, sort
+man nutzt es z.B. für map, filter, sort
 ```py
 # lambda funktion mit einem input value
 multiplikation = lambda x: x*2
@@ -343,7 +343,7 @@ print(list(zahlen))  # [0, 4, 8, 12, 16]
 ```py
 tiere = ["Hund", "Katze", "Fuchs", "Eule"]
 kurze = filter(lambda s: len(s) <= 4, tiere)
-print(list(kurze))  # ['Hund', 'Fuchs', 'Eule']
+print(list(kurze))  # ['Hund', 'Eule']
 ```
 
 Merksatz:

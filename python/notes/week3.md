@@ -143,7 +143,7 @@ man kann mit random beispielsweise einen Würfel würfeln lassen:
 from random import randint # vom Modul random wird die Funktion randint() importiert
 for i in range(5):
     zufallszahl = randint(1, 6)
-    print(zufallszahl, end ='')
+    print(zufallszahl, end ='') # end='' heißt: Nichts anhängen, alle Zahlen werden hintereinander angehängt.
 ```
 
 Aus einer Liste von Namen wird ein Name nach dem Zufallsprinzip ausgewählt und auf dem Bildschirm ausgegeben.

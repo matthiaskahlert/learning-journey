@@ -273,3 +273,119 @@ Installation eines Moduls modul aus PyPI erfolgt über die Konsole:
 ```shell
 pip install modul
 ```
+
+## 🗓️ Tag 13 – Mit Kollektionen Modellieren in Python
+
+Kurzzusammenfassung:
+
+Mit Kollektionen kann man reale Dinge und zusammenhänge in strukturierten Datensammlungen darstellen.
+
+Modelle machen komplexe zusammenhänge steuerbar. 
+Zentrale Kollektionstypen sind Listen, Tupel und Dictionaries. 
+Kuezwiederholung:
+Liste in eckigen Klammern
+x = [1,3,7,9]
+
+Tupel in runden Klammern
+
+y = ('t', 'g', 'd')
+Nach Rrstellung nicht mehr verönderbar, z.B. für geo Koordinaten. Tupel bestehen häufig aus einem Mix von Datantypen z.B. t1= (24, 'Dezember', 2025)
+
+Dictionary
+Daten werden über Schlpssel angesprochen, es besteht aus Schlpssel / Wert Paaren.
+
+{'moon': 'Mond', 'day': 'Tag'}
+
+  - **Kollektion**
+    - **Sequenzen**
+      - `str` → Zeichenkette, z. B. `'Wort'` (unveränderbar)
+      - `tuple` → Tupel, z. B. `(1, 'a')` (unveränderbar)
+      - `list` → Liste, z. B. `[1, 2]` (veränderbar)
+    - **Mengen**
+      - `set` → Menge, z. B. `{1, 2}` (veränderbar)
+    - **Abbildungen**
+      - `dict` → Dictionary, z. B. `{'A':65,'B':66}` (veränderbar)
+
+      | Typ       | Beschreibung / Besonderheit | Beispiel |
+|-----------|----------------------------|----------|
+| **tuple** | Unveränderbare Sequenz beliebiger Objekte | (1, 'a'), (Name, Jahr) |
+| **list**  | Veränderbare Sequenz beliebiger Objekte | [1, 2, 3], ['a', 'b'] |
+| **set**   | Ungeordnete Kollektion ohne Duplikate | {1, 2, 3}, set() |
+| **dict**  | Schlüssel:Wert-Paare, Zugriff über Schlüssel | {'A':65, 'B':66} |
+
+
+
+
+Tupel, Strings und Listen können zu komplexeren Strukturen kombiniert werden. 
+Eine Liste der Kontakte im smartphone kann z.B. als Liste von Tupeln repräsentiert werden:
+
+```py
+kontakte = 
+[
+    ('Max', 12213424 )
+    ('Steve', 398673)
+    ('Oke', 337643 )
+]
+```
+Beim Iterieren über Listen von Tupeln kann man das sogenannte Auspacken (Unpacking) verwenden. Dabei werden die Elemente eines Tupels direkt Variablen zugewiesen.
+
+Beispiel: Ein Tupel wird so zerlegt, dass das erste Element z. B. artikel und das zweite preis erhält. Die anzahl der Variablen muss dabei der Anzahl an Tupel Elementen entsprechen.
+```py
+t = ('Radiergummi', 0.45)
+artikel, preis = t
+print(artikel) # Radiergummi
+print(preis) # 0.45
+```
+Das Tupel wird aufgeteilt und die Elemente werden zugewiesen.
+Diese Technik macht Schleifen über Tupellisten übersichtlicher und eleganter.
+
+Außerdem gibt es gemeinsame Operationen für Sequenzen wie Listen, Tupel und Strings, die einen einheitlichen Umgang mit diesen Datentypen ermöglichen.
+```py
+warenbestand = [('Papier, 500 Blatt', 4.45),
+('Laminierfolien Din A 4', 2.50),
+('Radiergummi', 0.45)]
+
+for artikel, preis in warenbestand:
+print(artikel, 'Preis: ', preis, '€')
+```
+Gemeinsame Operationen fur Sequenzen. Durch diese Operationen die Sequenzen nicht geändert.
+
+| Operation        | Ergebnis |
+|------------------|----------|
+| `x in s`         | `True`, wenn ein Element mit dem Wert `x` in der Sequenz `s` enthalten ist, sonst `False`. |
+| `x not in s`     | `True`, wenn ein Element mit dem Wert `x` **nicht** in der Sequenz `s` enthalten ist, sonst `False`. |
+| `s + t`          | Kopien der beiden Sequenzen `s` und `t` werden aneinandergehängt (Konkatenation). |
+| `s * n`, `n * s` | `n` Kopien der Sequenz `s` werden aneinandergereiht. |
+| `s[i]`           | Das *i*-te Element der Sequenz `s`. |
+| `s[i:j]`         | Ausschnitt (Slice) von `s` vom *i*-ten bis zum *j*-ten Element (exklusiv). |
+| `s.count(x)`     | Anzahl der Vorkommen des Elements `x` in der Sequenz `s`. |
+| `len(s)`         | Länge der Sequenz `s`. |
+| `min(s)`, `max(s)` | Kleinstes bzw. größtes Element der Sequenz `s`. |
+
+
+Spezielle Operationen für Sequenzen
+Eine Methode ist im Grunde eine Funktion, die zu einem bestimmten Objekt gehört.
+
+```py
+len(zahlen)        # normale Funktion
+zahlen.sort()     # Methode Ein Methodenaufruf beginnt immer mit dem Namen
+```
+Über die dot-Notation sagt man dem Objekt, was es tun soll. 
+Methoden gehören zu Objekten
+
+Methodenaufrufe beginnen mit dem Objektnamen.
+Viele Listenmethoden verändern die Liste selbst.
+
+
+
+| Operation        | Ergebnis |
+|------------------|----------|
+| `s[i] = x`       | Das Element mit Index `i` wird durch `x` ersetzt. |
+| `s.append(x)`    | Das Element `x` wird als neues Element an die Liste `s` angehängt. |
+| `del s[i]`       | Das Element mit Index `i` wird aus der Liste entfernt; die Länge der Liste verringert sich um eins. |
+| `s.index(x)`     | Gibt den kleinsten Index `i` zurück, für den `s[i] == x` gilt. |
+| `s.insert(i, x)` | Fügt das Objekt `x` vor dem Element mit Index `i` in die Liste ein. |
+| `s.pop()`        | Entfernt das letzte Element aus der Liste `s` und gibt dessen Wert zurück. |
+| `s.remove(x)`    | Entfernt das erste Element mit dem Wert `x` aus der Liste `s`. |
+| `s.reverse()`    | Kehrt die Reihenfolge der Elemente der Liste um. |
+| `s.sort()`       | Sortiert die Elemente der Liste aufsteigend. |

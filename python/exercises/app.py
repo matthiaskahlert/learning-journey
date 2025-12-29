@@ -119,3 +119,9 @@ print("Wert:", l, "Typ:", type(l), "ID:", id(l))
 l.append(4)
 # gleiche ID, da Liste veränderbar ist
 print("Wert:", l, "Typ:", type(l), "ID:", id(l))
+
+
+# lexikalische Ordnung
+personen = [(23, 'Max'), (34, 'Markus'), (19, 'Tina')]
+personen.sort()
+print(personen) # [(19, 'Tina'), (23, 'Max'), (34, 'Markus')]

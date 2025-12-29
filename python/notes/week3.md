@@ -389,3 +389,53 @@ Viele Listenmethoden verändern die Liste selbst.
 | `s.remove(x)`    | Entfernt das erste Element mit dem Wert `x` aus der Liste `s`. |
 | `s.reverse()`    | Kehrt die Reihenfolge der Elemente der Liste um. |
 | `s.sort()`       | Sortiert die Elemente der Liste aufsteigend. |
+
+```py
+zahlen = [234,6,7,1]
+zahlen.sort()
+zahlen.reverse()
+print(zahlen) # [234, 7, 6, 1]
+```
+sort() mit reverse sorgt für absteigende Sortierung.
+alphabetisch wird ein String erst nach dem ersten Zeichen, dann die Strings mit dem gleichen Anfangsbuchstaben nach dem zweiten zeichen usw. (lexikografische Ordnung)
+uppercase liegt hier in der Ordnung vor lowercase.
+
+Nach der gleichen Logik werden auch Listen von Tupeln sortiert:
+```py
+personen = [(23, 'Max'), (34, 'Markus'), (19, 'Tina')]
+personen.sort()
+print(personen) # [(19, 'Tina'), (23, 'Max'), (34, 'Markus')]
+```
+
+### Wiederholung List Comprehension
+Eine List Comprehension ist eine kurze und übersichtliche Art, in Python Listen zu erstellen.
+
+Statt eine Liste mit einer Schleife und append() zu bauen, kann man alles in einer Zeile schreiben.
+```py
+[ausdruck for item in kollektion]
+```
+👉 Für jedes Element in der Kollektion wird der Ausdruck ausgewertet
+👉 Das Ergebnis landet automatisch in der neuen Liste
+
+Beispiel:
+```py
+[n ** 2 for n in range(10)]
+
+```
+- n läuft von 0 bis 9
+- n ** 2 berechnet das Quadrat
+- Ergebnis ist eine Liste mit Quadratzahlen
+
+List Comprehension mit Bedingung
+
+Man kann zusätzlich eine Bedingung angeben:
+```py
+[ausdruck for item in kollektion if bedingung]
+```
+Nur Werte, welche die Bedingung erfüllen, kommen in die Liste.
+```py
+[x ** 2 for x in range(20) if (x ** 2) % 2 == 0]
+```
+- Es werden nur gerade Quadratzahlen übernommen
+- % (Modulo) prüft, ob ein Wert ohne Rest teilbar ist
+

@@ -439,3 +439,52 @@ Nur Werte, welche die Bedingung erfüllen, kommen in die Liste.
 - Es werden nur gerade Quadratzahlen übernommen
 - % (Modulo) prüft, ob ein Wert ohne Rest teilbar ist
 
+### Wiederholung Dictionaries (Wörterbücher)
+
+
+Ein Dictionary speichert **Assoziationen** zwischen zwei Dingen, z.B. zwischen
+Wörtern in verschiedenen Sprachen. Es besteht aus **Schlüssel-Wert-Paaren** (`key : value`).
+
+- **Schlüssel (key)** müssen **unveränderbar** sein (z.B. String, Tupel).
+- **Werte (value)** können **beliebige Datentypen** haben, auch veränderbare   wie Listen.
+- Über den Schlüssel kann direkt und sehr **schnell auf den Wert zugegriffen** werden (`d[k]`).
+
+Der schnelle Zugriff funktioniert über **Hashing**:
+Aus dem Schlüssel wird eine Speicheradresse berechnet.
+Damit diese Adresse immer gleich bleibt, dürfen Schlüssel **nicht verändert** werden.
+
+
+| Operation        | Ergebnis |
+|------------------|----------|
+| `d[k]`           | Gibt den Wert zum Schlüssel `k` zurück. Existiert `k` nicht, entsteht ein **KeyError**. |
+| `d[k] = x`       | Weist dem Schlüssel `k` den Wert `x` zu (neu oder überschreibt bestehenden Wert). |
+| `del d[k]`       | Entfernt das Item mit dem Schlüssel `k`. Existiert `k` nicht, entsteht ein **KeyError**. |
+| `d.keys()`       | Liefert ein `dict_keys`-Objekt mit allen Schlüsseln des Dictionaries. |
+| `d.values()`     | Liefert ein `dict_values`-Objekt mit allen Werten des Dictionaries. |
+
+Dictionaries sind änderbar
+Man kann:
+    neue Schlüssel-Wert-Paare hinzufügen
+    bestehende Werte ändern
+    Einträge löschen
+keys() liefert alle Schlüssel, values() alle Werte
+```py
+# Ausgangs-Dictionary
+preis = {'Papier': 4.45, 'Radiergummi': 0.45}
+
+# Schlüssel und Werte anzeigen
+print(list(preis.keys()))
+print(list(preis.values()))
+
+# Neuen Artikel hinzufügen
+preis['Bleistift'] = 0.80
+
+# Preis eines vorhandenen Artikels ändern
+preis['Papier'] = 4.70
+
+# Artikel löschen
+del preis['Radiergummi']
+
+# Aktuellen Zustand ausgeben
+print(preis)
+```

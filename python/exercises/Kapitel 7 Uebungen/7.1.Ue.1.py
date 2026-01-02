@@ -19,7 +19,8 @@ Wenn ja, drucke "Mehr als 5 Elemente", ansonsten "5 oder weniger Elemente".
 import random
 
 # a)
-zahlen = [random.randint(1,100) for n in range(10)] # randint gibt einen random integer in range 1, 100, die funktion wird durch range(10) zehn mal durchlaufen
+zahlen = [random.randint(1,100) for n in range(10)] # randint gibt einen random integer in range 1, 100, 
+# die funktion wird durch range(10) zehn mal durchlaufen
 print("Zufällige Zahlen:", zahlen)
 # b)
 def sortiere_und_zähle(zahlen):

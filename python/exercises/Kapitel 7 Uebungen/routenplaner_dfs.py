@@ -15,7 +15,7 @@ verbundenen Knotenpunkte angeben.
 def suche_weg(aktuell, ziel, besucht):
     """
     Die Funktion versucht, einen Weg von aktuell nach ziel zu finden.
-    Es findet allerdings nicht immer den kürzesten Weg.
+    Es findet allerdings nicht immer den kürzesten Weg, die Funktion nutzt Tiefensuche (DFS)
     
     :param aktuell: aktueller Knoten
     :param ziel: gesuchter Knoten

@@ -488,3 +488,29 @@ del preis['Radiergummi']
 # Aktuellen Zustand ausgeben
 print(preis)
 ```
+
+
+Rückblick
+
+Sequenzen sind geordnete Sammlungen von Elementen.
+Typische Sequenzen in Python sind Strings, Tupel und Listen.
+
+Listen sind veränderbare (mutable) Sequenzen:
+Elemente können hinzugefügt, entfernt oder geändert werden.
+Strings und Tupel sind dagegen unveränderbar (immutable).
+
+Sequenzen lassen sich mit dem Operator + verketten (konkatenieren)
+und mit n * wiederholen (vervielfältigen).
+
+Eine Liste ist ein Objekt vom Typ list und besitzt Methoden
+(objektgebundene Funktionen), die mit objekt.methode() aufgerufen werden.
+Einige Methoden verändern die Liste direkt, z. B. s.sort(), das die Elemente von s aufsteigend sortiert.
+
+Ein Dictionary besteht aus Schlüssel-Wert-Paaren der Form
+Schlüssel : Wert.
+
+Mit Dictionaries lassen sich Graphen modellieren:
+
+ - Die Schlüssel repräsentieren die Knoten.
+ - Die Werte sind Listen der direkt verbundenen Knoten.
+ - Diese Darstellung nennt man Adjazenzliste (von adjacere = lat. „angrenzen, benachbart sein“).

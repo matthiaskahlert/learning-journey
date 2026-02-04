@@ -1,0 +1,37 @@
+PHASE 1: Bug-Fixes (kritisch, muss zuerst)
+
+✅ Gewichtslimit im Rucksack funktioniert nicht
+✅ Kapazität hardcoded → Variable erstellen
+✅ Items stacken nicht richtig
+✅ Quick-Fill füllt Kategorie statt Item
+
+
+PHASE 2: Core Game Systems (Fundament)
+
+Character-System (Name, Stats, Equipment-Slots)
+Combat-System (rundenbasiert, Angriff/Verteidigung)
+Monster-System (normale + Boss-Monster)
+Level/XP-System
+Death/Respawn-Mechanik
+
+
+PHASE 3: World & Movement
+
+Map-System (Räume, Movement)
+Base-Building (Crafting, Safe Zone)
+Monster-Spawning basierend auf Distanz
+
+
+PHASE 4: Economy & Trading
+
+Händler-System (Kaufen/Verkaufen)
+Gold-System
+Crafting-System
+
+
+PHASE 5: Advanced Features
+
+Magic-System (Mana, Zauber, Zauberbücher)
+Quest-System (Questlines, Taverne, NPCs)
+Dialog-System
+Save/Load-System

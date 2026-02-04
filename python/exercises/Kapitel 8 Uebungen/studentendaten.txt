@@ -1,0 +1,3 @@
+Name: Max Mustermann, Matrikelnummer: 234567, Studiengang: BWL
+Name: Erika Musterfrau, Matrikelnummer: 345678, Studiengang: Informatik
+Name: Hans Meier, Matrikelnummer: 5465860, Studiengang: Maschinenbau und Produktionstechnik

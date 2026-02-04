@@ -369,19 +369,18 @@ JSON-Funktionen in Python
 Datei-basiert
 
 json.dump(obj, fp)
-Wandelt ein Python-Objekt in JSON-Text um
-Schreibt den Text in einen geöffneten Stream
+Wandelt ein Python-Objekt (obj) in JSON-Text um
+Schreibt den Text in einen geöffneten Stream (fp)
 
 json.load(fp)
-Liest JSON-Text aus einem Stream
-Wandelt ihn in Python-Datenstrukturen um
-String-basiert (zum Experimentieren)
+Liest JSON-Text aus einem Stream (fp)
+Wandelt ihn in Python-Datenstrukturen um, wird also zum decodieren verwendet
 
 json.dumps(obj)
-Liefert JSON-Text als String
+Liefert JSON-Text der das python objekt (obj) repräsentiert, gibt es als String zurück
 
 json.loads(s)
-Wandelt JSON-String in Python-Datenstrukturen um
+Wandelt JSON-String (s) in Python-Datenstrukturen um
 
 Aufbau eines JSON-Texts
 JSON-Objekte
@@ -396,12 +395,12 @@ JSON-Arrays
 Sequenz von Werten oder Objekten
 Entspricht einer Python-Liste
 
+
 Schreibweise: [ ]
 
 Elementare Werte
-Ganze Zahlen
-Gleitkommazahlen
-Strings (immer mit doppelten Anführungszeichen)
+
+Elementare Werte können ganze Zahlen, Gleitpunktzahlen oder Strings sein.
 
 Beispiel: JSON-Objekt
 ```py
@@ -444,3 +443,52 @@ Nur Dictionaries, Listen & einfache Datentypen
 Strings in JSON → immer doppelte Anführungszeichen
 dump/load → Dateien
 dumps/loads → Strings
+
+### Daten aus dem Internet lesen
+
+Grundidee
+
+Daten können direkt aus dem www geladen und in Python verarbeitet werden
+Dateien im Internet werden über eine URL (Uniform Resource Locator) adressiert
+
+Zugriff mit urllib.request
+```py
+from urllib.request import urlopen
+```
+Grundschema
+```py
+from urllib.request import urlopen
+
+with urlopen(url) as stream:
+    daten = stream.read()
+```
+Erklärung
+
+urlopen(url) öffnet eine Verbindung zu einer Internet-Ressource
+s entsteht ein stream-artiges Objekt vom Typ HTTPResponse
+read() liest den gesamten Inhalt
+
+Bytes → Text umwandeln
+
+read() liefert immer einen Bytestring
+Für lesbaren Text → dekodieren
+text = daten.decode()
+
+➡️ Ergebnis ist ein normaler Python-String
+
+### 8.11 Rückblick
+• Eine Datei kann mit der Standardfunktion open() als Text- oder Binärdatei zum Lesen (Modus: r bzw. rb) oder Schreiben (Modus: w bzw. wb) geöffnet werden. 
+Dann entsteht ein Stream, der den Zugriff auf die Datei ermöglicht.
+• Stream-Objekte besitzen die Methoden read() und write() zum Lesen und Schreiben von Daten.
+• Wenn eine Datei mit open() geöffnet worden ist, muss sie mit close() wieder geschlossen werden. 
+Damit werden etwaige Änderungen physisch gespeichert, und die Datei ist für andere Anwendungen auf dem Computer wieder verfügbar.
+• Beim Versuch, Dateien zu öffnen, kann es zu Laufzeitfehlern kommen, z.B. wenn eine Datei mit dem angegebenen Dateinamen nicht existiert.
+• Laufzeitfehler können mit try...except...finally-Anweisungen abgefangen werden. 
+Anweisungen der try-Klausel werden nur versuchsweise durchgeführt. 
+Kommt es zu einem Problem, wird die Ausführung abgebrochen und stattdessen die except-Klausel ausgeführt.
+Anweisungen einer (optionalen) finally-Klausel werden in jedem Fall ausgeführt.
+• Eine with-Anweisung ermöglicht auf elegante Weise einen sicheren Zugriff auf Dateien. Sie sorgt dafür, dass eine geöffnete Datei auf jeden Fall auch wieder geschlossen wird.
+• Mit dem pickle-Mechanismus können beliebige Objekte (z.B. Strings, Zahlen oder Listen) in einer Binärdatei gespeichert werden. 
+Man verwendet aus dem Modul pickle die Funktion dump() zum Speichern und load() zum Laden eines gespeicherten Objekts.
+• Mit der Funktion urlopen() aus dem Standardmodul urllib.request kann man auf Dateien im Internet zugreifen.
+• Dictionaries können als JSON-Objekte in Textdateien gespeichert werden

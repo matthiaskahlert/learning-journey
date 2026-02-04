@@ -249,3 +249,198 @@ mit Dateien oder Streams gearbeitet wird
 sichergestellt werden soll, dass Ressourcen immer freigegeben werden
 
 Code kurz, sauber und wartbar bleiben soll
+
+
+### Datenstrukturen speichern mit pickle
+Zweck des Moduls
+
+pickle dient zum Speichern und Laden beliebiger Python-Datenstrukturen
+
+Unterstützt z.B.:
+
+Listen
+Dictionaries
+Tupel
+Kombinationen davon
+
+Speicherung erfolgt binär, nicht als Text
+
+Grundprinzip
+
+Objekte werden serialisiert → Umwandlung in eine Folge von Bytes
+Beim Laden werden sie deserialisiert → Rückwandlung in das Originalobjekt
+
+### Speichern von Daten (Serialisierung)
+Voraussetzungen
+
+Datei im Binärmodus zum Schreiben öffnen (wb)
+
+Verwendung von pickle.dump()
+
+Syntax
+```py
+pickle.dump(objekt, stream)
+```
+
+objekt → Datenstruktur (z.B. Liste, Dictionary)
+stream → geöffnete Binärdatei
+
+### Beispiel: Liste speichern
+```py
+import pickle
+
+liste = [1, 2, 3]
+
+with open('liste.dat', 'wb') as stream:
+    pickle.dump(liste, stream)
+```
+Erklärung
+
+* Es wird eine Binärdatei liste.dat erzeugt
+* Die Liste wird in Bytes umgewandelt und gespeichert
+* Durch with wird die Datei automatisch geschlossen
+
+### Laden von Daten (Deserialisierung)
+Voraussetzungen
+
+Datei im Binärmodus zum Lesen öffnen (rb)
+
+Verwendung von pickle.load()
+
+Syntax
+```py
+daten = pickle.load(stream)
+```
+
+daten → Variable für die geladene Datenstruktur
+
+stream → geöffnete Binärdatei
+
+Beispiel: Liste laden
+```py
+import pickle
+
+with open('liste.dat', 'rb') as stream:
+    liste = pickle.load(stream)
+
+print(liste)
+```
+
+Wichtige Merksätze
+
+pickle funktioniert nur in Python
+Daten sind nicht menschenlesbar
+
+Immer:
+
+wb zum Speichern
+rb zum Laden
+with + pickle = sichere Best Practice
+
+Typische Einsatzfälle
+
+Zwischenspeichern von Programmdaten
+Sichern komplexer Datenstrukturen
+Prototypen & Lernprojekte
+
+### Daten im JSON-Format speichern
+Motivation
+
+pickle speichert beliebige Python-Objekte, aber:
+Binärformat
+nicht menschenlesbar
+Python-spezifisch
+
+JSON ist eine gut lesbare Textalternative
+
+menschenlesbar
+programmunabhängig
+weit verbreitet (Web, APIs, Konfigurationsdateien)
+
+Was ist JSON?
+
+JSON (JavaScript Object Notation) beschreibt Datenstrukturen als Text
+Obwohl aus JavaScript entstanden:
+in fast allen Programmiersprachen nutzbar
+
+In Python: Standardmodul json
+
+JSON-Funktionen in Python
+Datei-basiert
+
+json.dump(obj, fp)
+Wandelt ein Python-Objekt in JSON-Text um
+Schreibt den Text in einen geöffneten Stream
+
+json.load(fp)
+Liest JSON-Text aus einem Stream
+Wandelt ihn in Python-Datenstrukturen um
+String-basiert (zum Experimentieren)
+
+json.dumps(obj)
+Liefert JSON-Text als String
+
+json.loads(s)
+Wandelt JSON-String in Python-Datenstrukturen um
+
+Aufbau eines JSON-Texts
+JSON-Objekte
+
+Sammlung von Name–Wert-Paaren
+Entspricht einem Python-Dictionary
+
+Schreibweise: { }
+
+JSON-Arrays
+
+Sequenz von Werten oder Objekten
+Entspricht einer Python-Liste
+
+Schreibweise: [ ]
+
+Elementare Werte
+Ganze Zahlen
+Gleitkommazahlen
+Strings (immer mit doppelten Anführungszeichen)
+
+Beispiel: JSON-Objekt
+```py
+{
+  "Tom": ["0172 567 343", "03202 67231"],
+  "Anna": [],
+  "Tina": ["0201 897551"]
+}
+```
+
+➡️ Modelliert ein Telefonverzeichnis
+➡️ Schlüssel = Namen, Werte = Listen von Telefonnummern
+
+Praxistipp 💡
+
+Zum Lernen & Testen:
+
+lieber json.dumps() und json.loads() verwenden
+
+Kein Dateizugriff nötig
+
+Ideal zum Experimentieren
+
+Grenzen von JSON ⚠️
+
+JSON unterstützt nur einfache Datenstrukturen:
+Nicht direkt serialisierbar
+❌ Komplexe Zahlen (complex)
+❌ Mengen (set)
+⚠️ Tupel (tuple)
+
+Werden als JSON-Arrays gespeichert
+
+Beim Laden → Liste statt Tupel
+
+Merksätze für die Prüfung
+
+JSON = lesbar + plattformunabhängig
+Nur Dictionaries, Listen & einfache Datentypen
+Strings in JSON → immer doppelte Anführungszeichen
+dump/load → Dateien
+dumps/loads → Strings

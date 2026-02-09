@@ -47,6 +47,15 @@ Die am häufigsten verwendete Codierung für Unicode-Texte ist **UTF-8** (Unicod
 
 Dies macht UTF-8 besonders effizient für Texte mit vielen ASCII-Zeichen.
 
+#### Unicode facts
+- jeder String ist eine Folge von Unicode-Zeichen
+- Unicode ist ein internationaler Standard für Schriftzeichen und Symbole
+- Unicode ordnet jedem sinntragenden Zeichen eine Nummer und einen eindeutigen Namen zu
+- die Nummern werden von den Standardfunktionen ord() und chr() verwendet
+- Unicode-Nummern werden meist angegeben als Hexadezimalzahlen (Zahl 16 als Zahlenbasis und die 16 Ziffern 0123456789ABCDEF)
+
+
+
 ### Escape-Sequenzen
 
 Um Strings mit ungewöhnlichen Symbolen oder Sonderzeichen zu erstellen, verwendest du **Escape-Sequenzen**. Eine Escape-Sequenz ist eine Folge von Zeichen, die mit einem Backslash `\` beginnt.
@@ -84,6 +93,15 @@ print('Pferd heißt auf Chinesisch \u99ac.')
 print('\N{GREEK CAPITAL LETTER DELTA}')
 # Ausgabe: Δ
 ```
+
+#### escape sequencen facts
+
+- zur Erstellung von Strings mit ungewöhnlichen Symbolen oder Sonderzeichen
+- eine Escape-Sequenz ist eine Folge von Zeichen, die mit einem Backslash \ beginnt
+- z.B.: \n - Zeilenumbruch, \" - Anführungszeichen in einem String
+- erlaubt Einbau von Schriftzeichen aus anderen Sprachen in einen Text 
+
+
 
 ### String-Methoden
 
@@ -224,3 +242,217 @@ print(list(wortmenge)[:50])  #8 - Erste 50 unterschiedliche Wörter
 - **#6:** Text in Liste von Wörtern aufteilen (bei Leerzeichen)
 - **#7:** Menge erstellen → automatisches Entfernen von Duplikaten
 - **#8:** Erste 50 unterschiedliche Wörter ausgeben
+
+#### Projekt: Wie warm wird es heute?
+
+Dieses Projekt ist ein Beispiel für **Webscraping**: Einer Webseite im Internet werden gezielt bestimmte Daten entnommen. In diesem Fall lädt das Programm die Startseite des WDR Köln herunter und sucht die Wetterprognose heraus.
+
+**Grundidee:**
+
+Die Webseite des WDR ist ein langer und komplexer HTML-Text (etwa 2500 Zeilen). Interessant für das Projekt ist die Passage, in der die Wetterprognose beschrieben ist.
+
+Das Programm nutzt die Methode `split()`, um den HTML-Text so zu zerlegen, dass die beiden gesuchten Zahlenwerte (Höchsttemperaturen für heute und morgen) übrigbleiben.
+
+**HTML-Struktur der Wetterprognose:**
+
+```html
+<span class="max-temperature">Max: 6°</span>
+<span class="hidden"> / Tagestiefstemperatur </span>
+<span class="min-temperature">Min: 4°</span>
+</li>
+<li class="dynamicWeatherInfo">
+<span class="city-name hidden">Dortmund, </span>
+<span class="date-desc">Morgen</span>
+<span class="hidden">: leichter Regen</span>
+<!-- ... -->
+<span class="max-temperature">Max: 9°</span>
+```
+
+**Vorgehensweise:**
+
+1. **Erster Split:** Der Text wird anhand des Trennstrings `'Max:'` aufgeteilt
+   - Da `'Max:'` zweimal im Text vorkommt, entsteht eine Liste mit **drei Strings**
+   - Die gesuchten Zahlen befinden sich am **Anfang des zweiten und dritten Strings**
+
+2. **Zweiter Split:** Die beiden relevanten Strings werden weiter zerlegt
+   - Nach dem Split sieht das so aus: `...6°</span>...` bzw. `...9°</span>...`
+   - Trennstring: Gradsymbol `'°'`
+   - Die jeweilige Zahl steht direkt **vor** dem Gradsymbol
+
+**Programmcode:**
+
+```py
+# wdr_wetter.py
+from urllib.request import urlopen
+
+WDR = 'https://www1.wdr.de/index.html'
+f = urlopen(WDR)  #1
+htmltext = f.read().decode()  #2
+f.close()
+
+liste = htmltext.split('Max:')  #3
+heute = liste[1].split('°')[0]  #4
+morgen = liste[2].split('°')[0]  #5
+
+print('Wie warm wird es?')
+print(f'Höchsttemperatur heute: {heute} °C')
+print(f'Höchsttemperatur morgen: ' + morgen + '°C')
+```
+
+**Erläuterung der Schritte:**
+
+- **#1:** Die Webseite des WDR wird heruntergeladen mit `urlopen()`
+- **#2:** Die Webseite wird als Bytestring gelesen und mit `decode()` in einen String überführt
+- **#3:** Splitting mit `'Max:'` als Trennstring → es entsteht eine Liste mit drei Strings:
+  - `liste[0]`: Text vor dem ersten `'Max:'`
+  - `liste[1]`: Text zwischen erstem und zweitem `'Max:'` (enthält Temperatur für heute)
+  - `liste[2]`: Text nach dem zweiten `'Max:'` (enthält Temperatur für morgen)
+- **#4:** Der zweite String in der Liste (`liste[1]`) wird mit `'°'` gesplittet
+  - Es entsteht eine Liste mit zwei Strings: `['6', '</span>...']`
+  - Das erste Element (`[0]`) ist die Temperatur für heute
+- **#5:** In gleicher Weise wird `liste[2]` analysiert und die Temperatur für morgen ermittelt
+
+**Ausgabe:**
+
+```
+Wie warm wird es?
+Höchsttemperatur heute: 6°C
+Höchsttemperatur morgen: 9°C
+```
+
+**Hinweis:** Webscraping ist fragil - wenn die Webseite ihre HTML-Struktur ändert, funktioniert das Programm nicht mehr. Für robustere Lösungen sollte man Libraries wie BeautifulSoup oder offizielle Wetter-APIs verwenden.
+
+#### Die format() Methode im Detail
+
+Die `format()` Methode ersetzt Platzhalter (in geschweifte Klammern `{}`) in einem String durch konkrete Werte.
+
+**Grundprinzip:**
+```py
+"Text mit {Platzhalter}".format(Wert)
+```
+
+##### Varianten der Platzhalter
+
+**1. Leere Platzhalter `{}` - Automatische Reihenfolge**
+
+```py
+text = "Ich heiße {} und bin {} Jahre alt."
+print(text.format("Max", 25))
+# Ausgabe: Ich heiße Max und bin 25 Jahre alt.
+```
+
+- Erster `{}` = erstes Argument
+- Zweiter `{}` = zweites Argument
+- Reihenfolge ist fix
+
+**2. Mit Positionsnummern `{0}`, `{1}`, `{2}` - Flexibel**
+
+```py
+text = "Ich heiße {0} und bin {1} Jahre alt."
+print(text.format("Max", 25))
+# Ausgabe: Ich heiße Max und bin 25 Jahre alt.
+
+# Wiederverwendung möglich
+text2 = "{0} mag {1}. {0} isst gerne {1}!"
+print(text2.format("Anna", "Pizza"))
+# Ausgabe: Anna mag Pizza. Anna isst gerne Pizza!
+
+# Reihenfolge ändern
+text3 = "{1} ist {0} Jahre alt."
+print(text3.format(25, "Max"))
+# Ausgabe: Max ist 25 Jahre alt.
+```
+
+- `{0}` = erstes Argument (Index 0)
+- `{1}` = zweites Argument (Index 1)
+- Platzhalter können mehrfach verwendet werden
+
+**3. Mit Namen `{name}`, `{alter}` - Am lesbarsten**
+
+```py
+text = "Ich heiße {name} und bin {alter} Jahre alt."
+print(text.format(name="Max", alter=25))
+# Ausgabe: Ich heiße Max und bin 25 Jahre alt.
+
+# Reihenfolge der Argumente spielt keine Rolle
+text2 = "{name} wohnt in {stadt}."
+print(text2.format(stadt="Berlin", name="Anna"))
+# Ausgabe: Anna wohnt in Berlin.
+```
+
+##### Formatierungsoptionen
+
+**Dezimalzahlen runden**
+
+```py
+preis = 19.99765
+print("Preis: {:.2f} €".format(preis))
+# Ausgabe: Preis: 19.99 €
+
+# {:.2f} bedeutet: 2 Dezimalstellen, f = float
+```
+
+**Text ausrichten und auffüllen**
+
+```py
+# Links, Mitte, Rechts (Breite: 10 Zeichen)
+print("{:<10}".format("links"))   # links     
+print("{:^10}".format("mitte"))   #   mitte   
+print("{:>10}".format("rechts"))  #     rechts
+
+# Mit Füllzeichen
+print("{:*^20}".format("Titel"))  # *******Titel********
+```
+
+**Zahlen formatieren**
+
+```py
+# Tausendertrennzeichen
+zahl = 1234567
+print("{:,}".format(zahl))
+# Ausgabe: 1,234,567
+
+# Prozent
+anteil = 0.756
+print("{:.1%}".format(anteil))
+# Ausgabe: 75.6%
+```
+
+##### Vollständiges Beispiel
+
+```py
+name = "Helena"
+alter = 28
+gehalt = 3500.50
+
+text = """
+Name:   {0}
+Alter:  {1} Jahre  
+Gehalt: {2:.2f} €
+
+{0} ist {1} Jahre alt.
+"""
+
+print(text.format(name, alter, gehalt))
+```
+
+**Ausgabe:**
+```
+Name:   Helena
+Alter:  28 Jahre  
+Gehalt: 3500.50 €
+
+Lisa ist 28 Jahre alt.
+```
+
+##### Übersicht Formatierungszeichen
+
+| Format | Bedeutung | Beispiel |
+|--------|-----------|----------|
+| `{:.2f}` | 2 Dezimalstellen | `{:.2f}".format(3.14159)` → `3.14` |
+| `{:10}` | Mindestbreite 10 Zeichen | `"{:10}".format("Hi")` → `Hi        ` |
+| `{:<10}` | Linksbündig, Breite 10 | `"{:<10}".format("Hi")` → `Hi        ` |
+| `{:>10}` | Rechtsbündig, Breite 10 | `"{:>10}".format("Hi")` → `        Hi` |
+| `{:^10}` | Zentriert, Breite 10 | `"{:^10}".format("Hi")` → `    Hi    ` |
+| `{:,}` | Tausendertrennzeichen | `"{:,}".format(1000)` → `1,000` |
+| `{:.1%}` | Prozent, 1 Dezimalstelle | `"{:.1%}".format(0.5)` → `50.0%` |#

@@ -1,0 +1,8 @@
+[
+    "Peter",
+    "Tim",
+    "Nordi",
+    "Georg",
+    "Gregor",
+    "Matze"
+]

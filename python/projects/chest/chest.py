@@ -503,7 +503,11 @@ if __name__ == "__main__":
 # (11, 20000, 76000)
 # (12, 24000, 100000)
 
+# die xp tabelle muss in einem dictionary gespeichert werden, damit man leicht die xp für das levelup abfragen kann.
+# die xp tabelle muss auch die total xp beinhalten, damit man leicht den fortschritt zum nächsten level abfragen kann.
 
+
+# beginn der umsetzung:
 
 
 

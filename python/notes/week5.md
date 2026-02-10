@@ -456,3 +456,31 @@ Lisa ist 28 Jahre alt.
 | `{:^10}` | Zentriert, Breite 10 | `"{:^10}".format("Hi")` → `    Hi    ` |
 | `{:,}` | Tausendertrennzeichen | `"{:,}".format(1000)` → `1,000` |
 | `{:.1%}` | Prozent, 1 Dezimalstelle | `"{:.1%}".format(0.5)` → `50.0%` |#
+
+
+### regEx
+
+| Sonderzeichen | Bedeutung/Beispiel |
+|---------------|-------------------|
+| `.` | Jedes Zeichen außer Zeilenwechsel (`\n`). `'G.ld'` passt auf `'Gold'` und `'Geld'`. |
+| `^` | Beginn eines Strings oder das erste Zeichen nach `\n`. `'^S'` passt auf `'Start'`, nicht aber auf `'der Start'`. |
+| `[...]` | Definition einer Menge von Zeichen. Zum Beispiel bezeichnet `'[abc]'` ein Zeichen aus der Menge {a, b, c}. |
+| `[^...]` | Komplement einer Zeichenmenge. Zum Beispiel steht `[^aeiouAEIOU]` für ein beliebiges Zeichen, das kein Vokal ist. |
+| `*` | Beliebig häufiges (eventuell keinmaliges) Wiederholen des vorausgehenden regulären Ausdrucks. Zum Beispiel passt der reguläre Ausdruck `'a*'` auf `''`, `'a'` und `'aaaaa'`. |
+| `+` | Ein- oder mehrmaliges Wiederholen des vorausgehenden regulären Ausdrucks. Zum Beispiel passt der reguläre Ausdruck `'0\d+'` auf `'01'` und `'098012'`, nicht aber auf `'0'`. |
+| `?` | Null- oder einmaliges Auftreten des vorhergehenden regulären Ausdrucks |
+| `*?`, `+?` | »Nicht gierige« Variante des Stern- bzw. Plusoperators. Die Verwendung bei `findall()` führt zum Finden der kürzesten passenden Textstellen. |
+| `{m}` | Exakt m-maliges Wiederholen des vorausgehenden regulären Ausdrucks. Zum Beispiel passt der reguläre Ausdruck `'\d{5}'` auf `'10551'` und `'58452'`. |
+| `{m,n}` | Mindestens m-maliges und höchstens n-maliges Wiederholen des vorausgehenden regulären Ausdrucks. |
+| `\d` | Dezimalziffer, entspricht der Menge `[0-9]` |
+| `\D` | Alle Zeichen außer Dezimalziffern |
+| `\s` | Whitespace-Zeichen, d.h. ein Zeichen aus der Menge `[ \t\n\r\f\v]` |
+| `\S` | Alle Zeichen außer Whitespace-Zeichen |
+| `\w` | Irgendein alphanumerisches Zeichen aus `[a-zA-Z0-9_]` |
+| `\W` | Irgendein nicht alphanumerisches Zeichen aus `[^a-zA-Z0-9_]` |
+| `\Z` | Ende einer Zeichenkette |
+| `\|` | oder (Alternation) |
+| `(?:...)` | Zeichengruppe (non-capturing group), z.B. `(?:ha)` |
+
+
+

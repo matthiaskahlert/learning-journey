@@ -3,9 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Learning Journey — vereinfachte Navigation</title>
+  <title>Learning Journey — Navigation</title>
   <style>
-    /* grundlayout: nav links, content rechts */
     body {
       margin: 0;
       display: flex;
@@ -16,7 +15,7 @@
     }
 
     nav {
-      width: 250px;
+      width: 300px;
       padding: 16px;
       border-right: 1px solid rgba(255,255,255,0.1);
       overflow-y: auto;
@@ -28,52 +27,66 @@
       color: #60a5fa;
     }
 
-    ul.tree {
-      list-style: none; /* entfernt bullets */
+    .tree {
+      list-style: none;
       padding-left: 0;
     }
 
-    li.item {
-      margin: 6px 0;
+    .tree li {
+      margin: 4px 0;
     }
 
-    a.link {
-      color: inherit;
+    .tree a {
+      color: #93c5fd;
       text-decoration: none;
-      padding: 4px 6px;
+      padding: 4px 8px;
       display: block;
       border-radius: 4px;
+      font-size: 14px;
     }
 
-    a.link:hover {
-      background: rgba(255,255,255,0.05);
+    .tree a:hover {
+      background: rgba(147, 197, 253, 0.1);
+    }
+
+    .folder {
+      color: #fbbf24;
+      font-weight: 500;
+      margin-top: 8px;
     }
 
     main {
       flex: 1;
-      padding: 16px;
+      padding: 24px;
       overflow: auto;
     }
 
-    .viewer-iframe {
+    iframe {
       width: 100%;
-      height: 70vh;
-      border: none;
-      border-radius: 6px;
-      display: none;
+      height: 80vh;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 8px;
       background: white;
     }
 
-    .md {
+    .md-content {
       line-height: 1.6;
-      color: #d9eefc;
-      display: none;
+      max-width: 900px;
+    }
+
+    .info {
+      color: #94a3b8;
+      font-size: 14px;
+    }
+
+    .loading {
+      color: #60a5fa;
     }
 
     .error {
-      color: #ffb4b4;
-      background: rgba(255,80,80,0.06);
-      padding: 10px;
+      color: #f87171;
+      background: rgba(248, 113, 113, 0.1);
+      padding: 12px;
       border-radius: 6px;
     }
   </style>
@@ -81,157 +94,142 @@
 <body>
   <nav>
     <h1>Learning Journey</h1>
+    <div id="status" class="loading">Lade Struktur...</div>
     <ul class="tree" id="navTree"></ul>
   </nav>
 
   <main>
-    <iframe id="htmlFrame" class="viewer-iframe"></iframe>
-    <article id="mdContainer" class="md"></article>
-    <div id="status">Wähle einen Eintrag in der Navigation.</div>
+    <div id="content" class="info">
+      <h2>Willkommen</h2>
+      <p>Wähle eine Datei aus der Navigation.</p>
+    </div>
   </main>
 
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <script>
-    (function(){
-      // === Konfiguration ===
-      const OWNER = "matthiaskahlert";
-      const REPO = "learning-journey";
-      const BRANCH = "main";
-      const API_BASE = "https://api.github.com";
-      const RAW_BASE = "https://raw.githubusercontent.com";
+    const OWNER = "matthiaskahlert";
+    const REPO = "learning-journey";
+    const BRANCH = "main";
 
-      const navTree = document.getElementById("navTree");
-      const htmlFrame = document.getElementById("htmlFrame");
-      const mdContainer = document.getElementById("mdContainer");
-      const statusEl = document.getElementById("status");
+    const navTree = document.getElementById("navTree");
+    const content = document.getElementById("content");
+    const statusEl = document.getElementById("status");
 
-      // Hilfsfunktion: Inhalte aus GitHub Repository laden
-      async function fetchContents(path=""){
-        const url = `${API_BASE}/repos/${OWNER}/${REPO}/contents/${encodeURIComponent(path)}?ref=${BRANCH}`;
-        const resp = await fetch(url, {headers: {Accept: "application/vnd.github.v3+json"}});
-        if(!resp.ok) throw new Error(`Fehler beim Laden von ${path || '/'}: ${resp.status}`);
-        return resp.json();
-      }
+    // GitHub Tree API - ALLE Dateien in einem Request!
+    async function fetchAllFiles() {
+      const url = `https://api.github.com/repos/${OWNER}/${REPO}/git/trees/${BRANCH}?recursive=1`;
+      const resp = await fetch(url);
+      if (!resp.ok) throw new Error(`API Fehler: ${resp.status}`);
+      return resp.json();
+    }
 
-      // Wähle bevorzugte Datei im Ordner: index.html > any.html > README.md > any.md
-      function pickPreferredFile(files){
-        const map = {};
-        files.forEach(f => map[f.name.toLowerCase()] = f);
-        if(map["index.html"]) return map["index.html"].name;
-        const anyHtml = files.find(f => f.name.toLowerCase().endsWith(".html"));
-        if(anyHtml) return anyHtml.name;
-        if(map["readme.md"]) return map["readme.md"].name;
-        const anyMd = files.find(f => f.name.toLowerCase().endsWith(".md"));
-        if(anyMd) return anyMd.name;
-        return null;
-      }
-
-      // Rekursive Traversierung eines Verzeichnisses
-      async function traverseDir(path=""){
-        const items = await fetchContents(path);
-        const dirs = items.filter(i => i.type === "dir");
-        const files = items.filter(i => i.type === "file");
-
-        const hasHtmlOrMd = files.some(f => /\.(html|md)$/i.test(f.name));
-        const children = [];
-
-        for(const d of dirs){
-          try{
-            const child = await traverseDir(d.path);
-            if(child) children.push(child);
-          }catch(e){
-            console.warn("skip", d.path, e);
-          }
-        }
-
-        if(hasHtmlOrMd || children.length){
-          const preferred = pickPreferredFile(files);
-          return { name: path || REPO, path, preferredFile: preferred, children };
-        }
-        return null;
-      }
-
-      // Baue Navigation
-      function buildNavNode(node, container){
-        const li = document.createElement("li");
-        li.className = "item";
-
-        const displayName = node.path ? node.path.split("/").pop() : node.name;
-
-        let targetPath = node.preferredFile ? (node.path ? node.path + "/" : "") + node.preferredFile : null;
-
-        const a = document.createElement("a");
-        a.className = "link";
-        a.href = "#";
-        a.textContent = displayName;
-        a.dataset.path = targetPath || "";
-        a.addEventListener("click", (e)=>{
-          e.preventDefault();
-          if(!a.dataset.path) return;
-          loadFile(a.dataset.path);
+    // Baue Baum-Struktur aus flacher Liste
+    function buildTree(items) {
+      const tree = {};
+      
+      items
+        .filter(item => item.path.match(/\.(html|md)$/i))
+        .forEach(item => {
+          const parts = item.path.split('/');
+          let current = tree;
+          
+          parts.forEach((part, idx) => {
+            if (idx === parts.length - 1) {
+              // Datei
+              if (!current._files) current._files = [];
+              current._files.push({ name: part, path: item.path });
+            } else {
+              // Ordner
+              if (!current[part]) current[part] = {};
+              current = current[part];
+            }
+          });
         });
+      
+      return tree;
+    }
 
-        li.appendChild(a);
-        container.appendChild(li);
+    // Rendere Navigation rekursiv
+    function renderTree(tree, container, level = 0) {
+      Object.keys(tree).sort().forEach(key => {
+        if (key === '_files') {
+          tree[key].forEach(file => {
+            const li = document.createElement('li');
+            li.style.paddingLeft = `${level * 16}px`;
+            
+            const a = document.createElement('a');
+            a.href = '#';
+            a.textContent = file.name;
+            a.onclick = (e) => {
+              e.preventDefault();
+              loadFile(file.path);
+            };
+            
+            li.appendChild(a);
+            container.appendChild(li);
+          });
+        } else {
+          const li = document.createElement('li');
+          li.style.paddingLeft = `${level * 16}px`;
+          li.className = 'folder';
+          li.textContent = `📁 ${key}`;
+          container.appendChild(li);
+          
+          renderTree(tree[key], container, level + 1);
+        }
+      });
+    }
 
-        if(node.children && node.children.length){
-          const ul = document.createElement("ul");
-          node.children.forEach(child => buildNavNode(child, ul));
-          container.appendChild(ul);
+    // Lade Datei
+    async function loadFile(path) {
+      const ext = path.split('.').pop().toLowerCase();
+      
+      if (ext === 'html') {
+        // Für GitHub Pages (wenn aktiviert):
+        const pagesUrl = `https://${OWNER}.github.io/${REPO}/${path}`;
+        
+        // Alternative: htmlpreview.github.io
+        const previewUrl = `https://htmlpreview.github.io/?https://github.com/${OWNER}/${REPO}/blob/${BRANCH}/${path}`;
+        
+        content.innerHTML = `
+          <div class="info">
+            <h3>${path}</h3>
+            <p><strong>GitHub Pages URL (funktioniert nur wenn aktiviert):</strong></p>
+            <p><a href="${pagesUrl}" target="_blank" style="color: #60a5fa">${pagesUrl}</a></p>
+            
+            <p style="margin-top: 20px"><strong>HTML Preview (funktioniert immer):</strong></p>
+            <p><a href="${previewUrl}" target="_blank" style="color: #60a5fa">In neuem Tab öffnen</a></p>
+            
+            <iframe src="${previewUrl}"></iframe>
+          </div>
+        `;
+      } else if (ext === 'md') {
+        try {
+          const rawUrl = `https://raw.githubusercontent.com/${OWNER}/${REPO}/${BRANCH}/${path}`;
+          const resp = await fetch(rawUrl);
+          const text = await resp.text();
+          content.innerHTML = `<div class="md-content">${marked.parse(text)}</div>`;
+        } catch (e) {
+          content.innerHTML = `<div class="error">Fehler: ${e.message}</div>`;
         }
       }
+    }
 
-      // Lade Datei (HTML oder Markdown) in den Viewer
-      async function loadFile(relPath){
-        htmlFrame.style.display = "none";
-        mdContainer.style.display = "none";
-        statusEl.style.display = "none";
-
-        const ext = relPath.split(".").pop().toLowerCase();
-        const rawUrl = `${RAW_BASE}/${OWNER}/${REPO}/${BRANCH}/${relPath}`;
-
-        try{
-          if(ext === "html"){
-            htmlFrame.src = rawUrl;
-            htmlFrame.style.display = "block";
-          } else if(ext === "md"){
-            const resp = await fetch(rawUrl);
-            if(!resp.ok) throw new Error(`Fehler: ${resp.status}`);
-            const text = await resp.text();
-            mdContainer.innerHTML = marked.parse(text);
-            mdContainer.style.display = "block";
-          } else {
-            mdContainer.innerHTML = `<div class="error">Dateityp wird nicht unterstützt: ${ext}</div>`;
-            mdContainer.style.display = "block";
-          }
-        }catch(e){
-          mdContainer.innerHTML = `<div class="error">Fehler beim Laden: ${e.message}</div>`;
-          mdContainer.style.display = "block";
-        }
+    // Initialisierung
+    async function init() {
+      try {
+        const data = await fetchAllFiles();
+        const tree = buildTree(data.tree);
+        
+        renderTree(tree, navTree);
+        statusEl.textContent = `${data.tree.length} Dateien geladen`;
+        
+      } catch (e) {
+        statusEl.innerHTML = `<div class="error">Fehler: ${e.message}</div>`;
       }
+    }
 
-      // Aufbau der Navigation starten
-      async function buildNavigation(){
-        navTree.innerHTML = "";
-        statusEl.style.display = "block";
-        statusEl.textContent = "lade Verzeichnisstruktur...";
-
-        try{
-          const rootNode = await traverseDir("");
-          if(!rootNode){
-            navTree.innerHTML = '<li class="item">Keine Dateien (.html oder .md) gefunden.</li>';
-            return;
-          }
-          rootNode.children.forEach(child => buildNavNode(child, navTree));
-          statusEl.style.display = "none";
-        }catch(e){
-          statusEl.innerHTML = `<div class="error">Fehler: ${e.message}</div>`;
-        }
-      }
-
-      buildNavigation();
-
-    })();
+    init();
   </script>
 </body>
 </html>

@@ -1,0 +1,11 @@
+diese datei enthält Unicode zeichen, wie z.b. ä, ö, ü, ß, etc.
+Zusätzlich einige weitere Unicode-Zeichen:
+Griechisch: α β γ δ ε ζ η θ ι κ λ μ ν ξ ο π ρ σ τ υ φ χ ψ ω
+Mathematisch: ∑ ∏ √ ∫ ≈ ≠ ≤ ≥ ∞
+Emojis: 😀 😃 😄 😁 😆 😅 😂 🤣 🥲 🥹 😊 😇 🙃 😉 😌 😍 🥰 😘 😗 😙 😚 😋 😛 😝 😜 🤪 🤨 🧐 🤓 😎 🥸 🤩 🥳 😏 😒 😞 😔 😟 😕 🙁 ☹️ 😣 😖 😫 😩 🥺 😢 😭 😤 😠 😡 🤬 🤯 😳 🥵 🥶 😱 😨 😰 😥 😓 🤗 🤔 🤭 🤫 🤥 😶 😐 😑 😬 🙄 😯 😦 😧 😮 😲 🥱 😴 🤤 😪 😵 🤐 🥴 🤢 🤮 🤧 😷 🤒 🤕 🤑 🤠 😈 👿 👹 👺 🤡 💩 👻 💀 ☠️ 👽 👾 🤖 🎃 😺 😸 😹 😻 😼 😽 🙀 😿 😾
+Arabisch: مرحبا بالعالم
+Chinesisch: 你好世界
+Japanisch: こんにちは世界
+Koreanisch: 안녕하세요 세계
+Mir gefallen ja am besten: Mathematisch und Emojis!
+

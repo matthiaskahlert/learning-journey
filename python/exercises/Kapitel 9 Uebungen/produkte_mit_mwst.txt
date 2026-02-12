@@ -1,0 +1,11 @@
+Produkt,Preis,MwSt
+Milch,1.29,1.54
+Brot,2.49,2.96
+Äpfel,3.19,3.80
+Butter,2.79,3.32
+Käse,4.59,5.46
+Eier,3.99,4.75
+Bananen,2.49,2.96
+Tomaten,2.99,3.56
+Kartoffeln,1.89,2.25
+Orangen,3.29,3.92

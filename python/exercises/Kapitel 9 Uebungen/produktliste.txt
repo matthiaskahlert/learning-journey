@@ -1,0 +1,12 @@
+Produkt,Preis
+Produkt,Preis
+Milch,1.29
+Brot,2.49
+Äpfel,3.19
+Butter,2.79
+Käse,4.59
+Eier,3.99
+Bananen,2.49
+Tomaten,2.99
+Kartoffeln,1.89
+Orangen,3.29

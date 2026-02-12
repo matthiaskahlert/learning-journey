@@ -1,17 +1,15 @@
 # Meine Markdown notes Woche 4
-## Textverarbeitung in Python
-Grundidee
+## String-Grundlagen und reguläre Ausdrücke
 
-Dieser Abschnitt soll folgende Fragestellungen beinhalten:
-
-- Wie fügt man ungewöhnliche Zeichen (z.B. chinesische Zeichen), die nicht auf einer normalen Tastatur vorkommen, in einen String ein?
-- Wie kann man aus Webseiten oder Textdateien gezielt bestimmte Daten herauslesen?
-- Wie kann man mit regulären Ausdrücken Textpassagen finden?
-- Wie kann man Texte mit variablen Teilen generieren?
-
+- Ein **String** ist eine nicht änderbare Sequenz von Unicode-Zeichen.
+- Ein String-Literal kann mit einfachen oder doppelten Anführungszeichen geschrieben werden: `'...'` oder `"..."`.
+- Mit **Escape-Sequenzen** (beginnen mit `\`) können Sonderzeichen definiert werden, z.B. `\n` für einen Zeilenumbruch.
+- In einem **Raw-String** (`r'...'`) werden Escape-Sequenzen ignoriert.
+- Strings sind **Objekte** mit Methoden, die im Format `objekt.methode()` aufgerufen werden.
+- Ein **regulärer Ausdruck** ist ein abstraktes Muster für eine bestimmte Art von Texten (z.B. zum Finden von Telefonnummern oder Datumsangaben).
+- Ein String kann **Platzhalter** für variable Teile enthalten. Mit der Methode `format()` werden die Platzhalter durch konkrete Werte ersetzt.
 
 ### Unicode Nummern für Zeichen
-
 
 Unicode ordnet jedem sinntragenden Zeichen eine **Nummer** und einen **eindeutigen Namen** zu. Diese Nummern werden von den Standardfunktionen `ord()` und `chr()` verwendet.
 
@@ -469,7 +467,7 @@ Lisa ist 28 Jahre alt.
 | `*` | Beliebig häufiges (eventuell keinmaliges) Wiederholen des vorausgehenden regulären Ausdrucks. Zum Beispiel passt der reguläre Ausdruck `'a*'` auf `''`, `'a'` und `'aaaaa'`. |
 | `+` | Ein- oder mehrmaliges Wiederholen des vorausgehenden regulären Ausdrucks. Zum Beispiel passt der reguläre Ausdruck `'0\d+'` auf `'01'` und `'098012'`, nicht aber auf `'0'`. |
 | `?` | Null- oder einmaliges Auftreten des vorhergehenden regulären Ausdrucks |
-| `*?`, `+?` | »Nicht gierige« Variante des Stern- bzw. Plusoperators. Die Verwendung bei `findall()` führt zum Finden der kürzesten passenden Textstellen. |
+| `*?`, `+?` | »Nicht gierige« (gierig - engl. greedy) Variante des Stern- bzw. Plusoperators. Die Verwendung bei `findall()` führt zum Finden der kürzesten passenden Textstellen. |
 | `{m}` | Exakt m-maliges Wiederholen des vorausgehenden regulären Ausdrucks. Zum Beispiel passt der reguläre Ausdruck `'\d{5}'` auf `'10551'` und `'58452'`. |
 | `{m,n}` | Mindestens m-maliges und höchstens n-maliges Wiederholen des vorausgehenden regulären Ausdrucks. |
 | `\d` | Dezimalziffer, entspricht der Menge `[0-9]` |
@@ -484,3 +482,29 @@ Lisa ist 28 Jahre alt.
 
 
 
+```py
+from re import findall
+text = 'Witten 58452 Berlin 10115'
+reg = r'\d\d\d\d\d'
+gefunden = findall(reg, text)
+print(gefunden)
+```
+
+| Nr. | Aufgabe | Beispiele | Regex |
+|----:|---------|-----------|-------|
+| 1 | Positive Gleitkommazahlen als Dezimalbrueche (Python-Syntax) | 15.23, 0.1234 | `r'-?\d+\.\d+'` |
+| 2 | Fuenfstellige positive oder negative Zahlen | 58454, -38812 | `r'-?\d{5}'` |
+| 3 | Kleingeschriebene Woerter, die auf en enden | laufen, hoeren | `r'\b\w+en\b'` |
+| 4 | Gleitkommazahlen als Dezimalbrueche (Python-Syntax) | -15.23, 0.1234 | `r'-?\d+\.\d+'` |
+| 5 | Gleitkommazahlen in Exponentialschreibweise (Python-Syntax) | -I.23e4, I.2345E-19 | `r'-?\d+\.\d+[eE]-?\d+'` |
+| 6 | Inlandstelefonnummern mit Vorwahl nach DIN 5008 | 0201 89775, 031 78455-53 | `r'\b\d{3,4}\s?-?\d{5,}\b'` |
+
+### Formatangaben
+Platzhalter können Formatangaben enthalten: {:n} reserviert n Stellen, hilfreich für Tabellen; Strings linksbündig, Zahlen rechtsbündig.
+Für Gleitkommazahlen gibt {:n.mf} die Breite n und m Nachkommastellen an.
+```py
+text = 'Ergebnis: {:10.2f}'
+print(text.format(12.3456))
+```
+
+### Rückblick

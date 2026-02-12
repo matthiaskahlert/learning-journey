@@ -508,6 +508,8 @@ if __name__ == "__main__":
 
 
 # beginn der umsetzung:
+#für die lore habe ich ein kleines tool mit storytelling, dieses könnte man umbauen für random questtexte: python/exercises/Kapitel 9 Uebungen/storytelling_fantasy.py
+#  python\exercises\Kapitel 9 Uebungen\keks.py nutzt choice, um zufällige items zu generieren
 
 
 

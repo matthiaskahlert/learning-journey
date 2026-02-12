@@ -1,0 +1,2 @@
+Ich bin ein string. 😀
+Dies ist eine neue Zeile, erzeugt durch einen escape character "\n".

@@ -3,235 +3,318 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Learning Journey — vereinfachte Navigation</title>
+  <title>Learning Journey - Matthias Kahlert</title>
   <style>
-    /* grundlayout: nav links, content rechts */
-    body {
+    * {
       margin: 0;
-      display: flex;
-      font-family: Arial, sans-serif;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       min-height: 100vh;
-      background: #0f1724;
-      color: #e6eef8;
+      padding: 40px 20px;
     }
 
-    nav {
-      width: 250px;
-      padding: 16px;
-      border-right: 1px solid rgba(255,255,255,0.1);
-      overflow-y: auto;
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
     }
 
-    nav h1 {
+    h1 {
+      color: white;
+      font-size: 48px;
+      margin-bottom: 16px;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+    }
+
+    .subtitle {
+      color: rgba(255,255,255,0.9);
       font-size: 18px;
-      margin: 0 0 12px 0;
-      color: #60a5fa;
+      margin-bottom: 40px;
     }
 
-    ul.tree {
-      list-style: none; /* entfernt bullets */
-      padding-left: 0;
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 24px;
     }
 
-    li.item {
-      margin: 6px 0;
-    }
-
-    a.link {
-      color: inherit;
-      text-decoration: none;
-      padding: 4px 6px;
-      display: block;
-      border-radius: 4px;
-    }
-
-    a.link:hover {
-      background: rgba(255,255,255,0.05);
-    }
-
-    main {
-      flex: 1;
-      padding: 16px;
-      overflow: auto;
-    }
-
-    .viewer-iframe {
-      width: 100%;
-      height: 70vh;
-      border: none;
-      border-radius: 6px;
-      display: none;
+    .card {
       background: white;
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      transition: transform 0.2s, box-shadow 0.2s;
     }
 
-    .md {
-      line-height: 1.6;
-      color: #d9eefc;
-      display: none;
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 12px rgba(0,0,0,0.15);
     }
 
-    .error {
-      color: #ffb4b4;
-      background: rgba(255,80,80,0.06);
-      padding: 10px;
+    .card h2 {
+      color: #667eea;
+      font-size: 20px;
+      margin-bottom: 8px;
+    }
+
+    .card .path {
+      color: #999;
+      font-size: 12px;
+      margin-bottom: 12px;
+      font-family: monospace;
+    }
+
+    .card p {
+      color: #666;
+      margin-bottom: 16px;
+      line-height: 1.5;
+      font-size: 14px;
+    }
+
+    .card a {
+      display: inline-block;
+      background: #667eea;
+      color: white;
+      padding: 10px 20px;
       border-radius: 6px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: background 0.2s;
+      font-size: 14px;
+    }
+
+    .card a:hover {
+      background: #764ba2;
+    }
+
+    .section {
+      margin-bottom: 48px;
+    }
+
+    .section h2 {
+      color: white;
+      font-size: 32px;
+      margin-bottom: 24px;
+      border-bottom: 2px solid rgba(255,255,255,0.3);
+      padding-bottom: 8px;
+    }
+
+    .badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.2);
+      color: white;
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-size: 12px;
+      margin-right: 8px;
+      margin-bottom: 8px;
     }
   </style>
 </head>
 <body>
-  <nav>
-    <h1>Learning Journey</h1>
-    <ul class="tree" id="navTree"></ul>
-  </nav>
+  <div class="container">
+    <h1>🚀 Learning Journey</h1>
+    <p class="subtitle">Meine Projekte und Übungen aus der Weiterbildung zum Softwaretester</p>
 
-  <main>
-    <iframe id="htmlFrame" class="viewer-iframe"></iframe>
-    <article id="mdContainer" class="md"></article>
-    <div id="status">Wähle einen Eintrag in der Navigation.</div>
-  </main>
+    <div class="section">
+      <h2>JavaScript - Kapitel & Demos</h2>
+      <div class="grid">
+        <div class="card">
+          <h2>Kapitel 5: Programmablaufkontrolle</h2>
+          <div class="path">javascript/kapitel_5_Programmablaufkontrolle/</div>
+          <p>Abfragen und Schleifen: if, else, for, while</p>
+          <a href="javascript/kapitel_5_Programmablaufkontrolle/index.html" target="_blank">Demo öffnen →</a>
+        </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  <script>
-    (function(){
-      // === Konfiguration ===
-      const OWNER = "matthiaskahlert";
-      const REPO = "learning-journey";
-      const BRANCH = "main";
-      const API_BASE = "https://api.github.com";
-      const RAW_BASE = "https://raw.githubusercontent.com";
+        <div class="card">
+          <h2>Kapitel 10: DOM Manipulation</h2>
+          <div class="path">javascript/kapitel_10_DOM/</div>
+          <p>Document Object Model, Dark Mode Toggle, Element-Manipulation</p>
+          <a href="javascript/kapitel_10_DOM/index.html" target="_blank">Demo öffnen →</a>
+        </div>
 
-      const navTree = document.getElementById("navTree");
-      const htmlFrame = document.getElementById("htmlFrame");
-      const mdContainer = document.getElementById("mdContainer");
-      const statusEl = document.getElementById("status");
+        <div class="card">
+          <h2>Kapitel 11: Events</h2>
+          <div class="path">javascript/kapitel_11_Events/</div>
+          <p>Event Listener, Callbacks, Mouse Events, Forms</p>
+          <a href="javascript/kapitel_11_Events/index.html" target="_blank">Demo öffnen →</a>
+        </div>
+      </div>
+    </div>
 
-      // Hilfsfunktion: Inhalte aus GitHub Repository laden
-      async function fetchContents(path=""){
-        const url = `${API_BASE}/repos/${OWNER}/${REPO}/contents/${encodeURIComponent(path)}?ref=${BRANCH}`;
-        const resp = await fetch(url, {headers: {Accept: "application/vnd.github.v3+json"}});
-        if(!resp.ok) throw new Error(`Fehler beim Laden von ${path || '/'}: ${resp.status}`);
-        return resp.json();
-      }
+    <div class="section">
+      <h2>JavaScript - Übungen</h2>
+      <div class="grid">
+        <div class="card">
+          <h2>Übung 5.2.Ü.01</h2>
+          <div class="path">javascript/exercises/Uebung5.2.Ue.01/</div>
+          <p>Programmablaufkontrolle Basics</p>
+          <a href="javascript/exercises/Uebung5.2.Ue.01/index.html" target="_blank">Öffnen →</a>
+        </div>
 
-      // Wähle bevorzugte Datei im Ordner: index.html > any.html > README.md > any.md
-      function pickPreferredFile(files){
-        const map = {};
-        files.forEach(f => map[f.name.toLowerCase()] = f);
-        if(map["index.html"]) return map["index.html"].name;
-        const anyHtml = files.find(f => f.name.toLowerCase().endsWith(".html"));
-        if(anyHtml) return anyHtml.name;
-        if(map["readme.md"]) return map["readme.md"].name;
-        const anyMd = files.find(f => f.name.toLowerCase().endsWith(".md"));
-        if(anyMd) return anyMd.name;
-        return null;
-      }
+        <div class="card">
+          <h2>Übung 6.2.Ü.01</h2>
+          <div class="path">javascript/exercises/Uebung6.2.Ue.01/</div>
+          <p>Funktionen Grundlagen</p>
+          <a href="javascript/exercises/Uebung6.2.Ue.01/index.html" target="_blank">Öffnen →</a>
+        </div>
 
-      // Rekursive Traversierung eines Verzeichnisses
-      async function traverseDir(path=""){
-        const items = await fetchContents(path);
-        const dirs = items.filter(i => i.type === "dir");
-        const files = items.filter(i => i.type === "file");
+        <div class="card">
+          <h2>Übung 6.4.Ü.02</h2>
+          <div class="path">javascript/exercises/Uebung6.4.Ue.02/</div>
+          <p>Funktionen erweitert</p>
+          <a href="javascript/exercises/Uebung6.4.Ue.02/index.html" target="_blank">Öffnen →</a>
+        </div>
 
-        const hasHtmlOrMd = files.some(f => /\.(html|md)$/i.test(f.name));
-        const children = [];
+        <div class="card">
+          <h2>Übung 6.4.A.01 (Transfer)</h2>
+          <div class="path">javascript/exercises/Uebung6.4.A.01/</div>
+          <p>Transferaufgabe Funktionen</p>
+          <a href="javascript/exercises/Uebung6.4.A.01/index.html" target="_blank">Öffnen →</a>
+        </div>
 
-        for(const d of dirs){
-          try{
-            const child = await traverseDir(d.path);
-            if(child) children.push(child);
-          }catch(e){
-            console.warn("skip", d.path, e);
-          }
-        }
+        <div class="card">
+          <h2>Übung 6.5.Ü.01</h2>
+          <div class="path">javascript/exercises/Uebung6.5.Ue.01/</div>
+          <p>Funktionen Vertiefung</p>
+          <a href="javascript/exercises/Uebung6.5.Ue.01/index.html" target="_blank">Öffnen →</a>
+        </div>
 
-        if(hasHtmlOrMd || children.length){
-          const preferred = pickPreferredFile(files);
-          return { name: path || REPO, path, preferredFile: preferred, children };
-        }
-        return null;
-      }
+        <div class="card">
+          <h2>Übung 8.1.Ü.01</h2>
+          <div class="path">javascript/exercises/Uebung8.1.Ue.01/</div>
+          <p>Arrays und Objekte</p>
+          <a href="javascript/exercises/Uebung8.1.Ue.01/index.html" target="_blank">Öffnen →</a>
+        </div>
 
-      // Baue Navigation
-      function buildNavNode(node, container){
-        const li = document.createElement("li");
-        li.className = "item";
+        <div class="card">
+          <h2>Übung 10.4.Ü.01</h2>
+          <div class="path">javascript/exercises/Uebung10.4.Ue.01/</div>
+          <p>DOM Manipulation Filter & Modify</p>
+          <a href="javascript/exercises/Uebung10.4.Ue.01/index.html" target="_blank">Öffnen →</a>
+        </div>
 
-        const displayName = node.path ? node.path.split("/").pop() : node.name;
+        <div class="card">
+          <h2>Übung 10.7.A.01 (Transfer)</h2>
+          <div class="path">javascript/exercises/Uebung10.7.A.01/</div>
+          <p>DOM Transferaufgabe: Produktsuche & Sortierung</p>
+          <a href="javascript/exercises/Uebung10.7.A.01/index.html" target="_blank">Öffnen →</a>
+        </div>
 
-        let targetPath = node.preferredFile ? (node.path ? node.path + "/" : "") + node.preferredFile : null;
+        <div class="card">
+          <h2>Übung 10.14.Ü.01</h2>
+          <div class="path">javascript/exercises/Uebung10.14.Ue.01/</div>
+          <p>Dynamisches Rendering von Personen</p>
+          <a href="javascript/exercises/Uebung10.14.Ue.01/index.html" target="_blank">Öffnen →</a>
+        </div>
 
-        const a = document.createElement("a");
-        a.className = "link";
-        a.href = "#";
-        a.textContent = displayName;
-        a.dataset.path = targetPath || "";
-        a.addEventListener("click", (e)=>{
-          e.preventDefault();
-          if(!a.dataset.path) return;
-          loadFile(a.dataset.path);
-        });
+        <div class="card">
+          <h2>Übung 12.2.Ü.01</h2>
+          <div class="path">javascript/exercises/Uebung12.2.Ue.01/</div>
+          <p>Event-Anmeldung Formular mit Validation</p>
+          <a href="javascript/exercises/Uebung12.2.Ue.01/index.html" target="_blank">Öffnen →</a>
+        </div>
 
-        li.appendChild(a);
-        container.appendChild(li);
+        <div class="card">
+          <h2>Übung 13.5.Ü.02</h2>
+          <div class="path">javascript/exercises/Uebung13.5.Ue.02/</div>
+          <p>Temperatur API - Stadt abfragen</p>
+          <a href="javascript/exercises/Uebung13.5.Ue.02/index.html" target="_blank">Öffnen →</a>
+        </div>
 
-        if(node.children && node.children.length){
-          const ul = document.createElement("ul");
-          node.children.forEach(child => buildNavNode(child, ul));
-          container.appendChild(ul);
-        }
-      }
+        <div class="card">
+          <h2>Aufgaben Sammlung</h2>
+          <div class="path">javascript/exercises/</div>
+          <p>Arrays, Objekte, JSON, Arrow Functions, DOM - Übungssammlung</p>
+          <a href="javascript/exercises/aufgaben.html" target="_blank">Öffnen →</a>
+        </div>
+      </div>
+    </div>
 
-      // Lade Datei (HTML oder Markdown) in den Viewer
-      async function loadFile(relPath){
-        htmlFrame.style.display = "none";
-        mdContainer.style.display = "none";
-        statusEl.style.display = "none";
+    <div class="section">
+      <h2>JavaScript - Teilprüfungen</h2>
+      <div class="grid">
+        <div class="card">
+          <h2>Teilprüfung 1</h2>
+          <div class="path">javascript/exercises/Teilpruefung 1/</div>
+          <span class="badge">Prüfung</span>
+          <p>Rate die Zahl - Konsolen-basiertes Spiel</p>
+          <a href="javascript/exercises/Teilpruefung 1/index.html" target="_blank">Öffnen →</a>
+        </div>
 
-        const ext = relPath.split(".").pop().toLowerCase();
-        const rawUrl = `${RAW_BASE}/${OWNER}/${REPO}/${BRANCH}/${relPath}`;
+        <div class="card">
+          <h2>Teilprüfung 5</h2>
+          <div class="path">javascript/exercises/Teilpruefung 5/</div>
+          <span class="badge">Prüfung</span>
+          <p>Veranstaltungseinladung - Komplexes Formular mit Validation</p>
+          <a href="javascript/exercises/Teilpruefung 5/index.html" target="_blank">Öffnen →</a>
+        </div>
+      </div>
+    </div>
 
-        try{
-          if(ext === "html"){
-            htmlFrame.src = rawUrl;
-            htmlFrame.style.display = "block";
-          } else if(ext === "md"){
-            const resp = await fetch(rawUrl);
-            if(!resp.ok) throw new Error(`Fehler: ${resp.status}`);
-            const text = await resp.text();
-            mdContainer.innerHTML = marked.parse(text);
-            mdContainer.style.display = "block";
-          } else {
-            mdContainer.innerHTML = `<div class="error">Dateityp wird nicht unterstützt: ${ext}</div>`;
-            mdContainer.style.display = "block";
-          }
-        }catch(e){
-          mdContainer.innerHTML = `<div class="error">Fehler beim Laden: ${e.message}</div>`;
-          mdContainer.style.display = "block";
-        }
-      }
+    <div class="section">
+      <h2>JavaScript - Projekte</h2>
+      <div class="grid">
+        <div class="card">
+          <h2>ClickStorm Game</h2>
+          <div class="path">javascript/projects/project_clickStorm/</div>
+          <span class="badge">Projekt</span>
+          <p>Interaktives Click-Spiel mit Punktesystem und Leben</p>
+          <a href="javascript/projects/project_clickStorm/index.html" target="_blank">Spiel starten →</a>
+        </div>
+      </div>
+    </div>
 
-      // Aufbau der Navigation starten
-      async function buildNavigation(){
-        navTree.innerHTML = "";
-        statusEl.style.display = "block";
-        statusEl.textContent = "lade Verzeichnisstruktur...";
+    <div class="section">
+      <h2>Python - Projekte & Code</h2>
+      <div class="grid">
+        <div class="card">
+          <h2>Kontaktverwaltung (Kap. 8)</h2>
+          <div class="path">python/exercises/Kapitel 8 Uebungen/</div>
+          <span class="badge">Python</span>
+          <p>JSON-basierte Kontaktverwaltung mit automatisierten Tests, Fehlerbehandlung und Duplikatprüfung</p>
+          <a href="https://github.com/matthiaskahlert/learning-journey/blob/main/python/exercises/Kapitel%208%20Uebungen/8.7.C.01.py" target="_blank">Code ansehen →</a>
+        </div>
 
-        try{
-          const rootNode = await traverseDir("");
-          if(!rootNode){
-            navTree.innerHTML = '<li class="item">Keine Dateien (.html oder .md) gefunden.</li>';
-            return;
-          }
-          rootNode.children.forEach(child => buildNavNode(child, navTree));
-          statusEl.style.display = "none";
-        }catch(e){
-          statusEl.innerHTML = `<div class="error">Fehler: ${e.message}</div>`;
-        }
-      }
+        <div class="card">
+          <h2>Teilprüfung 03</h2>
+          <div class="path">python/exercises/Teilprüfung 03 lokal/</div>
+          <span class="badge">Python</span><span class="badge">Prüfung</span>
+          <p>Namensverwaltung mit TXT/JSON-Konvertierung und Testmodus</p>
+          <a href="https://github.com/matthiaskahlert/learning-journey/blob/main/python/exercises/Teilprüfung%2003%20lokal/mkahlert_teilpruefung_03.py" target="_blank">Code ansehen →</a>
+        </div>
+      </div>
+    </div>
 
-      buildNavigation();
+    <div class="section">
+      <h2>Notizen & Dokumentation</h2>
+      <div class="grid">
+        <div class="card">
+          <h2>JavaScript Notes</h2>
+          <div class="path">javascript/notes/</div>
+          <p>Kompetenzprotokolle, Wochennotizen, Lerndokumentation</p>
+          <a href="https://github.com/matthiaskahlert/learning-journey/tree/main/javascript/notes" target="_blank">Notizen öffnen →</a>
+        </div>
 
-    })();
-  </script>
+        <div class="card">
+          <h2>Python Notes</h2>
+          <div class="path">python/notes/</div>
+          <p>Python-Grundlagen, Regex-Cheatsheet, Wochenprotokolle</p>
+          <a href="https://github.com/matthiaskahlert/learning-journey/tree/main/python/notes" target="_blank">Notizen öffnen →</a>
+        </div>
+
+        <div class="card">
+          <h2>Repository auf GitHub</h2>
+          <p>Vollständiger Quellcode aller Projekte, Übungen und Notizen</p>
+          <a href="https://github.com/matthiaskahlert/learning-journey" target="_blank">GitHub Repo →</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
 </body>
 </html>

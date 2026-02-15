@@ -7,3 +7,6 @@ __pycache__/
 *.pyc
 # das ist nur mein vibe coding projekt in einer virtuellen umgebung, kann ignoriert werden
 python/projects/mandelbrot/
+# generierte JSON-Dateien aus Übungen
+python/exercises/datums_vorkommen.json
+python/exercises/exzellente_feedbacks.json

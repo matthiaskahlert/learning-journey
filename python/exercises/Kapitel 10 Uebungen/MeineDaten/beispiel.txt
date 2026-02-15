@@ -1,0 +1,1 @@
+Dies ist ein neuer Beispieltext, der in die Datei geschrieben wird.

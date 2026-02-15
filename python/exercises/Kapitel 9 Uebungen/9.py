@@ -111,3 +111,5 @@ print('TABELLE DER KUBIKZAHLEN')
 print('='*25)
 for n in range(5):
     print(text2.format(n, n ** 3))
+
+

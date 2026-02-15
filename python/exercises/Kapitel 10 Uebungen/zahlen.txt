@@ -1,0 +1,6 @@
+Zufallszahlen zwischen 1 und 1000
+0 690
+1 952
+2 993
+3 613
+4 587

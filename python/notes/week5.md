@@ -1,3 +1,4 @@
+
 # Meine Markdown notes Woche 4
 ## String-Grundlagen und reguläre Ausdrücke
 
@@ -507,4 +508,94 @@ text = 'Ergebnis: {:10.2f}'
 print(text.format(12.3456))
 ```
 
-### Rückblick
+## Zugriff auf die Systemumgebung
+GrundIdee
+### Wichtige Funktionen zur Verzeichnis- und Dateiverwaltung im Modul os
+Das Modul os bietet eine plattformunabhängige Schnittstelle zum Betriebssystem und ermöglicht es, systemspezifische Funktionen (wie Dateiverwaltung, Verzeichnisoperationen) auf Windows, Unix und macOS einheitlich zu nutzen. Das Modul sys erlaubt es, die Arbeitsweise des Python-Interpreters zu beobachten und zu beeinflussen. Vorsicht ist geboten, da Betriebssystem-Routinen bei unsachgemäßer Nutzung das System beschädigen können.
+
+| Funktion           | Erklärung |
+|--------------------|-----------|
+| chdir(path)        | Wechselt das Arbeitsverzeichnis, path ist ein String mit einem absoluten oder relativen Pfad. |
+| getcwd()           | Gibt das aktuelle Arbeitsverzeichnis zurück. |
+| listdir([path])    | Gibt den Inhalt des Arbeitsverzeichnisses als Liste von Strings zurück. Mit Argument path: Inhalt dieses Verzeichnisses. |
+| path.exists(path)  | Testet, ob der angegebene Pfad existiert. |
+| path.getatime(path)| Zeitpunkt des letzten Zugriffs (Sekunden seit dem 1.1.1970). |
+| path.getmtime(path)| Zeitpunkt der letzten Änderung (Sekunden seit dem 1.1.1970). |
+| path.getsize(path) | Dateigröße in Byte. |
+| path.isdir(path)   | True, wenn path ein Verzeichnis ist, sonst False. |
+| path.isfile(path)  | True, wenn path eine Datei ist, sonst False. |
+| path.splitext(p)   | Trennt Dateiname und Extension, liefert Tupel (name, .ext). |
+| walk(top)          | Durchläuft den gesamten Verzeichnisbaum ab top, liefert Folge von Tupeln: (Pfad, Unterverzeichnisse, Dateien). |
+
+### Dateien und Verzeichnisse anlegen und umbenennen
+
+Eine häufig vorkommende Routineaufgabe zur Dateiverwaltung ist das Umbenennen und Löschen von Dateien. Das Python-Modul `os` stellt dafür verschiedene Funktionen bereit.
+
+Tabelle 10.2 beschreibt einige Funktionen des Moduls os, die sich mit dieser Thematik befassen:
+
+| Funktion         | Beschreibung                                 |
+|------------------|----------------------------------------------|
+| mkdir(path)      | Erstellt ein neues Verzeichnis               |
+| remove(path)     | Löscht eine Datei                            |
+| removedirs(path) | Löscht ein Verzeichnis und ggf. übergeordnete, leere Verzeichnisse |
+| rename(old, new) | Benennt eine Datei oder ein Verzeichnis um   |
+| rmdir(path)      | Löscht ein (leeres) Verzeichnis              |
+
+### Das Modul sys - die Schnittstelle zum Laufzeitsystem
+
+Das Modul `sys` ermöglicht es, die Arbeitsweise des Python-Laufzeitsystems (Interpreter) zu beobachten und zu beeinflussen. Es stellt wichtige Variablen und Funktionen bereit, um z.B. Kommandozeilen-Argumente auszulesen, den Interpreter zu beenden oder Informationen zur Plattform und Version zu erhalten.
+
+| Variable/Funktion   | Erklärung |
+|---------------------|-----------|
+| argv                | Liste mit Kommandozeilen-Argumenten |
+| executable          | Pfad der ausführbaren Datei des Python-Interpreters |
+| exit()              | Beendet das laufende Python-Skript |
+| getrefcount(objekt) | Liefert die Anzahl der Referenzen auf ein Objekt |
+| platform            | String mit Bezeichnung der aktuellen Plattform (z.B. Linux oder win32) |
+| stdin, stdout, stderr | File-Objekte für Standard-Ein-/Ausgabe und Fehlerausgabe (umleitbar) |
+| version             | String mit Versionsbezeichnung des Python-Interpreters |
+
+
+#### Beispiele für stdin, stdout, stderr
+
+```py
+import sys
+
+# Standardausgabe (stdout)
+print('Hallo Welt!')
+sys.stdout.write('Dies ist eine Zeile über stdout.\n')
+
+# Standardeingabe (stdin)
+# Eingabe von der Konsole lesen
+# name = sys.stdin.readline().strip()
+# print('Hallo,', name)
+
+# Standardfehlerausgabe (stderr)
+sys.stderr.write('Dies ist eine Fehlermeldung!\n')
+```
+
+Mit dem Modul `sys` kann ein Python-Programm Informationen über das aktuelle System abfragen, z.B. das Betriebssystem (`sys.platform`) und die Python-Version (`sys.version`).
+
+Programme können über die Kommandozeile Argumente erhalten, die mit `sys.argv` ausgelesen werden. Das erste Element ist immer der Pfad zum Programm, danach folgen die übergebenen Argumente.
+
+Das Modul sys bietet auch Funktionen, um den Speicherbedarf von Objekten zu prüfen (`sys.getsizeof()`) und wie viele Namen (Referenzen) auf ein Objekt zeigen (`sys.getrefcount()`).
+
+Python gibt Speicherplatz automatisch frei, wenn Objekte nicht mehr gebraucht werden (Garbage Collection).
+```py
+import sys
+
+# Betriebssystem und Python-Version abfragen
+print(sys.platform)   # z.B. 'win32' oder 'linux'
+print(sys.version)    # z.B. '3.10.5 (tags/v3.10.5:...)'
+
+# Kommandozeilenargumente anzeigen
+print(sys.argv)       # z.B. ['mein_programm.py', '100']
+
+# Speicherbedarf eines Objekts
+a = [1, 2, 3]
+print(sys.getsizeof(a))
+
+# Referenzanzahl eines Objekts
+b = 42
+print(sys.getrefcount(b))
+```

@@ -1,0 +1,22 @@
+[
+    {
+        "name": "Max Mustermann",
+        "alter": 30,
+        "beruf": "Ingenieur"
+    },
+    {
+        "name": "Erika Musterfrau",
+        "alter": 25,
+        "beruf": "Architektin"
+    },
+    {
+        "name": "John Doe",
+        "alter": 40,
+        "beruf": "Lehrer"
+    },
+    {
+        "name": "Matze",
+        "alter": "45",
+        "beruf": "QA Engineer"
+    }
+]

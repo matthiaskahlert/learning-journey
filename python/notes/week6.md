@@ -147,29 +147,35 @@ Text-Zugriff erfolgt immer über Indexe
 Jeder Radiobutton hat einen Wert (value), der bei Auswahl einer Kontrollvariablen zugewiesen wird.
 Mit command=... kann ein Eventhandler (Funktion) beim Klick ausgeführt werden.
 Mit select() kann ein Radiobutton vorselektiert werden.
-Währungsrechner-Projekt:
+
+Radiobuttons funktionieren immer nach diesem Muster:
+```py
+variable = StringVar()
+
+Radiobutton(variable=variable, value='A')
+Radiobutton(variable=variable, value='B')
+Radiobutton(variable=variable, value='C')
+```
+
+Alle Buttons teilen sich eine gemeinsame Variable
+Jeder Button hat einen eigenen value
+
+variable.get() liefert den aktuell gewählten Wert
+
+[Zur Währungsrechner Aufgabe](./python\exercises\Kapitel 11 Uebungen\währungsumrechner.pyw)
 
 Währungsauswahl per Radiobutton, Eingabe in Entry, Umrechnung per Button.
 Dictionary für Wechselkurse, Kontrollvariable für Währung, Ergebnis im Label.
-Dialogboxen:
 
-Mit tkinter.filedialog können Dateien geöffnet und gespeichert werden.
-Dialogbox gibt Pfad oder Stream zurück, Textfeld kann damit befüllt werden.
-Threads (Nebenläufigkeit):
 
-GUI läuft normalerweise sequenziell (ein Thread).
-Für parallele Abläufe (z.B. Countdown) kann eine Funktion mit _thread.start_new_thread() in einem eigenen Thread ausgeführt werden, damit die Oberfläche aktiv bleibt.
-Layout:
 
-Widgets werden mit pack() (nebeneinander/untereinander) oder grid() (Raster) angeordnet.
-Optionen wie row, column, padx, pady, rowspan, columnspan steuern das Rasterlayout.
-Rückblick:
 
-GUI mit Tkinter (.pyw), Fenster, Widgets (Label, Entry, Button, Radiobutton, Text).
-Dialogboxen für Dateioperationen.
-Threads für parallele Abläufe.
+
+
 
 ### Dialogboxen
+Mit tkinter.filedialog können Dateien geöffnet und gespeichert werden.
+Dialogbox gibt Pfad oder Stream zurück, Textfeld kann damit befüllt werden.
 Eine Dialogbox erscheint mitten auf dem Bildschirm und führt einen kleinen Dialog mit dem Benutzer. 
 Das Untermodul tkinter.filedialog enthält Funktionen zur Erzeugung von Dialogboxen zum Laden und Speichern von Dateien.
 
@@ -182,11 +188,20 @@ Das Untermodul tkinter.filedialog enthält Funktionen zur Erzeugung von Dialogbo
 ### Threads
 Threads (Nebenläufigkeit)
 
+
+GUI läuft normalerweise sequenziell (ein Thread).
+Für parallele Abläufe (z.B. Countdown) kann eine Funktion mit _thread.start_new_thread() in einem eigenen Thread ausgeführt werden, damit die Oberfläche aktiv bleibt.
 Standardmäßig läuft Python-Code sequenziell (eine Anweisung nach der anderen).
 In GUIs ist oft Nebenläufigkeit nötig, z.B. für Animationen oder parallele Abläufe.
 Parallele Abläufe werden mit sogenannten Threads realisiert, damit mehrere Dinge gleichzeitig passieren können (z.B. Fenster bedienen und Countdown anzeigen).
 
-Rückblick – Tkinter Grundlagen
+Layout:
+
+Widgets werden mit pack() (nebeneinander/untereinander) oder grid() (Raster) angeordnet.
+Optionen wie row, column, padx, pady, rowspan, columnspan steuern das Rasterlayout.
+
+
+### Rückblick – Tkinter Grundlagen
 
 Mit dem Modul tkinter lassen sich grafische Benutzeroberflächen (GUI – Graphical User Interface) in Python programmieren. GUI-Programme werden üblicherweise mit der Dateiendung .pyw gespeichert.
 

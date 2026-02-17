@@ -49,8 +49,8 @@ top_frame = Frame(fenster, bg='black')
 top_frame.pack()
 
 # Bilder laden und skalieren (maximal 600px Breite)
-img1 = PhotoImage(file=r"python\exercises\Kapitel 11\motivation\img\rainbow3.png")
-img2 = PhotoImage(file=r"python\exercises\Kapitel 11\motivation\img\rainbow4.png")
+img1 = PhotoImage(file=r"python\exercises\Kapitel 11 Uebungen\motivation\img\rainbow3.png")
+img2 = PhotoImage(file=r"python\exercises\Kapitel 11 Uebungen\motivation\img\rainbow4.png")
 
 def scale_image(img, max_width=600):
     w = img.width()

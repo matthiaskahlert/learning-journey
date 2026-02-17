@@ -510,7 +510,7 @@ print(text.format(12.3456))
 
 ## Zugriff auf die Systemumgebung
 GrundIdee
-### Wichtige Funktionen zur Verzeichnis- und Dateiverwaltung im Modul os
+### Modul os -  Funktionen zur Verzeichnis- und Dateiverwaltung
 Das Modul os bietet eine plattformunabhängige Schnittstelle zum Betriebssystem und ermöglicht es, systemspezifische Funktionen (wie Dateiverwaltung, Verzeichnisoperationen) auf Windows, Unix und macOS einheitlich zu nutzen. Das Modul sys erlaubt es, die Arbeitsweise des Python-Interpreters zu beobachten und zu beeinflussen. Vorsicht ist geboten, da Betriebssystem-Routinen bei unsachgemäßer Nutzung das System beschädigen können.
 
 | Funktion           | Erklärung |

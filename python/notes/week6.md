@@ -224,3 +224,161 @@ pack() ordnet Widgets nebeneinander oder untereinander an.
 grid() platziert Widgets in einem Raster aus Zeilen und Spalten.
 
 Zusätzlich können über Dialogboxen Dateien geöffnet oder gespeichert werden. Durch den Einsatz von Threads lassen sich Funktionen im Hintergrund ausführen, sodass die Benutzeroberfläche weiterhin reaktionsfähig bleibt und nicht „einfriert“.
+
+## Grafische programmierung - Bilder auf Schaltflächen und Labels
+
+In tkinter können Widgets wie Label oder Button statt Text auch Bilder anzeigen. Dazu wird zunächst ein PhotoImage-Objekt erzeugt:
+
+from tkinter import *
+
+bild = PhotoImage(file="icon.png")
+label = Label(master=fenster, image=bild)
+
+
+Unterstützte Formate sind GIF, PNG, PPM und PGM. Andere Formate (z. B. JPG) funktionieren nicht direkt. Wichtig: Das PhotoImage-Objekt muss in einer Variable gespeichert bleiben, sonst wird es vom Garbage Collector entfernt.
+
+
+### PhotoImage - Bilder pixelweise verändern
+
+Ein PhotoImage kann pixelweise analysiert und verändert werden. Das ist möglich, aber bei größeren Bildern langsam.
+
+| Methode                | Erklärung                                                                                                    |
+| ---------------------- | ------------------------------------------------------------------------------------------------------------ |
+| `get(x, y)`            | Farbwert des Pixels an Position `(x, y)` als `(R, G, B)`                                                     |
+| `put(farbe, position)` | Setzt Pixel oder Rechteck auf Farbe (`'#rrggbb'` oder Name). `(x, y)` = Pixel, `(x1, y1, x2, y2)` = Rechteck |
+| `width()`              | Breite des Bildes in Pixeln                                                                                  |
+| `height()`             | Höhe des Bildes in Pixeln                                                                                    |
+| `write(pfad)`          | Speichert Bild unter Pfad                                                                                    |
+
+
+put() akzeptiert:
+
+(x, y) → einzelnes Pixel
+
+(x1, y1, x2, y2) → Rechteckbereich
+
+Projekt: Graustufen-Umwandlung
+
+Ein Farbfoto wird in ein Bild mit drei Helligkeitsstufen umgewandelt: Schwarz, Grau, Weiß.
+
+Algorithmus:
+
+Für jedes Pixel Helligkeit berechnen (sum(r, g, b)).
+
+Zwei Schwellenwerte S1 und S2 definieren.
+
+Einteilung:
+
+< S1 → schwarz
+
+< S2 → grau
+
+sonst → weiß
+```py
+from tkinter import *
+
+DATEINAME = "gesicht.png"
+S1, S2 = 255, 510
+
+def bearbeiten():
+    for x in range(bild.width()):
+        for y in range(bild.height()):
+            c = bild.get(x, y)
+            helligkeit = sum(c)
+            if helligkeit < S1:
+                bild.put("black", (x, y))
+            elif helligkeit < S2:
+                bild.put("grey", (x, y))
+            else:
+                bild.put("white", (x, y))
+
+fenster = Tk()
+bild = PhotoImage(file=DATEINAME)
+
+label = Label(master=fenster, image=bild)
+button = Button(master=fenster, text="Bearbeiten",
+                font=("Arial", 14),
+                command=bearbeiten)
+
+label.pack()
+button.pack(fill=X)
+fenster.mainloop()
+```
+
+Hinweis: Die Verarbeitung ist langsam, da jedes Pixel einzeln bearbeitet wird. Deutlich schneller geht es mit NumPy, da Bilder mathematisch als Arrays betrachtet werden können.
+
+### Canvas - digitale zeichenfläche
+
+Ein Canvas ist eine Zeichenfläche, auf der grafische Objekte wie Linien, Rechtecke, Ovale oder Texte erzeugt, verschoben oder gelöscht werden können.
+```py
+from tkinter import *
+
+fenster = Tk()
+canvas = Canvas(master=fenster,
+                width=200, height=200,
+                bg="white")
+
+canvas.create_oval(50, 50, 150, 150,
+                   fill="blue",
+                   outline="")
+
+canvas.pack()
+fenster.mainloop()
+```
+
+Hier wird ein weißer Canvas mit einem blauen Kreis erzeugt.
+
+| Methode                            | Erklärung                              |
+| ---------------------------------- | -------------------------------------- |
+| `create_line(...)`                 | Linie aus mehreren Punkten             |
+| `create_oval(x1, y1, x2, y2)`      | Ellipse in Bounding Box                |
+| `create_rectangle(x1, y1, x2, y2)` | Rechteck                               |
+| `create_text(x, y)`                | Textobjekt                             |
+| `coords(id, ...)`                  | Koordinaten eines Objekts lesen/ändern |
+| `move(id, dx, dy)`                 | Objekt verschieben                     |
+| `delete(id)`                       | Objekt löschen                         |
+| `find_all()`                       | IDs aller Objekte                      |
+| `find_closest(x, y)`               | Nächstgelegenes Objekt                 |
+| `find_overlapping(x1, y1, x2, y2)` | Objekte im Rechteckbereich             |
+
+| Option    | Bedeutung                                         |
+| --------- | ------------------------------------------------- |
+| `fill`    | Füllfarbe (Standard: transparent)                 |
+| `outline` | Randfarbe (Standard: schwarz, `""` = transparent) |
+| `width`   | Linienstärke                                      |
+
+
+### Linien zeichnen
+
+Linien bestehen aus einer Folge von Punktkoordinaten:
+
+canvas.create_line(0, 50, 100, 50, 200, 150)
+
+
+Alternativ mit Liste:
+
+punkte = [0, 100, 100, 50, 200, 150]
+canvas.create_line(punkte)
+
+| Option   | Bedeutung                                         |
+| -------- | ------------------------------------------------- |
+| `fill`   | Linienfarbe                                       |
+| `width`  | Linienstärke                                      |
+| `smooth` | True = Parabolischer Spline statt gerade Segmente |
+
+### Zusammenfassung
+
+PhotoImage ermöglicht Bildanzeige in Labels und Buttons.
+
+Pixelweise Bearbeitung ist möglich, aber langsam.
+
+Graustufen-Transformation basiert auf Helligkeitsschwellen.
+
+Canvas ist eine flexible Zeichenfläche für grafische Objekte.
+
+Grafische Elemente werden über create_...() erzeugt und über IDs verwaltet.
+
+Gestaltung erfolgt über Optionen wie fill, outline, width oder smooth.
+
+Damit bildet dieses Kapitel die Grundlage für einfache Bildverarbeitung und interaktive 2D-Grafik in tkinter.
+

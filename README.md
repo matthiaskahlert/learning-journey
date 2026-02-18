@@ -16,6 +16,7 @@ javascript/
 - [x] Repo init
 - [x] Started JavaScript Course on 27th of Oct
 - [x] Started Python course on 8th of Dec '25
+- [ ] Add Showcsase repository with final projects and screenshots
 
 
 ## Schedule

@@ -1,5 +1,5 @@
 
-from tkinter import StringVar, StringVar, Tk, Label, Entry, Button, Frame
+from tkinter import Canvas, StringVar, StringVar, Tk, Label, Entry, Button, Frame
 from tkinter.ttk import Radiobutton
 
 
@@ -75,6 +75,12 @@ for text, color in colors:
     )
     radiobutton.pack(side='left', padx=10)
 
-
+# Verwende ein Canvas-Widget, um eine einfache Linie und einen Kreis zu zeichnen.
+canvas = Canvas(master=fenster, width=200, height=100, bg='white')
+canvas.pack(pady=10)
+# Linie zeichnen
+canvas.create_line(10, 10, 190, 10, fill='black', width=2)
+# Kreis zeichnen
+canvas.create_oval(70, 20, 130, 80, fill='yellow', outline='black')
 # Hauptloop starten
 fenster.mainloop()

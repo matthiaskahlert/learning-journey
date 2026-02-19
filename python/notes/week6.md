@@ -347,6 +347,10 @@ Hier wird ein weißer Canvas mit einem blauen Kreis erzeugt.
 | `outline` | Randfarbe (Standard: schwarz, `""` = transparent) |
 | `width`   | Linienstärke                                      |
 
+Um bveispielsweise einen Kreis zu zeichnen nutzt man canvas_oval. Die Koordinaten sind dabei die eckpunkte eines rechtecks, indem dann ein oval oder KReis gezeichnet wird. 
+x1, y1 = obere linke Ecke des unsichtbaren Rechtecks
+x2, y2 = untere rechte Ecke des unsichtbaren Rechtecks
+[Canvas Beispiele anschauen](python/exercises/Kapitel%2012%20Uebungen/Canvas%20beispiele.pyw)
 
 ### Linien zeichnen
 

@@ -32,7 +32,7 @@ def speichern():
     zeitstempel=asctime()
     for ch in ' :. ':
         zeitstempel = zeitstempel.replace(ch, '')
-        saveall('bild'+zeitstempel+'.svg', bild)
+    saveall(r'python\exercises\Kapitel 11 Uebungen\Kapitel 12 Uebungen\bild'+zeitstempel+'.svg', bild) # der parameter r sorgt dafür, dass die backslashes nicht als escape zeichen interpretiert werden
 
 fenster = Tk()
 button_malen = Button(
@@ -52,7 +52,5 @@ bild = Canvas(
 button_malen.pack(side=LEFT)
 button_löschen.pack(side=LEFT)
 button_speichern.pack(side=LEFT)
-fenster.mainloop()
-
-
 bild.pack()
+fenster.mainloop()

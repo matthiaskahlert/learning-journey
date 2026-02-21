@@ -386,3 +386,56 @@ Gestaltung erfolgt über Optionen wie fill, outline, width oder smooth.
 
 Damit bildet dieses Kapitel die Grundlage für einfache Bildverarbeitung und interaktive 2D-Grafik in tkinter.
 
+## Python Imaging Library (PIL / Pillow) – Zusammenfassung
+
+Da `tkinter.PhotoImage` nur wenige Bildformate unterstützt, nutzt man für die Verarbeitung von Bildern (z. B. auch **JPEG**) die **Python Imaging Library**. Für Python 3 ist die gängige Weiterentwicklung **Pillow** (Import bleibt trotzdem `PIL`, nicht `pillow`). Kernklasse ist `PIL.Image`: Ein `Image`-Objekt repräsentiert ein Rasterbild (Pixelbild).
+
+### Image-Objekte erzeugen
+Es gibt zwei grundlegende Wege:
+
+1. **Aus einer Bilddatei**: `Image.open(fp)`  
+   - `fp` ist meistens ein String-Pfad zur Bilddatei (oder auch ein File-Objekt).
+2. **Ohne Datei als einfarbiges Rechteck**: `Image.new(mode, size, color=None)`  
+   - `mode`: Bildmodus (z. B. `'RGB'`, `'RGBA'`, `'L'`)
+   - `size`: `(breite, höhe)`
+   - `color`: optional, Standard ist Schwarz
+
+### Bildmodi (mode)
+- **RGB**: Pixel = (R, G, B) mit Werten 0–255 (typisch JPEG)
+- **RGBA**: Pixel = (R, G, B, A) inkl. Transparenz (typisch PNG)
+- **L**: Graustufen, Pixelwert 0 (schwarz) bis 255 (weiß)
+
+### Pixelweise Verarbeitung (langsamer, aber direkt)
+- `getpixel((x, y))`: liefert die Farbe/Werte eines Pixels
+- `putpixel((x, y), value)`: setzt die Farbe/Werte eines Pixels
+Beispielidee: Helligkeit über `R+G+B` bestimmen und Pixel abhängig vom Schwellwert in zwei Farben umwandeln.
+
+### Schneller über Listen (effizient)
+Pixel-Loop mit `getpixel/putpixel` kann sehr langsam sein. Schneller geht’s so:
+1. `getdata()` → liefert Pixel zeilenweise als 1D-Liste (RGB = 3-Tupel, RGBA = 4-Tupel)
+2. Liste per **List Comprehension** transformieren
+3. Neues Bild: `Image.new(mode, size)`
+4. Daten einfügen: `putdata(liste)`
+
+### Bilder kombinieren (paste)
+- `im1.paste(im2, (x, y))` setzt `im2` auf `im1` an Position `(x, y)` (oben links).
+- Optional mit Maske: `im1.paste(im2, (x, y), mask)`  
+  - `mask` ist ein `Image` im Modus `'L'` (0 = schwarz/transparent, 255 = weiß/sichtbar)
+
+**Greenscreen-Prinzip:**  
+Aus einem „Person-vor-grün“-Bild wird eine Maske erzeugt (grün → 0, Person → 255) und damit wird die Person sauber auf ein Hintergrundbild „geklebt“.
+
+### PIL-Bilder in tkinter anzeigen
+PIL-`Image`-Objekte sind nicht direkt `PhotoImage`-kompatibel. Vorgehen:
+1. Bild laden/bearbeiten als `PIL.Image`
+2. In ein tkinter-kompatibles Objekt umwandeln (typisch: `ImageTk.PhotoImage`)
+3. Dann z. B. in einem `Label` anzeigen  
+Wichtig: Das `PhotoImage`-Objekt muss in einer Variable erhalten bleiben, sonst wird es vom Garbage Collector gelöscht und das Bild verschwindet.
+
+### Rückblick (Kernpunkte)
+- PIL/Pillow verarbeitet Rasterbilder als Pixelmengen (Bild ≈ Array aus Pixeln).
+- `Image.open()` lädt Bilder aus Dateien, `Image.new()` erstellt Bilder ohne Datei.
+- `mode` beschreibt, wie Pixel gespeichert sind (RGB, RGBA, L).
+- Pixeländerung ist über Listen (`getdata/putdata`) deutlich schneller als pro Pixel.
+- `paste()` + Maske ermöglicht Bildmontagen (z. B. Greenscreen).
+- Für tkinter muss man PIL-Bilder in `PhotoImage`-kompatible Objekte überführen (z. B. via `ImageTk`).

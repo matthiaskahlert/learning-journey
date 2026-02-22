@@ -439,3 +439,5 @@ Wichtig: Das `PhotoImage`-Objekt muss in einer Variable erhalten bleiben, sonst 
 - Pixeländerung ist über Listen (`getdata/putdata`) deutlich schneller als pro Pixel.
 - `paste()` + Maske ermöglicht Bildmontagen (z. B. Greenscreen).
 - Für tkinter muss man PIL-Bilder in `PhotoImage`-kompatible Objekte überführen (z. B. via `ImageTk`).
+
+

@@ -167,3 +167,172 @@ Ein Debugger ist ein nützliches Werkzeug zur Suche nach semantischen Fehlern.
 Ein Debugger ermöglicht es, ein Programm schrittweise durchzugehen und an kritischen Stellen Breakpunkte zu setzen, an denen der Programmlauf unterbrochen wird.
 
 Ein Debugger visualisiert die Werte von Variablen und Execution Frames beim Aufruf von Funktionen.
+
+## Objektorientierte Programmierung
+
+Die Objektorientierte Programmierung kurz OOP organisiert Programme in Objekte, die Attrribute und Methoden bündeln.
+
+Attribute und Methoden
+Attribute sind Daten die den zustand beschreiben.
+Methoden sind Operationen die das Verhalten steuern. 
+
+Verteilte Zudständigkeiten
+Objekte übernehmen bestimmte Aufgaben
+
+Objekt und Klasse
+Objekt ist eine Instanz einer Klasse.
+Klasse ist ein Bauplan der festlegt, welche Attribute und Methoden für Objekte genztzt werden.
+
+Bei der Planung von Klassen nutzt man für den Entwurf der Klassenstruktur UML-Klassendiagramme (Unified Model Language).
+
+Beispiel: Klasse "Flasche"
+Attribute: inhalt, max_inhalt, geöffnet
+Methoden: öffnen(). schließen(), füllen(), leeren()
+
+Durch die Planung erkennt man, wie das Objekt aussieht, bevor doe programmierung beginnt.
+
+### Klassenstruktur in Python
+class: definiert eine Klasse
+__init__(): Initialisierungsmethode setzt Attribute auf startwerte
+self: referenz auf das aktuelle Objekt
+Instanziierung: erfolgt durch Klassenaufruf
+
+### Polymorphie
+Polymorphie bedeutet:
+
+Derselbe Operator oder dieselbe Methode verhält sich je nach Objekt unterschiedlich.
+Beispielsweise der + Operator wird für verschiedene Datentypen unterschiedlich definiert. Zahlen zählt er zusammen (addition), strings hängt er aneinander (verkettung). Intern nutzt Python da __add__()
+Dies kann man nutzen um Operatoren für die eigenen Klassen selbst zu bauen, dies nennt man überladen. 
+Einige Methoden sind gekennzeichnet durch  doppelte Unterstriche. Ein gutes Beispiel ist hier das zusammenzählen von punkt koordinaten. 
+```py
+class Punkt:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+    def __add__(self, other):
+        return Punkt(self.x + other.x, self.y + other.y)
+
+    def __str__(self):
+        return f"({self.x}, {self.y})"
+```
+Benutzung:
+```py
+p1 = Punkt(1, 2)
+p2 = Punkt(3, 4)
+
+print(p1 + p2)
+```
+Ergebnis:
+(4, 6)
+
+Dies kann man nutzen um das Verhalten von Klassen sauberer zu definieren.
+
+| Methode | Erläuterung |
+|---|---|
+| `__add__(self, other)` | Überladen des Plusoperators `+` |
+| `__bool__(self)` | Liefert für das Objekt einen Wahrheitswert. Die Methode sollte `True` zurückgeben, falls das Objekt als »wahr« angesehen wird, und sonst `False`. |
+| `__eq__(self, other)` | Gleichheitsoperator `==`. Die Auswertung des Vergleichs `a == b` führt zum Methodenaufruf `a.__eq__(b)`. |
+| `__ge__(self, other)` | Überladen des Größer-oder-gleich-Operators `>=` |
+| `__gt__(self, other)` | Überladen des Größer-als-Operators `>` |
+| `__le__(self, other)` | Überladen des Kleiner-oder-gleich-Operators `<=` |
+| `__len__(self)` | Überladen der Standardfunktion `len()` |
+| `__lt__(self, other)` | Überladen des Kleiner-als-Operators `<` |
+| `__mod__(self, other)` | Überladen des Modulo-Operators `%` |
+| `__mul__(self, other)` | Überladen des Multiplikationsoperators `*` |
+| `__ne__(self, other)` | Überladen des Ungleich-Operators `!=` |
+| `__str__(self)` | Liefert einen String, der das Objekt repräsentiert. Wird das Objekt mit einer `print()`-Funktion ausgegeben, so wird diese Methode aufgerufen. |
+
+Polymorphie ist das Prinzip, dass für die “gleiche Schnittstelle, unterschiedliches Verhalten” möglich ist
+
+### Vererbung
+Vererbung beschreibt die Beziehung zwischen einer **Basisklasse** (Superklasse) und einer **Unterklasse** (Subklasse).
+Die Unterklasse erbt alle Attribute und Methoden der Basisklasse und kann diese erweitern oder überschreiben.
+
+**Syntax:**
+```py
+class Basisklasse:
+    def methode(self):
+        return "Basis"
+
+class Unterklasse(Basisklasse):  # ← Erbt von Basisklasse
+    def neue_methode(self):
+        return "Neu"
+```
+
+**Was wird geerbt?**
+- ✓ Alle Attribute
+- ✓ Alle Methoden
+- ✗ Der `__init__()` wird NICHT automatisch geerbt (muss explizit aufgerufen werden)
+
+**Basisklasse-Methode aufrufen: `super()`**
+```py
+class Fahrzeug:
+    def __init__(self, marke):
+        self.marke = marke
+    
+    def info(self):
+        return f"Fahrzeug: {self.marke}"
+
+class Auto(Fahrzeug):
+    def __init__(self, marke, tueren):
+        super().__init__(marke)      # ← Ruft __init__ der Basisklasse auf
+        self.tueren = tueren         # ← Neues Attribut
+    
+    def info(self):                  # ← Überschreibt Methode
+        basis_info = super().info()  # ← Nutzt Basisklasse-Methode
+        return f"{basis_info}, {self.tueren} Türen"
+```
+
+**Methoden überschreiben (Override)**
+Unterklasse kann eine Methode anders definieren:
+```py
+class Tier:
+    def laut(self):
+        return "Tier macht Laut"
+
+class Hund(Tier):
+    def laut(self):                  # ← Überscheben
+        return "Wau Wau!"
+
+h = Hund()
+print(h.laut())  # Ausgabe: Wau Wau!
+```
+
+**Mehrfach-Vererbung:**
+Eine Klasse kann von mehreren Klassen erben:
+```py
+class Schwimmbar:
+    def schwimmen(self):
+        return "Schwimmt"
+
+class Landtier:
+    def rennen(self):
+        return "Rennt"
+
+class Ente(Schwimmbar, Landtier):
+    pass
+
+e = Ente()
+print(e.schwimmen())  # Schwimmt
+print(e.rennen())     # Rennt
+```
+
+**Vorteile:**
+| Vorteil | Erklärung |
+|---------|-----------|
+| Code-Wiederverwendung | Keine Duplication von gemeinsamen Methoden |
+| Hierarchie | Klare Struktur (z.B. Tier → Hund, Auto, Fahrrad) |
+| Erweiterbarkeit | Neue Klassen einfach ableitbar |
+| Überschreiben | Angepasstes Verhalten in Unterklassen |
+
+### Rückblick
+
+    In einer class-Definition legst du fest, welche Attribute und Methoden Objekte dieses Typs haben.
+    Methoden sind Funktionen, die zu einem Objekt gehören und so aufgerufen werden: objekt.methode().
+    In Methoden steht als erster Parameter fast immer self – das ist das aktuelle Objekt.
+    Mit magischen (dunder) Methoden wie __add__() oder __str__() kannst du Operatoren und Standardfunktionen überladen (Polymorphie).
+    Mit Vererbung kannst du neue Klassen aus bestehenden ableiten: class Unterklasse(Basisklasse):
+    Mit super() rufst du Methoden der Basisklasse auf (z.B. super().__init__()).
+    Mit Überschreiben (Override) definierst du Methoden neu in der Unterklasse.
+    Vererbung ermöglicht Code-Wiederverwendung und klare Hierarchien.

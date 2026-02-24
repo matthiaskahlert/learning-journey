@@ -160,7 +160,7 @@ class App:
     def speichere_highscores(self):
         """Speichere Highscores in JSON-Datei"""
         try:
-            with open("highscores.json", 'w') as f:
+            with open("python\\exercises\\Kapitel 14 Uebungen\\highscores.json", 'w') as f:
                 json.dump(self.highscores, f, indent=2)
         except Exception as e:
             messagebox.showerror("Fehler", f"Fehler beim Speichern: {e}")

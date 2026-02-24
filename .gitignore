@@ -7,3 +7,7 @@ __pycache__/
 *.pyc
 # das ist nur mein vibe coding projekt in einer virtuellen umgebung, kann ignoriert werden
 python/projects/mandelbrot/
+
+# Java build output - bin brauchen wir nicht versionieren
+java/bin/
+*.class

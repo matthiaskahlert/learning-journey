@@ -231,6 +231,18 @@ NOT (`!`)
 | 0 | 1 |
 | 1 | 0 |
 
+
+### Vergleichsoperatoren
+
+| Operator | Symbol | Beispiel | Ergebnis (Beispiel) |
+|----------|--------|----------|-------------------|
+| Kleiner-als | `<` | `5 < 10` | `true` |
+| Größer-als | `>` | `5 > 10` | `false` |
+| Gleich | `==` | `5 == 5` | `true` |
+| Kleiner-gleich | `<=` | `5 <= 5` | `true` |
+| Größer-gleich | `>=` | `10 >= 5` | `true` |
+| Ungleich | `!=` | `5 != 10` | `true` |
+
 ### Typumwandlung
 
 Typumwandlung (Type Casting) bezeichnet die Konvertierung eines Wertes von einem Datentyp in einen anderen. In Java gibt es zwei Arten: 
@@ -267,6 +279,21 @@ int nummer = Integer.valueOf(text);  // 42
 double komma = Double.valueOf("3.14");  // 3.14
 ```
 
+Beispiel:
+```java
+// ich möchte den quotienten von zwei integer zahlen zahl_1 und zahl_2 ausrechnen
+float quotient = zahl_1 / (float) zahl_2;
+```
+In Java wird automatisch eine sogenannte "Type Promotion" durchgeführt: Wenn einer der beiden Operanden float ist, wird der andere automatisch auch zu float konvertiert.
+
+Deshalb reicht ein Cast aus:
+
+zahl_1 / (float) zahl_2 → Java konvertiert zahl_1 automatisch zu float
+Das Ergebnis ist float
+Mit beiden Casts:
+
+(float) zahl_1 / (float) zahl_2 → funktioniert auch, aber der zweite Cast ist redundant
+Es ist also eine Frage der Code-Effizienz und Lesbarkeit: Man schreibt nur das Minimum, das nötig ist. Ein Cast reicht vollkommen aus, um das Ergebnis mit Dezimalstellen zu bekommen.
 
 ### Nutzereingaben
 
@@ -281,27 +308,196 @@ double komma = Double.valueOf("3.14");  // 3.14
 
 ---
 Kurze Zusammenfassung
-
 Was war heute Schwerpunkt? Kurzer Überblick über Thema, Übungen oder Theorie.
+Erste Programme mit Java. 
+VSCode stabil einrichten mit Java
+
 
 Learningfacts:
 
-…
+
+String ist eine Klasse und wird bei Datentypangabe daher am Anfang grpß geschrieben
+Der Compiler ist eine Diva. Empfindlich und schnell eingeschnappt.
 
 …
 
 …
+### If Verzweigung
+```java
+if(true){
+ 
+}
+// beispiel anweisung
+        if (passwort.equals(geheimesPasswort)) {
+            System.out.println("Passwort korrekt");
+        } else {
+            System.out.println("Passwort falsch");
+        }
 
-Beispiele / Code:
+//dies kann aber auch mit elfe if gelöst werden:
 
-// Beispielcode oder Demo
+        if(passwort.equals("passwort")){
+            System.out.println("Passwort korrekt");
+        } else if (passwort.equals(„admin“)){
+            System.out.println("AdminPasswort korrekt");
+        } else {
+            System.out.println("Passwort falsch");
+        }
+```
 
+### switch case verzweigung
 
-Was ich morgen lernen will:
+Die `switch-case`-Verzweigung eignet sich besonders, wenn eine Variable auf **Gleichheit** mit mehreren festen Werten geprüft werden soll.
 
-…
+**Wichtige Merkmale:**
+- Funktioniert nur mit: `byte`, `short`, `int`, `char` und `String`
+- Jeder `case` endet mit `break;`, sonst wird der nächste `case` auch noch ausgeführt
+- `default` ist wie `else` – wird ausgeführt, wenn kein `case` zutrifft
+- Vergleicht nur auf Gleichheit (kein `<`, `>`, etc.)
 
-🗓️ Tag 2 – Thema / Schwerpunkt
+**Beispiel: Monatsnamen zuordnen**
+
+```java
+int monat = 6;
+String nameMonat;
+
+switch(monat) {
+    case 1: nameMonat = "Januar"; break;
+    case 2: nameMonat = "Februar"; break;
+    case 3: nameMonat = "März"; break;
+    case 4: nameMonat = "April"; break;
+    case 5: nameMonat = "Mai"; break;
+    case 6: nameMonat = "Juni"; break;
+    case 7: nameMonat = "Juli"; break;
+    case 8: nameMonat = "August"; break;
+    case 9: nameMonat = "September"; break;
+    case 10: nameMonat = "Oktober"; break;
+    case 11: nameMonat = "November"; break;
+    case 12: nameMonat = "Dezember"; break;
+    default: nameMonat = "Ungültiger Monat"; break;
+}
+
+System.out.println(nameMonat); // Output: Juni
+```
+
+**Merke:** `switch-case` ist kürzer und übersichtlicher als viele `if-else-if`-Blöcke!
+
+### Schleifen
+
+### while-Schleife
+
+Die `while`-Schleife **wiederholt einen Code-Block, solange eine Bedingung erfüllt ist**.
+
+**Syntax:**
+```java
+while(bedingung) {
+    // Code wird wiederholt, solange bedingung = true
+}
+```
+
+**Wichtig:**
+- Nach dem Rumpf springt die Schleife zurück zur Bedingung (nicht wie `if`, das endet)
+- **Laufvariable (Counter)** zum Zählen verwenden: `int i = 0;`
+- **Immer hochzählen** (`i++` oder `i += 1;`), sonst: Endlosschleife!
+- Programmierung beginnt bei 0: `while(i < 3)` = 3 Durchläufe (0, 1, 2)
+
+**Beispiel: 3x "Durchlauf" ausgeben**
+```java
+int i = 0;
+while(i < 3) {
+    System.out.println("Durchlauf");
+    i = i + 1;  // oder: i++
+}
+```
+
+**Beispiel: Passwort mit Versuche-Limit**
+```java
+String passwort = "";
+int versuche = 0;
+
+while(!passwort.equals("geheim") && versuche < 3) {
+    System.out.println("Passwort eingeben:");
+    passwort = scanner.next();
+    versuche++;
+}
+
+if(passwort.equals("geheim")) {
+    System.out.println("Korrekt!");
+} else {
+    System.out.println("Zu viele Versuche!");
+}
+```
+
+### do-while-Schleife
+
+Die `do-while`-Schleife ist **fußgesteuert**: Sie führt den Code **mindestens einmal aus**, prüft die Bedingung erst danach.
+- `while`: **kopfgesteuert** (prüft zuerst, führt dann aus)
+- `do-while`: **fußgesteuert** (führt aus, prüft dann)
+
+**Syntax:**
+```java
+do {
+    // Code wird MINDESTENS einmal ausgeführt
+} while(bedingung);  // Achtung: Semikolon!
+```
+
+**Beispiel: Einmal mindestens ausführen**
+```java
+int i = 100;
+do {
+    System.out.println("Durchlauf");
+    i += 1;
+} while(i < 5);  // i ist niemals < 5, aber Rumpf läuft einmal trotzdem!
+// Output: Durchlauf (nur 1x!)
+```
+
+**Beispiel: Passwort-Eingabe (perfekt dafür!)**
+```java
+String passwort;
+do {
+    System.out.println("Passwort eingeben:");
+    passwort = scanner.next();
+} while(!passwort.equals("geheim"));
+// Nutzer MUSS mindestens einmal eingeben!
+```
+
+### for-Schleife
+
+Die `for`-Schleife ist **kopfgesteuert** und eine **Zählschleife**: Sie hat die Laufvariable direkt im Kopf eingebaut – übersichtlicher als `while`!
+
+**Syntax:**
+```java
+for(initialisierung; bedingung; änderung) {
+    // Code wird wiederholt
+}
+```
+
+**Die 3 Teile (durch Semikolon getrennt):**
+1. **Initialisierung**: `int i = 0` – Laufvariable deklarieren und starten
+2. **Bedingung**: `i < 3` – Wann soll die Schleife laufen?
+3. **Änderung**: `i++` – Wie ändert sich die Variable pro Durchlauf?
+
+**Beispiel: 3x "Durchlauf" ausgeben**
+```java
+for(int i = 0; i < 3; i++) {
+    System.out.println("Durchlauf");
+}
+// Output: Durchlauf (3x: bei i=0, 1, 2)
+```
+
+**Beispiel: Arrays durchlaufen**
+```java
+String[] farben = {"Rot", "Grün", "Blau"};
+for(int i = 0; i < farben.length; i++) {
+    System.out.println(farben[i]);
+}
+```
+
+**Merke:** `i++` ist Kurzform für `i += 1` oder `i = i + 1`
+
+---
+
+🗓️ Tag x – Thema / Schwerpunkt
 
 Learningfacts:
 

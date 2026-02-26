@@ -121,7 +121,7 @@ function deleteTask(id) {
     aufgabenAusgeben();
 }
 
-// Nach änderungen werden die aufgeben im localstorage gespeichert
+// Nach änderungen/ speichern des tasks werden die aufgeben im localstorage gespeichert
 function saveToLocalStorage() {
     localStorage.setItem('tasks', JSON.stringify(aufgaben));
 }

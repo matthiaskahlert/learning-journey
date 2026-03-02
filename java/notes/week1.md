@@ -1,7 +1,7 @@
 # 📘 Meine Java Notes – Woche 1
 
 Um das Gelernte anzuwenden, notiere ich Lerninhalte, Beispiele und Reflektionen.
-[TOC]
+
 
 Tagesnotizen
 ## 🗓️ Tag 1 – Start Java Kurs / 
@@ -495,6 +495,35 @@ for(int i = 0; i < farben.length; i++) {
 
 **Merke:** `i++` ist Kurzform für `i += 1` oder `i = i + 1`
 
+
+### Funktionen
+
+```Java
+public static void funktion1(String s, int i){
+    System.out.println(s);
+    System.out.println(String.valueOf(i));
+    }
+
+```
+Diese funktion hat Parameter. 
+Der Wert der Parameter wird beim Aufruf der Funktion übergeben.
+
+Die Funktion kann Informastionen an die Aufrufende Stelle zurpckgeben, den Rückgabewert.
+
+im obigen beispiel ist der rückgabewert nicht angegeben, stattdessen void.
+
+```java
+//Funktionen mit Ruckgabewert
+public static String funktion1(){
+    return "Test-String";
+    }
+
+public static int funktion2(int i){
+    int j = 2+ i;
+    return j;
+    }
+```
+Der returnbefehl beendet die Funktionsausführung.
 ---
 
 🗓️ Tag x – Thema / Schwerpunkt

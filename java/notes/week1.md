@@ -101,7 +101,7 @@ Source Root = Startpunkt der Paketstruktur
 Classpath = Suchpfad beim Ausführen
 
 ### Variablen
-In Java ist eine Variable ein benannter Speicherplatz, in dem ein Wert abgelegt wird. Jede Variable muss vor der Verwendung deklariert werden, wobei immer der Typ und der Name angegeben werden. Der Typ legt fest, welche Art von Werten gespeichert werden darf, zum Beispiel int für ganze Zahlen, double für Kommazahlen oder String für Texte. Java ist strikt typisiert, das bedeutet: Der Typ ist verpflichtend und kann nicht nachträglich automatisch geändert werden. Bemerkenswert ist, dass bei der Deklaration des Strings hier ein uppercase vonnöten ist. Dies lisgt daran,. das String Methoden hat, weil es eine Klasse ist. Objekte und Klassen werden am Anfang Grpß geschrieben.
+In Java ist eine Variable ein benannter Speicherplatz, in dem ein Wert abgelegt wird. Jede Variable muss vor der Verwendung deklariert werden, wobei immer der Typ und der Name angegeben werden. Der Typ legt fest, welche Art von Werten gespeichert werden darf, zum Beispiel int für ganze Zahlen, double für Kommazahlen oder String für Texte. Java ist strikt typisiert, das bedeutet: Der Typ ist verpflichtend und kann nicht nachträglich automatisch geändert werden. Bemerkenswert ist, dass bei der Deklaration des Strings hier ein uppercase vonnöten ist. Dies liegt daran, dass String Methoden hat, weil es eine Klasse ist. Objekte und Klassen werden am Anfang Groß geschrieben.
 
 ```java
 int alter = 30;
@@ -316,7 +316,7 @@ VSCode stabil einrichten mit Java
 Learningfacts:
 
 
-String ist eine Klasse und wird bei Datentypangabe daher am Anfang grpß geschrieben
+String ist eine Klasse und wird bei Datentypangabe daher am Anfang groß geschrieben
 Der Compiler ist eine Diva. Empfindlich und schnell eingeschnappt.
 
 …
@@ -334,7 +334,7 @@ if(true){
             System.out.println("Passwort falsch");
         }
 
-//dies kann aber auch mit elfe if gelöst werden:
+//dies kann aber auch mit else if gelöst werden:
 
         if(passwort.equals("passwort")){
             System.out.println("Passwort korrekt");
@@ -508,12 +508,12 @@ public static void funktion1(String s, int i){
 Diese funktion hat Parameter. 
 Der Wert der Parameter wird beim Aufruf der Funktion übergeben.
 
-Die Funktion kann Informastionen an die Aufrufende Stelle zurpckgeben, den Rückgabewert.
+Die Funktion kann Informationen an die Aufrufende Stelle zurückgeben, den Rückgabewert.
 
 im obigen beispiel ist der rückgabewert nicht angegeben, stattdessen void.
 
 ```java
-//Funktionen mit Ruckgabewert
+//Funktionen mit Rückgabewert
 public static String funktion1(){
     return "Test-String";
     }

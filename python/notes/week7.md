@@ -173,7 +173,7 @@ Ein Debugger visualisiert die Werte von Variablen und Execution Frames beim Aufr
 Die Objektorientierte Programmierung kurz OOP organisiert Programme in Objekte, die Attrribute und Methoden bündeln.
 
 Attribute und Methoden
-Attribute sind Daten die den zustand beschreiben.
+Attribute sind Daten die den Zustand beschreiben.
 Methoden sind Operationen die das Verhalten steuern. 
 
 Verteilte Zudständigkeiten

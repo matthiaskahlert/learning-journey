@@ -526,9 +526,57 @@ public static int funktion2(int i){
 Der returnbefehl beendet die Funktionsausführung.
 ---
 
-🗓️ Tag x – Thema / Schwerpunkt
+🗓️ Tag 5 – Thema OOP/ Klassen
+In der objektorientierten Programmierung fasst man Dinge mit gleichen Eigenschaften und Verhalten in Klassen zusammen. Das reduziert Redundanz. Objekte sind Instanzen einer Klasse.
+
+Klassen besitzen Attribute und Methoden.
+Beispiel „Flasche“:
+- Methoden: füllen, leeren
+- Attribute: Größe, Farbe, geschlossen/offen
+
+Wichtig ist, nur die Eigenschaften zu modellieren, die im Programm wirklich relevant sind.
+
+```java
+class Kunde {
+    String vorname;
+    String nachname;
+    String strasse;
+    int hausnummer;
+    int plz;
+    String ort;
+
+    public Kunde(String vn, String nn, String str, int nummer, int p, String o) {
+        vorname = vn;
+        nachname = nn;
+        strasse = str;
+        hausnummer = nummer;
+        plz = p;
+        ort = o;
+    }
+}
+```
+
+Um eine Instanz einer Klasse zu erzeugen, benötigt man einen Konstruktor. Er wird beim Erstellen des Objekts aufgerufen und initialisiert dessen Zustand.
+
+Ein Konstruktor hat keinen Rückgabewert (auch kein `void`). Das Objekt wird mit dem Schlüsselwort **new** erzeugt, die Werte in den Klammern sind die Argumente für den Konstruktor.
+
+```java
+// Wenn ein Kunde erstellt wird, dann speichere die übergebenen Werte in die passenden Felder.
+Kunde kunde1 = new Kunde("Max", "Mustermann", "Musterstraße", 1, 12345, "Musterstadt");
+```
+
+möchte man die Objekterzeugung in der gleichen datei haben, muss die main methode innerhalb der Klassenklammern stehen und die Objekterzeugung dann innerhalb einer methode (z.B. in der main).
+beispiel in: [Dieser Datei](java\src\main\java\exercises\Kunde.java).
+
+
 
 Learningfacts:
+Objektorientierung bedeutet:
+
+Du erstellst Baupläne (Klassen),
+baust daraus konkrete Dinge (Objekte),
+diese Dinge haben eigene Daten (Attribute)
+und können etwas tun (Methoden).
 
 …
 

@@ -578,7 +578,24 @@ baust daraus konkrete Dinge (Objekte),
 diese Dinge haben eigene Daten (Attribute)
 und können etwas tun (Methoden).
 
-…
+### 6.4 Zugriffsrechte (Zusammenfassung)
+
+Damit Abstraktion in Klassen funktioniert, sollten Attribute nicht direkt von außen verwendet werden (z. B. `k1.strasse`). Wenn sich interne Felder ändern oder wegfallen, müsste sonst externer Code überall angepasst werden.
+
+Mit dem Schlüsselwort `private` wird der direkte Zugriff von außerhalb der Klasse verhindert - sowohl bei Attributen als auch bei Methoden. `public` bedeutet dagegen: von außen erreichbar.
+
+```java
+class A {
+    private int a;
+    public int b;
+
+    private void func() {
+    }
+}
+```
+
+Private Attribute sind wichtig für Datenqualität: Werte können über kontrollierte Methoden gelesen oder gesetzt werden. Dafür nutzt man Getter und Setter, z. B. `getHausnummer()`, `setHausnummer()`, `getPlz()` und `setPlz()`. So kann man beim Setzen prüfen, ob Werte gültig sind (z. B. Hausnummer nicht negativ).
+
 
 …
 

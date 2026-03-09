@@ -579,6 +579,9 @@ diese Dinge haben eigene Daten (Attribute)
 und können etwas tun (Methoden).
 
 ### 6.4 Zugriffsrechte (Zusammenfassung)
+In Java unterscheiden sich public und private Methoden (Funktionen) durch ihre Sichtbarkeit:
+public: Die Methode ist von überall aufrufbar, also auch aus anderen Klassen und Paketen.
+private: Die Methode ist nur innerhalb derselben Klasse aufrufbar.
 
 Damit Abstraktion in Klassen funktioniert, sollten Attribute nicht direkt von außen verwendet werden (z. B. `k1.strasse`). Wenn sich interne Felder ändern oder wegfallen, müsste sonst externer Code überall angepasst werden.
 
@@ -596,6 +599,119 @@ class A {
 
 Private Attribute sind wichtig für Datenqualität: Werte können über kontrollierte Methoden gelesen oder gesetzt werden. Dafür nutzt man Getter und Setter, z. B. `getHausnummer()`, `setHausnummer()`, `getPlz()` und `setPlz()`. So kann man beim Setzen prüfen, ob Werte gültig sind (z. B. Hausnummer nicht negativ).
 
+```java
+public class Konto {
+    public void einzahlen(double betrag) {   // von außen nutzbar
+        pruefeBetrag(betrag);
+    }
+
+    private void pruefeBetrag(double betrag) { // nur intern in Konto nutzbar
+        if (betrag <= 0) {
+            throw new IllegalArgumentException("Betrag muss > 0 sein");
+        }
+    }
+}
+// Hier kann man einzahlen(...) von außen aufrufen, pruefeBetrag(...) aber nicht.
+```
+
+Merksatz:
+public = Teil der Außen-Schnittstelle,
+private = interne Hilfslogik/Kapselung.
+
+
+### Arrays in Java
+
+Ein Array ist in Java wie ein Regal mit festen Fächern:
+
+Es hat eine feste Größe (z. B. 5 Plätze).
+Jeder Platz hat einen Index, startend bei 0.
+Alle Plätze enthalten den gleichen Datentyp (nur int, nur String, usw.).
+
+String <-> Array umwandeln
+String.join(",", arr) macht aus einem String-Array einen Text.
+"Max Moritz".split(" ") macht aus einem Text ein Array.
+System.out.println(array) zeigt nicht die Inhalte schön an, sondern so etwas wie [Ljava.lang.String;@....
+Für schöne Ausgabe: Schleife oder Arrays.toString(array).
+
+Mehrdimensionale Arrays
+String[][] raster ist ein Array aus Arrays (z. B. wie ein Raster/Bild).
+Zugriff: raster[x][y].
+In Java dürfen innere Arrays unterschiedlich lang sein (sog. „jagged array“).
+
+
+Startparameter main(String[] args)
+Beim Programmstart kannst du Werte übergeben.
+Diese landen in args[0], args[1], ...
+Gut für feste Start-Einstellungen (z. B. Port, Modus).
+
+Syntax bei Arrayeigenschaften: array.length (kein ())
+
+Automatische Standardwerte
+int[] startet mit 0, boolean[] mit false, Objekt-Arrays mit null.
+Bounds-Check zur Laufzeit
+Ungültiger Index wirft sofort ArrayIndexOutOfBoundsException
+
+Objekt-Arrays können null enthalten -> NullPointerException möglich.
+array1 == array2 vergleicht Referenzen, nicht Inhalte.
+
+For-each bei primitiven/Strings ändert oft nicht das Original, wenn du nur die Schleifenvariable neu setzt.
+
+```java
+for (String element : spalte) {
+    element = "schwarz"; // aendert NICHT das Array selbst
+}
+```
+
+Richtig wäre mit Index:
+```java
+for (int i = 0; i < spalte.length; i++) {
+    spalte[i] = "schwarz";
+}
+```
+
+
+### Listen in Java
+
+Bei Arrays ist die Größe fest.
+Bei Listen kann die Größe wachsen und schrumpfen.
+Du kannst Elemente hinzufügen, ändern und wirklich löschen.
+
+Elemente löschen
+Nach Index: liste.remove(1) loescht das Element an Position 1.
+Nach Wert: liste.remove("Wert2") loescht das erste passende Element.
+Bei remove(Wert) bekommst du true/false zurueck: gefunden oder nicht.
+
+Elemente aendern
+Mit set(index, neuerWert), z. B. liste.set(0, "Neu").
+
+Elemente tauschen
+Manuell mit Zwischenspeicher (get + set).
+Einfacher: Collections.swap(liste, 0, 1).
+
+Listen durchlaufen
+```java
+// Mit Index-Schleife:
+for (int i = 0; i < liste.size(); i++)
+
+// Mit For-Each:
+for (String s : liste)
+```
+Wichtig bei Aenderung waehrend Schleife
+Wenn du waehrend des Durchlaufs loeschst/hinzufuegst, kann sich size() aendern.
+Dann kann die Schleife frueher enden oder unerwartet laufen.
+
+
+ArrayList vs LinkedList
+ArrayList: besser bei haeufigem Lesen/Aendern per Index.
+LinkedList: besser bei haeufigem Einfuegen/Loeschen.
+In kleinen Programmen merkt man den Unterschied oft kaum.
+
+
+Merksatz
+
+Array = schnell und fest.
+List = flexibel und alltagstauglich.
+Meistens startet man in Java mit ArrayList, ausser es gibt einen klaren Grund fuer LinkedList
 
 …
 

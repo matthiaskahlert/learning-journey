@@ -713,6 +713,67 @@ Array = schnell und fest.
 List = flexibel und alltagstauglich.
 Meistens startet man in Java mit ArrayList, ausser es gibt einen klaren Grund fuer LinkedList
 
+### public/private/static
+
+In Java regeln diese Schlüsselwörter, **wer auf was zugreifen darf** und **ob etwas zur Klasse oder zum Objekt gehört**.
+
+#### `public`
+
+`public` bedeutet, dass auf eine Klasse, Methode oder Variable von außen zugegriffen werden darf.
+
+- Eine `public`-Methode kann von anderen Klassen aufgerufen werden.
+- Eine `public`-Klasse kann von anderen Klassen verwendet werden.
+
+Beispiel:
+
+```java
+public void zeigeDetails() {
+```
+
+Diese Methode kann von außerhalb der Klasse aufgerufen werden.
+
+#### `private`
+
+`private` bedeutet, dass auf eine Variable oder Methode nur innerhalb derselben Klasse zugegriffen werden darf.
+
+- Andere Klassen können nicht direkt auf `private` Attribute zugreifen.
+- Das wird genutzt, um Daten zu schützen (Kapselung).
+
+Beispiel:
+
+```java
+private String marke;
+```
+
+Die `marke` kann nur innerhalb der Klasse gelesen oder verändert werden.
+
+#### `static`
+
+`static` bedeutet, dass etwas zur **Klasse** gehört und nicht zu einem einzelnen Objekt.
+
+- Normalerweise braucht man ein Objekt, um eine Methode aufzurufen.
+- Bei `static` braucht man kein Objekt.
+
+Beispiel:
+
+```java
+public static void main(String[] args)
+```
+
+Die `main`-Methode ist `static`, weil sie von Java aufgerufen wird, bevor ein Objekt existiert.
+
+Man verwendet `static` z. B. für:
+
+- die `main`-Methode
+- Hilfsmethoden
+- Konstanten
+- Dinge, die für alle Objekte gleich sind
+
+**Merksatz:**
+
+- `public` = von überall erreichbar
+- `private` = nur in dieser Klasse erreichbar
+- `static` = gehört zur Klasse, nicht zum Objekt
 …
 
 Übungsaufgabe / Beispiel:

@@ -24,7 +24,10 @@ const DOM = {
     button: document.getElementById('getTempButton'),
     result: document.getElementById('result'),
     error: document.getElementById('error'),
-    loading: document.getElementById('loading')
+    loading: document.getElementById('loading'),
+    mapWrapper: document.getElementById('mapWrapper'),
+    mapFrame: document.getElementById('mapFrame'),
+    locationMeta: document.getElementById('locationMeta')
 };
 
 // ============================================
@@ -69,6 +72,7 @@ const UI = {
         DOM.loading?.classList.remove('hidden');
         DOM.result.textContent = '';
         DOM.error?.classList.add('hidden');
+        DOM.mapWrapper?.classList.add('hidden');
         DOM.button.disabled = true;
     },
 
@@ -96,11 +100,43 @@ const UI = {
     },
 
     /**
+     * OSM-Karte mit Marker anzeigen
+     */
+    showMap(location) {
+        if (!DOM.mapWrapper || !DOM.mapFrame || !DOM.locationMeta) {
+            return;
+        }
+
+        const lat = Number(location.latitude);
+        const lon = Number(location.longitude);
+
+        if (Number.isNaN(lat) || Number.isNaN(lon)) {
+            DOM.mapWrapper.classList.add('hidden');
+            return;
+        }
+
+        const delta = 0.05;
+        const left = lon - delta;
+        const right = lon + delta;
+        const top = lat + delta;
+        const bottom = lat - delta;
+
+        const bbox = `${left},${bottom},${right},${top}`;
+        const marker = `${lat},${lon}`;
+        const mapUrl = `https://www.openstreetmap.org/export/embed.html?bbox=${encodeURIComponent(bbox)}&layer=mapnik&marker=${encodeURIComponent(marker)}`;
+
+        DOM.mapFrame.src = mapUrl;
+        DOM.locationMeta.textContent = `Gefundener Ort: ${location.name}${location.country ? ` (${location.country})` : ''} | Koordinaten: ${lat.toFixed(4)}, ${lon.toFixed(4)}`;
+        DOM.mapWrapper.classList.remove('hidden');
+    },
+
+    /**
      * Fehler anzeigen
      */
     showError(message) {
         this.hideLoading();
         DOM.result.textContent = '';
+        DOM.mapWrapper?.classList.add('hidden');
         if (DOM.error) {
             DOM.error.textContent = `⚠️ ${message}`;
             DOM.error.classList.remove('hidden');
@@ -227,6 +263,8 @@ const API = {
             const result = {
                 city: location.name,
                 country: location.country,
+                latitude: location.latitude,
+                longitude: location.longitude,
                 temperature
             };
 
@@ -265,6 +303,7 @@ async function handleRequest(event) {
 
         // Ergebnis anzeigen
         UI.showResult(data.city, data.temperature, data.country);
+        UI.showMap(data);
 
     } catch (error) {
         UI.showError(error.message);

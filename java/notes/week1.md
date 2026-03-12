@@ -793,86 +793,120 @@ Man verwendet `static` z. B. für:
 | `NumberFormatException` | Versuch, einen String in eine Zahl umzuwandeln, der keine Zahl darstellt |
 
 
-Übungsaufgabe / Beispiel:
+### try / catch / finally
 
-// Beispiel oder Übung
+Mit `try`, `catch` und `finally` kann man in Java auf Fehler kontrolliert reagieren.
+
+Der `try`-Block enthält den Code, in dem ein Fehler auftreten kann.
+Im `catch`-Block wird festgelegt, **welcher Fehler abgefangen werden soll** und was dann passieren soll.
+Der `finally`-Block wird am Ende immer ausgeführt, egal ob ein Fehler aufgetreten ist oder nicht.
+
+Kurz gesagt:
+
+- `try` = hier könnte etwas schiefgehen
+- `catch` = hier reagiere ich auf den Fehler
+- `finally` = das wird zum Schluss auf jeden Fall noch ausgeführt
+
+Beispiel:
+
+```java
+try {
+    int ergebnis = 10 / 0;
+    System.out.println(ergebnis);
+} catch (ArithmeticException e) {
+    System.out.println("Fehler: " + e.getMessage());
+} finally {
+    System.out.println("Dieser Block wird immer ausgeführt.");
+}
+```
+
+Wichtig ist:
+
+- Ohne Fehler läuft der Code im `try` ganz normal durch.
+- Bei einem Fehler springt Java direkt in den passenden `catch`-Block.
+- `finally` eignet sich z. B. für Aufräumarbeiten wie das Schließen von Dateien oder Scannern.
+
+Merksatz:
+
+Erst versuche ich etwas mit `try`, dann fange ich mögliche Fehler mit `catch` ab und am Ende räume ich mit `finally` auf.
 
 
-Reflexion:
 
-…
+### Abstrakte Klassen
 
-Was ich morgen lernen will:
+In Java sind abstrakte Klassen eine Art Blaupause für andere Klassen. Sie können nicht direkt instanziiert werden, sondern dienen als Grundlage für Unterklassen, die von ihnen erben. Abstrakte Klassen werden mit dem Schlüsselwort `abstract` deklariert.
 
-…
+#### Eigenschaften einer abstrakten Klasse:
+- **Abstrakte Methoden:**
+  Abstrakte Klassen können Methoden enthalten, die keine Implementierung haben. Diese Methoden müssen von den Unterklassen überschrieben werden. Sie werden ebenfalls mit dem Schlüsselwort `abstract` deklariert.
 
-Tag 3 – Thema / Schwerpunkt
+- **Normale Methoden:**
+  Neben abstrakten Methoden können abstrakte Klassen auch normale Methoden mit einer Implementierung enthalten.
 
-Learningfacts:
+- **Attribute:**
+  Abstrakte Klassen können Attribute definieren, die von den Unterklassen geerbt werden.
 
-…
+- **Konstruktoren:**
+  Abstrakte Klassen können Konstruktoren haben, die von den Unterklassen aufgerufen werden, um gemeinsame Attribute zu initialisieren.
 
-…
+- **Nicht instanziierbar:**
+  Eine abstrakte Klasse kann nicht direkt instanziiert werden. Sie muss durch eine konkrete (nicht-abstrakte) Unterklasse erweitert werden.
 
-Codebeispiele:
+#### Beispiel:
+```java
+// Abstrakte Klasse
+abstract class Fahrzeug {
+    String marke;
+    String modell;
 
-// Beispielcode
+    public Fahrzeug(String marke, String modell) {
+        this.marke = marke;
+        this.modell = modell;
+    }
 
+    // Abstrakte Methode
+    abstract double berechneReichweite();
 
-Was ich morgen lernen will:
+    // Normale Methode
+    public String anzeigenInformationen() {
+        return "Marke: " + marke + ", Modell: " + modell;
+    }
+}
 
-…
+// Konkrete Unterklasse
+class Elektroauto extends Fahrzeug {
+    double batteriekapazitaet;
 
-Kompetenzprotokoll Woche X
+    public Elektroauto(String marke, String modell, double batteriekapazitaet) {
+        super(marke, modell);
+        this.batteriekapazitaet = batteriekapazitaet;
+    }
 
-Ziel: Das Gelernte in vier Kategorien reflektieren, um Theorie, Praxis und Relevanz zu verknüpfen.
+    @Override
+    double berechneReichweite() {
+        return batteriekapazitaet * 6; // Beispiel: 6 km pro kWh
+    }
+}
 
-1️⃣ Einordnen & Strukturieren (Theorie erklären)
+public class Main {
+    public static void main(String[] args) {
+        Fahrzeug auto = new Elektroauto("Tesla", "Model 3", 75);
+        System.out.println(auto.anzeigenInformationen());
+        System.out.println("Reichweite: " + auto.berechneReichweite() + " km");
+    }
+}
+```
 
-…
+#### Vorteile:
+- **Wiederverwendbarkeit:** Gemeinsame Eigenschaften und Methoden können in der abstrakten Klasse definiert werden, um Redundanz zu vermeiden.
+- **Flexibilität:** Unterklassen können die abstrakten Methoden auf ihre spezifischen Anforderungen anpassen.
+- **Polymorphismus:** Abstrakte Klassen ermöglichen es, Objekte unterschiedlicher Unterklassen einheitlich zu behandeln.
 
-2️⃣ Verstehen & Verknüpfen (Praxisbeispiel erläutern)
+#### Fazit:
+Abstrakte Klassen sind eine wichtige Grundlage in der objektorientierten Programmierung, um gemeinsame Funktionalitäten bereitzustellen und gleichzeitig die Implementierung bestimmter Methoden den Unterklassen zu überlassen.
 
-…
-
-3️⃣ Anwenden & Bewerten (Berufliche Relevanz erörtern)
-
-…
-
-4️⃣ Reflektieren & Hinterfragen (Lernprozess reflektieren / Fragen formulieren)
-
-…
-
-Offene Fragen:
-
-…
-
-…
-
-🧩 Zusammenfassung der Woche
-
-Wichtigste Erkenntnisse:
-
-…
-
-…
-
-Tools / Konzepte, die ich neu verstanden habe:
-
-…
-
-…
-
-Schwierigkeiten / To-do für nächste Woche:
-
-…
-
-…
-
-💡 Nächste Woche – Fokus / Lernziele
-
-…
-
-…
-
-…
+Eine abstrakte Klasse ist eine Klasse, die nur als Vorlage dient.
+Man kann kein Objekt davon erstellen.
+Sie kann gemeinsame Attribute und Methoden enthalten.
+Sie kann abstrakte Methoden haben, die Unterklassen selbst implementieren müssen.
+Unterklassen erben von der abstrakten Klasse und machen daraus echte Objekte.

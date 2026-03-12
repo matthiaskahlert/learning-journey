@@ -24,7 +24,7 @@
 #>
 
 param(
-    [string]$FileName = "Matthias_Kahlert_Teilpruefung_01"
+    [string]$FileName = "Matthias_Kahlert_Teilpruefung_02"
 )
 
 $root = "C:\Users\Matze\repositories\learning-journey"
@@ -46,5 +46,5 @@ Remove-Item $zip -Force -ErrorAction SilentlyContinue
 Compress-Archive -Path "$tmp\src" -DestinationPath $zip
 Remove-Item $tmp -Recurse -Force
 
-Write-Host "✓ ZIP erstellt: $zip"
+Write-Host "ZIP erstellt: $zip"
 

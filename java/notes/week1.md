@@ -776,6 +776,23 @@ Man verwendet `static` z. B. für:
 - `static` = gehört zur Klasse, nicht zum Objekt
 …
 
+
+### Java Exceptions
+
+| Fehlerklasse | Bedeutung |
+|---|---|
+| `ArithmeticException` | Unzulässige arithmetische Operation, zum Beispiel Teilen durch `0` |
+| `ArrayIndexOutOfBoundsException` | Zugriff auf einen nicht vorhandenen Index eines Arrays |
+| `ClassCastException` | Versuch, ein Objekt zu einer Klasse umzuwandeln, zu der es nicht gehört |
+| `Exception` | Oberklasse aller Fehler, die universell alle auftretenden Fehler auffängt |
+| `FileNotFoundException` | Eine Datei, auf die zugegriffen werden soll, kann nicht gefunden werden |
+| `IllegalArgumentException` | Übergabe eines unzulässigen Arguments an eine Funktion |
+| `IndexOutOfBoundsException` | Zugriff auf einen nicht vorhandenen Index, zum Beispiel bei einer Liste |
+| `IOException` | Fehler beim Lesen oder Schreiben von Dateien oder Ordnern |
+| `NullPointerException` | Ein Objekt, auf das zugegriffen wird, hat unerwartet den Wert `null` |
+| `NumberFormatException` | Versuch, einen String in eine Zahl umzuwandeln, der keine Zahl darstellt |
+
+
 Übungsaufgabe / Beispiel:
 
 // Beispiel oder Übung

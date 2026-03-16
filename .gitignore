@@ -11,3 +11,7 @@ python/projects/mandelbrot/
 # Java build output - bin brauchen wir nicht versionieren
 java/bin/
 *.class
+
+# Maven build output
+java/target/
+**/target/

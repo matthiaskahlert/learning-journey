@@ -16,22 +16,55 @@ SPRÜCHE = ['Veränderung beginnt im Kopf, \npassiert aber im Tun.',
 
 # --- Spruch direkt auf Canvas zeichnen ---
 spruch_id = None  # wird nach dem Canvas erzeugt
+animation_job = None
 
-def fade_out_in_canvas(new_text, steps=10, delay=30):
-    # Fade out
-    for i in range(steps, -1, -1):
-        color = f'#{i*15:02x}{i*15:02x}{i*15:02x}'
-        gradient_canvas.itemconfig(spruch_id, fill=color)
-        gradient_canvas.update()
-        gradient_canvas.after(delay)
-    gradient_canvas.itemconfig(spruch_id, text=new_text)
-    # Fade in
-    for i in range(0, steps+1):
-        color = f'#{i*15:02x}{i*15:02x}{i*15:02x}'
-        gradient_canvas.itemconfig(spruch_id, fill=color)
-        gradient_canvas.update()
-        gradient_canvas.after(delay)
-    gradient_canvas.itemconfig(spruch_id, fill='white')
+def fade_out_in_canvas(new_text, steps=10, delay=28):
+    global animation_job
+
+    if gradient_canvas is None or not gradient_canvas.winfo_exists() or spruch_id is None:
+        return
+
+    # Bei schnellem Klicken alte Animation beenden und neu starten.
+    if animation_job is not None:
+        try:
+            fenster.after_cancel(animation_job)
+        except TclError:
+            pass
+        animation_job = None
+
+    min_brightness = 80
+    fade_out = [int(255 - (255 - min_brightness) * (i / steps)) for i in range(steps + 1)]
+    fade_in = list(reversed(fade_out))
+    sequence = fade_out + ['switch'] + fade_in
+
+    def run_step(index=0):
+        global animation_job
+
+        if gradient_canvas is None or not gradient_canvas.winfo_exists() or spruch_id is None:
+            animation_job = None
+            return
+
+        try:
+            state = sequence[index]
+            if state == 'switch':
+                gradient_canvas.itemconfig(spruch_id, text=new_text)
+            else:
+                color = f'#{state:02x}{state:02x}{state:02x}'
+                gradient_canvas.itemconfig(spruch_id, fill=color)
+        except TclError:
+            animation_job = None
+            return
+
+        if index + 1 < len(sequence):
+            animation_job = fenster.after(delay, run_step, index + 1)
+        else:
+            animation_job = None
+            try:
+                gradient_canvas.itemconfig(spruch_id, fill='white')
+            except TclError:
+                pass
+
+    run_step(0)
 
 def auswählen():
     current = gradient_canvas.itemcget(spruch_id, 'text')
@@ -40,13 +73,20 @@ def auswählen():
     fade_out_in_canvas(text)
 
 fenster = Tk()
-fenster.geometry('1800x1200')
+screen_w = fenster.winfo_screenwidth()
+screen_h = fenster.winfo_screenheight()
+window_w = max(900, min(1600, screen_w - 80))
+window_h = max(700, min(1000, screen_h - 120))
+fenster.geometry(f'{window_w}x{window_h}+20+20')
 fenster.config(bg='black')
 fenster.title('Motivation Booster!')
 
 # Frame für die obere Zeile
 top_frame = Frame(fenster, bg='black')
-top_frame.pack()
+top_frame.pack(fill='x', pady=12)
+
+controls_frame = Frame(top_frame, bg='black')
+controls_frame.pack(anchor='n')
 
 # Bilder laden und skalieren (maximal 600px Breite)
 img1 = PhotoImage(file=r"python\exercises\Kapitel 11 Uebungen\motivation\img\rainbow3.png")
@@ -62,13 +102,15 @@ def scale_image(img, max_width=600):
         return img.subsample(int(w / new_w), int(h / new_h))
     return img
 
-img1 = scale_image(img1)
-img2 = scale_image(img2)
+# Bildgröße dynamisch an verfügbare Fensterbreite anpassen.
+max_img_width = max(180, int(window_w * 0.22))
+img1 = scale_image(img1, max_img_width)
+img2 = scale_image(img2, max_img_width)
 
-img_label1 = Label(top_frame, image=img1, bg='black')
-img_label2 = Label(top_frame, image=img2, bg='black')
+img_label1 = Label(controls_frame, image=img1, bg='black')
+img_label2 = Label(controls_frame, image=img2, bg='black')
 button = Button(
-    master=top_frame,
+    master=controls_frame,
     text='Neue Motivation',
     command=auswählen,
     font=('Comic Sans MS', 24, 'bold'),
@@ -84,6 +126,19 @@ button = Button(
     highlightbackground='#00fff7' # Neon cyan border
 )
 
+def update_button_style(width):
+    # Skalierung für Lesbarkeit und sauberes Layout auf verschiedenen Auflösungen.
+    button_font_size = max(14, min(24, int(width / 55)))
+    button_padx = max(16, min(40, int(width / 40)))
+    button_pady = max(10, min(20, int(width / 90)))
+    button.config(
+        font=('Comic Sans MS', button_font_size, 'bold'),
+        padx=button_padx,
+        pady=button_pady
+    )
+
+update_button_style(window_w)
+
 def on_enter(e):
     button.config(bg='#00fff7', fg='black')
 def on_leave(e):
@@ -96,31 +151,59 @@ button.grid(row=0, column=1, padx=10)
 img_label2.grid(row=0, column=2, padx=10)
 
 
-# --- Gradient hinter dem Spruchbereich ---
-gradient_width = 1800
-gradient_height = 400
-gradient_x = (1800-gradient_width)//2  # zentriert
-gradient_y = 350
+# --- Dynamischer Spruchbereich (passt sich der Auflösung an) ---
+center_frame = Frame(fenster, bg='black')
+center_frame.pack(fill='both', expand=True, padx=20, pady=20)
 
-gradient_canvas = Canvas(fenster, width=gradient_width, height=gradient_height, highlightthickness=0, bd=0)
-gradient_canvas.place(x=gradient_x, y=gradient_y)
-# Vertikaler Gradient: mitte blau (#0000e4), unten und oben schwarz (#000000)
-for i in range(gradient_height):
-    # Symmetrischer Verlauf: Mitte blau, oben/unten schwarz
-    rel = abs(i - gradient_height/2) / (gradient_height/2)
-    b = int(228 * (1 - rel))  # 228 = blau, 0 = schwarz
-    color = f'#0000{b:02x}'
-    gradient_canvas.create_line(0, i, gradient_width, i, fill=color)
+gradient_canvas = Canvas(center_frame, highlightthickness=0, bd=0, bg='black')
+gradient_canvas.pack(fill='both', expand=True)
 
+def draw_gradient(event=None):
+    global spruch_id
 
-# Spruch auf dem Gradient-Canvas zeichnen (zentriert)
-spruch_id = gradient_canvas.create_text(
-    gradient_width//2, gradient_height//2,
-    text=SPRÜCHE[0],
-    font=('Segoe Script', 40, 'bold'),
-    fill='white',
-    justify='center'
-)
+    width = gradient_canvas.winfo_width()
+    height = gradient_canvas.winfo_height()
+    if width < 2 or height < 2:
+        return
+
+    gradient_canvas.delete('gradient')
+    for i in range(height):
+        rel = abs(i - height / 2) / (height / 2)
+        b = int(228 * (1 - rel))
+        color = f'#0000{b:02x}'
+        gradient_canvas.create_line(0, i, width, i, fill=color, tags='gradient')
+
+    # Hintergrundlinien immer hinter den Spruch legen.
+    gradient_canvas.tag_lower('gradient')
+
+    if spruch_id is None:
+        spruch_id = gradient_canvas.create_text(
+            width // 2,
+            height // 2,
+            text=SPRÜCHE[0],
+            font=('Segoe Script', 40, 'bold'),
+            fill='white',
+            justify='center',
+            width=max(300, int(width * 0.78))
+        )
+    else:
+        gradient_canvas.coords(spruch_id, width // 2, height // 2)
+        gradient_canvas.itemconfig(spruch_id, width=max(300, int(width * 0.78)))
+
+gradient_canvas.bind('<Configure>', draw_gradient)
+fenster.after(50, draw_gradient)
+
+def on_window_resize(event):
+    if event.widget is fenster:
+        update_button_style(event.width)
+
+fenster.bind('<Configure>', on_window_resize)
+
+# Sicherstellen, dass der erste Spruch beim Start angezeigt wird
+if spruch_id is not None:
+    gradient_canvas.itemconfig(spruch_id, text=SPRÜCHE[0])
+else:
+    print("Fehler: spruch_id wurde nicht korrekt initialisiert.")
 
 # Frame für die unterste Zeile
 bottom_frame = Frame(fenster, bg='black')

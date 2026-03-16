@@ -25,11 +25,10 @@ public class Personenverwaltung {
             while (true) {
                 System.out.println("Bitte geben Sie die Hausnummer an, in der die Person wohnt:");
                 try {
-                    hausnummer = Integer.valueOf(scanner.next());
+                    hausnummer = Integer.parseInt(scanner.next());
                     break;
                 } catch (NumberFormatException exception) {
-                    System.out.println("Ungültige Eingabe.Bitte geben Sie eine gültige Zahl ein.");
-                    System.out.println("Technischer Fehler: " + exception.getMessage());
+                    System.out.println("Ungültige Eingabe. Bitte geben Sie eine gültige Zahl ein.");
                 }
             }
 
@@ -44,7 +43,7 @@ public class Personenverwaltung {
 
             if (mitarbeiter.equalsIgnoreCase("ja")) {
                 System.out.println("Bitte geben Sie das Gehalt der Person ein:");
-                int gehalt = Integer.valueOf(scanner.next());
+                int gehalt = Integer.parseInt(scanner.next());
 
                 Mitarbeiter m = new Mitarbeiter(vorname, nachname, strasse, hausnummer, plz, ort, gehalt);
                 personen.add(m);
@@ -53,7 +52,7 @@ public class Personenverwaltung {
                 personen.add(k);
             }
 
-            System.out.println("Datenerfassung abgeschlossen. Möchten Sie fortfahren?");
+            System.out.println("Datenerfassung abgeschlossen. Möchten Sie fortfahren? (ja/nein)");
             String fortfahren = scanner.next();
 
             if (fortfahren.equalsIgnoreCase("nein")) {

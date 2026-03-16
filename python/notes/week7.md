@@ -336,3 +336,18 @@ print(e.rennen())     # Rennt
     Mit super() rufst du Methoden der Basisklasse auf (z.B. super().__init__()).
     Mit Überschreiben (Override) definierst du Methoden neu in der Unterklasse.
     Vererbung ermöglicht Code-Wiederverwendung und klare Hierarchien.
+
+### Dynamische Ermittlung des Arbeitsverzeichnisses in Python
+
+In Python kann das aktuelle Arbeitsverzeichnis (Working Directory) mit dem Modul `os` dynamisch ermittelt werden. Dies ist besonders nützlich, um plattformunabhängige Pfade zu erstellen oder Dateien relativ zum Arbeitsverzeichnis zu finden.
+
+Beispiel:
+```python
+import os
+
+current_dir = os.getcwd()
+print("Aktuelles Arbeitsverzeichnis:", current_dir)
+```
+
+- `os.getcwd()` gibt den absoluten Pfad des aktuellen Arbeitsverzeichnisses zurück.
+- Dies ist hilfreich, um hartcodierte Pfade zu vermeiden und Programme flexibler zu gestalten.

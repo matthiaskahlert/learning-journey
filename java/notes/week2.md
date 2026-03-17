@@ -343,11 +343,13 @@ public class JsonReader {
 }
 ```
 
-### Befehle, die ich wirklich nutze
+### Befehle, die ich derzeit nutze
 Im Ordner `java`:
 ```powershell
+mvn clean
 mvn compile
 mvn --% -q exec:java -Dexec.mainClass=JsonReader
+mvn test
 ```
 
 ### Warum `--%` in PowerShell?
@@ -359,3 +361,143 @@ mvn --% -q exec:java -Dexec.mainClass=JsonReader
 2. `mvn compile` ausführen.
 3. In VS Code: `Java: Clean Java Language Server Workspace`.
 4. VS Code neu laden.
+### GUI
+Java nutzt Standardbibliotheken für GUI Elenmente wie Buttons etc.
+Drei bekannte Bibliotheken für grafische Benutzerpberflächen sind Swing, JavaFX und SWT.
+- Ich nutze die Swing
+- Fenster werden mit JFrame erzeugt.
+- 
+```java
+import javax.swing.JFrame;
+
+public class Fensterprogramm {
+    public static void main (String[] args) {
+        JFrame f=new JFrame();
+        f.setSize(400,500);
+        f.setVisible(true);
+    }
+}
+```
+Damit sich das Programm auch nach schließen des Fensters beendet braucht man 
+```java
+setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+```
+- Textfelder mit JTextArea
+```java
+JTextArea textArea = new JTextArea();
+f.add(textArea);
+
+f.setVisible(true);
+```
+- textfelder erscheinung a anpassen mit setBackground, setForeground, setFont
+  
+
+```java
+// um Color und Font zu nutzen muss man das noch importieren:
+import java.awt.Color;
+import java.awt.Font;
+// ...%
+textArea.setBackground(Color.BLUE);
+textArea.setForeground(Color.WHITE);
+textArea.setFont(new Font("Serif", Font.ITALIC, 16));
+
+
+```
+
+- Buttons mit einem Objekt vom Typ JButton erstellen
+- Der Button braucht einen ActionListener der die Funktion actionPerformed beides wird importiert
+- import java.awt.event.ActionEvent;
+- import java.awt.event.ActionListener;
+- Layout kann man mit BorderLayout setzen, dies teilt den Bereich auf in:
+ 
+
+
+#### Layout Positionen und Labels
+
+| Name         | Position |
+|--------------|----------|
+| PAGE_START   | B1    Header   |
+| LINE_START   | B2       |
+| CENTER       | B3       |
+| LINE_END     | B4       |
+| PAGE_END     | B5     Footer  |
+
+folgender code zeigt die bereiche
+
+```java
+
+```
+
+#### BorderLayout Beispiel
+
+```java
+import javax.swing.*;
+import java.awt.*;
+
+public class BorderLayoutExample {
+    public static void main(String[] args) {
+        JFrame f = new JFrame();
+        f.setSize(300, 200);
+        f.setLayout(new BorderLayout());
+
+        JButton button1 = new JButton("B1");
+        f.add(button1, BorderLayout.PAGE_START);
+
+        JButton button2 = new JButton("B2");
+        f.add(button2, BorderLayout.LINE_START);
+
+        JButton button3 = new JButton("B3");
+        f.add(button3, BorderLayout.CENTER);
+
+        JButton button4 = new JButton("B4");
+        f.add(button4, BorderLayout.LINE_END);
+
+        JButton button5 = new JButton("B5");
+        f.add(button5, BorderLayout.PAGE_END);
+
+        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        f.setVisible(true);
+    }
+}
+```
+#### FlowLayout Beispiel
+- im FlowLayout werden die Elemente in einer Reihe positioniert, falls das Fenster zu klein ist, geht es eine Reihe weiter unten weiter.
+beispiel
+```java
+import javax.swing.*;
+import java.awt.*;
+
+public class FlowLayoutExample {
+    public static void main(String[] args) {
+        JFrame f = new JFrame();
+        f.setSize(300, 200);
+        f.setLayout(new FlowLayout());
+
+        JButton button1 = new JButton("B1");
+        f.add(button1);
+
+        JButton button2 = new JButton("B2");
+        f.add(button2);
+
+        JButton button3 = new JButton("B3");
+        f.add(button3);
+
+        JButton button4 = new JButton("B4");
+        f.add(button4);
+
+        JButton button5 = new JButton("B5");
+        f.add(button5);
+
+        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        f.setVisible(true);
+    }
+}
+```
+#### GridLayout Beispiel 
+Beim GridLayout sind die Elemente im wesentlichen wie in einer Tabelle angeordnet. Beim Erstellen gibt man an wieviele Reihen und Spalten man braucht.
+
+```java
+f.setLayout(new GridLayout(3, 2));
+```
+
+

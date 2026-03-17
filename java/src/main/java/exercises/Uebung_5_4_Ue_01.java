@@ -29,11 +29,12 @@ public class Uebung_5_4_Ue_01 {
     }
 
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Bitte geben Sie eine Zahl ein, um dessen Fakultät zu berechnen: ");
-        int testZahl = scanner.nextInt();
-        // int testZahl = 666;
-        BigInteger ergebnis = berechneFakultaet(testZahl);
-        System.out.println("Die Fakultät von " + testZahl + " ist: " + ergebnis);
+        try (Scanner scanner = new Scanner(System.in)) {
+            System.out.print("Bitte geben Sie eine Zahl ein, um dessen Fakultät zu berechnen: ");
+            int testZahl = scanner.nextInt();
+            // int testZahl = 666;
+            BigInteger ergebnis = berechneFakultaet(testZahl);
+            System.out.println("Die Fakultät von " + testZahl + " ist: " + ergebnis);
+        }
     }
 }

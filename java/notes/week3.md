@@ -173,3 +173,172 @@ java -version
 3. JAVA_HOME + PATH setzen.
 4. VS Code neu starten.
 5. Im Ordner java mit mvn -v und mvn compile testen.
+
+## Zusammenfassung: Run and Debug, Unit Tests und Maven
+
+### Run and Debug in Java
+- **Run:** Führt den Java-Code aus, startet die `main`-Methode und zeigt die Konsolenausgabe.
+- **Debug:** Ermöglicht das schrittweise Analysieren des Codes, das Setzen von Breakpoints und das Überprüfen von Variablenwerten während der Ausführung.
+
+### Unit Tests in Java
+- Unit Tests prüfen einzelne Methoden oder Klassen, um sicherzustellen, dass sie korrekt funktionieren.
+- **JUnit:** Standard-Framework für Unit Tests in Java.
+
+### JUnit mit Maven einrichten
+1. **JUnit-Abhängigkeit hinzufügen:**
+   ```xml
+   <dependency>
+       <groupId>org.junit.jupiter</groupId>
+       <artifactId>junit-jupiter</artifactId>
+       <version>5.9.3</version>
+       <scope>test</scope>
+   </dependency>
+   ```
+2. **Testklasse erstellen:**
+   - Produktionscode: `src/main/java/exercises/CalculateAverage.java`
+   - Testcode: `src/test/java/exercises/CalculateAverageTest.java`
+
+### Beispiel-Testklasse
+```java
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+public class CalculateAverageTest {
+
+    @Test
+    public void testCalculateAverage() {
+        int[] zahlen = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+        float result = CalculateAverage.calculateAverage(zahlen);
+        assertEquals(5.5, result, 0.01);
+    }
+
+    @Test
+    public void testEmptyArray() {
+        int[] zahlen = {};
+        float result = CalculateAverage.calculateAverage(zahlen);
+        assertEquals(-1, result);
+    }
+}
+```
+
+### Tests ausführen
+- **Mit Maven:**
+  ```bash
+  mvn test
+  ```
+- **Mit VS Code:**
+  - `Run Test` oder `Debug Test` neben der Testmethode klicken.
+
+### Struktur
+- Produktionscode: `src/main/java/exercises/CalculateAverage.java`
+- Testcode: `src/test/java/exercises/CalculateAverageTest.java`
+
+### Ablauf
+1. **JUnit einrichten:** Abhängigkeit in `pom.xml` hinzufügen.
+2. **Testklasse erstellen:** Im Ordner `src/test/java`.
+3. **Tests schreiben:** Mit `@Test` und Assertions.
+4. **Tests ausführen:** Mit Maven (`mvn test`) oder VS Code.
+
+## JUnit Jupiter – Das Testmodul von JUnit 5
+
+### Was ist JUnit Jupiter?
+- **JUnit Jupiter** ist ein Modul von JUnit 5, das die neue API und Test-Engine für das Schreiben und Ausführen von Tests bereitstellt.
+- Es ist speziell für moderne Java-Versionen (Java 8+) entwickelt und unterstützt neue Sprachfeatures wie Lambda-Ausdrücke.
+
+### Warum JUnit Jupiter?
+1. **Modularität:**
+   - JUnit 5 besteht aus drei Modulen:
+     - **JUnit Platform:** Führt Tests aus.
+     - **JUnit Jupiter:** API und Test-Engine für neue Tests.
+     - **JUnit Vintage:** Unterstützt alte JUnit 3/4-Tests.
+
+2. **Moderne Features:**
+   - Unterstützung für **Lambda-Ausdrücke** und **Streams**.
+   - Erweiterte Assertions und dynamische Tests.
+
+3. **Flexibilität:**
+   - Ermöglicht benutzerdefinierte Erweiterungen (Extensions).
+
+### Wichtige Features von JUnit Jupiter
+1. **Annotations:**
+   - `@Test`: Markiert eine Testmethode.
+   - `@BeforeEach`: Führt Code vor jedem Test aus.
+   - `@AfterEach`: Führt Code nach jedem Test aus.
+   - `@BeforeAll`: Führt Code einmal vor allen Tests aus.
+   - `@AfterAll`: Führt Code einmal nach allen Tests aus.
+
+2. **Assertions:**
+   - `assertEquals(expected, actual)`: Überprüft, ob zwei Werte gleich sind.
+   - `assertTrue(condition)`: Überprüft, ob eine Bedingung wahr ist.
+   - `assertThrows(Exception.class, () -> {...})`: Überprüft, ob eine Ausnahme geworfen wird.
+
+3. **Dynamic Tests:**
+   - Tests können zur Laufzeit generiert werden.
+
+### Beispiel für JUnit Jupiter
+```java
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+public class ExampleTest {
+
+    @Test
+    public void testAddition() {
+        int result = 2 + 3;
+        assertEquals(5, result, "2 + 3 sollte 5 ergeben");
+    }
+
+    @Test
+    public void testException() {
+        assertThrows(ArithmeticException.class, () -> {
+            int result = 1 / 0;
+        });
+    }
+}
+```
+
+### Zusammenfassung
+- **JUnit Jupiter** ist die moderne Test-API von JUnit 5.
+- Es bietet eine flexible, erweiterbare und intuitive Möglichkeit, Tests in Java zu schreiben.
+- Unterstützt neue Java-Features und ist vollständig kompatibel mit Maven.
+
+## Testklassen vs. Produktionsklassen
+
+### Was ist der Unterschied?
+- **Produktionsklassen** sind dein eigentlicher Anwendungs-Code.
+- **Testklassen** enthalten nur Testlogik, um Produktionsklassen automatisch zu prüfen.
+
+### Warum getrennt?
+1. Maven kompiliert Produktionscode und Testcode in getrennten Schritten.
+2. Abhängigkeiten mit Scope test (z. B. JUnit) sind nur beim Testen verfügbar.
+3. Der Code bleibt sauber: keine Testlogik im Produktivcode.
+4. CI/CD-Pipelines können Tests gezielt ausführen (mvn test), ohne Produktionscode zu verändern.
+
+### Wo liegen die Dateien?
+- Produktionscode: src/main/java
+- Testcode: src/test/java
+
+Wichtig:
+- Die Paketstruktur wird gespiegelt.
+- Wenn eine Klasse unter src/main/java/exercises/personenverwaltung liegt,
+  dann liegt der Test unter src/test/java/exercises/personenverwaltung.
+
+### Konkretes Beispiel
+1. Produktionsklasse:
+  src/main/java/exercises/personenverwaltung/PersonService.java
+2. Testklasse:
+  src/test/java/exercises/personenverwaltung/PersonServiceTest.java
+
+### Wie lege ich Testklassen korrekt an?
+1. Unter src/test/java den gleichen Paketpfad wie im Produktionscode erstellen.
+2. Testdatei mit Namensschema KlasseNameTest.java anlegen.
+3. Gleiche package-Deklaration wie bei der Produktionsklasse setzen.
+4. Mit @Test und Assertions die Methoden der Produktionsklasse prüfen.
+5. Tests mit mvn test ausführen.
+
+### Häufiger Fehler (und Lösung)
+- Fehler: Testklasse liegt in src/main/java und JUnit-Import wird nicht gefunden.
+- Ursache: JUnit ist als test-Dependency nur im Test-Compile verfügbar.
+- Lösung: Testklasse nach src/test/java verschieben und Maven erneut mit mvn test starten.
+
+

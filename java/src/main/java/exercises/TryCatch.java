@@ -26,9 +26,10 @@ public class TryCatch {
         ArrayList<Integer> liste = new ArrayList<>();
         try {
             // Versuch, auf das erste Element der Liste zuzugreifen
-            int x = liste.get(0);
+            liste.get(0);
         } catch (IndexOutOfBoundsException e) {
-            // Abfangen der Ausnahme, wenn die Liste leer ist, und Ausgabe einer Fehlermeldung
+            // Abfangen der Ausnahme, wenn die Liste leer ist, und Ausgabe einer
+            // Fehlermeldung
             System.out.println("Fehler: " + e.getMessage());
         }
     }

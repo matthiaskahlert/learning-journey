@@ -28,6 +28,14 @@ public class transfer_6_5_A_01 {
 
         public abstract String lautGeben();
 
+        public String getName() {
+            return name;
+        }
+
+        public int getAlter() {
+            return alter;
+        }
+
         public static int getAnzahlTiere() {
             return anzahlTiere;
         }
@@ -50,8 +58,8 @@ public class transfer_6_5_A_01 {
             Katze katze1 = outer.new Katze("Whiskers", 3);
             Katze katze2 = outer.new Katze("Felix", 5);
 
-            System.out.println(katze1.lautGeben());
-            System.out.println(katze2.lautGeben());
+            System.out.println(katze1.getName() + " (" + katze1.getAlter() + ") sagt: " + katze1.lautGeben());
+            System.out.println(katze2.getName() + " (" + katze2.getAlter() + ") sagt: " + katze2.lautGeben());
             System.out.println("Anzahl der Tiere: " + Tier.getAnzahlTiere());
         }
     }

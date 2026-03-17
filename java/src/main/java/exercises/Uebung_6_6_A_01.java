@@ -17,7 +17,6 @@ indem du eine Person-Referenz erstellst, die auf ein Student-Objekt zeigt, und r
 Führe dann ein explizites Typecasting durch, um auf spezifische Methoden oder Attribute der Student-Klasse zuzugreifen. 
 */
 
-
 public class Uebung_6_6_A_01 {
     class Person {
         String vorname;
@@ -73,8 +72,10 @@ public class Uebung_6_6_A_01 {
         // Typecasting: Person-Referenz auf ein Student-Objekt
         Person person = student;
         System.out.println(person.ganzerName()); // Aufruf der Methode der Basisklasse
+        System.out.println(dozent.beschreibePerson());
 
-        // Explizites Typecasting, um auf spezifische Methoden der Student-Klasse zuzugreifen
+        // Explizites Typecasting, um auf spezifische Methoden der Student-Klasse
+        // zuzugreifen
         if (person instanceof Student) {
             Student spezifischerStudent = (Student) person;
             System.out.println(spezifischerStudent.beschreibePerson());

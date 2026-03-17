@@ -1,12 +1,12 @@
 import java.util.Scanner;
 
 public class throwException {
-    public static float nettoBerechnen (float bruttopreis, int mwStSatz) throws Exception {
-    if (mwStSatz !=19 && mwStSatz != 7) {
-        throw new Exception("Ungültiger Mehrwertsteuersatz: " + mwStSatz + ". Nur 7 oder 19 zulässig.");
+    public static float nettoBerechnen(float bruttopreis, int mwStSatz) throws Exception {
+        if (mwStSatz != 19 && mwStSatz != 7) {
+            throw new Exception("Ungültiger Mehrwertsteuersatz: " + mwStSatz + ". Nur 7 oder 19 zulässig.");
+        }
+        return bruttopreis - (bruttopreis * mwStSatz / 100.0f);
     }
-    return bruttopreis - (bruttopreis * mwStSatz / 100.0f);
-}
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -27,16 +27,19 @@ public class throwException {
                 System.out.println("Bitte versuchen Sie es erneut.");
             }
         }
-}
-/* 
-Ein wichtiges Detail, das nicht übersehen werden darf: 
-Damit ein so geworfener Fehler innerhalb der Funktion unbehandelt bleiben kann, 
-also nicht direkt mit einem try-catch-Block umgeben werden muss, 
-muss dem Kopf der Funktion explizit die Information hinzugefügt werden, 
-dass diese Funktion einen Fehler werfen kann. 
 
-Dies geschieht mit dem Zusatz throws Exception.
-Fehlt dieser Zusatz, so lässt sich das Programm nicht kompilieren.
-
-*/
+        scanner.close();
+    }
+    /*
+     * Ein wichtiges Detail, das nicht übersehen werden darf:
+     * Damit ein so geworfener Fehler innerhalb der Funktion unbehandelt bleiben
+     * kann,
+     * also nicht direkt mit einem try-catch-Block umgeben werden muss,
+     * muss dem Kopf der Funktion explizit die Information hinzugefügt werden,
+     * dass diese Funktion einen Fehler werfen kann.
+     * 
+     * Dies geschieht mit dem Zusatz throws Exception.
+     * Fehlt dieser Zusatz, so lässt sich das Programm nicht kompilieren.
+     * 
+     */
 }

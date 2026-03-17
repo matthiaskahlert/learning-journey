@@ -13,6 +13,14 @@
             <artifactId>json</artifactId>
             <version>20210307</version>
         </dependency>
+    
+        <!-- JUnit library for Unit Testing -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>5.9.3</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -23,9 +31,17 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
                 <configuration>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
                     <release>${java.specification.version}</release>
                 </configuration>
             </plugin>
         </plugins>
     </build>
+
+    <properties>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
+        <java.specification.version>21</java.specification.version>
+    </properties>
 </project>

@@ -1,0 +1,24 @@
+{
+    "personen": [
+        {
+            "vorname": "Max",
+            "nachname": "Mustermann",
+            "adresse": {
+                "strasse": "Musterstraße",
+                "hausnummer": 1,
+                "plz": "12345",
+                "ort": "Musterstadt"
+            }
+        },
+        {
+            "vorname": "Erika",
+            "nachname": "Mustermann",
+            "adresse": {
+                "strasse": "Beispielweg",
+                "hausnummer": 2,
+                "plz": "54321",
+                "ort": "Beispielstadt"
+            }
+        }
+    ]
+}

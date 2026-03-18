@@ -495,9 +495,15 @@ public class FlowLayoutExample {
 ```
 #### GridLayout Beispiel 
 Beim GridLayout sind die Elemente im wesentlichen wie in einer Tabelle angeordnet. Beim Erstellen gibt man an wieviele Reihen und Spalten man braucht.
+Das `GridLayout` ist ein Layout-Manager in Java, der Komponenten in einem rechteckigen Raster anordnet. Jede Zelle des Rasters hat die gleiche Größe, und die Komponenten werden zeilenweise von links nach rechts hinzugefügt.
 
 ```java
 f.setLayout(new GridLayout(3, 2));
 ```
 
+### Daten einlesen und speichern
+- in der GUI nutzen wir einen Swing Standard Dialog zur Dateiauswahl mit JFileChooser und showOpenDialog.
+über getSelectedFile kann dann direkt drauf zugegriffen werden.
+
+Zum anzeigen der - eingelesenen daten
 

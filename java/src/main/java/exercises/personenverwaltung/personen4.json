@@ -5,7 +5,7 @@
             "ort": "Musterstadt",
             "strasse": "Musterstraße",
             "hausnummer": 1,
-            "plz": "12345"
+            "plz": "20255"
         },
         "nachname": "Mustermann"
     },
@@ -18,5 +18,15 @@
             "plz": "54321"
         },
         "nachname": "Mustermann"
+    },
+    {
+        "vorname": "Matze",
+        "adresse": {
+            "ort": "Superstadt",
+            "strasse": "Tollestraße",
+            "hausnummer": 666,
+            "plz": "12345"
+        },
+        "nachname": "Vorhanden"
     }
 ]}

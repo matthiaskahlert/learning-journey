@@ -12,16 +12,12 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import javax.swing.table.AbstractTableModel;
-import javax.swing.JTable;
 import java.io.File;
-import javax.swing.event.TableModelListener;
-import javax.swing.event.TableModelEvent;
 
 public class GrafischePersonenverwaltung {
 
     private static List<Person> personenListe = new ArrayList<>();
 
-    // Declare tableModel at the class level to ensure proper scope
     private static PersonenTableModel tableModel;
 
     public static void main(String[] args) {
@@ -29,13 +25,18 @@ public class GrafischePersonenverwaltung {
         f.setSize(1024, 768);
         f.setLayout(new BorderLayout());
 
+        // Standardverzeichnis für Dateioperationen definieren
+        File defaultDir = new File(System.getProperty("user.home"),
+                "repositories/learning-journey/java/src/main/java/exercises/personenverwaltung");
+
+        // Eine einzige JFileChooser-Instanz für Lade- und Speicheraktionen verwenden
+        final JFileChooser fc = new JFileChooser(defaultDir);
+
         JButton loadButton = new JButton("Laden");
         loadButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                final JFileChooser fc = new JFileChooser(new File(".").getAbsolutePath()); // Set default directory
-                int returnVal = fc.showOpenDialog(fc.getParent());
-
+                int returnVal = fc.showOpenDialog(f);
                 if (returnVal == JFileChooser.APPROVE_OPTION) {
                     try {
                         String text = new String(Files.readAllBytes(fc.getSelectedFile().toPath()),
@@ -57,7 +58,7 @@ public class GrafischePersonenverwaltung {
                                     adresse.getString("ort")));
                         }
 
-                        tableModel.fireTableDataChanged(); // Notify table of data changes
+                        tableModel.fireTableDataChanged();
                         JOptionPane.showMessageDialog(f, "Daten erfolgreich geladen!", "Erfolg",
                                 JOptionPane.INFORMATION_MESSAGE);
                     } catch (IOException exception) {
@@ -73,10 +74,19 @@ public class GrafischePersonenverwaltung {
         saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                final JFileChooser fc = new JFileChooser(new File(".").getAbsolutePath()); // Set default directory
-                int returnVal = fc.showSaveDialog(fc.getParent());
-
+                int returnVal = fc.showSaveDialog(f);
                 if (returnVal == JFileChooser.APPROVE_OPTION) {
+                    // prüfen, ob die Datei bereits existiert, Bestätigung zum Überschreiben
+                    if (fc.getSelectedFile().exists()) {
+                        int result = JOptionPane.showConfirmDialog(
+                                f,
+                                "Datei existiert bereits. Überschreiben?",
+                                "Bestätigung",
+                                JOptionPane.YES_NO_OPTION);
+                        if (result != JOptionPane.YES_OPTION)
+                            return;
+                    }
+
                     try {
                         JSONArray personen = new JSONArray();
                         for (Person person : personenListe) {
@@ -115,45 +125,12 @@ public class GrafischePersonenverwaltung {
 
         f.add(buttonPanel, BorderLayout.PAGE_START);
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        f.setVisible(true);
 
-        // Initialize tableModel and JTable
         tableModel = new PersonenTableModel(personenListe);
         JTable table = new JTable(tableModel);
-        tableModel.addTableModelListener(new TableModelListener() {
-            @Override
-            public void tableChanged(TableModelEvent e) {
-                int row = e.getFirstRow();
-                int column = e.getColumn();
-                if (e.getType() == TableModelEvent.UPDATE) {
-                    Object newValue = tableModel.getValueAt(row, column);
-                    Person person = personenListe.get(row);
-                    switch (column) {
-                        case 0:
-                            person.setVorname(newValue.toString());
-                            break;
-                        case 1:
-                            person.setNachname(newValue.toString());
-                            break;
-                        case 2:
-                            person.setStrasse(newValue.toString());
-                            break;
-                        case 3:
-                            person.setHausnummer(Integer.parseInt(newValue.toString()));
-                            break;
-                        case 4:
-                            person.setPlz(newValue.toString());
-                            break;
-                        case 5:
-                            person.setOrt(newValue.toString());
-                            break;
-                    }
-                }
-            }
-        });
-
         JScrollPane scrollPane = new JScrollPane(table);
         f.add(scrollPane, BorderLayout.CENTER);
+        f.setVisible(true);
     }
 
     static class Person {
@@ -173,7 +150,7 @@ public class GrafischePersonenverwaltung {
             this.ort = ort;
         }
 
-        // Add setters for editing
+        // Setter methoden für die Bearbeitung der Felder in der Tabelle
         public void setVorname(String vorname) {
             this.vorname = vorname;
         }
@@ -198,7 +175,7 @@ public class GrafischePersonenverwaltung {
             this.ort = ort;
         }
 
-        // Getter methods for accessing fields
+        // Getter methoden zum Zugriff auf die Felder
         public String getVorname() {
             return vorname;
         }
@@ -258,7 +235,7 @@ public class GrafischePersonenverwaltung {
                 case 5:
                     return p.getOrt();
                 default:
-                    return "";
+                    return null;
             }
         }
 
@@ -290,7 +267,7 @@ public class GrafischePersonenverwaltung {
 
         @Override
         public boolean isCellEditable(int row, int col) {
-            return true; // Make all cells editable
+            return true; // Alle Zellen bearbeitbar machen
         }
 
         @Override
@@ -309,7 +286,7 @@ public class GrafischePersonenverwaltung {
                 case 5:
                     return "Ort";
                 default:
-                    return "";
+                    return null;
             }
         }
     }

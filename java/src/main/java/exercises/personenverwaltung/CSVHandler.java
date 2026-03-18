@@ -61,8 +61,10 @@ public class CSVHandler {
         personen.add(new Kunde("Max", "Mustermann", "Musterstrasse", 1, "12345", "Musterstadt"));
         personen.add(new Mitarbeiter("Anna", "Meier", "Arbeitsweg", 2, "54321", "Arbeitsstadt", 3000));
 
-        // Define the file path to ensure the CSV is created in the personenverwaltung folder
-        String fileName = System.getProperty("user.dir") + "/java/src/main/java/exercises/personenverwaltung/personen.csv";
+        // Define the file path to ensure the CSV is created in the personenverwaltung
+        // folder
+        String fileName = System.getProperty("user.dir")
+                + "/java/src/main/java/exercises/personenverwaltung/personen.csv";
 
         // CSV schreiben
         writeToCSV(personen, fileName);

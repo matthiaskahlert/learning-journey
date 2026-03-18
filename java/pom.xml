@@ -13,7 +13,14 @@
             <artifactId>json</artifactId>
             <version>20210307</version>
         </dependency>
-    
+
+         <!-- FlatLaf library for modern Look and Feel -->
+        <dependency>
+            <groupId>com.formdev</groupId>
+            <artifactId>flatlaf</artifactId>
+            <version>3.4</version>
+        </dependency>
+
         <!-- JUnit library for Unit Testing -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>

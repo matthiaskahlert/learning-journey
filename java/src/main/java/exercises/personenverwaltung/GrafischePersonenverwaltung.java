@@ -13,7 +13,9 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.JTable;
-import javax.swing.table.TableModel;
+import java.io.File;
+import javax.swing.event.TableModelListener;
+import javax.swing.event.TableModelEvent;
 
 public class GrafischePersonenverwaltung {
 
@@ -31,7 +33,7 @@ public class GrafischePersonenverwaltung {
         loadButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                final JFileChooser fc = new JFileChooser();
+                final JFileChooser fc = new JFileChooser(new File(".").getAbsolutePath()); // Set default directory
                 int returnVal = fc.showOpenDialog(fc.getParent());
 
                 if (returnVal == JFileChooser.APPROVE_OPTION) {
@@ -55,7 +57,7 @@ public class GrafischePersonenverwaltung {
                                     adresse.getString("ort")));
                         }
 
-                        tableModel.fireTableDataChanged(); // Correct method to notify table of data changes
+                        tableModel.fireTableDataChanged(); // Notify table of data changes
                         JOptionPane.showMessageDialog(f, "Daten erfolgreich geladen!", "Erfolg",
                                 JOptionPane.INFORMATION_MESSAGE);
                     } catch (IOException exception) {
@@ -71,7 +73,7 @@ public class GrafischePersonenverwaltung {
         saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                final JFileChooser fc = new JFileChooser();
+                final JFileChooser fc = new JFileChooser(new File(".").getAbsolutePath()); // Set default directory
                 int returnVal = fc.showSaveDialog(fc.getParent());
 
                 if (returnVal == JFileChooser.APPROVE_OPTION) {
@@ -118,86 +120,40 @@ public class GrafischePersonenverwaltung {
         // Initialize tableModel and JTable
         tableModel = new PersonenTableModel(personenListe);
         JTable table = new JTable(tableModel);
+        tableModel.addTableModelListener(new TableModelListener() {
+            @Override
+            public void tableChanged(TableModelEvent e) {
+                int row = e.getFirstRow();
+                int column = e.getColumn();
+                if (e.getType() == TableModelEvent.UPDATE) {
+                    Object newValue = tableModel.getValueAt(row, column);
+                    Person person = personenListe.get(row);
+                    switch (column) {
+                        case 0:
+                            person.setVorname(newValue.toString());
+                            break;
+                        case 1:
+                            person.setNachname(newValue.toString());
+                            break;
+                        case 2:
+                            person.setStrasse(newValue.toString());
+                            break;
+                        case 3:
+                            person.setHausnummer(Integer.parseInt(newValue.toString()));
+                            break;
+                        case 4:
+                            person.setPlz(newValue.toString());
+                            break;
+                        case 5:
+                            person.setOrt(newValue.toString());
+                            break;
+                    }
+                }
+            }
+        });
+
         JScrollPane scrollPane = new JScrollPane(table);
         f.add(scrollPane, BorderLayout.CENTER);
-
-        loadButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                final JFileChooser fc = new JFileChooser();
-                int returnVal = fc.showOpenDialog(fc.getParent());
-
-                if (returnVal == JFileChooser.APPROVE_OPTION) {
-                    try {
-                        String text = new String(Files.readAllBytes(fc.getSelectedFile().toPath()),
-                                StandardCharsets.UTF_8);
-                        JSONObject json = new JSONObject(text);
-                        JSONArray personen = json.getJSONArray("personen");
-
-                        personenListe.clear();
-                        for (int i = 0; i < personen.length(); i++) {
-                            JSONObject person = personen.getJSONObject(i);
-                            JSONObject adresse = person.getJSONObject("adresse");
-
-                            personenListe.add(new Person(
-                                    person.getString("vorname"),
-                                    person.getString("nachname"),
-                                    adresse.getString("strasse"),
-                                    adresse.getInt("hausnummer"),
-                                    adresse.getString("plz"),
-                                    adresse.getString("ort")));
-                        }
-
-                        tableModel.fireTableDataChanged(); // Correct method to notify table of data changes
-                        JOptionPane.showMessageDialog(f, "Daten erfolgreich geladen!", "Erfolg",
-                                JOptionPane.INFORMATION_MESSAGE);
-                    } catch (IOException exception) {
-                        exception.printStackTrace();
-                        JOptionPane.showMessageDialog(f, "Fehler beim Laden der Datei!", "Fehler",
-                                JOptionPane.ERROR_MESSAGE);
-                    }
-                }
-            }
-        });
-
-        saveButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                final JFileChooser fc = new JFileChooser();
-                int returnVal = fc.showSaveDialog(fc.getParent());
-
-                if (returnVal == JFileChooser.APPROVE_OPTION) {
-                    try {
-                        JSONArray personen = new JSONArray();
-                        for (Person person : personenListe) {
-                            JSONObject personJson = new JSONObject();
-                            personJson.put("vorname", person.getVorname());
-                            personJson.put("nachname", person.getNachname());
-
-                            JSONObject adresseJson = new JSONObject();
-                            adresseJson.put("strasse", person.getStrasse());
-                            adresseJson.put("hausnummer", person.getHausnummer());
-                            adresseJson.put("plz", person.getPlz());
-                            adresseJson.put("ort", person.getOrt());
-
-                            personJson.put("adresse", adresseJson);
-                            personen.put(personJson);
-                        }
-
-                        JSONObject root = new JSONObject();
-                        root.put("personen", personen);
-
-                        Files.write(fc.getSelectedFile().toPath(), root.toString(4).getBytes(StandardCharsets.UTF_8));
-                        JOptionPane.showMessageDialog(f, "Daten erfolgreich gespeichert!", "Erfolg",
-                                JOptionPane.INFORMATION_MESSAGE);
-                    } catch (IOException exception) {
-                        exception.printStackTrace();
-                        JOptionPane.showMessageDialog(f, "Fehler beim Speichern der Datei!", "Fehler",
-                                JOptionPane.ERROR_MESSAGE);
-                    }
-                }
-            }
-        });
     }
 
     static class Person {
@@ -217,6 +173,32 @@ public class GrafischePersonenverwaltung {
             this.ort = ort;
         }
 
+        // Add setters for editing
+        public void setVorname(String vorname) {
+            this.vorname = vorname;
+        }
+
+        public void setNachname(String nachname) {
+            this.nachname = nachname;
+        }
+
+        public void setStrasse(String strasse) {
+            this.strasse = strasse;
+        }
+
+        public void setHausnummer(int hausnummer) {
+            this.hausnummer = hausnummer;
+        }
+
+        public void setPlz(String plz) {
+            this.plz = plz;
+        }
+
+        public void setOrt(String ort) {
+            this.ort = ort;
+        }
+
+        // Getter methods for accessing fields
         public String getVorname() {
             return vorname;
         }
@@ -281,6 +263,37 @@ public class GrafischePersonenverwaltung {
         }
 
         @Override
+        public void setValueAt(Object value, int row, int col) {
+            Person p = personenListe.get(row);
+            switch (col) {
+                case 0:
+                    p.setVorname(value.toString());
+                    break;
+                case 1:
+                    p.setNachname(value.toString());
+                    break;
+                case 2:
+                    p.setStrasse(value.toString());
+                    break;
+                case 3:
+                    p.setHausnummer(Integer.parseInt(value.toString()));
+                    break;
+                case 4:
+                    p.setPlz(value.toString());
+                    break;
+                case 5:
+                    p.setOrt(value.toString());
+                    break;
+            }
+            fireTableCellUpdated(row, col);
+        }
+
+        @Override
+        public boolean isCellEditable(int row, int col) {
+            return true; // Make all cells editable
+        }
+
+        @Override
         public String getColumnName(int col) {
             switch (col) {
                 case 0:
@@ -298,10 +311,6 @@ public class GrafischePersonenverwaltung {
                 default:
                     return "";
             }
-        }
-
-        public void fireTableDataChanged() {
-            fireTableDataChanged();
         }
     }
 }

@@ -41,9 +41,11 @@ public class PersonenverwaltungModernLight {
 
         JButton loadButton = new JButton("Laden");
         JButton saveButton = new JButton("Speichern");
+        JButton newButton = new JButton("Neu");
 
         buttonPanel.add(loadButton);
         buttonPanel.add(saveButton);
+        buttonPanel.add(newButton);
 
         topPanel.add(title, BorderLayout.WEST);
         topPanel.add(buttonPanel, BorderLayout.EAST);
@@ -150,6 +152,12 @@ public class PersonenverwaltungModernLight {
                     JOptionPane.showMessageDialog(f, "Fehler beim Speichern");
                 }
             }
+        });
+
+        newButton.addActionListener(e -> {
+            // Leeres Person-Objekt zur Liste hinzufügen
+            personenListe.add(new Person("", "nachname", "", 0, "", ""));
+            tableModel.fireTableDataChanged(); // Tabelle aktualisieren
         });
 
         f.setVisible(true);

@@ -119,9 +119,17 @@ public class GrafischePersonenverwaltung {
             }
         });
 
+        JButton newButton = new JButton("Neu");
+        newButton.addActionListener(e -> {
+            // Leeres Person-Objekt zur Liste hinzufügen
+            personenListe.add(new Person("", "nachname", "", 0, "", ""));
+            tableModel.fireTableDataChanged(); // Tabelle aktualisieren
+        });
+
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(loadButton);
         buttonPanel.add(saveButton);
+        buttonPanel.add(newButton);
 
         f.add(buttonPanel, BorderLayout.PAGE_START);
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -246,8 +254,15 @@ public class GrafischePersonenverwaltung {
                 case 0:
                     p.setVorname(value.toString());
                     break;
-                case 1:
-                    p.setNachname(value.toString());
+                case 1:String nachname =value.toString();
+                if (nachname.isEmpty()) {
+                    // Eintrag löschen wenn Nachhame leer ist
+                    personenListe.remove(row);
+                    fireTableRowsDeleted(row, row);
+                    return;
+                } else {
+                    p.setNachname(nachname);
+                }
                     break;
                 case 2:
                     p.setStrasse(value.toString());

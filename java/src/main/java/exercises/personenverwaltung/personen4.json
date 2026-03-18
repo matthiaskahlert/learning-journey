@@ -28,5 +28,15 @@
             "plz": "12345"
         },
         "nachname": "Vorhanden"
+    },
+    {
+        "vorname": "Martha",
+        "adresse": {
+            "ort": "Megscity",
+            "strasse": "Musterstrasse",
+            "hausnummer": 42,
+            "plz": "23456"
+        },
+        "nachname": "mUSTERPERSON"
     }
 ]}

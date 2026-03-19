@@ -507,3 +507,126 @@ f.setLayout(new GridLayout(3, 2));
 
 Zum anzeigen der - eingelesenen daten
 
+### Zusammenfassung GUI
+
+## GUI Grundlagen
+
+### 1. Fenster
+Der erste Schritt zur grafischen Benutzerschnittstelle ist ein Fenster, in dem dann später alle Elemente des Programms angezeigt werden. Hierzu wird ein JFrame-Objekt erzeugt und dann dessen Größe festgelegt. Zwar existiert das Fenster-Objekt nun, wird aber noch nicht auf dem Bildschirm angezeigt. Erst durch den Befehl `setVisible` wird es schließlich auch sichtbar.
+
+### 2. Textfelder
+Um der Benutzerschnittstelle ein erstes Element hinzuzufügen, erstellt man ein Objekt vom Typ `JTextArea` und fügt es dem Fenster über den Befehl `add` hinzu. Das Ergebnis ist ein Textfeld, das das gesamte Fenster ausfüllt und in das man nun etwas eingeben kann.
+
+### 3. Buttons
+Einen Button zu erstellen und dem Fenster hinzuzufügen, ist so einfach wie bei allen anderen Elementen. Es wird lediglich ein Objekt vom Typ `JButton` erstellt, dem Konstruktor wird als Parameter die Beschriftung übergeben und der Button wird zum Fenster hinzugefügt. So richtig sinnvoll wird ein Button aber natürlich erst, wenn auch etwas passiert, sobald man auf ihn klickt. Dafür muss dem Button ein sogenannter `ActionListener` hinzugefügt werden. Dieser enthält eine Funktion `actionPerformed`, die aufgerufen wird, sobald der Button angeklickt wird. Hier kann man beliebigen Programmcode ausführen.
+
+### 4. Layout
+Ein einzelnes Element zum Fenster hinzuzufügen, ist zwar die Grundlage für eine grafische Benutzerschnittstelle, aber natürlich nicht ausreichend. In der Regel besteht eine Oberfläche aus vielen verschiedenen Elementen. Diese korrekt anzuordnen – auch dann, wenn sich die Größe des Fensters verändert, weil der Benutzer es größer oder kleiner zieht –, ist gar nicht so einfach. Standardmäßig verwenden Swing-Programme das sogenannte `BorderLayout`, das den Bildschirm in fünf Bereiche teilt. Deutlich weniger strukturiert geht es im Vergleich dazu beim `FlowLayout` zu. Hier werden die Elemente einfach so lange in einer Reihe nebeneinander platziert, bis die Reihe voll ist. Dann geht es in der nächsten Reihe weiter. Das kann besonders dann praktisch sein, wenn sich die Größe eines Fensters verändert. Eine dritte Art des Layouts in Swing ist das sogenannte `GridLayout`, das im Wesentlichen wie eine Tabelle funktioniert. Beim Erstellen des `GridLayout` wird festgelegt, wie viele Reihen und Spalten das Layout haben soll, und jedes neu hinzugefügte Element wird dann in der nächsten leeren Zelle platziert.
+
+## Multitasking
+
+Für parallele Programmierung nutzt man Threads. Ein Thread ist ein Ausführungsstrang, der unabhängig von anderen Threads laufen kann. Dies ermöglicht es, mehrere Aufgaben gleichzeitig auszuführen.
+
+### Threads in Java
+
+#### Thread mit der `Runnable`-Schnittstelle
+Die `Runnable`-Schnittstelle wird verwendet, um die Logik eines Threads zu definieren. Ein Thread wird dann mit einem `Thread`-Objekt gestartet.
+
+```java
+public class MyRunnable implements Runnable {
+    @Override
+    public void run() {
+        System.out.println("Thread läuft: " + Thread.currentThread().getName());
+    }
+
+    public static void main(String[] args) {
+        Thread thread = new Thread(new MyRunnable());
+        thread.start();
+    }
+}
+```
+
+#### Thread mit der `Thread`-Klasse
+Alternativ kann die `Thread`-Klasse erweitert werden, um einen eigenen Thread zu erstellen.
+
+```java
+public class MyThread extends Thread {
+    @Override
+    public void run() {
+        System.out.println("Thread läuft: " + getName());
+    }
+
+    public static void main(String[] args) {
+        MyThread thread = new MyThread();
+        thread.start();
+    }
+}
+```
+
+#### Wichtige Methoden der `Thread`-Klasse
+- `start()`: Startet den Thread.
+- `run()`: Enthält den Code, der im Thread ausgeführt wird.
+- `sleep(milliseconds)`: Pausiert den Thread für die angegebene Zeit.
+- `join()`: Wartet, bis ein anderer Thread beendet ist.
+- `isAlive()`: Prüft, ob ein Thread noch läuft.
+
+#### Beispiel: Mehrere Threads
+```java
+public class MultiThreadExample {
+    public static void main(String[] args) {
+        Runnable task = () -> {
+            for (int i = 0; i < 5; i++) {
+                System.out.println(Thread.currentThread().getName() + " - " + i);
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+
+        Thread thread1 = new Thread(task, "Thread 1");
+        Thread thread2 = new Thread(task, "Thread 2");
+
+        thread1.start();
+        thread2.start();
+    }
+}
+```
+
+#### Synchronisation von Threads
+Wenn mehrere Threads auf dieselbe Ressource zugreifen, kann es zu Problemen kommen. Die Synchronisation stellt sicher, dass nur ein Thread gleichzeitig auf eine kritische Sektion zugreifen kann.
+
+```java
+public class SynchronizedExample {
+    private int counter = 0;
+
+    public synchronized void increment() {
+        counter++;
+    }
+
+    public static void main(String[] args) {
+        SynchronizedExample example = new SynchronizedExample();
+
+        Runnable task = () -> {
+            for (int i = 0; i < 1000; i++) {
+                example.increment();
+            }
+        };
+
+        Thread thread1 = new Thread(task);
+        Thread thread2 = new Thread(task);
+
+        thread1.start();
+        thread2.start();
+
+        try {
+            thread1.join();
+            thread2.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("Endergebnis: " + example.counter);
+    }
+}

@@ -630,3 +630,176 @@ public class SynchronizedExample {
         System.out.println("Endergebnis: " + example.counter);
     }
 }
+```
+#### Locks und Deadlocks im Threading
+Lock
+Ein Lock ist ein Mechanismus um den zugriff auf eine resource zu synchronisieren - durch das lock kann nur ein thread darauf zugreifen.
+In Java bietet die Klasse ReentrantLock eine erweiterte Kontrolle über den Zugriff auf kritische Abschnitte im Vergleich zu synchronized. ReentrantLock: Ein ReentrantLock erlaubt es einem Thread, denselben Lock mehrmals zu erwerben, ohne in einen Deadlock zu geraten. Der Lock muss jedoch genauso oft freigegeben (unlock()) werden, wie er erworben wurde (lock()).
+```java
+lock.lock();
+lock.lock();
+lock.unlock();
+lock.unlock();
+```
+
+Deadlocks 
+Gerade wenn mehrere Locks im Einsatz sind, besteht die Gefahr, dass ein sogenannter Deadlock entsteht. 
+Ein Deadlock tritt auf, wenn zwei oder mehr Threads aufeinander warten, um Ressourcen freizugeben, und dadurch in einer Endlosschleife blockiert sind. 
+Thread 1 hat etwas, das Thread 2 braucht
+Thread 2 hat etwas, das Thread 1 braucht
+beide warten aufeinander
+
+Warum ist das schlimm?
+
+Weil das Programm nicht abstürzt.
+Es läuft weiter…
+aber hängt.
+CPU läuft
+Programm reagiert nicht
+Thread wartet für immer
+
+#### Conditions
+Conditions (Bedingungen) helfen, wenn Threads nicht nur geschützt, sondern auch in einer bestimmten Reihenfolge laufen sollen.
+Condition gehört immer zu einem lock, weil man nur sicher warten kann, wenn man einen lock hat!
+```java
+Lock lock = new ReentrantLock();
+Condition bedingung1 = lock.newCondition();
+Condition bedingung2 = lock.newCondition();
+```
+
+await condition
+```java
+// TZhread bleibt stehen und wartet, bis die bedingung erfüllt ist
+lock.lock();
+try {
+    bedingung1.await();
+} finally {
+    lock.unlock();
+}
+```
+Wann immer die await condition ausgeführt wird, wartet das Programm  beim Ausführen an dieser Stelle so lange, bis es ein Signal erhält.
+
+signal condition
+weckt einen anderen thread auf
+
+```java
+bedingung1.signal();
+```
+signalAll()
+Der signalAll-Befehl gehört zur Klasse Condition, die in Kombination mit einem Lock verwendet wird. Er wird verwendet, um alle wartenden Threads aufzuwecken, die auf eine bestimmte Bedingung warten.
+
+
+```java
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
+public class SignalAllExample {
+    private final Lock lock = new ReentrantLock();
+    private final Condition condition = lock.newCondition();
+    private boolean ready = false;
+
+    public void waitForSignal() {
+        lock.lock();
+        try {
+            while (!ready) {
+                System.out.println(Thread.currentThread().getName() + " wartet...");
+                condition.await(); // Thread wartet auf die Bedingung
+            }
+            System.out.println(Thread.currentThread().getName() + " wurde aufgeweckt!");
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    public void signalAllThreads() {
+        lock.lock();
+        try {
+            ready = true; // Zustand ändern
+            System.out.println("Alle Threads werden aufgeweckt...");
+            condition.signalAll(); // Alle wartenden Threads aufwecken
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    public static void main(String[] args) {
+        SignalAllExample example = new SignalAllExample();
+
+        // Threads, die auf das Signal warten
+        Runnable waitingTask = example::waitForSignal;
+
+        Thread t1 = new Thread(waitingTask, "Thread 1");
+        Thread t2 = new Thread(waitingTask, "Thread 2");
+        Thread t3 = new Thread(waitingTask, "Thread 3");
+
+        t1.start();
+        t2.start();
+        t3.start();
+
+        // Signal senden, nachdem die Threads gestartet wurden
+        try {
+            Thread.sleep(1000); // Kurze Verzögerung, um sicherzustellen, dass alle Threads warten
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+
+        example.signalAllThreads();
+    }
+}
+```
+
+#### Threads stoppen
+
+Da threads oft in endlosschleife laufen, braucht man eine stop funktion
+```java
+public class StopbarerThread implements Runnable {
+    private boolean stop = false;
+
+    public void stop() {
+        this.stop=true;
+    }
+
+    public void run() {
+        while(!stop){}
+    }
+}
+```
+Die stop-Methode beendet einen Thread auf strukturierte Weise, indem sie ihm Zeit gibt, seine Ausführung zu beenden, während die interrupt-Methode eine schnelle, aber potenziell riskante Beendigung erzwingt, die zu Datenverlust führen kann.
+
+
+### Beispiel: Thread mit interrupt beenden
+```java
+public class InterruptExample implements Runnable {
+    @Override
+    public void run() {
+        try {
+            while (!Thread.currentThread().isInterrupted()) {
+                System.out.println("Thread läuft...");
+                Thread.sleep(1000); // Simuliert Arbeit
+            }
+        } catch (InterruptedException e) {
+            System.out.println("Thread wurde unterbrochen!");
+        }
+        System.out.println("Thread beendet.");
+    }
+
+    public static void main(String[] args) {
+        Thread thread = new Thread(new InterruptExample());
+        thread.start();
+
+        try {
+            Thread.sleep(3000); // Hauptthread wartet 3 Sekunden
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        thread.interrupt(); // Thread unterbrechen
+    }
+}
+```
+
+
+

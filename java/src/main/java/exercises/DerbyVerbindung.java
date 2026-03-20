@@ -13,7 +13,7 @@ public class DerbyVerbindung {
             String protocol = "jdbc:derby:";
             conn = DriverManager.getConnection(protocol + "meineDatenbank;create=true");
 
-            // Create a table
+            // Tabelle erstellen
             Statement statement = conn.createStatement();
             String sql = "CREATE TABLE Personen (" +
                     "Vorname VARCHAR(255), " +

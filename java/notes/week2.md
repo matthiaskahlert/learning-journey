@@ -630,3 +630,8 @@ public class SynchronizedExample {
         System.out.println("Endergebnis: " + example.counter);
     }
 }
+
+### Datenbankanbindung in java
+ich nutze die derby tools von java
+
+https://db.apache.org/derby/releases/release-10_17_1_0.cgi

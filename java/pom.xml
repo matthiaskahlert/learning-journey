@@ -28,6 +28,29 @@
             <version>5.9.3</version>
             <scope>test</scope>
         </dependency>
+
+        <!-- Apache Derby tools for database management -->
+        <dependency>
+            <groupId>org.apache.derby</groupId>
+            <artifactId>derbytools</artifactId>
+            <version>10.15.2.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/derbytools.jar</systemPath>
+        </dependency>
+
+        <!-- Apache Derby JDBC Driver from Maven Central -->
+        <dependency>
+            <groupId>org.apache.derby</groupId>
+            <artifactId>derby</artifactId>
+            <version>10.15.2.0</version>
+        </dependency>
+
+        <!-- Apache Derby Shared Dependency -->
+        <dependency>
+            <groupId>org.apache.derby</groupId>
+            <artifactId>derbyshared</artifactId>
+            <version>10.15.2.0</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -41,6 +64,21 @@
                     <source>${maven.compiler.source}</source>
                     <target>${maven.compiler.target}</target>
                     <release>${java.specification.version}</release>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.0.0</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <mainClass>DerbyVerbindung</mainClass>
                 </configuration>
             </plugin>
         </plugins>

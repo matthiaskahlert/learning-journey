@@ -8,6 +8,7 @@ SPRÜCHE = ['Veränderung beginnt im Kopf, \npassiert aber im Tun.',
 'Das kalte Wasser wird nicht wärmer, \nwenn du später springst.',
 'Die Welt ist nicht gerecht, \naber du kannst es sein.',
 'Lieber erledigt als perfekt!',
+'Einen Schritt zurückzugehen physisch oder metaphorisch \nist eine großartige Übung. Sie wird dir helfen, \ndie Dinge aus einer neuen Perspektive zu sehen.',
 'Deine Bedürfnisse zu äußern \nwird niemals eine echte Verbindung ruinieren.',
 'Die richtige Richtung \nist so viel wichtiger \nals die Geschwindigkeit.']
 

@@ -713,6 +713,55 @@ Array = schnell und fest.
 List = flexibel und alltagstauglich.
 Meistens startet man in Java mit ArrayList, ausser es gibt einen klaren Grund fuer LinkedList
 
+### Unterschied zwischen Array und ArrayList
+
+## **Array (`double[]`)**
+
+- **Feste Größe**: Größe wird bei der Erstellung festgelegt und kann nicht geändert werden
+  ```java
+  double[] array = {1.1, 2.2, 3.3}; // 3 Elemente, fertig
+  ```
+- **Primitive Typen**: Speichert direkt `double`-Werte (effizienter im Speicher)
+- **Weniger Methoden**: Nur `length`-Property, keine eingebauten Methoden wie `add()`, `remove()`, etc.
+- **Schneller**: Direkter Speicherzugriff, keine Overhead
+- **Zugriff**: Nur über Index: `array[0]`
+
+## **ArrayList<Double>**
+
+- **Dynamische Größe**: Kann wachsen und schrumpfen
+  ```java
+  ArrayList<Double> list = new ArrayList<>();
+  list.add(1.1);  // kann beliebig viele hinzufügen
+  list.remove(0); // kann auch wieder entfernen
+  ```
+- **Wrapper-Typ**: Speichert `Double`-Objekte (nicht primitive `double`), braucht mehr Speicher
+- **Viele Methoden**: `add()`, `remove()`, `contains()`, `size()`, `clear()`, etc.
+- **Langsamer**: Etwas mehr Overhead durch Objekt-Verwaltung
+- **Zugriff**: Über Index mit Methode: `list.get(0)`
+
+## **Praktischer Vergleich**
+
+```java
+// Array - feste Größe
+double[] array = {1.1, 2.2, 3.3};
+// array[3] = 4.4; // FEHLER! Geht nicht, Array ist voll
+
+// ArrayList - dynamische Größe
+ArrayList<Double> list = new ArrayList<>();
+list.add(1.1);
+list.add(2.2);
+list.add(3.3);
+list.add(4.4); // funktioniert problemlos!
+```
+
+## **Wann was verwenden?**
+
+- **Array**: Wenn Größe bekannt und fix ist, Performance wichtig ist
+- **ArrayList**: Wenn Größe variabel ist, viele Operationen nötig sind (hinzufügen, löschen, suchen)
+
+In deiner Aufgabe konvertierst du das Array in eine ArrayList, weil ArrayList flexibler ist und mehr Funktionen bietet, auch wenn das ursprüngliche Array fix war.
+
+
 ### public/private/static
 
 In Java regeln diese Schlüsselwörter, **wer auf was zugreifen darf** und **ob etwas zur Klasse oder zum Objekt gehört**.

@@ -298,6 +298,7 @@ Um Jackson zu verwenden, füge die folgende Abhängigkeit zu deiner `pom.xml` hi
     <version>2.15.0</version>
 </dependency>
 ```
+
 Ich habe mich nun entschieden die org.json bibliothek zu nutzen, dafür musste ich maven installieren.
 
 ## Spickzettel: JSON in Java in 60 Sekunden (org.json + Maven)
@@ -808,3 +809,27 @@ public class InterruptExample implements Runnable {
 ich nutze die derby tools von java
 
 https://db.apache.org/derby/releases/release-10_17_1_0.cgi
+
+
+
+### REST Schnittstellen
+
+### REST-Schnittstellen und HTTP-Methoden
+
+Während in Java Funktionsnamen verwendet werden, um auf verschiedene Funktionalitäten zuzugreifen, verwendet man bei REST-Schnittstellen hierfür verschiedene URLs, also Webadressen, und HTTP-Methoden. Die vier wichtigsten dieser Methoden sind:
+
+| Methode | Auswirkung |
+|---------|------------|
+| GET     | Lädt eine Ressource vom Server, es werden keine Daten verändert. |
+| POST    | Legt eine neue Ressource an. |
+| PUT     | Ändert eine vorhandene Ressource. |
+| DELETE  | Löscht eine Ressource auf dem Server. |
+
+#### Entsprechung zu SQL
+
+Jede der HTTP-Methoden hat eine mehr oder weniger genaue Entsprechung in SQL:
+
+- **GET** entspricht etwa **SELECT**
+- **POST** entspricht **INSERT**
+- **PUT** entspricht **UPDATE**
+- **DELETE** trägt sogar in beiden Fällen den gleichen Namen

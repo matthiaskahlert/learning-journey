@@ -66,6 +66,58 @@ Ensure the following dependencies are present in your `pom.xml` file:
 - **Purpose**: Inserts sample data into the `Personen` table and retrieves it.
 - **Usage**: Run the class to insert and display data.
 
+## SQL Grundlagen
+
+### DELETE
+Löscht Daten aus einer Tabelle basierend auf einer Bedingung.
+```sql
+DELETE FROM games
+WHERE id = 1;
+```
+
+### UPDATE
+Aktualisiert Daten in einer Tabelle basierend auf einer Bedingung.
+```sql
+UPDATE games
+SET genre = 'Action RPG'
+WHERE id = 1;
+```
+
+### SELECT
+Wählt Daten aus einer Tabelle aus.
+```sql
+SELECT * FROM games;
+```
+Wählt nur bestimmte Spalten aus:
+```sql
+SELECT title, genre FROM games;
+```
+
+### NATURAL JOIN
+Verbindet zwei Tabellen basierend auf gemeinsamen Spalten.
+```sql
+SELECT *
+FROM games
+NATURAL JOIN developers;
+```
+
+### Weitere Beispiele
+- **WHERE**: Filtert Ergebnisse basierend auf einer Bedingung.
+  ```sql
+  SELECT * FROM games
+  WHERE release_year > 2010;
+  ```
+- **ORDER BY**: Sortiert Ergebnisse.
+  ```sql
+  SELECT * FROM games
+  ORDER BY release_year DESC;
+  ```
+- **LIMIT**: Begrenzung der Anzahl der Ergebnisse.
+  ```sql
+  SELECT * FROM games
+  LIMIT 5;
+  ```
+
 ## Testing
 
 ### Unit Tests
@@ -85,7 +137,7 @@ Ensure the following dependencies are present in your `pom.xml` file:
 - Close all database connections after use to prevent resource leaks.
 
 ### ij Konsoile 
-Da mich die Ansprache der Datenbank über Jahre ein bisschen genervt hat Wenn ich jetzt dazu übergegangen auch direkt in der Konsole nativees SQL zu nutzen.
+Da mich die Ansprache der Datenbank über Java ein bisschen genervt hat Wenn ich jetzt dazu übergegangen auch direkt in der Konsole natives SQL zu nutzen.
 
 📘 Derby / ij – Spickzettel
 # Derby / ij – Spickzettel
@@ -99,6 +151,9 @@ Voraussetzung: `derby.jar` und `derbytools.jar` liegen im `lib`-Ordner.
 ```powershell
 java -cp "C:\Users\velpTEC edutainment\repositories\learning-journey\java\lib\derbytools.jar;C:\Users\velpTEC edutainment\repositories\learning-journey\java\lib\derby.jar" org.apache.derby.tools.ij
 
+beziehungsweise dann 
+java -cp "lib\\derbytools.jar;lib\\derby.jar" org.apache.derby.tools.ij
+
 
 Wenn alles klappt, erscheint:
 ij>
@@ -107,6 +162,8 @@ ij>
 
 2. Datenbank verbinden oder erstellen
 CONNECT 'jdbc:derby:C:/Users/velpTEC edutainment/repositories/learning-journey/java/meineDatenbank;create=true';
+
+bzw CONNECT 'jdbc:derby:meineDatenbank;create=true';
 
 
 - create=true erstellt die DB, falls sie nicht existiert

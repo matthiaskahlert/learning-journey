@@ -11,3 +11,9 @@ os.arch=amd64
 os.version=10.0
 derby.system.home=null
 Datenbank-Class Loader wurde gestartet - derby.database.classpath=''
+----------------------------------------------------------------
+Mon Mar 23 10:48:40 CET 2026: Derby-Engine wird heruntergefahren
+----------------------------------------------------------------
+Mon Mar 23 10:48:40 CET 2026:
+Instanz a816c00e-019d-1a10-6a42-00000efe4be8 im Datenbankverzeichnis C:\Users\velpTEC edutainment\repositories\learning-journey\java\meineDatenbank mit Class Loader jdk.internal.loader.ClassLoaders$AppClassLoader@105be200 wird heruntergefahren
+----------------------------------------------------------------

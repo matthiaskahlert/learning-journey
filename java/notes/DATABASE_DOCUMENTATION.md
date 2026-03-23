@@ -83,3 +83,90 @@ Ensure the following dependencies are present in your `pom.xml` file:
 ## Notes
 - Ensure the database directory (`meineDatenbank`) is not deleted between runs.
 - Close all database connections after use to prevent resource leaks.
+
+### ij Konsoile 
+Da mich die Ansprache der Datenbank über Jahre ein bisschen genervt hat Wenn ich jetzt dazu übergegangen auch direkt in der Konsole nativees SQL zu nutzen.
+
+📘 Derby / ij – Spickzettel
+# Derby / ij – Spickzettel
+
+## 🚀 1. ij starten (Derby SQL-Konsole)
+
+Voraussetzung: `derby.jar` und `derbytools.jar` liegen im `lib`-Ordner.
+
+**Beispiel für Windows:**
+
+```powershell
+java -cp "C:\Users\velpTEC edutainment\repositories\learning-journey\java\lib\derbytools.jar;C:\Users\velpTEC edutainment\repositories\learning-journey\java\lib\derby.jar" org.apache.derby.tools.ij
+
+
+Wenn alles klappt, erscheint:
+ij>
+
+
+
+2. Datenbank verbinden oder erstellen
+CONNECT 'jdbc:derby:C:/Users/velpTEC edutainment/repositories/learning-journey/java/meineDatenbank;create=true';
+
+
+- create=true erstellt die DB, falls sie nicht existiert
+- Ohne Semikolon wird der Befehl nicht ausgeführt
+
+3. Tabelle anlegen
+CREATE TABLE games (
+    id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    title VARCHAR(100),
+    genre VARCHAR(50),
+    release_year INT
+);
+
+
+
+4. Daten einfügen
+INSERT INTO games (title, genre, release_year)
+VALUES ('The Witcher 3', 'RPG', 2015);
+
+
+
+5. Daten abfragen
+SELECT * FROM games;
+
+
+
+6. Daten aktualisieren
+UPDATE games
+SET genre = 'Action RPG'
+WHERE id = 1;
+
+
+
+7. Daten löschen
+DELETE FROM games
+WHERE id = 1;
+
+
+
+8. Tabelle löschen
+DROP TABLE games;
+
+
+
+9. Verbindung schließen
+DISCONNECT;
+
+
+
+10. ij beenden
+exit;
+
+
+
+💡 Nützliche Hinweise
+- Jeder SQL-Befehl muss mit einem Semikolon enden
+- ij interpretiert Zeilen ohne Semikolon als „Befehl geht weiter“
+- Datenbankordner wird automatisch erstellt, wenn create=true gesetzt ist
+- Derby speichert die DB als Ordnerstruktur, nicht als .db-Datei
+
+---
+
+

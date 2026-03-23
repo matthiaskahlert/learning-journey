@@ -1,0 +1,13 @@
+----------------------------------------------------------------
+Mon Mar 23 10:39:36 CET 2026:
+Booten von Derby-Version The Apache Software Foundation - Apache Derby - 10.17.1.0 - (1913217): Instanz a816c00e-019d-1a10-6a42-00000efe4be8
+für Datenbankverzeichnis C:\Users\velpTEC edutainment\repositories\learning-journey\java\meineDatenbank mit Class Loader jdk.internal.loader.ClassLoaders$AppClassLoader@105be200
+Geladen aus file:/C:/Users/velpTEC%20edutainment/repositories/learning-journey/java/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=25.0.2+10-LTS-69
+user.dir=C:\Users\velpTEC edutainment\repositories\learning-journey\java\lib
+os.name=Windows 11
+os.arch=amd64
+os.version=10.0
+derby.system.home=null
+Datenbank-Class Loader wurde gestartet - derby.database.classpath=''

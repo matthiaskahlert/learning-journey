@@ -8,6 +8,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import org.restlet.resource.Post;
+
 
 public class RESTSchnittstelle {
     private static Connection datenbankVerbindung = null;

@@ -1,0 +1,9 @@
+{
+  "id": 1,
+  "vorname": "Max",
+  "nachname": "Mustermann",
+  "strasse": "Hauptstrasse",
+  "hausnummer": 42,
+  "plz": "10115",
+  "ort": "Berlin"
+}

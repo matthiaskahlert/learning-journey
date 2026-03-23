@@ -1,4 +1,5 @@
 package REST;
+
 import org.restlet.Component;
 import org.restlet.data.Protocol;
 import org.restlet.routing.Router;
@@ -11,7 +12,8 @@ public class RESTSchnittstelle {
         if (args.length > 0) {
             try {
                 port = Integer.parseInt(args[0]);
-            } catch (NumberFormatException ignored) {}
+            } catch (NumberFormatException ignored) {
+            }
         }
 
         component.getServers().add(Protocol.HTTP, port);

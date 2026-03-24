@@ -104,32 +104,90 @@ public class PersonHandler extends ServerResource {
             return "{ \"fehler\": \"Keine ID angegeben\" }";
         }
 
+        if (!id.matches("\\d+")) {
+            return "{ \"fehler\": \"ID muss numerisch sein\" }";
+        }
+
         try {
             JSONObject person = new JSONObject(body);
-            JSONObject adresse = person.getJSONObject("adresse");
-
             Statement stmt = datenbankVerbindung.createStatement();
 
-            String sql = "UPDATE Personen SET " +
-                    "Vorname = '" + person.getString("vorname") + "', " +
-                    "Nachname = '" + person.getString("nachname") + "', " +
-                    "Strasse = '" + adresse.getString("strasse") + "', " +
-                    "Hausnummer = " + adresse.getInt("hausnummer") + ", " +
-                    "PLZ = '" + adresse.getString("plz") + "', " +
-                    "Ort = '" + adresse.getString("ort") + "' " +
-                    "WHERE Id = " + id;
+            StringBuilder sql = new StringBuilder("UPDATE Personen SET ");
+            boolean first = true;
 
-            int aktualisierteZeilen = stmt.executeUpdate(sql);
+            if (person.has("vorname")) {
+                if (!first) {
+                    sql.append(", ");
+                }
+                sql.append("Vorname = '").append(escapeSql(person.getString("vorname"))).append("'");
+                first = false;
+            }
+
+            if (person.has("nachname")) {
+                if (!first) {
+                    sql.append(", ");
+                }
+                sql.append("Nachname = '").append(escapeSql(person.getString("nachname"))).append("'");
+                first = false;
+            }
+
+            if (person.has("adresse") && !person.isNull("adresse")) {
+                JSONObject adresse = person.getJSONObject("adresse");
+
+                if (adresse.has("strasse")) {
+                    if (!first) {
+                        sql.append(", ");
+                    }
+                    sql.append("Strasse = '").append(escapeSql(adresse.getString("strasse"))).append("'");
+                    first = false;
+                }
+
+                if (adresse.has("hausnummer")) {
+                    if (!first) {
+                        sql.append(", ");
+                    }
+                    sql.append("Hausnummer = ").append(adresse.getInt("hausnummer"));
+                    first = false;
+                }
+
+                if (adresse.has("plz")) {
+                    if (!first) {
+                        sql.append(", ");
+                    }
+                    sql.append("PLZ = '").append(escapeSql(adresse.getString("plz"))).append("'");
+                    first = false;
+                }
+
+                if (adresse.has("ort")) {
+                    if (!first) {
+                        sql.append(", ");
+                    }
+                    sql.append("Ort = '").append(escapeSql(adresse.getString("ort"))).append("'");
+                    first = false;
+                }
+            }
+
+            if (first) {
+                return "{ \"fehler\": \"Keine Felder zum Aktualisieren\" }";
+            }
+
+            sql.append(" WHERE Id = ").append(id);
+
+            int aktualisierteZeilen = stmt.executeUpdate(sql.toString());
 
             if (aktualisierteZeilen == 0) {
                 return "{ \"fehler\": \"Person nicht gefunden\" }";
             }
 
-            return "{ \"status\": \"Person aktualisiert\" }";
+            return "{ \"status\": \"Person teilweise aktualisiert\" }";
 
         } catch (Exception e) {
             e.printStackTrace();
             return "{ \"fehler\": \"Konnte Person nicht aktualisieren\" }";
         }
+    }
+
+    private static String escapeSql(String value) {
+        return value.replace("'", "''");
     }
 }

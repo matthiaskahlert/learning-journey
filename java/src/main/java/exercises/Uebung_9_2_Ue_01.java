@@ -25,7 +25,7 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class Uebung_9_2_Ue_01 {
-    private static final String DATEINAME = "namen.txt";
+    private static final String DATEINAME = "java\\src\\main\\java\\exercises\\namen.txt";
 
     public static void speichereNamenInDatei(String[] namen) {
         BufferedWriter writer = null;

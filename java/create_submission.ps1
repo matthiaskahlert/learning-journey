@@ -24,7 +24,7 @@
 #>
 
 param(
-    [string]$FileName = "Matthias_Kahlert_Teilpruefung_03"
+    [string]$FileName = "Matthias_Kahlert_Teilpruefung_04"
 )
 
 $root = "C:\Users\Matze\repositories\learning-journey"

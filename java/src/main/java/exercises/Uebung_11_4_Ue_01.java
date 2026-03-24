@@ -1,6 +1,14 @@
 
 /* 
-Erstelle ein einfaches Java-Programm mit einer grafischen Benutzerschnittstelle, die ein Hauptfenster mit einem GridLayout aufweist. Das GridLayout soll 3 Reihen und 2 Spalten haben. In jeder Zelle des Grids soll ein Button mit einer eindeutigen Beschriftung von "B1" bis "B6" platziert werden. Jeder Button soll einen ActionListener haben, der bei Betätigung des Buttons eine Nachricht in der Konsole ausgibt, welche den Text des Buttons und die Nachricht "wurde gedrückt" enthält. Zusätzlich soll das Fenster beim Schließen des Hauptfensters die Anwendung beenden. Kommentiere deinen Code angemessen, um die Funktionen der einzelnen Komponenten und Aktionen zu erklären.
+Erstelle ein einfaches Java-Programm mit einer grafischen Benutzerschnittstelle, 
+die ein Hauptfenster mit einem GridLayout aufweist. 
+Das GridLayout soll 3 Reihen und 2 Spalten haben. 
+In jeder Zelle des Grids soll ein Button mit einer eindeutigen Beschriftung von "B1" bis "B6" platziert werden. 
+Jeder Button soll einen ActionListener haben, 
+der bei Betätigung des Buttons eine Nachricht in der Konsole ausgibt, 
+welche den Text des Buttons und die Nachricht "wurde gedrückt" enthält. 
+Zusätzlich soll das Fenster beim Schließen des Hauptfensters die Anwendung beenden. 
+Kommentiere deinen Code angemessen, um die Funktionen der einzelnen Komponenten und Aktionen zu erklären.
 */
 import java.awt.GridLayout;
 

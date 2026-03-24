@@ -1,8 +1,10 @@
 package REST;
 
+import org.json.JSONObject;
 import org.restlet.resource.ServerResource;
 import org.restlet.resource.Get;
 import org.restlet.resource.Post;
+import org.restlet.resource.Put;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -23,15 +25,15 @@ public class PersonHandler extends ServerResource {
             Statement stmt = datenbankVerbindung.createStatement();
 
             // 👉 FALL 1: Eine Person
-            if (id != null) {
+            if (id != null) { // Wenn id != null, wird eine einzelne Person gesucht.
                 ResultSet rs = stmt.executeQuery("SELECT * FROM Personen WHERE Id = " + id);
 
-                if (rs.next()) {
+                if (rs.next()) { // Wenn dann rs.next() true ist, wird die Person zurückgegeben.
                     return "{ \"id\": " + rs.getInt("Id") +
                             ", \"vorname\": \"" + rs.getString("Vorname") +
                             "\", \"nachname\": \"" + rs.getString("Nachname") +
                             "\" }";
-                } else {
+                } else { // Wenn rs.next() false ist, kommt "Person nicht gefunden".
                     return "{ \"fehler\": \"Person nicht gefunden\" }";
                 }
             }
@@ -91,6 +93,43 @@ public class PersonHandler extends ServerResource {
         } catch (Exception e) {
             e.printStackTrace();
             return "{ \"fehler\": \"Konnte Person nicht speichern\" }";
+        }
+    }
+
+    @Put
+    public String handlePut(String body) {
+        String id = getAttribute("id");
+
+        if (id == null) {
+            return "{ \"fehler\": \"Keine ID angegeben\" }";
+        }
+
+        try {
+            JSONObject person = new JSONObject(body);
+            JSONObject adresse = person.getJSONObject("adresse");
+
+            Statement stmt = datenbankVerbindung.createStatement();
+
+            String sql = "UPDATE Personen SET " +
+                    "Vorname = '" + person.getString("vorname") + "', " +
+                    "Nachname = '" + person.getString("nachname") + "', " +
+                    "Strasse = '" + adresse.getString("strasse") + "', " +
+                    "Hausnummer = " + adresse.getInt("hausnummer") + ", " +
+                    "PLZ = '" + adresse.getString("plz") + "', " +
+                    "Ort = '" + adresse.getString("ort") + "' " +
+                    "WHERE Id = " + id;
+
+            int aktualisierteZeilen = stmt.executeUpdate(sql);
+
+            if (aktualisierteZeilen == 0) {
+                return "{ \"fehler\": \"Person nicht gefunden\" }";
+            }
+
+            return "{ \"status\": \"Person aktualisiert\" }";
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "{ \"fehler\": \"Konnte Person nicht aktualisieren\" }";
         }
     }
 }

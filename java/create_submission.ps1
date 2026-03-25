@@ -21,16 +21,22 @@
 .OUTPUT
     ZIP-Datei im Repo-Root: [FileName].zip
     Enthält: src/main/java/[FileName].java
+
+    gewünschtes sonderformat in javateilprüfung 5:
+    jav_tpl_05_Matthias_Kahlert.zip
+    dafür braucht man dann den befehl  .\create_submission.ps1 -ZipName "jav_tpl_05_Matthias_Kahlert.zip"
 #>
 
+
 param(
-    [string]$FileName = "Matthias_Kahlert_Teilpruefung_04"
+    [string]$FileName = "Matthias_Kahlert_Teilpruefung_05",
+    [string]$ZipName = ""
 )
 
-$root = "C:\Users\Matze\repositories\learning-journey"
+$root = Join-Path $env:USERPROFILE "repositories\learning-journey"
 $tmp = Join-Path $env:TEMP "abgabe_tp"
 $javaFile = Join-Path $root "java\src\main\java\exercises\$FileName.java"
-$zip = Join-Path $root "$FileName.zip"
+$zip = if ($ZipName -ne "") { Join-Path $root $ZipName } else { Join-Path $root "$FileName.zip" }
 
 # Prüfe ob Java-Datei existiert
 if (-not (Test-Path $javaFile)) {

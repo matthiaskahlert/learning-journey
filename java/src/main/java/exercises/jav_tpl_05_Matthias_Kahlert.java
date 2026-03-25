@@ -35,8 +35,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
 
-public class Matthias_Kahlert_Teilpruefung_05 {
-    private static final String DB_URL = "jdbc:derby:KundenDB;create=true"; // verwendet die JDBC Schnittstelle
+public class jav_tpl_05_Matthias_Kahlert {
+    private static final String DB_URL = "jdbc:derby:KundenDB;create=true";
 
     public static void main(String[] args) {
         // FlatLaf aktivieren (muss vor allen Swing-Komponenten passieren)

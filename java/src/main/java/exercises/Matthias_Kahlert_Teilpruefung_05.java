@@ -38,13 +38,17 @@ public class Matthias_Kahlert_Teilpruefung_05 {
     private static final String DB_URL = "jdbc:derby:KundenDB;create=true";
 
     public static void main(String[] args) {
-        // GUI Setup
+        // GUI-Setup: GridLayout für übersichtliche Anordnung der Felder
         JFrame frame = new JFrame("Kundenverwaltung");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(400, 300);
         frame.setLayout(new BorderLayout());
 
-        JPanel panel = new JPanel(new GridLayout(6, 2, 5, 5));
+        // Panel für Abstand zum Rand (wie EmptyBorder in PersonenverwaltungModernLight)
+        JPanel outerPanel = new JPanel(new BorderLayout());
+        outerPanel.setBorder(BorderFactory.createEmptyBorder(20, 30, 20, 30));
+
+        JPanel panel = new JPanel(new GridLayout(6, 2, 10, 10));
         JLabel lblVorname = new JLabel("Vorname:");
         JTextField tfVorname = new JTextField();
         JLabel lblNachname = new JLabel("Nachname:");
@@ -57,6 +61,13 @@ public class Matthias_Kahlert_Teilpruefung_05 {
         JTextField tfKundennummer = new JTextField();
         JButton btnSpeichern = new JButton("Speichern");
         JButton btnAlleAnzeigen = new JButton("Alle anzeigen (Konsole)");
+
+        // Labels rechtsbündig, Felder linksbündig (optional, für schöneres Layout)
+        lblVorname.setHorizontalAlignment(SwingConstants.RIGHT);
+        lblNachname.setHorizontalAlignment(SwingConstants.RIGHT);
+        lblAdresse.setHorizontalAlignment(SwingConstants.RIGHT);
+        lblPLZ.setHorizontalAlignment(SwingConstants.RIGHT);
+        lblKundennummer.setHorizontalAlignment(SwingConstants.RIGHT);
 
         panel.add(lblVorname);
         panel.add(tfVorname);
@@ -71,10 +82,13 @@ public class Matthias_Kahlert_Teilpruefung_05 {
         panel.add(btnSpeichern);
         panel.add(btnAlleAnzeigen);
 
-        frame.add(panel, BorderLayout.CENTER);
+        outerPanel.add(panel, BorderLayout.CENTER);
+        frame.add(outerPanel, BorderLayout.CENTER);
         frame.setVisible(true);
 
         // Datenbank und Tabelle anlegen
+        // Tabelle wird nur erstellt, falls sie noch nicht existiert.
+        // Exception beim Erstellen wird abgefangen, falls die Tabelle schon existiert.
         createTableIfNotExists();
 
         // Speichern-Button Action
@@ -87,7 +101,7 @@ public class Matthias_Kahlert_Teilpruefung_05 {
                 String plz = tfPLZ.getText().trim();
                 String kundennummerStr = tfKundennummer.getText().trim();
 
-                // Validierung
+                // Input validation: Keine leeren Felder, Kundennummer muss Zahl sein
                 if (vorname.isEmpty() || nachname.isEmpty() || adresse.isEmpty() || plz.isEmpty()
                         || kundennummerStr.isEmpty()) {
                     JOptionPane.showMessageDialog(frame, "Bitte alle Felder ausfüllen.");
@@ -100,9 +114,10 @@ public class Matthias_Kahlert_Teilpruefung_05 {
                     JOptionPane.showMessageDialog(frame, "Kundennummer muss eine Zahl sein.");
                     return;
                 }
-                // Daten speichern
+                // Daten speichern (siehe insertKunde)
                 insertKunde(vorname, nachname, adresse, plz, kundennummer);
                 JOptionPane.showMessageDialog(frame, "Kunde gespeichert!");
+                // Felder zurücksetzen
                 tfVorname.setText("");
                 tfNachname.setText("");
                 tfAdresse.setText("");
@@ -121,14 +136,29 @@ public class Matthias_Kahlert_Teilpruefung_05 {
     }
 
     private static void createTableIfNotExists() {
+        // try-with-resources: Connection und Statement werden automatisch geschlossen
+        // Tabelle wird immer versucht zu erstellen. Falls sie schon existiert, wird die
+        // Exception ignoriert.
+        // Zwecks Eindeutigkeit habe ich die Kundennummer mit INT PRIMARY KEY gesetzt
+        // Dadurch wird sichergestellt, dass keine doppelten Kundennummern in der
+        // Tabelle gesetzt werden können.
+
         try (Connection conn = DriverManager.getConnection(DB_URL); Statement stmt = conn.createStatement()) {
             stmt.executeUpdate(
-                    "CREATE TABLE Kunden (Vorname VARCHAR(255), Nachname VARCHAR(255), Adresse VARCHAR(255), PLZ VARCHAR(255), Kundennummer INT)");
+                    "CREATE TABLE Kunden (Vorname VARCHAR(255), Nachname VARCHAR(255), Adresse VARCHAR(255), PLZ VARCHAR(255), Kundennummer INT PRIMARY KEY)");
         } catch (SQLException e) {
             // Tabelle existiert evtl. schon
         }
     }
 
+    /**
+     * Speichert einen Kunden in die Datenbank.
+     *
+     * Verwendet PreparedStatement (schützt vor SQL-Injection und ist Best
+     * Practice).
+     * try-with-resources sorgt dafür, dass Connection und PreparedStatement sauber
+     * geschlossen werden.
+     */
     private static void insertKunde(String vorname, String nachname, String adresse, String plz, int kundennummer) {
         String sql = "INSERT INTO Kunden (Vorname, Nachname, Adresse, PLZ, Kundennummer) VALUES (?, ?, ?, ?, ?)";
         try (Connection conn = DriverManager.getConnection(DB_URL);
@@ -144,6 +174,12 @@ public class Matthias_Kahlert_Teilpruefung_05 {
         }
     }
 
+    /**
+     * Liest alle Kunden aus der Datenbank und gibt sie in der Konsole aus.
+     *
+     * try-with-resources sorgt für automatisches Schließen von Connection,
+     * Statement und ResultSet.
+     */
     private static void printAllKunden() {
         String sql = "SELECT * FROM Kunden";
         try (Connection conn = DriverManager.getConnection(DB_URL);

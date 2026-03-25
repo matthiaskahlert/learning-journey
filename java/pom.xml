@@ -60,6 +60,13 @@
             <scope>system</scope>
             <systemPath>${project.basedir}/lib/restlet.jar</systemPath>
         </dependency>
+
+        <!-- SQLite JDBC Driver -->
+        <dependency>
+            <groupId>org.xerial</groupId>
+            <artifactId>sqlite-jdbc</artifactId>
+            <version>3.45.1.0</version>
+        </dependency>
     </dependencies>
 
     <build>

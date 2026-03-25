@@ -8,8 +8,10 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import org.restlet.resource.Post;
-
 
 public class RESTSchnittstelle {
     private static Connection datenbankVerbindung = null;
@@ -45,11 +47,15 @@ public class RESTSchnittstelle {
 
         component.getServers().add(Protocol.HTTP, port);
         try {
-            String driver = "org.apache.derby.jdbc.EmbeddedDriver";
-            Class.forName(driver);
+            Path preferredDbPath = Paths.get("java", "Datenbanken", "personenDatenbank");
+            Path fallbackDbPath = Paths.get("Datenbanken", "personenDatenbank");
+            String dbPath = Files.exists(preferredDbPath.getParent())
+                    ? preferredDbPath.toString()
+                    : fallbackDbPath.toString();
 
             String protocol = "jdbc:derby:";
-            datenbankVerbindung = DriverManager.getConnection(protocol + "personenDatenbank;create=true");
+            datenbankVerbindung = DriverManager.getConnection(
+                    protocol + dbPath.replace('\\', '/') + ";create=true");
 
             dbInitialisieren();
             PersonHandler.setConnection(datenbankVerbindung);

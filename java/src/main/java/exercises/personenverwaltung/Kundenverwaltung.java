@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 import java.sql.*;
 
 public class Kundenverwaltung {
-    private static final String DB_URL = "jdbc:derby:KundenDB;create=true";
+    private static final String DB_URL = "jdbc:derby:Datenbanken/KundenDB;create=true";
 
     public static void main(String[] args) {
         // GUI Setup

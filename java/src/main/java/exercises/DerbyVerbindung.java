@@ -3,15 +3,11 @@ import java.sql.*;
 public class DerbyVerbindung {
     public static void main(String[] args) {
         Connection conn = null;
-        String driver = "org.apache.derby.jdbc.EmbeddedDriver";
 
         try {
-            // lade den e Derby JDBC driver
-            Class.forName(driver);
-
             // Stelle die Verbindung her
             String protocol = "jdbc:derby:";
-            conn = DriverManager.getConnection(protocol + "meineDatenbank;create=true");
+            conn = DriverManager.getConnection(protocol + "Datenbanken/meineDatenbank2;create=true");
 
             // Tabelle erstellen
             Statement statement = conn.createStatement();
@@ -25,7 +21,7 @@ public class DerbyVerbindung {
             statement.execute(sql);
 
             System.out.println("Tabelle 'Personen' wurde erfolgreich erstellt.");
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             // schließe die connection, falls sie geöffnet wurde

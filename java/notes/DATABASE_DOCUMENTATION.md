@@ -22,12 +22,12 @@ Ensure the following dependencies are present in your `pom.xml` file:
     <dependency>
         <groupId>org.apache.derby</groupId>
         <artifactId>derby</artifactId>
-        <version>10.15.2.0</version>
+      <version>10.17.1.0</version>
     </dependency>
     <dependency>
         <groupId>org.apache.derby</groupId>
         <artifactId>derbytools</artifactId>
-        <version>10.15.2.0</version>
+      <version>10.17.1.0</version>
         <scope>system</scope>
         <systemPath>${project.basedir}/lib/derbytools.jar</systemPath>
     </dependency>
@@ -40,8 +40,25 @@ Ensure the following dependencies are present in your `pom.xml` file:
 </dependencies>
 ```
 
+### Wichtiger Hinweis zum Datenbank-Pfad
+Neue Derby-Datenbanken sollen in diesem Projekt immer unter `java/Datenbanken` liegen.
+
+Empfohlene JDBC-URL:
+
+```text
+jdbc:derby:Datenbanken/<DB_NAME>;create=true
+```
+
+Beispiel:
+
+```text
+jdbc:derby:Datenbanken/KundenDB;create=true
+```
+
+So landen alle Datenbanken in einem gemeinsamen Ordner und nicht mehr im Projekt-Root.
+
 ### Database Setup
-1. Ensure the `meineDatenbank` directory exists in the project root.
+1. Ensure the `Datenbanken` directory exists in `java`.
 2. Run the `DerbyVerbindung` class to create the `Personen` table.
 3. Run the `DerbyAuslesen` class to insert and retrieve data.
 
@@ -133,7 +150,7 @@ NATURAL JOIN developers;
   ```
 
 ## Notes
-- Ensure the database directory (`meineDatenbank`) is not deleted between runs.
+- Ensure the database directory (`Datenbanken`) is not deleted between runs.
 - Close all database connections after use to prevent resource leaks.
 
 ### ij Konsoile 
@@ -146,13 +163,13 @@ Da mich die Ansprache der Datenbank über Java ein bisschen genervt hat Wenn ich
 
 Voraussetzung: `derby.jar` und `derbytools.jar` liegen im `lib`-Ordner.
 
-**Beispiel für Windows:**
+**Portable Beispiele für Windows:**
 
 ```powershell
-java -cp "C:\Users\velpTEC edutainment\repositories\learning-journey\java\lib\derbytools.jar;C:\Users\velpTEC edutainment\repositories\learning-journey\java\lib\derby.jar" org.apache.derby.tools.ij
-
-beziehungsweise dann 
 java -cp "lib\\derbytools.jar;lib\\derby.jar" org.apache.derby.tools.ij
+
+oder mit USERPROFILE (falls du nicht im `java`-Ordner stehst):
+java -cp "$env:USERPROFILE\\repositories\\learning-journey\\java\\lib\\derbytools.jar;$env:USERPROFILE\\repositories\\learning-journey\\java\\lib\\derby.jar" org.apache.derby.tools.ij
 
 
 Wenn alles klappt, erscheint:
@@ -161,9 +178,10 @@ ij>
 
 
 2. Datenbank verbinden oder erstellen
-CONNECT 'jdbc:derby:C:/Users/velpTEC edutainment/repositories/learning-journey/java/meineDatenbank;create=true';
+CONNECT 'jdbc:derby:Datenbanken/meineDatenbank2;create=true';
 
-bzw CONNECT 'jdbc:derby:meineDatenbank;create=true';
+oder mit einem absoluten Platzhalter-Pfad (ohne hardcodeten Benutzernamen):
+CONNECT 'jdbc:derby:C:/<dein-pfad>/learning-journey/java/Datenbanken/meineDatenbank2;create=true';
 
 
 - create=true erstellt die DB, falls sie nicht existiert
@@ -222,6 +240,7 @@ exit;
 - Jeder SQL-Befehl muss mit einem Semikolon enden
 - ij interpretiert Zeilen ohne Semikolon als „Befehl geht weiter“
 - Datenbankordner wird automatisch erstellt, wenn create=true gesetzt ist
+- In diesem Projekt sollen neue Datenbanken unter `java/Datenbanken` angelegt werden
 - Derby speichert die DB als Ordnerstruktur, nicht als .db-Datei
 
 ---

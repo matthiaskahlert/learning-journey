@@ -21,7 +21,7 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
 public class Uebung_14_3_C_01 {
-    private static final String DB_URL = "jdbc:derby:MitarbeiterDB;create=true";
+    private static final String DB_URL = "jdbc:derby:Datenbanken/MitarbeiterDB;create=true";
 
     public static void main(String[] args) throws Exception {
         // a) Verbindung zur Datenbank herstellen
@@ -99,8 +99,9 @@ public class Uebung_14_3_C_01 {
         }
     }
 }
-//Die Datei erstellt die Derby-Datenbank, 
-// fügt Datensätze ein und stellt einen REST-Endpoint /mitarbeiter bereit, 
-// der alle Mitarbeiterdaten als JSON zurückgibt. 
-// Starte das Programm und rufe im Browser oder mit curl http://localhost:8080/mitarbeiter auf, 
+// Die Datei erstellt die Derby-Datenbank,
+// fügt Datensätze ein und stellt einen REST-Endpoint /mitarbeiter bereit,
+// der alle Mitarbeiterdaten als JSON zurückgibt.
+// Starte das Programm und rufe im Browser oder mit curl
+// http://localhost:8080/mitarbeiter auf,
 // um die Daten zu sehen.

@@ -3,15 +3,11 @@ import java.sql.*;
 public class DerbyAuslesen {
     public static void main(String[] args) {
         Connection conn = null;
-        String driver = "org.apache.derby.jdbc.EmbeddedDriver";
 
         try {
-            // Lade den Derby JDBC-Treiber
-            Class.forName(driver);
-
             // Stelle die Verbindung zur Datenbank her
             String protocol = "jdbc:derby:";
-            conn = DriverManager.getConnection(protocol + "meineDatenbank");
+            conn = DriverManager.getConnection(protocol + "Datenbanken/meineDatenbank2");
 
             // Erstelle ein Statement-Objekt
             Statement statement = conn.createStatement();
@@ -36,7 +32,7 @@ public class DerbyAuslesen {
 
             resultSet.close();
             statement.close();
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             // Schließe die Verbindung

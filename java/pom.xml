@@ -33,7 +33,7 @@
         <dependency>
             <groupId>org.apache.derby</groupId>
             <artifactId>derbytools</artifactId>
-            <version>10.15.2.0</version>
+            <version>10.17.1.0</version>
             <scope>system</scope>
             <systemPath>${project.basedir}/lib/derbytools.jar</systemPath>
         </dependency>
@@ -42,14 +42,14 @@
         <dependency>
             <groupId>org.apache.derby</groupId>
             <artifactId>derby</artifactId>
-            <version>10.15.2.0</version>
+            <version>10.17.1.0</version>
         </dependency>
 
         <!-- Apache Derby Shared Dependency -->
         <dependency>
             <groupId>org.apache.derby</groupId>
             <artifactId>derbyshared</artifactId>
-            <version>10.15.2.0</version>
+            <version>10.17.1.0</version>
         </dependency>
 
         <!-- Restlet library added as a system dependency -->

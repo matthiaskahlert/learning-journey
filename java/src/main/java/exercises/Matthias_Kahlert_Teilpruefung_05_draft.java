@@ -35,7 +35,7 @@ import java.awt.event.ActionListener;
 import java.sql.*;
 
 public class Matthias_Kahlert_Teilpruefung_05_draft {
-    private static final String DB_URL = "jdbc:derby:KundenDB;create=true";
+    private static final String DB_URL = "jdbc:derby:Datenbanken/KundenDB;create=true";
 
     public static void main(String[] args) {
         // GUI-Setup: GridLayout für übersichtliche Anordnung der Felder

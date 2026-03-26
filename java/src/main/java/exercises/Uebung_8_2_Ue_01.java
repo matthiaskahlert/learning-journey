@@ -1,5 +1,8 @@
+
 /* 
-Erstelle ein Java-Programm, das ein Array von Ganzzahlen (int-Werten) einliest und diese sortiert. Dabei soll das Programm robust gegenüber Fehleingaben sein und dem Benutzer die Möglichkeit geben, Eingabefehler zu korrigieren. Verwende dabei Verzweigungen, Schleifen und try-catch-Blöcke. Gehe wie folgt vor:
+Erstelle ein Java-Programm, das ein Array von Ganzzahlen (int-Werten) einliest und diese sortiert. 
+Dabei soll das Programm robust gegenüber Fehleingaben sein und dem Benutzer die Möglichkeit geben, 
+Eingabefehler zu korrigieren. Verwende dabei Verzweigungen, Schleifen und try-catch-Blöcke. Gehe wie folgt vor:
 
 a) Deklariere ein Array, das bis zu 10 Ganzzahlen aufnehmen kann.
 
@@ -30,5 +33,6 @@ public class Uebung_8_2_Ue_01 {
 
         Arrays.sort(numbers);
         System.out.println("Sortiertes Array: " + Arrays.toString(numbers));
+        scanner.close();
     }
 }

@@ -14,6 +14,7 @@ e) Nachdem alle Posts verarbeitet wurden, gib die Anzahl der Titel in geradePost
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
+import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -24,7 +25,7 @@ public class Uebung_14_3_A_01 {
     public static void main(String[] args) throws IOException {
         // a) GET-Anfrage an REST-Schnittstelle
         String urlString = "https://jsonplaceholder.typicode.com/posts";
-        URL url = new URL(urlString);
+        URL url = URI.create(urlString).toURL();
         HttpURLConnection verbindung = (HttpURLConnection) url.openConnection();
         verbindung.setRequestMethod("GET");
         verbindung.connect();
@@ -34,7 +35,7 @@ public class Uebung_14_3_A_01 {
             throw new RuntimeException("HttpResponseCode: " + antwortCode);
         } else {
             StringBuilder datenString = new StringBuilder();
-            Scanner scanner = new Scanner(url.openStream());
+            Scanner scanner = new Scanner(verbindung.getInputStream());
             while (scanner.hasNext()) {
                 datenString.append(scanner.nextLine());
             }

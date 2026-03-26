@@ -2,7 +2,6 @@ package REST;
 
 import org.restlet.Component;
 import org.restlet.data.Protocol;
-import org.restlet.resource.ServerResource;
 import org.restlet.routing.Router;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -11,7 +10,6 @@ import java.sql.Statement;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import org.restlet.resource.Post;
 
 public class RESTSchnittstelle {
     private static Connection datenbankVerbindung = null;

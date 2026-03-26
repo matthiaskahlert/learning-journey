@@ -9,9 +9,7 @@ public class CaesarCipher {
 
     private static final int ALPHABET_SIZE = 26;
     private static final char LOWERCASE_START = 'a';
-    private static final char LOWERCASE_END = 'z';
     private static final char UPPERCASE_START = 'A';
-    private static final char UPPERCASE_END = 'Z';
 
     /**
      * Verschlüsselt einen Text mit Caesar-Verschiebung.

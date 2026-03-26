@@ -1,5 +1,4 @@
 import java.util.Scanner;
-import java.sql.*;
 
 public class Rechner {
     public static void main(String[] args) {
@@ -21,8 +20,10 @@ public class Rechner {
             switch (berechnung) {
                 case "A":
                     System.out.println("Addition!");
-                    // es wird eine variable namens addNumbers deklariert, als array von glitkommazahlen. 
-                    // dann wird die methode getTwoNumners aufgeruen und scanner wird als argument für die methoe übergeben, um nutzereingaben zu lesen.
+                    // es wird eine variable namens addNumbers deklariert, als array von
+                    // glitkommazahlen.
+                    // dann wird die methode getTwoNumners aufgeruen und scanner wird als argument
+                    // für die methoe übergeben, um nutzereingaben zu lesen.
                     double[] addNumbers = getTwoNumbers(scanner);
                     System.out.println("Ergebnis lautet: " + add(addNumbers[0], addNumbers[1]));
                     break;
@@ -89,4 +90,3 @@ public class Rechner {
         return a / b;
     }
 }
-

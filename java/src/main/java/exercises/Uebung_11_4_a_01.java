@@ -132,7 +132,7 @@ class QuizFenster extends JFrame {
 }
 
 // f) Hauptklasse mit main-Methode
-public class Uebung_11_4_a_01 {
+public class Uebung_11_4_A_01 {
 
     public static void main(String[] args) {
         Frage[] fragen = {

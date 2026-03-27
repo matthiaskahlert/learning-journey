@@ -29,8 +29,9 @@
 
 
 param(
-    [string]$FileName = "Matthias_Kahlert_Teilpruefung_05",
-    [string]$ZipName = ""
+    [string]$FileName = "Matthias_Kahlert_Teilpruefung_06",
+    [string]$ZipName = "",
+    [string[]]$ExtraFiles = @()
 )
 
 $root = Join-Path $env:USERPROFILE "repositories\learning-journey"
@@ -44,9 +45,27 @@ if (-not (Test-Path $javaFile)) {
     exit
 }
 
+# DBConfig automatisch mitliefern wenn FileName TP06 ist und DBConfig.java existiert
+$dbConfigFile = Join-Path $root "java\src\main\java\exercises\DBConfig.java"
+if ($FileName -like "*Teilpruefung_06*" -and (Test-Path $dbConfigFile)) {
+    if ($ExtraFiles -notcontains $dbConfigFile) {
+        $ExtraFiles += $dbConfigFile
+    }
+}
+
 Remove-Item $tmp -Recurse -Force -ErrorAction SilentlyContinue
 New-Item -ItemType Directory -Path "$tmp\src\main\java" -Force | Out-Null
 Copy-Item $javaFile "$tmp\src\main\java\"
+
+# Zusätzliche Dateien kopieren
+foreach ($extra in $ExtraFiles) {
+    if (Test-Path $extra) {
+        Copy-Item $extra "$tmp\src\main\java\"
+    }
+    else {
+        Write-Host "⚠ ExtraFile nicht gefunden: $extra"
+    }
+}
 
 Remove-Item $zip -Force -ErrorAction SilentlyContinue
 Compress-Archive -Path "$tmp\src" -DestinationPath $zip

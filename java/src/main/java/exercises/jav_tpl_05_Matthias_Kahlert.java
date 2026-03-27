@@ -37,6 +37,7 @@ import java.sql.*;
 
 public class jav_tpl_05_Matthias_Kahlert {
     private static final String DB_URL = "jdbc:derby:Datenbanken/KundenDB;create=true";
+    private static final String TABLE_NAME = "KUNDEN";
 
     public static void main(String[] args) {
         // FlatLaf aktivieren (muss vor allen Swing-Komponenten passieren)
@@ -159,14 +160,30 @@ public class jav_tpl_05_Matthias_Kahlert {
         });
     }
 
-    // Zwecks Eindeutigkeit Kundennummer als INT PRIMARY KEY gesetzt, vermeidet
-    // doppelte Kundennummern und erspart später ärger
     private static void createTableIfNotExists() {
-        try (Connection conn = DriverManager.getConnection(DB_URL); Statement stmt = conn.createStatement()) {
-            stmt.executeUpdate(
-                    "CREATE TABLE Kunden (Vorname VARCHAR(255), Nachname VARCHAR(255), Adresse VARCHAR(255), PLZ VARCHAR(255), Kundennummer INT PRIMARY KEY)");
+        try (Connection conn = DriverManager.getConnection(DB_URL)) {
+            if (!tableExists(conn, TABLE_NAME)) {
+                try (Statement stmt = conn.createStatement()) {
+                    stmt.executeUpdate(
+                            "CREATE TABLE Kunden (Vorname VARCHAR(255), Nachname VARCHAR(255), Adresse VARCHAR(255), PLZ VARCHAR(255), Kundennummer INT PRIMARY KEY)");
+                }
+            }
         } catch (SQLException e) {
-            // Tabelle existiert evtl. schon
+            System.out.println("Fehler beim Erstellen der Tabelle: " + e.getMessage());
+        }
+    }
+
+    private static boolean tableExists(Connection conn, String tableName) throws SQLException {
+        DatabaseMetaData metaData = conn.getMetaData();
+        try (ResultSet rs = metaData.getTables(null, null, tableName.toUpperCase(), null)) {
+            return rs.next();
+        }
+    }
+
+    private static boolean columnExists(Connection conn, String tableName, String columnName) throws SQLException {
+        DatabaseMetaData metaData = conn.getMetaData();
+        try (ResultSet rs = metaData.getColumns(null, null, tableName.toUpperCase(), columnName.toUpperCase())) {
+            return rs.next();
         }
     }
 
@@ -181,23 +198,45 @@ public class jav_tpl_05_Matthias_Kahlert {
      * geschlossen werden.
      */
     private static void insertKunde(String vorname, String nachname, String adresse, String plz, int kundennummer) {
-        String sql = "INSERT INTO Kunden (Vorname, Nachname, Adresse, PLZ, Kundennummer) VALUES (?, ?, ?, ?, ?)"; // Fragezeichen
-                                                                                                                  // sind
-                                                                                                                  // Platzhalter
-                                                                                                                  // für
-                                                                                                                  // Werte
         try (Connection conn = DriverManager.getConnection(DB_URL);
-                PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, vorname); // hier setze ich mit setString den Text für den 1. Platzhalter-Wert für das
-                                         // Fragezeichen auf vorname
+                PreparedStatement pstmt = conn.prepareStatement(resolveInsertSql(conn))) {
+            pstmt.setString(1, vorname);
             pstmt.setString(2, nachname);
             pstmt.setString(3, adresse);
             pstmt.setString(4, plz);
-            pstmt.setInt(5, kundennummer); // setInt für Zahlen
-            pstmt.executeUpdate(); // SQL ausführen, datensatz speichern
+
+            boolean hasKundennummer = columnExists(conn, TABLE_NAME, "KUNDENNUMMER");
+            boolean hasOrt = columnExists(conn, TABLE_NAME, "ORT");
+
+            if (hasKundennummer && hasOrt) {
+                pstmt.setInt(5, kundennummer);
+                pstmt.setString(6, "");
+            } else if (hasKundennummer) {
+                pstmt.setInt(5, kundennummer);
+            } else if (hasOrt) {
+                pstmt.setString(5, "");
+            }
+
+            pstmt.executeUpdate();
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Fehler beim Speichern: " + e.getMessage());
         }
+    }
+
+    private static String resolveInsertSql(Connection conn) throws SQLException {
+        boolean hasKundennummer = columnExists(conn, TABLE_NAME, "KUNDENNUMMER");
+        boolean hasOrt = columnExists(conn, TABLE_NAME, "ORT");
+
+        if (hasKundennummer && hasOrt) {
+            return "INSERT INTO Kunden (Vorname, Nachname, Adresse, PLZ, Kundennummer, Ort) VALUES (?, ?, ?, ?, ?, ?)";
+        }
+        if (hasKundennummer) {
+            return "INSERT INTO Kunden (Vorname, Nachname, Adresse, PLZ, Kundennummer) VALUES (?, ?, ?, ?, ?)";
+        }
+        if (hasOrt) {
+            return "INSERT INTO Kunden (Vorname, Nachname, Adresse, PLZ, Ort) VALUES (?, ?, ?, ?, ?)";
+        }
+        return "INSERT INTO Kunden (Vorname, Nachname, Adresse, PLZ) VALUES (?, ?, ?, ?)";
     }
 
     /**

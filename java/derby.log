@@ -1,7 +1,7 @@
 ----------------------------------------------------------------
-Wed Mar 25 16:14:37 CET 2026:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.17.1.0 - (1913217): instance a816c00e-019d-258f-d820-00000efe4be0 
-on database directory C:\Users\velpTEC edutainment\repositories\learning-journey\java\Datenbanken\personenDatenbank with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@105be200 
+Fri Mar 27 14:56:04 CET 2026:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.17.1.0 - (1913217): instance a816c00e-019d-2f94-a76a-00000103d4b0 
+on database directory C:\Users\velpTEC edutainment\repositories\learning-journey\java\Datenbanken\KundenDB with class loader java.net.URLClassLoader@6917bb4 
 Loaded from file:/C:/Users/velpTEC%20edutainment/.m2/repository/org/apache/derby/derby/10.17.1.0/derby-10.17.1.0.jar
 java.vendor=Oracle Corporation
 java.runtime.version=25.0.2+10-LTS-69

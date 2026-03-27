@@ -16,6 +16,9 @@ javascript/
 - [x] Repo init
 - [x] Started JavaScript Course on 27th of Oct
 - [x] Started Python course on 8th of Dec '25
+- [x] survive a slipped disc in my back and beeing out of order for January '26
+- [x] Started Java course on 23rd of Feb '26
+- [ ] Start of the Ruby course two weeks delayed on 30th of March '26
 - [ ] Add Showcsase repository with final projects and screenshots
 
 

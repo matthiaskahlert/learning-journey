@@ -1,18 +1,8 @@
-## <=> (Raumschiff-Operator)
 
-Der sogenannte Raumschiff-Operator `<=>` vergleicht zwei Werte miteinander. Er gibt immer nur -1, 0 oder 1 zurück:
-- `-1`, wenn der linke Wert kleiner ist
-- `0`, wenn beide gleich sind
-- `1`, wenn der linke Wert größer ist
-
-Beispiel:
-```ruby
-5 <=> 7   # => -1
-5 <=> 5   # => 0
-7 <=> 5   # => 1
-```
-Er wird oft beim Sortieren verwendet.
 Ruby Markdown Notes – Woche 1
+
+
+
 
 Um das Gelernte anzuwenden, notiere ich Lerninhalte, Beispiele und Reflektionen.
 [TOC]
@@ -98,6 +88,21 @@ nel ethode
 
 
 
+## <=> (Raumschiff-Operator)
+
+Der sogenannte Raumschiff-Operator `<=>` vergleicht zwei Werte miteinander. Er gibt immer nur -1, 0 oder 1 zurück:
+- `-1`, wenn der linke Wert kleiner ist
+- `0`, wenn beide gleich sind
+- `1`, wenn der linke Wert größer ist
+
+Beispiel:
+```ruby
+5 <=> 7   # => -1
+5 <=> 5   # => 0
+7 <=> 5   # => 1
+```
+Er wird oft beim Sortieren verwendet.
+
 ## Kernel
 
 Das Ruby-Modul `Kernel` stellt grundlegende Methoden wie `puts`, `print`, `gets` oder `exit` bereit, die in jedem Ruby-Programm überall verfügbar sind. Diese Methoden werden automatisch in alle Klassen eingebunden. Der Begriff `Kernel` in Ruby hat nichts mit dem Betriebssystem-Kernel (Hardware) zu tun, sondern bezeichnet einfach das „Herzstück“ der Ruby-Basisfunktionen.
@@ -141,6 +146,78 @@ x = 10
 y = 3
 puts x.to_f / y.to_f   # ergibt 3.3333333333333335
 ```
+
+
+## Delimiter / Begrenzungszeichen in Ruby
+
+Ruby erlaubt verschiedene Schreibweisen für Strings, sogenannte Delimiter (Begrenzungszeichen). Das ist praktisch für mehrzeilige Strings oder wenn der Text Anführungszeichen enthält. Mit `%q` und `%Q` kannst du beliebige Zeichen als Begrenzung wählen.
+
+| Schreibweise    | Bedeutung                           |
+| --------------- | ----------------------------------- |
+| `'text'`        | normaler String                     |
+| `%q!text!`      | gleicher String, anderer Begrenzer  |
+| `"text \\#{x}"`   | String mit Variablen                |
+| `%Q!text \\#{x}!` | gleiche Sache mit anderem Begrenzer |
+
+**Hinweis:**
+- `%q` entspricht einfachen Anführungszeichen (keine Interpolation)
+- `%Q` entspricht doppelten Anführungszeichen unterstützt Interpolation, also hier kann ich Variablen im String angeben.
+- Als Begrenzungszeichen kannst du fast jedes Zeichen nehmen: `!`, `/`, `{}`, `[]`, `()` usw.
+
+
+## Heredoc in Ruby
+
+Mit Heredoc kannst du in Ruby bequem mehrzeilige Strings schreiben, ohne Escape-Zeichen oder spezielle Delimiter. Die Syntax ist:
+
+```ruby
+x = <<END_MY_STRING_PLEASE
+This is the string
+And a second line
+END_MY_STRING_PLEASE
+```
+
+Der Text zwischen den beiden `END_MY_STRING_PLEASE`-Markern wird als String gespeichert. Der Marker kann beliebig gewählt werden (z.B. `TEXT`, `DOC`, etc.), muss aber am Anfang der Zeile stehen. Heredoc unterstützt auch String-Interpolation wie bei doppelten Anführungszeichen.
+
+## String-Methoden: Beispiele und Ausgabe
+
+| Ausdruck                  | Ausgabe    |
+|---------------------------|------------|
+| "Test" + "Test"            | TestTest   |
+| "test".capitalize         | Test       |
+| "Test".downcase           | test       |
+| "Test".chop               | Tes        |
+| "Test".next               | Tesu       |
+| "Test".reverse            | tseT       |
+| "Test".sum                | 416        |
+| "Test".swapcase           | tEST       |
+| "Test".upcase             | TEST       |
+| "Test".upcase.reverse     | TSET       |
+| "Test".upcase.reverse.next| TSEU       |
+
+Diese Methoden zeigen, wie flexibel und mächtig Strings in Ruby bearbeitet werden können.
+
+
+## RegEx und Stringmodifizierung
+
+Reguläre Ausdrücke (RegEx) in Ruby sind Suchmuster, mit denen du gezielt Text in Strings finden, prüfen oder verändern kannst. Sie werden in Schrägstrichen geschrieben, zum Beispiel /abc/. Mit den Methoden sub und gsub kannst du Text ersetzen: sub ersetzt nur das erste Vorkommen, während gsub alle Vorkommen austauscht. Die Methode scan erlaubt es, alle passenden Stellen im String zu finden und weiterzuverarbeiten, etwa "abc".scan(/./) { |c| puts c }, was jeden Buchstaben einzeln ausgibt.
+
+Die wichtigsten RegEx-Zeichen und ihre Bedeutung findest du in dieser Tabelle:
+
+| Zeichen   | Bedeutung                          |
+|:----------|:-----------------------------------|
+| `^`       | Anfang des Strings oder der Zeile   |
+| `$`       | Ende des Strings oder der Zeile     |
+| `.`       | Beliebiges Zeichen                 |
+| `\d`      | Ziffer (0–9)                       |
+| `\w`      | Buchstabe, Zahl oder Unterstrich   |
+| `\s`      | Leerzeichen                        |
+| `[aeiou]` | Einer der Buchstaben a, e, i, o, u |
+| `[a-z]`   | Ein Buchstabe von a bis z          |
+Mit dem Operator =~ kannst du prüfen, ob ein String ein Muster enthält, zum Beispiel "Hallo" =~ /a/, was die Position des ersten Treffers oder nil zurückgibt. Klammern () in einem RegEx speichern Teilstücke separat, sodass du mit match gezielt auf diese zugreifen kannst, etwa "abc def".match(/(\\w+) (\\w+)/)[1] für das erste Wort.
+
+RegEx werden häufig verwendet, um Text zu durchsuchen, Daten wie Zahlen zu extrahieren, Strings zu ersetzen oder Eingaben zu validieren. Auch wenn sie anfangs ungewohnt wirken, reichen die Grundfunktionen für die meisten Aufgaben im Alltag völlig aus.
+
+
 
 Was ich morgen lernen will:
 

@@ -1,3 +1,17 @@
+## <=> (Raumschiff-Operator)
+
+Der sogenannte Raumschiff-Operator `<=>` vergleicht zwei Werte miteinander. Er gibt immer nur -1, 0 oder 1 zurück:
+- `-1`, wenn der linke Wert kleiner ist
+- `0`, wenn beide gleich sind
+- `1`, wenn der linke Wert größer ist
+
+Beispiel:
+```ruby
+5 <=> 7   # => -1
+5 <=> 5   # => 0
+7 <=> 5   # => 1
+```
+Er wird oft beim Sortieren verwendet.
 Ruby Markdown Notes – Woche 1
 
 Um das Gelernte anzuwenden, notiere ich Lerninhalte, Beispiele und Reflektionen.
@@ -43,15 +57,90 @@ Ohne MSYS2 bekommst du bei solchen Gems einen Fehler.
 
 IRB (Interactive Ruby) ist eine REPL-Umgebung, die Ruby-Code Zeile für Zeile ausführt und das Ergebnis sofort anzeigt — ideal zum schnellen Ausprobieren von Ausdrücken und Methoden, ohne eine Datei anlegen zu müssen. Im Gegensatz zum Run-Button bleibt der Zustand (Variablen, Objekte) zwischen den Eingaben erhalten.
 
-Learningfacts
-…
 
-…
+## Ruby Hilfsmethoden accessor, reader, writer
+
+Ruby kann automatisch Getter- und Setter-Methoden für Instanzvariablen einer Klasse generieren — statt sie manuell zu schreiben.
+
+| Methode | Lesen | Schreiben | Wann nutzen? |
+|---|---|---|---|
+| `attr_reader` | ✅ | ❌ | Wert soll nur gelesen werden (z.B. ID, Erstelldatum) |
+| `attr_writer` | ❌ | ✅ | Wert soll nur gesetzt werden (selten genutzt) |
+| `attr_accessor` | ✅ | ✅ | Wert soll gelesen und geändert werden |
 
 Beispiele / Code:
 
-// Beispielcode oder Demo
+```ruby
+class Person
+  attr_accessor :name   # getter + setter
+  attr_reader   :id     # nur getter
+  attr_writer   :email  # nur setter
+end
 
+p = Person.new
+p.name = "Matthias"   # setter
+puts p.name           # getter → "Matthias"
+```
+
+## puts
+
+`puts` ist die wichtigste Ausgabefunktion in Ruby. Sie gibt den Wert eines Ausdrucks im Terminal aus und fügt automatisch einen Zeilenumbruch an. Ohne `puts` sieht man beim Ausführen von Ruby-Dateien keine Ausgabe, selbst wenn Variablen gesetzt oder berechnet werden.
+
+Beispiel:
+
+```ruby
+name = "Matthias"
+puts name           # gibt "Matthias" aus
+```
+
+Im Unterschied zu IRB, wo das Ergebnis jeder Zeile angezeigt wird, muss man beim Ausführen von Dateien immer explizit `puts` verwenden, um Werte sichtbar zu machen.
+nel ethode
+
+
+
+## Kernel
+
+Das Ruby-Modul `Kernel` stellt grundlegende Methoden wie `puts`, `print`, `gets` oder `exit` bereit, die in jedem Ruby-Programm überall verfügbar sind. Diese Methoden werden automatisch in alle Klassen eingebunden. Der Begriff `Kernel` in Ruby hat nichts mit dem Betriebssystem-Kernel (Hardware) zu tun, sondern bezeichnet einfach das „Herzstück“ der Ruby-Basisfunktionen.
+
+
+## Schlefen mit Zahlenbereichen
+```ruby
+1.upto(5) { ... }
+```
+Führt den Block für alle Zahlen von 1 bis 5 aus (aufsteigend).
+Beispiel:
+```ruby
+10.downto(5) { ... }
+```
+Führt den Block für alle Zahlen von 10 bis 5 aus (absteigend).
+Beispiel:
+```ruby
+0.step(50, 5) { ... }
+```
+Führt den Block von 0 bis 50 in 5er-Schritten aus.
+Beispiel:
+
+Alle drei Methoden sind elegante Ruby-Wege, um Schleifen mit Zahlenbereichen zu schreiben.
+
+
+## Typkonvertierung in Ruby
+
+In Ruby kannst du Werte mit Methoden wie `to_i`, `to_f`, `to_s` usw. in andere Typen umwandeln. Das ist oft nötig, um z.B. Ganzzahlen in Fließkommazahlen zu verwandeln, damit Divisionen korrekt funktionieren.
+
+| Methode      | Zweck                        | Beispiel                | Ergebnis         |
+|--------------|------------------------------|-------------------------|------------------|
+| `to_i`       | In Integer (Ganzzahl)        | `'42.7'.to_i`           | `42`             |
+| `to_f`       | In Float (Kommazahl)         | `'3'.to_f`              | `3.0`            |
+| `to_s`       | In String                    | `10.to_s`               | `'10'`           |
+| `to_sym`     | In Symbol                    | `'name'.to_sym`         | `:name`          |
+| `to_a`       | In Array (bei manchen Objekten) | `(1..3).to_a`        | `[1, 2, 3]`      |
+
+**Beispiel für Division mit Typkonvertierung:**
+```ruby
+x = 10
+y = 3
+puts x.to_f / y.to_f   # ergibt 3.3333333333333335
+```
 
 Was ich morgen lernen will:
 

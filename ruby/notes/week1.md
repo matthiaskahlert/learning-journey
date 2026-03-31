@@ -263,6 +263,52 @@ puts person[:age]    # gibt 28 aus
 puts person[:city]   # gibt "Berlin" aus
 ```
 
+
+## Termary operator
+Der ternary operator bietet eine kompakte Möglichkeit, einfache Entscheidungen im Code zu treffen.
+
+```ruby
+age = 10
+type = age < 18 ? "child" : "adult"
+puts "You are a " + type
+```
+
+Erklärung:
+Die zweite Zeile verwendet den sogenannten ternären Operator. Damit kannst du eine Kurzform von if-else schreiben:
+
+Aufbau:
+<Bedingung> ? <Wert wenn wahr> : <Wert wenn falsch>
+
+In diesem Beispiel prüft age < 18, ob das Alter kleiner als 18 ist.
+
+Ist das wahr, wird "child" zugewiesen, sonst "adult".
+
+Bei age = 10 ist die Bedingung wahr, also steht am Ende:
+You are a child
+
+## pattern matching case/in
+
+Beispiel für Pattern Matching in Ruby:
+
+```ruby
+person = {name: "Anna", age: 17}
+
+case person
+in name:, age: 18..
+  puts "#{name} ist volljährig."
+in name:, age:
+  puts "#{name} ist noch nicht volljährig."
+end
+# Ausgabe: "Anna ist noch nicht volljährig."
+```
+
+
+Erklärung:
+
+Das case/in prüft, ob das Alter im Bereich 18 oder älter liegt (age: 18..).
+Wenn nicht, wird der zweite Zweig genommen und der Name sowie das Alter ausgegeben.
+Die Schreibweise name: bindet den Wert direkt an die Variable name.
+So kannst du mit Pattern Matching einfach und übersichtlich strukturierte Daten prüfen und Variablen daraus extrahieren!
 …
 
 …

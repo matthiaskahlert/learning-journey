@@ -11,7 +11,7 @@
         <dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
-            <version>20210307</version>
+            <version>20251224</version>
         </dependency>
 
          <!-- FlatLaf library for modern Look and Feel -->
@@ -102,9 +102,9 @@
     </build>
 
     <properties>
-        <maven.compiler.source>21</maven.compiler.source>
-        <maven.compiler.target>21</maven.compiler.target>
-        <java.specification.version>21</java.specification.version>
+        <maven.compiler.source>25</maven.compiler.source>
+        <maven.compiler.target>25</maven.compiler.target>
+        <java.specification.version>25</java.specification.version>
         <exec.mainClass>DerbyVerbindung</exec.mainClass>
     </properties>
 </project>

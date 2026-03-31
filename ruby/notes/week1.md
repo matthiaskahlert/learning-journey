@@ -1,4 +1,3 @@
-
 Ruby Markdown Notes – Woche 1
 
 
@@ -223,9 +222,46 @@ Was ich morgen lernen will:
 
 …
 
-🗓️ Tag 2 – Thema / Schwerpunkt
+🗓️ Tag 2 – Thema / Array und List
+
+
 
 Learningfacts:
+## Arraymethoden
+| Methode/Beispiel                | Erklärung |
+|---------------------------------|-----------|
+| x[2]                            | Gibt das Element an Index 2 zurück |
+| x[2] += 1                       | Erhöht das Element an Index 2 um 1 |
+| x[2] = "Foobar" * 3             | Setzt das Element an Index 2 auf den String "FoobarFoobarFoobar" |
+| x << "Rocket"                   | Fügt "Rocket" am Ende des Arrays hinzu (shovel operator) |
+| x.push("Launcher")              | Fügt "Launcher" am Ende des Arrays hinzu |
+| x.pop                           | Entfernt und gibt das letzte Element zurück |
+| x.length                        | Gibt die Anzahl der Elemente im Array zurück |
+| x.join(',')                     | Verbindet alle Elemente zu einem String, getrennt durch Kommas |
+| x.include?(3)                   | Prüft, ob das Array die Zahl 3 enthält |
+| x.empty?                        | Prüft, ob das Array leer ist |
+| x.first / x.last                | Gibt das erste/letzte Element zurück |
+| x.first(2)                      | Gibt die ersten 2 Elemente als Array zurück |
+| x.reverse                       | Gibt ein neues Array mit umgekehrter Reihenfolge zurück |
+| x.each { |e| ... }              | Iteriert über alle Elemente |
+| x.collect { |e| e * 2 }         | Gibt ein neues Array mit dem Ergebnis des Blocks zurück (map) |
+| x + y                           | Verbindet zwei Arrays zu einem neuen Array |
+| x - y                           | Gibt ein Array mit den Elementen aus x, die nicht in y sind |
+
+## Hashes
+Ein Hash in Ruby ist eine Sammlung von Schlüssel-Wert-Paaren, ähnlich wie ein Wörterbuch oder Map in anderen Programmiersprachen. Jeder Schlüssel (key) ist eindeutig und verweist auf einen Wert (value). Hashes werden mit geschweiften Klammern geschrieben.
+
+```ruby
+person = {
+  name: "Anna",
+  age: 28,
+  city: "Berlin"
+}
+
+puts person[:name]   # gibt "Anna" aus
+puts person[:age]    # gibt 28 aus
+puts person[:city]   # gibt "Berlin" aus
+```
 
 …
 

@@ -14,7 +14,7 @@
             <version>20251224</version>
         </dependency>
 
-         <!-- FlatLaf library for modern Look and Feel -->
+        <!-- FlatLaf library for modern Look and Feel -->
         <dependency>
             <groupId>com.formdev</groupId>
             <artifactId>flatlaf</artifactId>
@@ -29,13 +29,11 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- Apache Derby tools for database management -->
+        <!-- Apache Derby tools for database management (regulär) -->
         <dependency>
             <groupId>org.apache.derby</groupId>
             <artifactId>derbytools</artifactId>
             <version>10.17.1.0</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/lib/derbytools.jar</systemPath>
         </dependency>
 
         <!-- Apache Derby JDBC Driver from Maven Central -->
@@ -52,7 +50,7 @@
             <version>10.17.1.0</version>
         </dependency>
 
-        <!-- Restlet library added as a system dependency -->
+        <!-- Restlet library als system-Dependency mit lokalem JAR -->
         <dependency>
             <groupId>org.restlet</groupId>
             <artifactId>restlet</artifactId>

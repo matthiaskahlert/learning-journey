@@ -309,7 +309,39 @@ Das case/in prüft, ob das Alter im Bereich 18 oder älter liegt (age: 18..).
 Wenn nicht, wird der zweite Zweig genommen und der Name sowie das Alter ausgegeben.
 Die Schreibweise name: bindet den Wert direkt an die Variable name.
 So kannst du mit Pattern Matching einfach und übersichtlich strukturierte Daten prüfen und Variablen daraus extrahieren!
+## while until
+
+Mit while und until kannst du in Ruby Schleifen schreiben: while wiederholt den Block, solange die Bedingung wahr ist, until solange sie falsch ist.  Beide Varianten eignen sich für wiederholte Abläufe mit unterschiedlichen Abbruchbedingungen.
+
+```ruby
+
+x = 1
+while x < 100
+puts x
+x = x * 2
+end
+```
+
+```ruby
+
+x = 1
+until x > 99
+puts x
+x = x * 2
+end
+```
+
+## CodeBlöcke
+Code Blocks in Ruby sind anonyme, wiederverwendbare Codeabschnitte, die an Methoden übergeben werden können. Sie werden mit { ... } oder do ... end geschrieben. Methoden wie each führen den Codeblock für jedes Element aus.
+Man kann benannte Parameter (|x|) oder nummerierte Parameter (_1) verwenden.
+Eigene Methoden können Codeblöcke mit &block oder yield akzeptieren. Mit yield wird der Block aufgerufen, ohne ihn explizit als Parameter zu deklarieren.
+Codeblöcke können auch als Proc-Objekte gespeichert und mit call ausgeführt werden.
+Wichtig: Pro Methode kann nur ein Codeblock übergeben werden.
+Lambda ist eine spezielle Form von Proc mit strengerer Parameterprüfung.
+
+
 …
+
 
 …
 

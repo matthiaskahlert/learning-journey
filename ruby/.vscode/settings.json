@@ -11,21 +11,8 @@
     "identifier": "auto"
   },
   "rubyLsp.formatter": "auto",
-  "java.configuration.runtimes": [
-    {
-      "name": "JavaSE-21",
-      "path": "C:/Program Files/Java/jdk-21",
-      "default": true
-    }
-  ],
   "[markdown]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.formatOnSave": true
-  },
-  "python.analysis.autoImportCompletions": true,
-  "python.testing.pytestArgs": ["python"],
-  "python.testing.unittestEnabled": false,
-  "python.testing.pytestEnabled": true,
-  "java.project.outputPath": "java/bin",
-  "java.project.sourcePaths": ["java/src/main/java/exercises"]
+  }
 }

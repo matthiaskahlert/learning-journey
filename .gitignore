@@ -3,6 +3,9 @@
 # vscode: persönliche/maschinspezifische Dateien ignorieren, settings.json aber versionieren
 .vscode/*
 !.vscode/settings.json
+# ruby-vscode: persönliche/maschinspezifische Dateien ignorieren, settings.json aber versionieren
+ruby/.vscode/*
+!ruby/.vscode/settings.json
 # von Python modulimport erzeugte Dateien für den (ohne punkt vor dem ordner, das brauche ich nur bei versteckten dateien
 __pycache__/
 *.pyc

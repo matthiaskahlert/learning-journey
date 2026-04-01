@@ -1,20 +1,16 @@
 {
-    "python.analysis.autoImportCompletions": true,
-    "python.testing.pytestArgs": [
-        "python"
-    ],
-    "python.testing.unittestEnabled": false,
-    "python.testing.pytestEnabled": true,
-    "java.project.outputPath": "java/bin",
-    "java.project.sourcePaths": [
-        "java/src/main/java/exercises"
-    ],
-    "rubyLsp.rubyVersionManager": {
-        "identifier": "none"
-    },
-    "rubyLsp.bundleGemfile": "ruby/Gemfile",
-    "[ruby]": {
-        "editor.defaultFormatter": "Shopify.ruby-lsp",
-        "editor.formatOnSave": true
-    }
+  "python.analysis.autoImportCompletions": true,
+  "python.testing.pytestArgs": ["python"],
+  "python.testing.unittestEnabled": false,
+  "python.testing.pytestEnabled": true,
+  "java.project.outputPath": "java/bin",
+  "java.project.sourcePaths": ["java/src/main/java/exercises"],
+  "rubyLsp.rubyVersionManager": {
+    "identifier": "none"
+  },
+  "rubyLsp.bundleGemfile": "ruby/Gemfile",
+  "[ruby]": {
+    "editor.defaultFormatter": "Shopify.ruby-lsp",
+    "editor.formatOnSave": true
+  }
 }

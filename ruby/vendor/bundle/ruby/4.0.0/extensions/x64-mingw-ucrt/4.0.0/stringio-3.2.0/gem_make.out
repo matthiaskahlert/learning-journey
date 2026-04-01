@@ -1,0 +1,20 @@
+current directory: c:/Users/Matze/repositories/learning-journey/ruby/vendor/bundle/ruby/4.0.0/gems/stringio-3.2.0/ext/stringio
+c:/Ruby40-x64/bin/ruby.exe extconf.rb
+checking for rb_io_mode_t in ruby/io.h... yes
+creating Makefile
+
+current directory: c:/Users/Matze/repositories/learning-journey/ruby/vendor/bundle/ruby/4.0.0/gems/stringio-3.2.0/ext/stringio
+make -j25 DESTDIR\= sitearchdir\=./.gem.20260401-15728-f6u6zl sitelibdir\=./.gem.20260401-15728-f6u6zl clean
+
+current directory: c:/Users/Matze/repositories/learning-journey/ruby/vendor/bundle/ruby/4.0.0/gems/stringio-3.2.0/ext/stringio
+make -j25 DESTDIR\= sitearchdir\=./.gem.20260401-15728-f6u6zl sitelibdir\=./.gem.20260401-15728-f6u6zl
+generating stringio-x64-mingw-ucrt.def
+compiling stringio.c
+linking shared-object stringio.so
+
+current directory: c:/Users/Matze/repositories/learning-journey/ruby/vendor/bundle/ruby/4.0.0/gems/stringio-3.2.0/ext/stringio
+make -j25 DESTDIR\= sitearchdir\=./.gem.20260401-15728-f6u6zl sitelibdir\=./.gem.20260401-15728-f6u6zl install
+/usr/bin/install -c -m 0755 stringio.so ./.gem.20260401-15728-f6u6zl
+
+current directory: c:/Users/Matze/repositories/learning-journey/ruby/vendor/bundle/ruby/4.0.0/gems/stringio-3.2.0/ext/stringio
+make DESTDIR\= sitearchdir\=./.gem.20260401-15728-f6u6zl sitelibdir\=./.gem.20260401-15728-f6u6zl clean

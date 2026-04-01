@@ -1,0 +1,19 @@
+current directory: C:/Users/Matze/repositories/learning-journey/ruby/vendor/bundle/ruby/4.0.0/gems/racc-1.8.1/ext/racc/cparse
+C:/Ruby40-x64/bin/ruby.exe extconf.rb
+creating Makefile
+
+current directory: C:/Users/Matze/repositories/learning-journey/ruby/vendor/bundle/ruby/4.0.0/gems/racc-1.8.1/ext/racc/cparse
+make -j25 DESTDIR\= sitearchdir\=./.gem.20260401-21836-ju303r sitelibdir\=./.gem.20260401-21836-ju303r clean
+
+current directory: C:/Users/Matze/repositories/learning-journey/ruby/vendor/bundle/ruby/4.0.0/gems/racc-1.8.1/ext/racc/cparse
+make -j25 DESTDIR\= sitearchdir\=./.gem.20260401-21836-ju303r sitelibdir\=./.gem.20260401-21836-ju303r
+compiling cparse.c
+generating cparse-x64-mingw-ucrt.def
+linking shared-object racc/cparse.so
+
+current directory: C:/Users/Matze/repositories/learning-journey/ruby/vendor/bundle/ruby/4.0.0/gems/racc-1.8.1/ext/racc/cparse
+make -j25 DESTDIR\= sitearchdir\=./.gem.20260401-21836-ju303r sitelibdir\=./.gem.20260401-21836-ju303r install
+/usr/bin/install -c -m 0755 cparse.so ./.gem.20260401-21836-ju303r/racc
+
+current directory: C:/Users/Matze/repositories/learning-journey/ruby/vendor/bundle/ruby/4.0.0/gems/racc-1.8.1/ext/racc/cparse
+make DESTDIR\= sitearchdir\=./.gem.20260401-21836-ju303r sitelibdir\=./.gem.20260401-21836-ju303r clean

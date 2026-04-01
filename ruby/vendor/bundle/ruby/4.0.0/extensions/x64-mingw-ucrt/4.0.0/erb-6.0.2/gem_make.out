@@ -1,0 +1,20 @@
+current directory: c:/Users/Matze/repositories/learning-journey/ruby/vendor/bundle/ruby/4.0.0/gems/erb-6.0.2/ext/erb/escape
+c:/Ruby40-x64/bin/ruby.exe extconf.rb
+checking for rb_ext_ractor_safe() in ruby.h... yes
+creating Makefile
+
+current directory: c:/Users/Matze/repositories/learning-journey/ruby/vendor/bundle/ruby/4.0.0/gems/erb-6.0.2/ext/erb/escape
+make -j25 DESTDIR\= sitearchdir\=./.gem.20260401-15728-jbjqpr sitelibdir\=./.gem.20260401-15728-jbjqpr clean
+
+current directory: c:/Users/Matze/repositories/learning-journey/ruby/vendor/bundle/ruby/4.0.0/gems/erb-6.0.2/ext/erb/escape
+make -j25 DESTDIR\= sitearchdir\=./.gem.20260401-15728-jbjqpr sitelibdir\=./.gem.20260401-15728-jbjqpr
+generating escape-x64-mingw-ucrt.def
+compiling escape.c
+linking shared-object erb/escape.so
+
+current directory: c:/Users/Matze/repositories/learning-journey/ruby/vendor/bundle/ruby/4.0.0/gems/erb-6.0.2/ext/erb/escape
+make -j25 DESTDIR\= sitearchdir\=./.gem.20260401-15728-jbjqpr sitelibdir\=./.gem.20260401-15728-jbjqpr install
+/usr/bin/install -c -m 0755 escape.so ./.gem.20260401-15728-jbjqpr/erb
+
+current directory: c:/Users/Matze/repositories/learning-journey/ruby/vendor/bundle/ruby/4.0.0/gems/erb-6.0.2/ext/erb/escape
+make DESTDIR\= sitearchdir\=./.gem.20260401-15728-jbjqpr sitelibdir\=./.gem.20260401-15728-jbjqpr clean

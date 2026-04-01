@@ -1,7 +1,8 @@
 # um jupyter sicherheitskopie zu ignorieren
 .ipynb_checkpoints/
-# um json settings zu ignorieren
-.vscode/
+# vscode: persönliche/maschinspezifische Dateien ignorieren, settings.json aber versionieren
+.vscode/*
+!.vscode/settings.json
 # von Python modulimport erzeugte Dateien für den (ohne punkt vor dem ordner, das brauche ich nur bei versteckten dateien
 __pycache__/
 *.pyc

@@ -1,16 +1,14 @@
 {
   "folders": [
-    {"name": "learning-journey",
-            "path": "."
-    },
-    { "path": "java" },
+    { "name": "learning-journey", "path": "." },
+    // { "path": "java" },
     { "path": "python" },
-    { "path": "ruby" }
+    { "path": "ruby" },
   ],
   "settings": {
     "[ruby]": {
       "editor.defaultFormatter": "Shopify.ruby-lsp",
-      "editor.formatOnSave": true
-    }
-  }
+      "editor.formatOnSave": true,
+    },
+  },
 }

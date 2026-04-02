@@ -1,18 +1,9 @@
 {
-  "editor.formatOnSave": true,
   "[ruby]": {
     "editor.defaultFormatter": "Shopify.ruby-lsp",
     "editor.formatOnSave": true,
+    "editor.formatOnType": true,
     "editor.insertSpaces": true,
-    "editor.tabSize": 2,
-    "editor.formatOnType": true
-  },
-  "rubyLsp.rubyVersionManager": {
-    "identifier": "auto"
-  },
-  "rubyLsp.formatter": "auto",
-  "[markdown]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.formatOnSave": true
+    "editor.tabSize": 2
   }
 }

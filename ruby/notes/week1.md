@@ -362,6 +362,79 @@ Tag 3 – Thema / Schwerpunkt
 
 Learningfacts:
 
+## Time Class in Ruby
+In Ruby kann man mit der Time-Klasse Datum und Uhrzeit einfach verarbeiten: Time.now liefert dir den aktuellen Zeitpunkt, den Ruby beim Ausgeben als gut lesbaren Text zeigt. Intern speichert Ruby Zeit als Mikrosekunden seit de UNIX Zeit also dem 1. Januar 1970 (UTC/GMT), dadurch lassen sich Zeitpunkte leicht vergleichen, zum Beispiel mit kleiner oder größer. Praktisch ist auch, dass man mit Sekunden rechnen kann: Zieht man 10 ab, bekommt man die Uhrzeit 10 Sekunden früher, und addiert man 86.400, springst du genau einen Tag nach vorne. So kannt man Zeiten in Programmen relativ einfach prüfen, vergleichen und verschieben.
+
+```ruby
+puts Time.now
+puts Time.now - 10
+puts Time.now + 86400
+2026-04-01 12:44:19 +0200
+2026-04-01 12:44:09 +0200
+2026-04-02 12:44:20 +0200
+```
+
+| Methode | Was die Methode zurückgibt |
+|---|---|
+| `hour` | Eine Zahl für die Stunde im 24-Stunden-Format (z. B. 21 für 21:00 Uhr). |
+| `min` | Die Anzahl der Minuten nach der vollen Stunde. |
+| `sec` | Die Anzahl der Sekunden nach der vollen Minute. |
+| `usec` | Die Anzahl der Mikrosekunden nach der vollen Sekunde (1.000.000 Mikrosekunden = 1 Sekunde). |
+| `day` | Die Tagesnummer im Monat. |
+| `mday` | Synonym für `day`, also der Tag des Monats. |
+| `wday` | Die Tagesnummer in der Woche (Sonntag = 0, Samstag = 6). |
+| `yday` | Die Tagesnummer im Jahr. |
+| `month` | Die Monatsnummer des Datums (z. B. 11 für November). |
+| `year` | Das Jahr des Datums. |
+| `zone` | Den Namen der Zeitzone, die zur Uhrzeit gehört. |
+| `utc?` | `true` oder `false`, je nachdem, ob Zeit/Datum in der UTC/GMT-Zeitzone ist oder nicht. |
+| `gmt?` | Synonym für `utc?` für alle, die den Begriff GMT bevorzugen. |
+
+## Ranges in Ruby
+
+Ranges in Ruby sind super praktisch, wenn du nicht alle Werte einzeln speichern willst, sondern nur den Bereich selbst, also zum Beispiel “alles von A bis Z” als ('A'..'Z'). Statt ein großes Array von Hand zu schreiben, kannst du diesen Bereich direkt nutzen, mit to_a bei Bedarf in ein Array umwandeln oder mit each darüber laufen. Mit include? prüfst du schnell, ob ein Wert im Bereich liegt, etwa ob "R" enthalten ist (ja) oder "r" (nein, wegen Groß-/Kleinschreibung). Außerdem kannst du Ranges bei Arrays als Indexbereich verwenden, um mehrere Elemente auf einmal zu lesen oder zu ersetzen, z. B. a[1..3]. Kurz gesagt: Ranges machen Code kürzer, klarer und helfen dir, mit zusammenhängenden Werten elegant zu arbeiten.
+
+```ruby
+# Beispiel 2: Range als Array-Index verwenden
+zahlen = [10, 20, 30, 40, 50]
+p zahlen[1..3]
+# Ausgabe: [20, 30, 40]
+```
+
+## Symbols in Ruby
+Symbole in Ruby sind feste Namen mit Doppelpunkt, zum Beispiel :good, :name oder :male.
+
+Einfach gesagt:
+
+Ein String ist Text-Inhalt, z. B. "good".
+Ein Symbol ist eher ein Label/Bezeichner, z. B. :good
+Warum nutzt man Symbole?
+
+Sie sind für feste Werte gedacht (Optionen, Zustände, Schlüssel).
+Sie sind effizienter als Strings, weil Ruby dasselbe Symbol wiederverwendet.
+Code wird oft klarer, weil man sofort sieht: Das ist ein fester Bezeichner, kein normaler Text.
+Typische Nutzung:
+
+Zustände/Optionen
+Hash-Keys
+```ruby
+person = { name: "Fred", age: 20, gender: :male }
+```
+Hier sind name, age, gender und :male Symbole.
+
+
+
+```ruby
+current_situation = :good
+puts "Everything is fine" if current_situation == :good
+puts "PANIC!" if current_situation == :bad
+```
+
+Symbole sind wie Namensschilder für feste Konzepte im Code, Strings sind normaler Text.
+
+## Objektklassen und Typumwandlung in Ruby
+
+In Ruby ist jeder Wert ein Objekt mit einer bestimmten Klasse, zum Beispiel String, Integer, Float oder Symbol. Deshalb ist es wichtig zu wissen: Gleich aussehende Werte verhalten sich unterschiedlich, je nachdem zu welcher Klasse sie gehören. "12" ist Text, 12 ist eine Zahl. Darum ergibt "12" + "10" den Text 1210 (zusammenfügen), aber 12 + 10 ergibt 22 (rechnen). Mit sogenannten to_-Methoden kannst du Werte umwandeln: to_i macht aus Text eine Ganzzahl, to_f eine Kommazahl, to_s macht aus Zahlen oder Symbolen wieder Text, und to_sym macht aus Text ein Symbol. Kurz gesagt: Wenn etwas „falsch rechnet“ oder „komisch zusammengefügt“ wird, liegt es oft daran, dass der Wert in der falschen Klasse ist und zuerst umgewandelt werden muss.
 …
 
 …

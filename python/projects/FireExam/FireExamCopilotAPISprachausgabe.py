@@ -338,7 +338,7 @@ KARTEN = [
         "richtige_antwort": "Die fünf W-Fragen: Wer ruft an? Wo ist das Feuer? Was brennt? Wie viele Verletzte? Warten auf Rückfragen.",
         "erklaerung": "Die fünf W-Fragen helfen der Leitstelle, schnell die richtigen Helfer zu schicken.",
         "schluesselwoerter": ["wer", "wo", "was", "wie", "warten"],
-        "freitext_kontext": "Die Frage nach den 5 W-Fragen beim Notruf 1 1 2. Die korrekten Fragen sind: Wer ruft an? Wo ist der Notfall? Was ist passiert? Wie viele Verletzte gibt es? Warten auf Rückfragen der Leitstelle. Das 'Warum' gehört NICHT dazu. Stattdessen 'Wie viele Verletzte'."
+        "freitext_kontext": "Die 5 W-Fragen beim Notruf 1 1 2 sind: (1) Wer ruft an?, (2) Wo ist der Notfall?, (3) Was ist passiert?, (4) Wie viele Verletzte gibt es?, (5) Warten auf Rückfragen der Leitstelle. WICHTIG: 'Warum' gehört NICHT dazu. 'Warten' ist das ungewöhnliche fünfte W. Bewertungsregel: Wenn das Kind 4 der 5 W-Fragen korrekt nennt, ist die Antwort RICHTIG – auch wenn eine fehlt oder leicht falsch formuliert ist. Formulierungen wie 'Wie viele Verletzt gibt es' oder 'Wie viele sind verletzt' gelten als korrekt für W-Frage 4."
     },
     {
         "thema": "Notruf",
@@ -455,7 +455,7 @@ KARTEN = [
     },
     {
         "thema": "Verbrennungsdreieck",
-        "frage": "Wenn man eine Kerze mit einer Löschglocke abdeckt, entfernt man den Sauerstoff und das Feuer geht aus.",
+        "frage": "Wenn man eine Kerze mit einer Löschglocke abdeckt, verbraucht die Flamme den Sauerstoff und das Feuer geht aus.",
         "typ": "wahr_falsch",
         "antworten": [],
         "richtige_antwort": "wahr",

@@ -3,6 +3,7 @@
   "python.testing.pytestArgs": ["python"],
   "python.testing.unittestEnabled": false,
   "python.testing.pytestEnabled": true,
+  "python.terminal.useEnvFile": true,
 
   "java.project.outputPath": "java/bin",
   "java.project.sourcePaths": ["java/src/main/java/exercises"],

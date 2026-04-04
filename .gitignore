@@ -1,14 +1,19 @@
 # um jupyter sicherheitskopie zu ignorieren
 .ipynb_checkpoints/
+
 # vscode: persönliche/maschinspezifische Dateien ignorieren, settings.json aber versionieren
 .vscode/*
 !.vscode/settings.json
+
 # ruby-vscode: persönliche/maschinspezifische Dateien ignorieren, settings.json aber versionieren
 ruby/.vscode/*
 !ruby/.vscode/settings.json
-# von Python modulimport erzeugte Dateien für den (ohne punkt vor dem ordner, das brauche ich nur bei versteckten dateien
+
+# von Python modulimport erzeugte Dateien
 __pycache__/
 *.pyc
+*.pyo
+
 # das ist nur mein vibe coding projekt in einer virtuellen umgebung, kann ignoriert werden
 python/projects/mandelbrot/
 
@@ -19,3 +24,7 @@ java/bin/
 # Maven build output
 java/target/
 **/target/
+
+# Umgebungsvariablen – enthält Tokens und Passwörter, NIE hochladen!
+.env*
+**/.env

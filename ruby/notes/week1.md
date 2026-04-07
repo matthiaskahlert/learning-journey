@@ -436,8 +436,118 @@ Symbole sind wie Namensschilder für feste Konzepte im Code, Strings sind normal
 
 In Ruby ist jeder Wert ein Objekt mit einer bestimmten Klasse, zum Beispiel String, Integer, Float oder Symbol. Deshalb ist es wichtig zu wissen: Gleich aussehende Werte verhalten sich unterschiedlich, je nachdem zu welcher Klasse sie gehören. "12" ist Text, 12 ist eine Zahl. Darum ergibt "12" + "10" den Text 1210 (zusammenfügen), aber 12 + 10 ergibt 22 (rechnen). Mit sogenannten to_-Methoden kannst du Werte umwandeln: to_i macht aus Text eine Ganzzahl, to_f eine Kommazahl, to_s macht aus Zahlen oder Symbolen wieder Text, und to_sym macht aus Text ein Symbol. Kurz gesagt: Wenn etwas „falsch rechnet“ oder „komisch zusammengefügt“ wird, liegt es oft daran, dass der Wert in der falschen Klasse ist und zuerst umgewandelt werden muss.
 …
+## Ruby on Rails
 
-…
+Ruby on Rails
+
+Definition:
+Ruby on Rails (Rails) ist ein Web-Application-Framework, das die Entwicklung von Webanwendungen erleichtert. Es bietet Konventionen, Strukturen und Systeme als Grundlage für die Entwicklung.
+
+Bedeutung:
+
+Rails hat die Popularität von Ruby außerhalb Japans stark gesteigert.
+Es hat Ruby von einer kleinen Entwickler-Community zu Hunderttausenden von Entwicklern weltweit gebracht.
+Einfluss:
+
+Rails hat die Dynamik des gesamten Ruby-Ökosystems verändert.
+Es ist ein zentraler Grund für das Interesse an Ruby geworden.
+Hinweis:
+
+Ein vollständiges Rails-Tutorial ist schwierig, da sich das Framework schnell weiterentwickelt.
+Kapitel 13 behandelt Rails-Entwicklung kurz.
+Rails ist ein entscheidender Faktor für die Verbreitung und Bedeutung von Ruby in der Softwareentwicklung.
+
+## Open source
+
+Definition:
+
+Open Source bedeutet, dass der Quellcode einer Software öffentlich zugänglich ist.
+Es gibt oft Lizenzbeschränkungen, die festlegen, was mit dem Code gemacht werden darf.
+Ruby und Open Source:
+
+Ruby und fast alle Bibliotheken sind Open Source.
+Entwickler können mit Ruby geschlossene, proprietäre Anwendungen erstellen, ohne den Quellcode offenzulegen.
+Beispiel: 37signals und Ruby on Rails:
+
+37signals veröffentlichte den Quellcode von Basecamp nicht, stellte aber das Ruby on Rails Framework als Open Source bereit.
+Vorteile: Publicity für das Unternehmen und Beiträge von talentierten, unbezahlten Entwicklern.
+Vorteile von Open Source:
+
+Projekte wie Apache, nginx und PostgreSQL profitieren von der Zusammenarbeit unbezahlter Entwickler.
+Open Source fördert kontinuierliche Verbesserungen und Innovationen.
+Entscheidung:
+
+Die Wahl zwischen Open Source und geschlossener Entwicklung ist oft schwierig und hängt von den Zielen des Projekts ab.
+Kultur:
+
+Die Open-Source-Community basiert auf dem freien Teilen von Wissen und Zusammenarbeit zur Verbesserung von Systemen und Diensten.
+Open Source wird zunehmend zum Standard für die Entwicklung von Programmiersprachen, Bibliotheken und ähnlicher Software.
+Bedeutung für Ruby:
+
+Die Ruby-Community ist stark von der Open-Source-Kultur geprägt.
+Entwickler veröffentlichen oft Tools und Code-Tricks, um von Peer-Reviews und der daraus resultierenden Popularität zu profitieren.
+Vorteile:
+
+Open Source kann die Qualität von Code und Tools verbessern.
+Es kann die Bekanntheit in der Branche steigern und ist oft keine schlechte Geschäftsentscheidung.
+
+## OOP
+
+Objektorientierte Programmierung (OOP) ist ein Ansatz, bei dem Code in Klassen und Objekte aufgeteilt wird.
+
+- Eine Klasse ist die Vorlage (z. B. `Car`).
+- Ein Objekt ist eine konkrete Instanz dieser Vorlage (z. B. mein rotes Auto).
+
+Warum ist das hilfreich?
+
+- Struktur: Große Programme werden übersichtlicher, weil Daten und Verhalten zusammengehoeren.
+- Wiederverwendbarkeit: Klassen koennen mehrfach genutzt werden, statt Logik staendig neu zu schreiben.
+- Wartbarkeit: Aenderungen sind einfacher, weil man gezielt an einer Klasse arbeitet.
+- Erweiterbarkeit: Neue Funktionen lassen sich ueber Vererbung/Komposition sauber ergaenzen.
+- Teamarbeit: Einheitliche Struktur macht Code fuer andere schneller verstaendlich.
+
+Wichtige OOP-Konzepte:
+
+- Kapselung: Interne Details werden geschuetzt, nach außen gibt es klare Schnittstellen.
+- Vererbung: Eine Klasse kann Eigenschaften/Methoden einer anderen uebernehmen.
+- Polymorphismus: Unterschiedliche Objekte koennen gleich angesprochen werden (z. B. alle haben `area`).
+- Abstraktion: Nur das Wesentliche wird sichtbar, Komplexitaet bleibt intern.
+
+Kurzfazit: OOP braucht anfangs etwas mehr Struktur, spart aber bei groesseren Projekten viel Zeit und Fehler.
+
+## Local, Global, Object und Class Variables
+
+### Lokale Variablen
+Beispiel: x = 10  
+Nur dort gültig, wo sie definiert wurden (z.B. in einer Methode oder einem Block).  
+Außerhalb dieses Bereichs nicht sichtbar.  
+Zwei Methoden können beide eine eigene Variable x haben, ohne sich zu stören.  
+
+### Globale Variablen
+Beispiel: $x = 10  
+Überall im Programm sichtbar, auch in Klassen und Methoden.  
+Beginnen mit $.  
+Werden in Ruby selten genutzt, da sie Code unübersichtlich machen können.  
+
+### Objekt-/Instanzvariablen
+Beispiel: @seite = 5  
+Gehören zu einem bestimmten Objekt.  
+Beginnen mit @.  
+Jede Instanz hat ihren eigenen Wert.  
+Können von allen Methoden des Objekts verwendet werden.  
+
+### Klassenvariablen
+Beispiel: @@anzahl = 0  
+Gelten für alle Objekte einer Klasse gemeinsam.  
+Beginnen mit @@.  
+Beispiel: Zählt, wie viele Objekte insgesamt erzeugt wurden.  
+Werden oft durch Klasseninstanzvariablen ersetzt, da @@ in Vererbungen problematisch sein kann.  
+
+### Merke:
+Lokal = nur im aktuellen Bereich  
+Global = überall  
+Objekt = pro Objekt  
+Klasse = für alle Objekte der Klasse gemeinsam  
 
 Codebeispiele:
 
@@ -495,9 +605,5 @@ Schwierigkeiten / To-do für nächste Woche:
 …
 
 💡 Nächste Woche – Fokus / Lernziele
-
-…
-
-…
 
 …

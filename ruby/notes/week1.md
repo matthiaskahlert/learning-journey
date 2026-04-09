@@ -722,7 +722,215 @@ a = Zeichnung::Kreis.new
 ```
 
 
+## Scope von Konstanten
+Konstanten arbeiten nicht wie globale Variablen.
+Sie sind im Scope der jeweiligen Klasse definiert und stehen auch Unterklassen zur Verfügung, sofern sie dort nicht neu definiert werden.
 
+## Module als Namespaces
+Ein  Problem mit Namenskonflikten in Ruby entsteht, wenn du mehrere Dateien einbindest (z. B. mit require), die Methoden oder Klassen mit denselben Namen definieren. Ruby kennt keine echten „private“ Methoden auf Dateiebene - alles landet im selben globalen Namensraum, wenn du es lädst.
+
+Beispiel:
+
+Du hast in Datei A eine Methode random, die eine Zahl liefert.
+In Datei B gibt es auch eine Methode random, die einen Buchstaben liefert.
+Wenn du beide Dateien einbindest, überschreibt die zuletzt geladene Version die vorherige. Es gibt dann nur noch eine Methode random - die andere ist „verloren“.
+Das gilt auch für Klassen: Wenn du zweimal eine Klasse Song definierst (in verschiedenen Dateien), werden die Definitionen zusammengeworfen - Methoden aus beiden Dateien landen in einer Klasse. Das kann zu unerwartetem Verhalten führen.
+
+Lösung:
+Um solche Konflikte zu vermeiden, nutzt man in Ruby ***Module als Namespaces***. Damit kannst du Methoden und Klassen „einsperren“, sodass sie nicht mit gleichnamigen Methoden/Klassen aus anderen Dateien kollidieren.
+
+Beispiel mit Namespace:
+```ruby
+module NumberStuff
+  def self.random
+    rand(1000000)
+  end
+end
+
+module LetterStuff
+  def self.random
+    (rand(26) + 65).chr
+  end
+end
+
+puts NumberStuff.random  # Zahl
+puts LetterStuff.random  # Buchstabe
+```
+
+So gibt es keinen Konflikt, weil die Methoden eindeutig über ihren Modulnamen angesprochen werden.
+
+Fazit:
+Ohne Namespaces überschreibt die letzte geladene Definition die vorherige. Mit Namespaces (Modulen) kannst du Namenskonflikte vermeiden.
+
+## Mix-ins
+
+Das „Mix-in“-Konzept in Ruby bedeutet, dass du Funktionalität aus Modulen in beliebige Klassen „hineinmischen“ kannst – ähnlich wie Bausteine, die du flexibel verwendest.
+
+Warum gibt es Mix-ins?
+Ruby unterstützt keine Mehrfachvererbung (eine Klasse kann nur von einer anderen Klasse erben). Aber manchmal willst du Methoden mehreren, völlig unterschiedlichen Klassen zur Verfügung stellen – ohne alles doppelt zu schreiben.
+
+Wie funktioniert das?
+Du schreibst Methoden in ein Modul. Mit include (für Instanzmethoden) oder extend (für Klassenmethoden) kannst du dieses Modul in eine Klasse „mischen“. Die Klasse bekommt dann alle Methoden des Moduls, als hätte sie sie selbst definiert.
+
+Beispiel:
+```ruby
+module UsefulFeatures
+  def class_name
+    self.class.to_s
+  end
+end
+
+class Person
+  include UsefulFeatures
+end
+
+x = Person.new
+puts x.class_name  # Ausgabe: Person
+```
+
+
+Hier bekommt Person die Methode class_name aus dem Modul. Das geht auch mit anderen Klassen – du kannst UsefulFeatures in beliebig viele Klassen einbinden.
+
+Fazit:
+Mix-ins sind Rubys Weg, um Code wiederzuverwenden und Funktionalität flexibel zu teilen – ohne die Probleme von Mehrfachvererbung. Sie machen deinen Code modularer und übersichtlicher.
+
+## Enumerable
+Das Modul Enumerable in Ruby ist eine Sammlung von Methoden, die dir viele praktische Funktionen für das Durchlaufen und Auswerten von Listen (wie Arrays oder Hashes) geben – z. B. sort, max, min, select, collect, find usw.
+
+Wie funktioniert das?
+
+Enumerable ist ein Modul, das Methoden wie sort, max, min, select usw. bereitstellt.
+Damit du diese Methoden nutzen kannst, muss deine Klasse eine each-Methode haben, die alle Elemente „durchgeht“ (iteriert).
+Wenn du include Enumerable in deine Klasse schreibst, bekommst du alle diese Methoden „geschenkt“ – sie funktionieren dann automatisch mit deiner each-Methode.
+```ruby
+class AlleVokale
+  include Enumerable
+  VOKALE = %w{a e i o u}
+  def each
+    VOKALE.each { |v| yield v }
+  end
+end
+
+x = AlleVokale.new
+x.max      # => "u"
+x.sort     # => ["a", "e", "i", "o", "u"]
+x.select { |v| v > "j" } # => ["o", "u"]
+```
+Wichtig:
+
+Array und Hash haben Enumerable schon eingebunden, deshalb kannst du dort immer z. B. .max, .sort, .select usw. nutzen.
+Wenn du eine eigene Klasse baust, musst du nur each definieren und Enumerable einbinden – dann hast du sofort viele mächtige Methoden.
+Fazit:
+Enumerable macht Iteration und Auswertung von Listen in Ruby sehr einfach und spart dir viel Code. Alles, was du brauchst, ist eine each-Methode und include Enumerable.
+
+## Comparable
+Das Modul Comparable in Ruby ermöglicht es, eigene Klassen mit Vergleichsoperatoren wie <, <=, ==, >=, > und between? auszustatten. Damit kannst du Objekte deiner Klasse direkt vergleichen, z. B. sortieren oder prüfen, ob ein Wert zwischen zwei anderen liegt.
+
+Wie funktioniert das?
+
+Du schreibst include Comparable in deine Klasse.
+Du musst die Methode <=> (Spaceship-Operator) definieren. Diese Methode vergleicht das aktuelle Objekt mit einem anderen:
+Gibt -1 zurück, wenn das eigene Objekt „kleiner“ ist,
+0, wenn beide gleich sind,
+1, wenn das eigene Objekt „größer“ ist.
+Beispiel:
+
+```ruby
+class Song
+  include Comparable # modul wird eingebunden
+  attr_accessor :length
+  def <=>(other) # spaceship operator definiert die methode
+    @length <=> other.length # vergleicht die Länge (@length) des aktuellen Song-Objekts mit der Länge eines anderen Song-Objekts:
+  end
+
+  def initialize(song_name, length)
+    @song_name = song_name
+    @length = length
+  end
+end
+
+a = Song.new('Better Days', 201)
+b = Song.new('Glücklich', 200)
+c = Song.new('Superpapa', 194)
+
+a < b # false       
+b >= c # true
+a.between?(c, b) # false
+```
+Wichtig:
+Du kannst selbst bestimmen, nach welchem Kriterium verglichen wird (hier: Länge des Songs). Sobald <=> definiert ist, bekommst du alle Vergleichsoperatoren von Comparable „geschenkt“.
+
+Fazit:
+Mit Comparable kannst du eigene Objekte wie Zahlen vergleichen und sortieren, indem du nur eine Methode (<=>) implementierst. Das macht deinen Code flexibler und mächtiger.
+
+## Mix-Ins mit Namespaces und Klassen in Ruby
+
+In Ruby kann man Module als Namespaces nutzen, um gleichnamige Klassen zu trennen:
+```ruby
+module ToolBox
+  class Ruler
+    attr_accessor :length
+  end
+end
+
+module Country
+  class Ruler
+    attr_accessor :name
+  end
+end
+```
+
+ToolBox::Ruler und Country::Ruler sind zwei verschiedene Klassen.
+Mit include Country kann man die Inhalte des Moduls (hier die Klasse Ruler) in den aktuellen Gültigkeitsbereich holen:
+
+```ruby
+include Country
+c = Ruler.new
+c.name = "King Henry VIII"
+```
+
+Jetzt kann man Ruler direkt verwenden, ohne Country:: davor zu schreiben.
+Möchte man weiterhin auf die andere Klasse zugreifen, nutzt man weiterhin ToolBox::Ruler.
+Fazit:
+Mit include kann man Klassen und Methoden aus Modulen in den aktuellen Scope holen, sodass sie wie lokale Klassen/Methoden wirken. Das ist praktisch, wenn man temporär einen bestimmten Namespace bevorzugen möchte.
+
+2. Statische Typisierung in Ruby mit RBS
+
+Ruby ist dynamisch typisiert: Der Typ einer Variable wird erst zur Laufzeit bestimmt.
+
+Beispiel:
+```ruby
+count = 3
+puts count.class  # => Integer
+```
+
+Seit Ruby 3 gibt es optional RBS (Ruby Signature), um statische Typisierung zu ermöglichen:
+
+```ruby
+# sig/employee.rbs
+class Employee
+  attr_reader name: String
+  attr_reader security_level: Integer
+  attr_reader email_addresses: Array[String]
+  def initialize: (name: String, security_level: Integer) -> void
+  def access_granted?: (level: Integer) -> bool
+end
+```
+
+
+Man legt eine .rbs-Datei an, die die Typen für Klassen, Methoden und Eigenschaften beschreibt.
+Beispiel:
+Vorteile:
+Findet Fehler (z. B. falsche Typen, fehlende Methoden) schon vor der Ausführung.
+Bessere IDE-Unterstützung und Autovervollständigung.
+Optional: Man kann RBS schrittweise einführen, nicht für das ganze Projekt auf einmal.
+Fazit:
+RBS bringt statische Typisierung nach Ruby, was hilft, Fehler frühzeitig zu erkennen und die Wartbarkeit großer Projekte zu verbessern. Es ist aber optional und kann nach Bedarf eingesetzt werden.
+
+Kurz gesagt:
+
+Mit Modulen und include kann man Namespaces flexibel nutzen und Klassen/Mixins in den aktuellen Scope holen.
+RBS ermöglicht statische Typisierung in Ruby, um Fehler früh zu erkennen und die Codequalität zu steigern.
 
 Codebeispiele:
 

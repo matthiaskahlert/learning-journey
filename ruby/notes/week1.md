@@ -401,8 +401,10 @@ p zahlen[1..3]
 # Ausgabe: [20, 30, 40]
 ```
 
-## Symbols in Ruby
+## Symbole in Ruby
+Ein Symbol wird durch ein vorangestelltes Doppelpunktzeichen (:) dargestellt, gefolgt von einer Zeichenkette
 Symbole in Ruby sind feste Namen mit Doppelpunkt, zum Beispiel :good, :name oder :male.
+ Symbole in Ruby (z. B. :name) sind unveränderliche (immutable) Zeichenketten, die als spg. Bezeichner fungieren. Ihr "Wert" ist im Grunde ihr Name selbst. Sie sind sehr effizient, da für ein Symbol mit demselben Namen im gesamten Programm nur ein einziges Objekt im Speicher existiert. 
 
 Einfach gesagt:
 
@@ -548,6 +550,179 @@ Lokal = nur im aktuellen Bereich
 Global = überall  
 Objekt = pro Objekt  
 Klasse = für alle Objekte der Klasse gemeinsam  
+
+## Instanzmethoden vs Klassenmethoden
+
+```ruby
+# Beispiel: Square mit Instanz- und Klassenmethoden
+
+class Square
+  @@count = 0  # Klassenvariable: zählt alle erstellten Objekte
+
+  def initialize(side_length)
+    @side = side_length  # Instanzvariable: gehört zu diesem Objekt
+    @@count += 1
+  end
+
+  # Instanzmethode: arbeitet mit einem einzelnen Objekt
+  def area
+    @side * @side
+  end
+
+  # Klassenmethode: arbeitet auf Klassenebene
+  def self.count
+    @@count
+  end
+end
+
+# Nutzung:
+
+s1 = Square.new(4)
+s2 = Square.new(5)
+
+puts s1.area   # => 16
+puts s2.area   # => 25
+
+puts Square.count  # => 2
+```
+
+
+Instanzmethoden arbeiten mit einem Objekt und können nur über eine Instanz aufgerufen werden (z.B. s1.area)
+Klassenmethoden (z. B. self.count) werden mit self.definiert und  arbeiten mit der Klasse selbst (Square.count). Sie eignen sich für Aufgaben, die die Klasse als Ganzes betreffen, wie z. B. das Zählen aller erzeugten Objekte.
+@ → gehört zum Objekt
+@@ → gehört zur Klasse
+
+## Klassen- override
+
+In Ruby kann man bestehende Methoden von Klassen einfach überschreiben (overriden). Das gilt sogar für eingebaute Klassen wie String.
+
+Beispiel:
+```ruby
+class String
+  def length
+    20
+  end
+end
+
+puts "Hallo".length   # Gibt immer 20 aus!
+puts "abc".length     # Gibt auch 20 aus!
+```
+
+Das bedeutet: Egal wie lang der Text wirklich ist, length gibt jetzt immer 20 zurück.
+
+Auch eigene Methoden kannst du so überschreiben:
+```ruby
+class Dog
+  def talk
+    puts "Wuff!"
+  end
+end
+
+my_dog = Dog.new
+my_dog.talk   # Wuff!
+
+class Dog
+  def talk
+    puts "Heul!"
+  end
+end
+
+my_dog.talk   # Heul!
+
+```
+
+Achtung: Das ist mächtig, kann aber zu Problemen führen, wenn man selbst (oder durch Bibliotheken) wichtige Methoden überschreibt, auf die andere Teile des Programms angewiesen sind.
+
+## Reflection
+Reflection bedeutet, dass ein Programm sich selbst „anschauen“ und Informationen über sich herausfinden kann – zum Beispiel, welche Methoden ein Objekt hat.
+
+In Ruby kannst du z. B. mit methods herausfinden, was ein Objekt alles kann:
+```ruby
+a = "Hallo"
+puts a.methods
+```
+
+Das gibt dir eine lange Liste von Methoden, die du auf Strings anwenden kannst, z. B. upcase, length, reverse usw.
+
+Du kannst auch sehen, welche Variablen ein Objekt hat:
+```ruby
+class Person
+  attr_accessor :name, :age
+end
+
+p = Person.new
+p.name = "Fred"
+p.age = 20
+puts p.instance_variables  # => [:@name, :@age]
+```
+Wozu ist das gut?
+Mit Reflection kannst du z. B. herausfinden, was ein Objekt kann, ohne den Code zu kennen. Das ist praktisch für Werkzeuge, Debugging oder wenn du flexibel programmieren willst.
+
+Merke:
+
+obj.methods zeigt alle Methoden eines Objekts.
+obj.instance_variables zeigt alle Variablen eines Objekts.
+Du musst das am Anfang nicht oft nutzen, aber später kann es sehr hilfreich sein!
+
+
+
+## Kapselung (Encapsulation)
+Hier ist eine leicht verständliche Zusammenfassung mit Beispiel:
+
+Encapsulation (Kapselung) bedeutet, dass Daten und Methoden in einer Klasse „versteckt“ werden können, sodass nicht alles von außen zugreifbar ist. So schützt du wichtige Teile deines Codes und kannst steuern, wie auf Daten zugegriffen wird.
+
+```ruby
+class Person
+  def initialize(name)
+    set_name(name)
+  end
+
+  def name
+    @first_name + ' ' + @last_name
+  end
+
+  private
+
+  def set_name(name)
+    first, last = name.split(' ')
+    @first_name = first
+    @last_name = last
+  end
+end
+
+p = Person.new("Fred Bloggs")
+puts p.name           # => "Fred Bloggs"
+p.set_name("Max Mustermann") # Fehler! set_name ist privat
+```
+- public: Methoden sind von überall aufrufbar (Standard).
+- private: Methoden sind nur innerhalb der Klasse aufrufbar, nicht von außen.
+- protected: Methoden sind für alle Objekte der gleichen Klasse zugänglich, aber nicht von außen.
+
+Du kannst z. B. sicherstellen, dass Namen immer korrekt gesetzt werden und niemand versehentlich interne Variablen verändert.
+So bleibt dein Code stabil und leicht wartbar.
+
+## Verschachtelte Klassen - Nested Classes
+
+In Ruby kann man eine Klasse in eine andere Klasse hineinlegen. Das nennt man verschachtelte Klassen (nested classes). Das macht man, wenn eine Klasse nur für eine andere Klasse gebraucht wird und nicht überall im Programm.
+
+```ruby
+class Zeichnung
+  class Linie
+  end
+  class Kreis
+  end
+end
+```
+Hier gibt es die Klasse Zeichnung und darin die Klassen Linie und Kreis.
+Innerhalb von Zeichnung kann man einfach Linie oder Kreis benutzen.
+Außerhalb muss man Zeichnung::Linie oder Zeichnung::Kreis schreiben.
+
+```ruby
+a = Zeichnung::Kreis.new
+```
+
+
+
 
 Codebeispiele:
 

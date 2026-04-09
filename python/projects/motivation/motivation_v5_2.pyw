@@ -48,8 +48,8 @@ top_frame = Frame(fenster, bg='black')
 top_frame.pack()
 
 # Bilder laden und skalieren (maximal 600px Breite)
-img1 = PhotoImage(file=r"python\exercises\Kapitel 11\motivation\img\rainbow3.png")
-img2 = PhotoImage(file=r"python\exercises\Kapitel 11\motivation\img\rainbow4.png")
+img1 = PhotoImage(file=r"python\projects\motivation\img\rainbow3.png")
+img2 = PhotoImage(file=r"python\projects\motivation\img\rainbow4.png")
 
 def scale_image(img, max_width=600):
     w = img.width()
@@ -94,6 +94,24 @@ img_label1.grid(row=0, column=0, padx=10)
 button.grid(row=0, column=1, padx=10)
 img_label2.grid(row=0, column=2, padx=10)
 
+
+# --- Gradient hinter dem Spruchbereich ---
+gradient_width = 1800
+gradient_height = 400
+gradient_x = (1800-gradient_width)//2  # zentriert
+gradient_y = 350
+
+gradient_canvas = Canvas(fenster, width=gradient_width, height=gradient_height, highlightthickness=0, bd=0)
+gradient_canvas.place(x=gradient_x, y=gradient_y)
+# Vertikaler Gradient: mitte blau (#0000e4), unten und oben schwarz (#000000)
+for i in range(gradient_height):
+    # Symmetrischer Verlauf: Mitte blau, oben/unten schwarz
+    rel = abs(i - gradient_height/2) / (gradient_height/2)
+    b = int(228 * (1 - rel))  # 228 = blau, 0 = schwarz
+    color = f'#0000{b:02x}'
+    gradient_canvas.create_line(0, i, gradient_width, i, fill=color)
+
+# Label über dem Gradient platzieren
 label = Label(
     master=fenster,
     font=('Segoe Script', 40, 'bold'),
@@ -102,10 +120,13 @@ label = Label(
     text=SPRÜCHE[0],
     bd=4,
     relief='solid',
-    #highlightbackground='#ff2fd6', # Neon pink border
-    #highlightcolor='#ff2fd6',
-    #highlightthickness=2
 )
+label_width = 1000
+label_height = 300
+label_x = gradient_x + (gradient_width - label_width)//2
+label_y = gradient_y + (gradient_height - label_height)//2
+
+#label.place(x=label_x, y=label_y, width=label_width, height=label_height)
 label.pack(pady=20)
 
 # Frame für die unterste Zeile

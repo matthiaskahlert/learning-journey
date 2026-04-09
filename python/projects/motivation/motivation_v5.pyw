@@ -60,8 +60,8 @@ container = Frame(bg_frame, bg='black', bd=0)
 container.place(relx=0.5, rely=0.5, anchor='center')
 
 # --- Bilder laden ---
-img1 = PhotoImage(file=r"python\exercises\Kapitel 11\motivation\img\rainbow3.png")
-img2 = PhotoImage(file=r"python\exercises\Kapitel 11\motivation\img\rainbow4.png")
+img1 = PhotoImage(file=r"python\projects\motivation\img\rainbow3.png")
+img2 = PhotoImage(file=r"python\projects\motivation\img\rainbow4.png")
 
 def scale_image(img, max_width=600):
     w, h = img.width(), img.height()

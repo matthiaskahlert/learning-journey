@@ -8,32 +8,25 @@ SPRÜCHE = ['Veränderung beginnt im Kopf, \npassiert aber im Tun.',
 'Das kalte Wasser wird nicht wärmer, \nwenn du später springst.',
 'Die Welt ist nicht gerecht, \naber du kannst es sein.',
 'Lieber erledigt als perfekt!',
-'Deine Bedürfnisse zu äußern \nwird niemals eine echte Verbindung ruinieren.',
-'Die richtige Richtung \nist so viel wichtiger \nals die Geschwindigkeit.']
+'Deine Bedürfnisse zu äußern \nwird niemals eine echte Verbindung ruinieren.']
 
 # Diese Funktion wird ausgewählt, wenn die Schaltfläche angeklickt wird.
 # Sie wählt einen zufälligen Spruch aus der Liste aus und aktualisiert den Text des Labels.
 def auswählen():
-    current = label.cget('text')
-    possible = [spruch for spruch in SPRÜCHE if spruch != current]
-    if possible:
-        text = choice(possible)
-    else:
-        text = current
+    text = choice(SPRÜCHE)
     label.config(text=text)
 
 fenster = Tk()
 fenster.geometry('1800x1200')
 fenster.config(bg='black')
-fenster.title('Motivation Booster!')
 
 # Frame für die obere Zeile
 top_frame = Frame(fenster, bg='black')
 top_frame.pack()
 
 # Bilder laden und skalieren (maximal 600px Breite)
-img1 = PhotoImage(file=r"python\exercises\Kapitel 11\motivation\img\rainbow3.png")
-img2 = PhotoImage(file=r"python\exercises\Kapitel 11\motivation\img\rainbow4.png")
+img1 = PhotoImage(file=r"python\projects\motivation\img\rainbow3.png")
+img2 = PhotoImage(file=r"python\projects\motivation\img\rainbow4.png")
 
 def scale_image(img, max_width=600):
     w = img.width()

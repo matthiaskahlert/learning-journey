@@ -13,22 +13,6 @@ SPRÜCHE = ['Veränderung beginnt im Kopf, \npassiert aber im Tun.',
 
 # Diese Funktion wird ausgewählt, wenn die Schaltfläche angeklickt wird.
 # Sie wählt einen zufälligen Spruch aus der Liste aus und aktualisiert den Text des Labels.
-def fade_out_in(new_text, steps=10, delay=30):
-    # Fade out
-    for i in range(steps, -1, -1):
-        color = f'#{i*15:02x}{i*15:02x}{i*15:02x}'
-        label.config(fg=color)
-        label.update()
-        label.after(delay)
-    label.config(text=new_text)
-    # Fade in
-    for i in range(0, steps+1):
-        color = f'#{i*15:02x}{i*15:02x}{i*15:02x}'
-        label.config(fg=color)
-        label.update()
-        label.after(delay)
-    label.config(fg='white')
-
 def auswählen():
     current = label.cget('text')
     possible = [spruch for spruch in SPRÜCHE if spruch != current]
@@ -36,7 +20,7 @@ def auswählen():
         text = choice(possible)
     else:
         text = current
-    fade_out_in(text)
+    label.config(text=text)
 
 fenster = Tk()
 fenster.geometry('1800x1200')
@@ -48,8 +32,8 @@ top_frame = Frame(fenster, bg='black')
 top_frame.pack()
 
 # Bilder laden und skalieren (maximal 600px Breite)
-img1 = PhotoImage(file=r"python\exercises\Kapitel 11\motivation\img\rainbow3.png")
-img2 = PhotoImage(file=r"python\exercises\Kapitel 11\motivation\img\rainbow4.png")
+img1 = PhotoImage(file=r"python\projects\motivation\img\rainbow3.png")
+img2 = PhotoImage(file=r"python\projects\motivation\img\rainbow4.png")
 
 def scale_image(img, max_width=600):
     w = img.width()
@@ -75,58 +59,21 @@ button = Button(
     pady=20,
     bd=5,
     relief='ridge',
-    bg='#ff2fd6', # Neon pink
-    fg='black',
-    activebackground='#ffe600', # Neon gelb beim Klicken
-    activeforeground='black',
-    highlightthickness=2,
-    highlightbackground='#00fff7' # Neon cyan border
+    bg='darkgray',
 )
-
-def on_enter(e):
-    button.config(bg='#00fff7', fg='black')
-def on_leave(e):
-    button.config(bg='#ff2fd6', fg='black')
-button.bind('<Enter>', on_enter)
-button.bind('<Leave>', on_leave)
 
 img_label1.grid(row=0, column=0, padx=10)
 button.grid(row=0, column=1, padx=10)
 img_label2.grid(row=0, column=2, padx=10)
 
-
-# --- Gradient hinter dem Spruchbereich ---
-gradient_width = 1800
-gradient_height = 400
-gradient_x = (1800-gradient_width)//2  # zentriert
-gradient_y = 350
-
-gradient_canvas = Canvas(fenster, width=gradient_width, height=gradient_height, highlightthickness=0, bd=0)
-gradient_canvas.place(x=gradient_x, y=gradient_y)
-# Vertikaler Gradient: mitte blau (#0000e4), unten und oben schwarz (#000000)
-for i in range(gradient_height):
-    # Symmetrischer Verlauf: Mitte blau, oben/unten schwarz
-    rel = abs(i - gradient_height/2) / (gradient_height/2)
-    b = int(228 * (1 - rel))  # 228 = blau, 0 = schwarz
-    color = f'#0000{b:02x}'
-    gradient_canvas.create_line(0, i, gradient_width, i, fill=color)
-
-# Label über dem Gradient platzieren
 label = Label(
     master=fenster,
     font=('Segoe Script', 40, 'bold'),
     fg='white',
     bg='black',
-    text=SPRÜCHE[0],
-    bd=4,
-    relief='solid',
+    text=SPRÜCHE[0]
 )
-label_width = 1000
-label_height = 300
-label_x = gradient_x + (gradient_width - label_width)//2
-label_y = gradient_y + (gradient_height - label_height)//2
 
-#label.place(x=label_x, y=label_y, width=label_width, height=label_height)
 label.pack(pady=20)
 
 # Frame für die unterste Zeile

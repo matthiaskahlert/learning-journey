@@ -10,6 +10,7 @@ SPRÜCHE = ['Veränderung beginnt im Kopf, \npassiert aber im Tun.',
 'Lieber erledigt als perfekt!',
 'Einen Schritt zurückzugehen physisch oder metaphorisch \nist eine großartige Übung. Sie wird dir helfen, \ndie Dinge aus einer neuen Perspektive zu sehen.',
 'Deine Bedürfnisse zu äußern \nwird niemals eine echte Verbindung ruinieren.',
+'Wenn wir nicht aufrichtig "Ja" sagen, sagen wir widerwillig "Ja", und das führt zu viel mehr Problemen, als wenn wir von vornherein "Nein" gesagt hätten.',
 'Die richtige Richtung \nist so viel wichtiger \nals die Geschwindigkeit.']
 
 # Diese Funktion wird ausgewählt, wenn die Schaltfläche angeklickt wird.
@@ -90,8 +91,8 @@ controls_frame = Frame(top_frame, bg='black')
 controls_frame.pack(anchor='n')
 
 # Bilder laden und skalieren (maximal 600px Breite)
-img1 = PhotoImage(file=r"python\exercises\Kapitel 11 Uebungen\motivation\img\rainbow3.png")
-img2 = PhotoImage(file=r"python\exercises\Kapitel 11 Uebungen\motivation\img\rainbow4.png")
+img1 = PhotoImage(file=r"python\projects\motivation\img\rainbow3.png")
+img2 = PhotoImage(file=r"python\projects\motivation\img\rainbow4.png")
 
 def scale_image(img, max_width=600):
     w = img.width()

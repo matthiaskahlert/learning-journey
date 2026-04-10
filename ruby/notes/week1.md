@@ -932,9 +932,119 @@ Kurz gesagt:
 Mit Modulen und include kann man Namespaces flexibel nutzen und Klassen/Mixins in den aktuellen Scope holen.
 RBS ermöglicht statische Typisierung in Ruby, um Fehler früh zu erkennen und die Codequalität zu steigern.
 
+
+## Nutzung von externen Dateien
+
+In Ruby gibt es zwei unterschiedliche Wege, um Code aus anderen Dateien zu laden:
+
+### 1. `require_relative` – Für Module und Klassen
+
+**Wofür?** Um Dateien zu laden, die im gleichen Verzeichnis oder in Unterverzeichnissen liegen.
+
+**Wie funktioniert es?**
+- Sucht relativ zur aktuellen Datei (nicht vom Working Directory)
+- Cacht die Datei – wird nur einmal geladen
+- Ideal für Module, Classes und Mixins
+
+**Beispiel aus vowel_test.rb:**
+```ruby
+require_relative 'string_extensions'
+# Sucht string_extensions.rb im gleichen Verzeichnis wie vowel_test.rb
+puts 'This is a test'.vowels.join('-')
+# Ausgabe: i-i-a-e
+```
+
+**Warum nicht `require './string_extensions'`?**
+- `require './...'` sucht vom Working Directory, nicht von der aktuellen Datei
+- Funktioniert nicht zuverlässig mit Code Runner
+- `require_relative` ist der Standard-Weg in Ruby
+
+---
+
+### 2. `load` mit `File.join(__dir__, '...')` – Für externe Skripte
+
+**Wofür?** Um externe Skripte zu laden, die mehrfach ausgeführt werden sollen.
+
+**Wie funktioniert es?**
+- `__dir__` gibt das Verzeichnis der aktuellen Datei zurück (Magic-Konstante)
+- `File.join()` verbindet Pfade sicher (funktioniert auf Windows, Mac, Linux)
+- Lädt die Datei JEDES MAL neu aus (nicht gecacht!)
+
+**Beispiel aus b_load.rb:**
+```ruby
+# __dir__        = Das Verzeichnis, in dem DIESE DATEI (b_load.rb) liegt
+# File.join()    = Verbindet Pfade sicher (funktioniert auf Windows, Mac, Linux)
+# Zusammen: Lade die Datei 'a.rb' aus dem gleichen Verzeichnis wie b_load.rb
+
+load File.join(__dir__, 'a.rb')
+puts 'Hello from b.rb'
+
+# Lädt a.rb nochmal - load führt den Code jedes Mal erneut aus (nicht gecacht)
+load File.join(__dir__, 'a.rb')
+puts 'Hello again from b.rb'
+```
+
+**Ausgabe:**
+```
+Hello from a.rb
+Hello from b.rb
+Hello from a.rb
+Hello again from b.rb
+```
+(a.rb wird zweimal loaded und ausgeführt!)
+
+---
+
+### Unterschied: `require_relative` vs. `load`
+
+| Aspekt | `require_relative` | `load` |
+|--------|---|---|
+| **Nutzung** | Module, Classes, Mixins | Externe Skripte |
+| **Caching** | Ja (wird nur einmal geladen) | Nein (wird jedes Mal neu ausgeführt) |
+| **Syntax** | `require_relative 'dateiname'` | `load File.join(__dir__, 'dateiname.rb')` |
+| **Pfad-Typ** | Relativ zur aktuellen Datei | Muss explizit mit `__dir__` und `File.join` gebaut werden |
+| **Use-Case** | Wenn du Code einmal brauchst und dann weiterarbeitest | Wenn du Code mehrfach/dynamisch ausführen musst |
+
+---
+
+### Warum funktioniert `require './datei.rb'` oft nicht?
+
+Der Play-Button (Code Runner) startet Dateien oft nicht aus dem Verzeichnis der Ruby-Datei, sondern vom Project-Root. Deshalb schlägt `require './datei.rb'` fehl.
+
+**Lösung:** Immer `require_relative` verwenden!
+
+---
+
 Codebeispiele:
 
-// Beispielcode
+**vowel_test.rb** – `require_relative`
+```ruby
+require_relative 'string_extensions'
+puts 'This is a test'.vowels.join('-')
+```
+
+**b_load.rb** – `load` mit `File.join(__dir__, '...')`
+```ruby
+load File.join(__dir__, 'a.rb')
+puts 'Hello from b.rb'
+```
+
+### Nested Inclusions
+
+erschachteltes Einbinden (Nested Inclusions) in Ruby
+
+Wenn du mit require, require_relative oder load Dateien einbindest, wird deren Code so behandelt, als wäre er direkt in die Ursprungsdatei eingefügt.
+Eingebundene Dateien können selbst wieder andere Dateien einbinden – beliebig tief verschachtelt.
+Beispiel:
+d.rb → require_relative 'a'
+a.rb → require_relative 'b'
+b.rb → require_relative 'c'
+c.rb definiert eine Methode example
+In d.rb kannst du dann direkt example aufrufen, weil alle Einbindungen „durchgereicht“ werden.
+Vorteil: Große Projekte lassen sich so modular und übersichtlich strukturieren, auch mit vielen Abhängigkeiten.
+
+##  Bibliotheken und Gems in Ruby
+
 
 
 Was ich morgen lernen will:
@@ -989,4 +1099,67 @@ Schwierigkeiten / To-do für nächste Woche:
 
 💡 Nächste Woche – Fokus / Lernziele
 
-…
+## Ruby Gems – Was ist das und wie nutzt man sie?
+
+**Was ist ein Gem?**
+- Ein Gem ist ein Paket aus Ruby-Code, das von anderen entwickelt und veröffentlicht wurde.
+- Gems enthalten oft Bibliotheken, Tools oder Erweiterungen, die du in deinen eigenen Programmen nutzen kannst.
+- Beispiele: `rails` (Webentwicklung), `nokogiri` (XML/HTML-Parsing), `colorize` (bunte Terminalausgabe).
+
+**Warum sind Gems wichtig?**
+- Du musst das Rad nicht neu erfinden – viele Probleme sind schon gelöst!
+- Du sparst Zeit und bekommst geprüften, oft gut dokumentierten Code.
+- Große Projekte werden übersichtlicher, weil du auf viele kleine Bausteine zurückgreifen kannst.
+
+**Wie installiere ich ein Gem?**
+- Im Terminal: `gem install <gemname>`
+- Beispiel: `gem install colorize`
+
+**Wie nutze ich ein Gem im Code?**
+- Mit `require '<gemname>'` bindest du das Gem in dein Ruby-Programm ein.
+- Beispiel:
+  ```ruby
+  require 'colorize'
+  puts "Hallo".colorize(:red)
+  ```
+
+**Wo finde ich Gems?**
+- Die zentrale Anlaufstelle ist [https://rubygems.org](https://rubygems.org)
+- Dort kannst du nach Gems suchen, Doku lesen und sehen, wie du sie installierst.
+
+**Standardbibliotheken vs. Gems:**
+- Standardbibliotheken sind schon bei Ruby dabei (z.B. `net/http`, `json`).
+- Gems musst du meist extra installieren.
+
+**Tipp:**
+- Mit `gem list` siehst du alle installierten Gems auf deinem System.
+- Mit `gem update` kannst du alle Gems aktualisieren.
+
+**Fazit:**
+Gems sind das Herzstück der Ruby-Community. Sie machen Ruby so vielseitig und mächtig, weil du auf die Arbeit von tausenden Entwicklern zurückgreifen kannst. Nutze sie, um schneller und besser zu programmieren!
+
+## Einstieg: Documentation, Error Handling, Debugging & Testing in Ruby
+Softwarequalität ist kein Zufall - sie entsteht durch systematisches Arbeiten, gute Dokumentation, sauberes Fehler-Handling, gezieltes Debugging und vor allem durch Tests. Gerade im beruflichen Umfeld sind diese Themen entscheidend, um robuste, wartbare und nachvollziehbare Software zu entwickeln.
+
+1. Dokumentation
+Dokumentation ist mehr als Kommentare: Sie hilft dir und anderen, Code zu verstehen, zu warten und weiterzuentwickeln.
+In Ruby nutzt man oft RDoc oder YARD für strukturierte Dokumentation.
+Gute Dokumentation beschreibt nicht nur das "Wie", sondern auch das "Warum" hinter dem Code.
+2. Fehlerbehandlung (Error Handling)
+Fehler passieren - entscheidend ist, wie du damit umgehst.
+Ruby nutzt begin ... rescue ... end-Blöcke, um Fehler abzufangen und kontrolliert zu reagieren.
+Ziel: Programme sollen nicht abstürzen, sondern verständliche Fehlermeldungen liefern oder sich sinnvoll verhalten.
+3. Debugging
+Debugging ist das gezielte Suchen und Beheben von Fehlern.
+Ruby bietet Tools wie puts/p für einfache Ausgaben, aber auch den Debugger (byebug, debug-Gem).
+Systematisches Debugging spart Zeit und Nerven – und hilft, die eigenen Denkfehler zu erkennen.
+4. Testing
+Tests sind das Rückgrat der Softwarequalität.
+In Ruby gibt es verschiedene Test-Frameworks: minitest (Standard), RSpec (beliebt für BDD).
+Mit Tests prüfst du, ob dein Code das tut, was er soll – und schützt dich vor ungewollten Fehlern bei Änderungen.
+Warum ist das wichtig?
+Dokumentation, Fehlerbehandlung, Debugging und Tests machen den Unterschied zwischen "funktionierendem" und "professionellem" Code.
+Sie sind die Basis für Teamarbeit, Wartbarkeit und Weiterentwicklung.
+Wer diese Themen beherrscht, wird zum gefragten Entwickler – gerade im Bereich Softwarequalität.
+
+

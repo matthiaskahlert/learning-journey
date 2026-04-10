@@ -1,0 +1,1 @@
+var search_data = {"index":[{"name":"RdocTestTmp","full_name":"RdocTestTmp","type":"class","path":"RdocTestTmp.html","snippet":"<p>Einfache Testklasse fuer RDoc-Ausgabe\n"},{"name":"hello","full_name":"RdocTestTmp#hello","type":"instance_method","path":"RdocTestTmp.html#method-i-hello","snippet":"<p>Gibt eine Begruessung zurueck.\n"}]};

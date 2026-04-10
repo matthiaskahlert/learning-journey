@@ -1162,4 +1162,188 @@ Dokumentation, Fehlerbehandlung, Debugging und Tests machen den Unterschied zwis
 Sie sind die Basis für Teamarbeit, Wartbarkeit und Weiterentwicklung.
 Wer diese Themen beherrscht, wird zum gefragten Entwickler – gerade im Bereich Softwarequalität.
 
+## Rdoc
+
+### RDoc Techniques - Kompakt
+
+RDoc wird besonders bei groesseren Projekten nuetzlich. Statt nur einzelne Dateien zu dokumentieren, kannst du ganze Projektstrukturen automatisch erfassen und konsistente API-Dokumentation erzeugen.
+
+### 1) Doku fuer das ganze Projekt erzeugen
+
+- Ohne Dateiangabe verarbeitet `rdoc` alle Ruby-Dateien im aktuellen Ordner und in allen Unterordnern.
+- Ausgabe landet standardmaessig im Ordner `doc`.
+- Einstiegspunkt ist `index.html` in der erzeugten Doku.
+
+Beispiel:
+
+```bash
+rdoc
+```
+
+### 2) Basis-Formatierung in Kommentaren
+
+RDoc erkennt Struktur direkt aus Kommentarformaten:
+
+- Ueberschriften: `#=`, `#==`
+- Listen mit `#*` und eingerueckten Unterpunkten
+- Fett mit `*text*`, kursiv mit `_text_`
+- Code-Style inline mit `+code+`
+- Eingerueckte Codebloecke werden als Code formatiert
+
+Merksatz: Sauber strukturierte Kommentare ergeben sofort besser lesbare HTML-Dokumentation.
+
+### 3) Wichtige Modifier
+
+`#:nodoc:`
+
+- Blendet einzelne Elemente (z. B. Methoden) aus der Doku aus.
+
+`#:nodoc: all`
+
+- Blendet ein Element und alles darunter aus (z. B. ganze Klasse inkl. Methoden).
+
+### 4) RDoc temporaer aus-/einschalten
+
+- `#--` stoppt die Verarbeitung durch RDoc
+- `#++` startet sie wieder
+
+Nuetzlich fuer interne Team-Notizen, die nicht in die oeffentliche Doku sollen.
+
+### 5) Wichtige CLI-Optionen
+
+- `--all`: dokumentiert auch nicht-oeffentliche Methoden
+- `--fmt <format>`: Ausgabeformat waehlen (z. B. `darkfish`, `ri`)
+- `--main <name>`: definiert Startseite (Klasse/Modul/Datei)
+- `--help`: zeigt alle verfuegbaren Optionen
+
+Beispiele:
+
+```bash
+rdoc --all
+rdoc --fmt darkfish
+rdoc --main MyClass
+rdoc --help
+```
+
+### 6) Wichtige Hinweise
+
+- Kommentare innerhalb von Methoden werden nicht als RDoc-Dokumentation verwendet.
+- Durch Leerzeilen getrennte Kommentarbloecke koennen von RDoc anders verarbeitet oder ignoriert werden.
+- Fuer alle erweiterten Features: https://ruby.github.io/rdoc/
+
+## Exceptions in Ruby
+
+### Kurz erklaert
+
+Eine Exception ist ein Laufzeitfehler. Ohne Behandlung stoppt das Programm.
+Mit Exception Handling kannst du:
+
+- Fehler abfangen (`rescue`)
+- sinnvoll reagieren (z. B. Ersatzwert laden)
+- und das Programm kontrolliert weiterlaufen lassen.
+
+### Basis-Syntax (Merkmuster)
+
+```ruby
+begin
+  # riskanter Code
+rescue
+  # Fehlerbehandlung
+end
+```
+
+```ruby
+begin
+  puts 10 / 0
+rescue ZeroDivisionError
+  puts "Division durch 0 ist nicht erlaubt"
+end
+```
+
+### Exception werfen (`raise`)
+Fehler können sowohl vom System als auch absichtlich durch den Entwickler ausgelöst werden – letzteres geschieht mit dem Befehl raise.
+```ruby
+def set_age(age)
+  raise ArgumentError, "age muss >= 0 sein" if age < 0
+  @age = age
+end
+```
+
+Eigene Exception:
+
+```ruby
+class BadDataError < RuntimeError; end
+
+def parse_name(name)
+  raise BadDataError, "Name fehlt" if name.to_s.strip.empty?
+end
+```
+
+### Exception-Objekt nutzen
+Wird eine Exception ausgelöst, sucht Ruby in der Aufrufkette (dem Stack) nach einer passenden Fehlerbehandlung. Findet Ruby keine, bricht das Programm mit einer Fehlermeldung ab. Um das zu verhindern, kann man mit den Schlüsselwörtern begin, rescue und end gezielt Fehler abfangen und behandeln.
+```ruby
+begin
+  Integer("abc")
+rescue => e
+  puts "#{e.class}: #{e.message}"
+end
+```
+
+### Mehrere Fehlerarten unterschiedlich behandeln
+
+```ruby
+begin
+  # Code mit mehreren moeglichen Fehlern
+rescue ArgumentError
+  puts "Ungueltige Argumente"
+rescue ZeroDivisionError
+  puts "Rechenfehler"
+rescue StandardError
+  puts "Allgemeiner Laufzeitfehler"
+end
+```
+
+### Tabelle: Haefige Exception-Arten in Ruby
+
+| Exception | Wann tritt sie auf? | Mini-Beispiel |
+|---|---|---|
+| `ZeroDivisionError` | Division durch 0 | `10 / 0` |
+| `NoMethodError` | Methode existiert nicht fuer Objekt | `nil.upcase` |
+| `NameError` | Unbekannte Variable/Konstante | `puts unbekannt` |
+| `TypeError` | Falscher Datentyp in Operation | `"2" + 2` |
+| `ArgumentError` | Falsche Anzahl/Art von Argumenten | `Array.new(-1)` |
+| `RuntimeError` | Allgemeiner Laufzeitfehler, oft via `raise` | `raise RuntimeError, "Fehler"` |
+| `StandardError` | Oberklasse vieler alltaeglicher Fehler | wird oft in `rescue` implizit genutzt |
+| `LoadError` | Datei/Library kann nicht geladen werden | `require "nicht_da"` |
+
+### Ruby-Besonderheiten (wichtig)
+
+1. `rescue` ohne Typ faengt standardmaessig `StandardError` (und Unterklassen), nicht alle Exceptions.
+2. `ensure` laeuft immer, egal ob Fehler oder nicht (gut fuer Cleanup wie Datei schliessen).
+3. `else` in `begin/rescue` laeuft nur, wenn kein Fehler auftrat.
+4. `catch/throw` ist kein Fehler-Handling wie `raise/rescue`, sondern ein kontrollierter Abbruchfluss.
+
+Beispiel mit `ensure` und `else`:
+
+```ruby
+file = File.open("data.txt")
+begin
+  content = file.read
+rescue Errno::ENOENT
+  puts "Datei nicht gefunden"
+else
+  puts "Lesen erfolgreich"
+ensure
+  file.close if file
+end
+```
+
+### Best Practices (kurz)
+
+- Rescuen nur dort, wo du sinnvoll reagieren kannst.
+- Moeglichst konkrete Exception-Typen verwenden.
+- Bei `raise` immer klare Fehlermeldung angeben.
+- Fehler nicht still schlucken (mindestens loggen/ausgeben).
+Das Exception Handling ist besonders nützlich, um Programme robuster zu machen und beispielsweise Alternativen anzubieten, wenn externe Ressourcen wie Netzwerke oder Dateien nicht verfügbar sind.
+
 

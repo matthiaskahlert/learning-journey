@@ -14,35 +14,71 @@
 # Terminal in VS Code öffnen.
 # Befehl ausführen: ruby ruby/exercises/dungeon.rb
 # Dann Befehle eintippen: nord, sued, hilfe, beenden.
+##
+# Hauptklasse fuer das Dungeon-Spiel.
+# Verwaltet Spieler, Raeume und die Navigation.
+# @example
+#   me = Player.new('Guybrush Threepwood')
+#   game = Dungeon.new(me)
+#   game.start(:keller)
 class Dungeon
   attr_accessor :player
 
+  ##
+  # Erstellt ein neues Dungeon mit Spieler.
+  # @param player [Player] Aktiver Spieler.
+  # @return [void]
   def initialize(player)
     @player = player
     @rooms = {}
   end
 
+  ##
+  # Fuegt einen Raum zum Dungeon hinzu.
+  # @param reference [Symbol] Interner Raum-Key.
+  # @param name [String] Raumname.
+  # @param description [String] Raum-Beschreibung.
+  # @param connections [Hash{Symbol => Symbol}] Ausgaenge mit Zielraum.
+  # @return [void]
   def add_room(reference, name, description, connections)
     @rooms[reference] = Room.new(reference, name, description, connections)
   end
 
+  ##
+  # Startet das Spiel an einer Position.
+  # @param location [Symbol] Start-Raum.
+  # @return [void]
   def start(location)
     @player.location = location
     show_current_description
   end
 
+  ##
+  # Zeigt die Beschreibung des aktuellen Raums.
+  # @return [void]
   def show_current_description
     puts find_room_in_dungeon(@player.location).full_description
   end
 
+  ##
+  # Sucht einen Raum ueber seinen Referenz-Key.
+  # @param reference [Symbol] Raum-Key.
+  # @return [Room, nil] Gefundener Raum oder nil.
   def find_room_in_dungeon(reference)
     @rooms[reference]
   end
 
+  ##
+  # Ermittelt den Zielraum in einer Richtung.
+  # @param direction [Symbol] Bewegungsrichtung.
+  # @return [Symbol, nil] Raum-Referenz oder nil.
   def find_room_in_direction(direction)
     find_room_in_dungeon(@player.location).connections[direction]
   end
 
+  ##
+  # Zuordnung interner Richtungen zu deutschen Anzeigenamen.
+  # @return [Hash{Symbol => String}] Richtungs-Map.
   DIRECTIONS = {
     north: 'Norden',
     south: 'Süden',
@@ -50,6 +86,10 @@ class Dungeon
     west: 'Westen'
   }.freeze
 
+  ##
+  # Bewegt den Spieler in die gewuenschte Richtung.
+  # @param direction [Symbol] Richtung, z. B. :north.
+  # @return [void]
   def go(direction)
     next_room = find_room_in_direction(direction)
     if next_room.nil?
@@ -61,16 +101,28 @@ class Dungeon
     end
   end
 
+  ##
+  # Zeigt alle verfuegbaren Ausgaenge des aktuellen Raums.
+  # @return [void]
   def show_exits
     current_room = find_room_in_dungeon(@player.location)
     exits = current_room.connections.keys.map { |dir| "#{DIRECTIONS[dir] || dir} (#{dir})" }
     puts "Ausgänge: #{exits.join(' | ')}"
   end
 
+  ##
+  # Zugriff auf einen Raum ueber Referenz-Key.
+  # @param reference [Symbol] Raum-Key.
+  # @return [Room, nil] Raum oder nil.
   def room(reference)
     @rooms[reference]
   end
 
+  ##
+  # Hauptschleife fuer die interaktive Spielsteuerung.
+  # @return [void]
+  # @example
+  #   dungeon.play
   def play
     puts '=' * 50
     puts "  DUNGEON - Willkommen, #{@player.name}!"
@@ -116,17 +168,32 @@ class Dungeon
   end
 end
 
+##
+# Spielerobjekt mit Name und aktueller Position.
 class Player
   attr_accessor :name, :location
 
+  ##
+  # Erstellt einen Spieler.
+  # @param name [String] Spielername.
+  # @return [void]
   def initialize(name)
     @name = name
   end
 end
 
+##
+# Datenklasse fuer einen Raum im Dungeon.
 class Room
   attr_accessor :reference, :name, :description, :connections
 
+  ##
+  # Erstellt einen Raum mit Metadaten und Verbindungen.
+  # @param reference [Symbol] Interner Raum-Key.
+  # @param name [String] Anzeigename des Raums.
+  # @param description [String] Beschreibung des Raums.
+  # @param connections [Hash{Symbol => Symbol}] Ausgaenge mit Zielraum.
+  # @return [void]
   def initialize(reference, name, description, connections)
     @reference = reference
     @name = name
@@ -134,6 +201,9 @@ class Room
     @connections = connections
   end
 
+  ##
+  # Gibt die formatierte Vollbeschreibung eines Raums zurueck.
+  # @return [String] Name und Beschreibung als Text.
   def full_description
     "#{@name}\n\nDu bist in: #{@description}"
   end

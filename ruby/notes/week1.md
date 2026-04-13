@@ -1542,7 +1542,7 @@ people.each { |p| puts p[:first_name] }
 
 Merksatz: Starte mit SQLite3 zum Lernen (einfach, keine Setup), nutze Sequel sobald dein Projekt mehrere oder komplexere Datenbanken braucht.
 
-### ActiveRecord (kurzer Überblick)
+### ActiveRecord in Ruby
 
 ActiveRecord ist ein ORM (Object-Relational Mapping) aus Ruby on Rails, kann aber auch ohne Rails genutzt werden. Die Idee: Statt SQL-Zeilen direkt zu schreiben, arbeitest du mit Ruby-Klassen und Objekten. Klassen entsprechen Tabellen, Objekte entsprechen Zeilen. Dadurch bleibt der Code oft lesbarer, weil du in Ruby bleibst und nicht ständig zwischen Ruby und SQL wechselst.
 

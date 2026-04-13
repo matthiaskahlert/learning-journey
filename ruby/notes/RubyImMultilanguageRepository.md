@@ -17,10 +17,14 @@ Ruby lag nur in einem Unterordner des Repos. Dadurch war das Ruby-Projekt unvoll
 
 ## Losungsschritte
 
-### 1. Bundler initialisieren
+
+### 1. Bundler initialisieren und wichtige Gems installieren
 
 ```bash
 gem install bundler
+gem install byebug
+gem install minitest
+gem install sqlite3
 bundle init
 ```
 
@@ -28,15 +32,28 @@ Ergebnis: Ein `Gemfile` wird im Ruby-Projekt angelegt.
 
 ### 2. Benotigte Gems eintragen
 
+
 In `ruby/Gemfile`:
 
 ```ruby
 gem "rubocop"
 gem "ruby-lsp"
+gem "byebug"
+gem "minitest"
+gem "sqlite3"
 ```
 
+
 - `rubocop`: Stilregeln und Formatierung
-- `ruby-lsp`: Language Server fur VS Code
+- `ruby-lsp`: Language Server für VS Code
+- `byebug`: Debugging-Tool für Ruby
+- `minitest`: Test-Framework für Ruby
+- `sqlite3`: SQLite-Anbindung für Ruby
+
+Hinweis zu SQLite unter Windows:
+
+- Wenn `gem install sqlite3` wie bei dir erfolgreich durchlaeuft (z. B. `sqlite3-2.9.2-x64-mingw-ucrt`), ist fuer Ruby-Projekte in der Regel keine manuelle SQLite-Installation noetig.
+- Eine manuelle Installation von der offiziellen SQLite-Seite brauchst du nur zusaetzlich, wenn du auch die `sqlite3`-Kommandozeile separat nutzen willst.
 
 ### 3. Gems lokal installieren
 

@@ -1347,3 +1347,223 @@ end
 Das Exception Handling ist besonders nützlich, um Programme robuster zu machen und beispielsweise Alternativen anzubieten, wenn externe Ressourcen wie Netzwerke oder Dateien nicht verfügbar sind.
 
 
+## Testgetriebene Entwicklung (TDD)
+Testgetriebene Entwicklung bedeutet, dass ich zuerst mit klaren Erwartungen starte und diese als Tests (Assertions) formuliere, bevor ich mich auf die eigentliche Implementierung verlasse: Beim Beispiel einer `titleize`-Methode wirkt eine naive Loesung mit `capitalize` zuerst plausibel, scheitert aber sofort an den Testfällen wie "this is a test" -> "This Is A Test" oder "We're testing titleize" -> "We're Testing Titleize". Genau hier zeigt TDD seinen Nutzen: Ich verbessere die Methode schrittweise so läge, bis alle Tests grün sind, und habe danach nicht nur funktionierenden Code, sondern auch ein Sicherheitsnetz, das spätere Änderungen absichert.
+
+
+## UnitTesting mit Minitest
+
+Unit Tests prüfen kleine, klar abgegrenzte Einheiten von Code, zum Beispiel eine einzelne Methode. Die Idee ist: Ich formuliere zuerst, was die Methode liefern soll (Erwartung), und lasse dann den Test diese Erwartung automatisch prüfen. Dadurch sehe ich sofort, ob mein Code noch korrekt funktioniert, auch nachdem ich etwas geaendert habe. Das ist der praktische Kern von testgetriebener Entwicklung: nicht auf Bugs warten, sondern Verhalten vorher festlegen und kontinuierlich absichern.
+
+Fuer Ruby ist Minitest ein schlankes, standardnahes Framework, mit dem Tests strukturiert statt chaotisch im Produktivcode landen. Ich nutze es bereits in meiner Datei `ruby/exercises/test_titleize.rb`:
+
+1. Ich erweitere zuerst `String` um `titleize` (im echten Projekt besser in eigener Datei und per `require_relative` einzubinden, um es zu lernen aber direkt in der Datei).
+2. Ich lade Minitest mit `require 'minitest/autorun'`.
+3. Ich erstelle eine Testklasse, die von `Minitest::Test` erbt.
+4. In `test_basic` definiere ich mehrere Assertions mit `assert_equal(expected, actual)`, ich lasse eine auch absichtlich failen
+
+### So liest man den Test-Output
+
+- `.` bedeutet: eine Testmethode erfolgreich.
+- `F` bedeutet: mindestens eine Assertion ist fehlgeschlagen.
+- `runs` = Anzahl ausgefuehrter Testmethoden.
+- `assertions` = Anzahl einzelner Prüfungen.
+- `failures` = erwartete Werte passen nicht.
+- `errors` = unerwartete Ausnahme im Testlauf.
+
+Da ich absichtlich einen falschen Erwartungswert einbaue, zeigt Minitest exakt `Expected` und `Actual`. Damit kann man systematisch entscheiden: Ist der Test falsch formuliert oder ist der Code fehlerhaft?
+
+### Vorgehen, das ich auf jeden Code uebertragen kann
+
+1. Waehle eine kleine Funktion (eine Methode, eine Klasse, ein Modul).
+2. Definiere 2-5 konkrete Fälle: normal, Randfall, Sonderzeichen/ungueltige Eingaben.
+3. Schreibe zuerst Assertions für das gewuenschte Verhalten.
+4. Führe Tests aus und behebe rot (`F`/`E`) bis alles gruen ist.
+5. Refactorimg erst danach, dabei Tests immer wieder laufen lassen.
+
+### Wichtige Assertions fuer den Start
+
+- `assert(condition)` prueft auf wahr.
+- `assert_equal(expected, actual)` prueft Gleichheit.
+- `refute_equal(expected, actual)` prueft Ungleichheit.
+- `assert_raises(ErrorType) { ... }` prueft, ob ein Fehler korrekt geworfen wird.
+- `assert_instance_of(ClassName, object)` prueft den Typ.
+
+Kurzformel fuer die Praxis: Kleine Einheiten testen, Erwartungen explizit machen, bei jeder Änderung erneut ausführen. So wird der Code nicht nur funktional, sondern auch langfristig wartbar.
+
+## Files und Datenbanken
+
+Ruby behandelt Ein- und Ausgabe ueber sogenannte I/O-Streams. Praktisch heisst das: Daten kommen entweder von der Tastatur, aus einer Datei oder aus umgeleiteten Eingaben herein, und Ausgaben gehen meistens ins Terminal oder in eine Datei. Fuer den Alltag sind vor allem zwei Faelle wichtig: kurze Eingaben mit der Tastatur und das Lesen von Dateien.
+
+### Tastatur-Input und Standard-I/O
+
+| Befehl | Zweck | Kurzbeispiel | Ergebnis/Notiz |
+|---|---|---|---|
+| `gets` | Liest eine Zeile von der Standardeingabe | `name = gets` | meist Tastatur, inklusive Zeilenumbruch |
+| `readlines` | Liest alle Zeilen bis EOF | `lines = readlines` | Ergebnis ist ein Array von Zeilen |
+| `puts` | Gibt Daten auf Standardausgabe aus | `puts name` | meist Terminal |
+| `ruby test.rb < data.txt` | Leitet Dateiinhalt in Standard Input um | `gets` liest dann aus Datei | wichtig fuer Shell/Terminal |
+
+`gets` ist die einfachste Loesung fuer eine einzelne Benutzereingabe. `readlines` ist eher dann sinnvoll, wenn viele Zeilen auf einmal hereinkommen, zum Beispiel ueber Umleitung aus einer Datei.
+
+### Dateien oeffnen und lesen
+
+| Befehl | Zweck | Kurzbeispiel | Besonderheit |
+|---|---|---|---|
+| `File.open("text.txt")` | Datei oeffnen | `File.open("text.txt") { |f| ... }` | schliesst Datei im Block automatisch |
+| `File.new("text.txt", "r")` | Dateiobjekt fuer Lesen erzeugen | `f = File.new("text.txt", "r")` | muss spaeter manuell geschlossen werden |
+| `f.close` | Datei schliessen | `f.close` | wichtig bei `File.new` |
+| `Dir.pwd` | aktuelles Arbeitsverzeichnis anzeigen | `puts Dir.pwd` | hilfreich bei Pfadproblemen |
+
+Die sicherste Standardvariante ist `File.open` mit Block, weil Ruby die Datei danach automatisch schliesst. `File.new` ist nuetzlich, wenn ich das Dateiobjekt laenger im Scope behalten will.
+
+### Wichtige Lesemethoden
+
+| Methode | Liest was? | Beispiel | Wann nuetzlich? |
+|---|---|---|---|
+| `each` | Zeile fuer Zeile | `File.open("text.txt").each { |line| puts line }` | Standardfall bei Textdateien |
+| `each(',')` | Mit eigenem Trenner | `File.open("text.txt").each(',') { |part| puts part }` | CSV-aehnliche Daten, Komma als Trenner |
+| `gets` | Naechste Zeile / naechsten Abschnitt | `puts f.gets` | wenn gezielt nur wenige Zeilen gebraucht werden |
+| `gets(',')` | Naechsten Abschnitt bis Trenner | `puts f.gets(',')` | liest bis zum angegebenen Delimiter |
+| `each_byte` | Byte fuer Byte | `f.each_byte { |b| puts b }` | eher technisch/binaer |
+| `each_char` | Zeichen fuer Zeichen | `f.each_char { |ch| puts ch }` | besser lesbar als `each_byte` |
+
+### Merksaetze
+
+- `gets` von der Tastatur und `gets` auf einem File-Objekt sind dieselbe Idee: naechste Eingabeeinheit lesen.
+- `each` ist fuer Textdateien meistens die beste Wahl.
+- Eigener Delimiter lohnt sich, wenn Daten nicht zeilenweise, sondern z. B. komma-getrennt vorliegen.
+- `File.open { |f| ... }` ist im Alltag fast immer die sauberste Loesung.
+
+### CSV (Comma-Separated Values)
+
+CSV ist die einfachste "Textdatei als Mini-Datenbank"-Variante: Jede Zeile ist ein Datensatz, Kommas trennen Felder. In Ruby liest man CSV meist in Arrays ein, sucht mit `find`/`select` und schreibt die geaenderten Daten wieder komplett zurueck in die Datei.
+
+| Befehl | Zweck | Kurzbeispiel | Ergebnis/Notiz |
+|---|---|---|---|
+| `require 'csv'` | CSV-Bibliothek laden | `require 'csv'` | Standardbibliothek |
+| `CSV.open(file).each` | CSV zeilenweise lesen | `CSV.open('text.txt').each { |row| p row }` | jede Zeile als Array |
+| `CSV.parse(string)` | CSV-Text in Arrays umwandeln | `CSV.parse(File.read('text.txt'))` | Array von Arrays |
+| `CSV.read(file)` | Datei direkt komplett laden | `people = CSV.read('text.txt')` | kuerzeste Ladevariante |
+| `find` / `find_all` | Daten durchsuchen | `people.find { |p| p[0] =~ /Laura/ }` | erster Treffer / alle Treffer |
+| `CSV.open(file, 'w')` + `csv << row` | Daten zurueckschreiben | `csv << person` | Datei wird neu geschrieben |
+
+### PStore (Objekte persistent speichern)
+
+PStore speichert Ruby-Objekte direkt auf Platte (Object Persistence). Das ist praktisch, wenn dein Code objektorientiert ist und du nicht alles manuell in CSV-Felder zerlegen willst. Wichtig: Lesen und Schreiben passiert immer innerhalb einer `transaction`.
+
+| Befehl | Zweck | Kurzbeispiel | Ergebnis/Notiz |
+|---|---|---|---|
+| `require 'pstore'` | PStore laden | `require 'pstore'` | Core-Library |
+| `PStore.new('storagefile')` | Store-Datei anlegen/oeffnen | `store = PStore.new('storagefile')` | disk-basierter Hash |
+| `store.transaction do ... end` | Sicher lesen/schreiben | `store.transaction { ... }` | Pflicht gegen Datenfehler |
+| `store[:key] = value` | Objekt ablegen | `store[:people] = [fred, laura]` | speichern unter Schluessel |
+| `value = store[:key]` | Objekt laden | `people = store[:people]` | danach normal nutzbar |
+
+Merke: Die Klassen der gespeicherten Objekte (z. B. `Person`) muessen beim Laden im Code definiert sein.
+
+### YAML (lesbare Serialisierung)
+
+YAML serialisiert Ruby-Daten in gut lesbaren Text. Im Unterschied zu PStore kann man YAML-Dateien direkt anschauen und auch manuell bearbeiten (z. B. fuer Konfigurationen). Dadurch eignet sich YAML sehr gut als austauschbares Speicherformat.
+
+| Befehl | Zweck | Kurzbeispiel | Ergebnis/Notiz |
+|---|---|---|---|
+| `require 'yaml'` | YAML laden | `require 'yaml'` | Standardbibliothek |
+| `obj.to_yaml` | Ruby-Objekt in YAML umwandeln | `puts data.to_yaml` | menschenlesbarer Text |
+| `YAML.load(string)` | YAML in Ruby-Objekte zurueckwandeln | `data = YAML.load(yaml_string)` | rekonstruiert Struktur |
+| Heredoc + `YAML.load` | YAML direkt im Code testen | `yaml = <<DATA ... DATA` | gut fuer schnelle Demos |
+
+Merke: Wie bei PStore gilt auch hier: Klassen, die in YAML referenziert werden, muessen beim Laden bekannt sein.
+
+### SQLite3 (relationale Datenbanken in Ruby)
+
+SQLite ist eine eigenständige, vollständige SQL-Datenbank in einer Datei. Im Gegensatz zu CSV (flach, begrenzt) oder YAML (gut lesbar, aber nicht relational) bietet SQLite echte SQL-Features: Tabellen, Primary Keys, WHERE-Klauseln, JOINs. Mit dem `sqlite3`-Gem kannst du direkt von Ruby aus SQL ausführen und Daten zeilenweise oder tabellenweise abrufen. Das Konzept ist ähnlich wie PStore, aber mit voller SQL-Funktionalität.
+
+| Befehl | Zweck | Kurzbeispiel | Ergebnis/Notiz |
+|---|---|---|---|
+| `require 'sqlite3'` | sqlite3-Gem laden | `require 'sqlite3'` | (gem install sqlite3 vorher!) |
+| `SQLite3::Database.new(file)` | Datenbank oeffnen/anlegen | `$db = SQLite3::Database.new('dbfile.db')` | arbeitet mit globaler Variable |
+| `$db.results_as_hash = true` | Ergebnisse als Hash statt Array | `$db.results_as_hash = true` | einfachere Nutzung von Spalten |
+| `$db.execute(sql)` | SQL-Statement ausfuehren | `$db.execute("CREATE TABLE ...")` | für CREATE, INSERT, UPDATE, DELETE |
+| `$db.execute(sql, [params])` | SQL mit Platzhaltern ? | `$db.execute("INSERT ... VALUES (?, ?)", [name, age])` | **sicherer** gegen SQL-Injection |
+| `$db.execute(select).first` | SELECT mit Ergebnis abrufen | `person = $db.execute("SELECT * ...").first` | gibt erste Zeile zurück |
+| `$db.close` | Datenbank schliessen | `$db.close` | wichtig vor Programmende |
+
+Wichtig: Die **Platzhalter ?** in SQL ersetzen keine String-Interpolation, sondern werden sauber escaped. Das schützt vor SQL-Injection, wenn Benutzereingaben in die Abfrage gehen.
+
+Ein funktionierendes Beispiel befindet sich in `ruby/exercises/test_sqlite3.rb`. Es zeigt grundlegend:
+- Datenbank anlegen/öffnen
+- Tabelle mit CREATE TABLE
+- Daten mit INSERT einfügen
+- Daten mit SELECT abrufen und ausgeben
+
+Mercke: SQLite ist ideal, wenn man schnell strukturierte Daten braucht, aber keine grosse Client-Server-Datenbank aufsetzen will. Ideal fuer kleine Anwendungen oder Lernbeispiele.
+
+### Sequel (Datenbank-Abstraktions-Toolkit)
+
+Sequel ist ein "Database Toolkit" für Ruby, das die rohe SQL-Komplexität durch eine DSL (Domain-Specific Language) abstrahiert. Der große Vorteil: Code, den du mit Sequel schreibst, kann - solange du keine datenbankspezifischen Features nutzt - zwischen MySQL, PostgreSQL, SQLite3 usw. hin- und herwechseln, ohne kaputt zu gehen. Das macht Sequel ideal, wenn du Anwendungen bauen willst, die später zu anderen Datenbanken migriert werden sollen, oder wenn du in deiner Praxis mit verschiedenen Datenbanken arbeiten musst.
+
+| Befehl | Zweck | Kurzbeispiel | Ergebnis/Notiz |
+|---|---|---|---|
+| `gem install sequel` | Sequel installieren | `gem install sequel` | Base-Toolkit |
+| `gem install pg` / `gem install mysql2` | Datenbank-Treiber installieren | `gem install pg` | fuer PostgreSQL / MySQL |
+| `require 'sequel'` | Sequel laden | `require 'sequel'` | immer zuerst! |
+| `Sequel.connect(url)` | Zu Datenbank verbinden | `DB = Sequel.connect('postgres://user:pass@localhost/db')` | URL-Syntax je nach DB |
+| `Sequel.sqlite(file)` | SQLite einschließlich SQLite in-memory | `DB = Sequel.sqlite('temp.db')` oder `Sequel.sqlite` | nur für SQLite |
+| `DB.create_table(name)` | Tabelle mit DSL anlegen | `DB.create_table :people { primary_key :id; String :name }` | lesbare Syntax statt SQL |
+| `DB[:table]` | Auf Tabelle zugreifen | `people = DB[:people]` | gibt Tabellen-Objekt zurück |
+| `table.insert(hash)` | Daten einfuegen | `people.insert(:first_name => "Fred", :age => 32)` | Key-Value statt Positionen |
+| `table.count` | Anzahl Zeilen | `puts people.count` | direkt zaehlbar |
+| `table.each` | Alle Zeilen iterieren | `people.each { |p| puts p[:name] }` | sauber und lesbar |
+| `DB.fetch(sql)` | Raw SQL mit Ergebnissen | `DB.fetch("SELECT * ...") { |row| ... }` | bei Bedarf noch SQL moeglich |
+
+Vorteile von Sequel gegenueber direktem sqlite3/pg-Zugriff:
+- **Portable**: Code funktioniert mit verschiedenen Datenbanken
+- **Lesbar**: DSL statt Raw-SQL
+- **Sicher**: Prepared Statements und Escaping sind eingebaut
+- **Praktisch**: Transaktionen, Indizes, Joins via Methoden statt Text
+
+Beispiel-Workflow (vereinfacht):
+```ruby
+require 'sequel'
+require 'pg'  # fuer PostgreSQL
+DB = Sequel.connect('postgres://user:password@localhost/mydb')
+DB.create_table :people do
+  primary_key :id
+  String :first_name
+  String :last_name
+  Integer :age
+end
+people = DB[:people]
+people.insert(:first_name => "Fred", :last_name => "Bloggs", :age => 32)
+puts "Es gibt #{people.count} Personen"
+people.each { |p| puts p[:first_name] }
+```
+
+Merksatz: Starte mit SQLite3 zum Lernen (einfach, keine Setup), nutze Sequel sobald dein Projekt mehrere oder komplexere Datenbanken braucht.
+
+### ActiveRecord (kurzer Überblick)
+
+ActiveRecord ist ein ORM (Object-Relational Mapping) aus Ruby on Rails, kann aber auch ohne Rails genutzt werden. Die Idee: Statt SQL-Zeilen direkt zu schreiben, arbeitest du mit Ruby-Klassen und Objekten. Klassen entsprechen Tabellen, Objekte entsprechen Zeilen. Dadurch bleibt der Code oft lesbarer, weil du in Ruby bleibst und nicht ständig zwischen Ruby und SQL wechselst.
+
+| Befehl/Muster | Zweck | Kurzbeispiel | Ergebnis/Notiz |
+|---|---|---|---|
+| `gem install activerecord` | ActiveRecord installieren | `gem install activerecord` | Basis-ORM |
+| `gem install sqlite3` / `pg` / `mysql2` | DB-Treiber installieren | `gem install sqlite3` | je nach Datenbank |
+| `Person.where(...).first` | Datensatz suchen | `person = Person.where(name: "Chris").first` | liefert Objekt oder `nil` |
+| `objekt.attribut = wert` | Attribut ändern | `person.age = 50` | Änderung nur im Speicher |
+| `objekt.save` | Änderungen speichern | `person.save` | schreibt in Datenbank |
+
+Mini-Beispiel:
+```ruby
+person = Person.where(name: "Chris").first
+if person
+  person.age = 50
+  person.save
+end
+```
+
+Das ersetzt konzeptionell SQL wie `SELECT ...` plus `UPDATE ...`, aber mit Ruby-Syntax. Praktisch ist auch, dass ActiveRecord automatisch viele Konventionen übernimmt, z. B. `Person` (Klasse) -> `people` (Tabelle).
+
+Merksatz: SQLite3 ist gut zum SQL-Lernen, Sequel ist ein flexibles Toolkit, ActiveRecord ist am bequemsten, wenn du objektorientiert und Rails-nah arbeiten willst.
+

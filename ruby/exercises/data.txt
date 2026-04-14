@@ -1,0 +1,6 @@
+Alice,Entwicklerin,aktiv
+Bob,Designer,inaktiv
+Clara,Managerin,aktiv
+David,Tester,aktiv
+Eva,Analystin,inaktiv
+Frank,Entwickler,aktiv

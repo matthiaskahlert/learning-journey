@@ -17,12 +17,13 @@ javascript/
 - [x] Started JavaScript Course on 27th of Oct
 - [x] Started Python course on 8th of Dec '25
 - [x] survive a slipped disc in my back and beeing out of order for January '26
-- [x] Started Java course on 23rd of Feb '26
-- [x] Start of the Ruby course two weeks delayed on 30th of March '26
+- [x] Started Java course on 23rd of Feb '26 with aprox **three weeks delay**
+- [x] Start of the Ruby course **two weeks delayed** on 30th of March '26
+- [x] Started the Flutter course as of today afternoon of 14th of April **with ~ 1 Week and 2 days delay**
 - [ ] Add Showcsase repository with final projects and screenshots
 
 
-## Schedule
+## Initial Schedule
 | Topic      | Startdate                        |
 |------------|----------------------------------|
 | JavaScript | 27.10.2025                       |

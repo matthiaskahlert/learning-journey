@@ -28,3 +28,6 @@ java/target/
 # Umgebungsvariablen – enthält Tokens und Passwörter, NIE hochladen!
 .env*
 **/.env
+
+# Flutter SDK – nicht versionieren, liegt system-weit unter C:\flutter
+flutter/flutter/

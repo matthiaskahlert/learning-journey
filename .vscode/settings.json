@@ -11,5 +11,7 @@
   "rubyLsp.bundleGemfile": "ruby/Gemfile",
   "rubyLsp.rubyVersionManager": {
     "identifier": "none"
-  }
+  },
+
+  "dart.flutterSdkPath": "C:\\flutter\\flutter"
 }

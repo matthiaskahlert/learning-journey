@@ -217,4 +217,5 @@ Falls du Windows-Desktop-Apps mit Flutter entwickeln möchtest, ist Visual Studi
 - Eigene Projekte → `flutter/projects/`
 - Übungsaufgaben → `flutter/exercises/`
 - Notizen → `flutter/notes/`
-- Das SDK liegt lokal unter `C:\flutter\flutter\` (nicht versioniert)
+- Das SDK liegt bei mir lokal unter `C:\flutter\flutter\` (nicht versioniert)
+

@@ -218,4 +218,11 @@ Falls du Windows-Desktop-Apps mit Flutter entwickeln möchtest, ist Visual Studi
 - Übungsaufgaben → `flutter/exercises/`
 - Notizen → `flutter/notes/`
 - Das SDK liegt bei mir lokal unter `C:\flutter\flutter\` (nicht versioniert)
+- das android sdk musste ich umziehen, da der benutzername und somit auch der profilordner einen leerzeichen beinhaltete.
+- **Hinweis für andere Rechner**: Falls das Android SDK auf einem anderen Pfad liegt, passe den Pfad wie folgt an:
+  1. **Flutter**: Führe im Terminal aus:
+     ```powershell
+     flutter config --android-sdk "<Pfad-zum-SDK>"
+     ```
+  2. **Android Studio**: Gehe zu `File > Settings > Appearance & Behavior > System Settings > Android SDK` und wähle den korrekten SDK-Pfad aus.
 

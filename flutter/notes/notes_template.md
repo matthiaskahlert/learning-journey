@@ -119,98 +119,426 @@ Ausgabedateien: `build/app/outputs/`
 ---
 
 
-Was ich morgen lernen will:
+### Variablendeklaration in Dart
 
-…
+In Dart gibt es drei Hauptarten, Variablen zu deklarieren: `var`, `final` und `const`. Der Unterschied zwischen ihnen ist subtil, aber wichtig:
 
-🗓️ Tag 2 – Thema / Schwerpunkt
+- **`var`**: Deklariert eine Variable, deren Typ automatisch inferiert wird. Der Wert der Variable kann später geändert werden.
+  ```dart
+  var name = 'Alice';
+  name = 'Bob'; // Gültig
+  ```
 
-Learningfacts:
+- **`final`**: Deklariert eine Variable, die nach der Initialisierung nicht mehr geändert werden kann. Der Wert einer `final`-Variable kann jedoch zur Laufzeit berechnet werden.
+  ```dart
+  final currentTime = DateTime.now();
+  // currentTime = DateTime.now(); // Fehler: Wert kann nicht geändert werden
+  ```
 
-…
+- **`const`**: Deklariert eine Kompilierzeit-Konstante. Der Wert muss bereits zur Kompilierzeit vollständig bekannt sein.
+  ```dart
+  const pi = 3.14159;
+  // const area = pi * radius; // Fehler, wenn radius nicht const ist
+  ```
 
-…
-
-Übungsaufgabe / Beispiel:
-
-// Beispiel oder Übung
-
-
-Reflexion:
-
-…
-
-Was ich morgen lernen will:
-
-…
-
-Tag 3 – Thema / Schwerpunkt
-
-Learningfacts:
-
-…
-
-…
-
-Codebeispiele:
-
-// Beispielcode
+**Zusammenfassung:**
+| Schlüsselwort | Änderbarkeit | Zeitpunkt der Wertzuweisung |
+|---------------|--------------|-----------------------------|
+| `var`         | Änderbar     | Zur Laufzeit                |
+| `final`       | Nicht änderbar | Zur Laufzeit                |
+| `const`       | Nicht änderbar | Zur Kompilierzeit           |
 
 
-Was ich morgen lernen will:
+## Grundlegende Datentypen in Dart
 
-…
+---
 
-Kompetenzprotokoll Woche X
+### Grundlegende Datentypen in Dart
 
-Ziel: Das Gelernte in vier Kategorien reflektieren, um Theorie, Praxis und Relevanz zu verknüpfen.
+Dart ist eine typisierte Sprache und bietet verschiedene eingebaute Datentypen. Hier sind die wichtigsten:
 
-1️⃣ Einordnen & Strukturieren (Theorie erklären)
+#### Numerische Typen
+- **`int`**: Ganze Zahlen
+  ```dart
+  int ganzzahl = 42;
+  ```
+- **`double`**: Kommazahlen
+  ```dart
+  double kommazahl = 3.14;
+  ```
+- **`num`**: Kann sowohl `int` als auch `double` sein
+  ```dart
+  num beliebigZahl = 10;
+  ```
 
-…
+#### Texttypen
+- **`String`**: Zeichenketten
+  ```dart
+  String text = 'Hallo, Welt!';
+  ```
 
-2️⃣ Verstehen & Verknüpfen (Praxisbeispiel erläutern)
+#### Boolesche Werte
+- **`bool`**: Wahrheitswerte
+  ```dart
+  bool wahr = true;
+  bool falsch = false;
+  ```
 
-…
+#### Listen (Arrays)
+- **`List`**: Geordnete Sammlung von Elementen
+  ```dart
+  List<String> namen = ['Anna', 'Ben', 'Clara'];
+  ```
 
-3️⃣ Anwenden & Bewerten (Berufliche Relevanz erörtern)
+#### Maps (Dictionaries/assoziative Arrays)
+- **`Map`**: Schlüssel-Wert-Paare
+  ```dart
+  Map<String, int> alter = {
+    'Anna': 30,
+    'Ben': 25,
+    'Clara': 35,
+  };
+  ```
 
-…
+#### Sets
+- **`Set`**: Ungeordnete Sammlung eindeutiger Elemente
+  ```dart
+  Set<int> eindeutigeZahlen = {1, 2, 3, 4, 5};
+  ```
 
-4️⃣ Reflektieren & Hinterfragen (Lernprozess reflektieren / Fragen formulieren)
+#### Runes
+- **`Runes`**: Für Unicode-Zeichen
+  ```dart
+  Runes herzEmoji = Runes('\u2665'); // ♥
+  ```
 
-…
+#### Symbole
+- **`Symbol`**: Für symbolische Namen
+  ```dart
+  Symbol symbolName = #someSymbol;
+  ```
 
-Offene Fragen:
+### Häufig verwendete Typen
+In modernen Dart-Anwendungen, insbesondere mit Flutter, wirst du hauptsächlich mit den Typen `int`, `double`, `String`, `bool`, `List` und `Map` arbeiten. Die anderen Typen werden in spezielleren Situationen verwendet.
 
-…
+### Strings in Dart
 
-…
+Strings in Dart sind UTF-16-Zeichensequenzen. Sie können mit einfachen oder doppelten Anführungszeichen definiert werden:
 
-🧩 Zusammenfassung der Woche
+- **Einfache und doppelte Anführungszeichen**
+  ```dart
+  String einfach = 'Das ist ein String mit einfachen Anführungszeichen.';
+  String doppelt = "Das ist ein String mit doppelten Anführungszeichen.";
+  ```
 
-Wichtigste Erkenntnisse:
+- **Multiline-Strings**: Strings, die sich über mehrere Zeilen erstrecken
+  ```dart
+  String mehrereZeilen = '''
+  Dies ist ein String,
+  der sich über mehrere
+  Zeilen erstreckt.
+  ''';
+  ```
 
-…
+- **Raw-Strings**: Strings ohne Escape-Sequenzen
+  ```dart
+  String rohString = r'In diesem String werden \n und \t nicht als Escape-Sequenzen interpretiert.';
+  ```
 
-…
+#### String-Interpolation
+Ein besonders nützliches Feature von Dart ist die String-Interpolation, die es ermöglicht, Variablenwerte direkt in Strings einzubetten:
 
-Tools / Konzepte, die ich neu verstanden habe:
+- **Einfache Interpolation**
+  ```dart
+  String name = 'Anna';
+  int alter = 30;
+  String vorstellung = 'Ich heiße $name und bin $alter Jahre alt.';
+  ```
 
-…
+- **Komplexe Ausdrücke**: Verwende geschweifte Klammern für komplexere Ausdrücke
+  ```dart
+  String vorstellungKomplex = 'In 5 Jahren werde ich ${alter + 5} Jahre alt sein.';
+  ```
 
-…
+Die String-Interpolation macht den Code lesbarer und vermeidet die umständliche Konkatenation, die in vielen anderen Sprachen notwendig ist.
 
-Schwierigkeiten / To-do für nächste Woche:
+### Operatoren in Dart
 
-…
+Dart bietet alle gängigen arithmetischen, Vergleichs-, logischen und Zuweisungsoperatoren. Zusätzlich gibt es einige Besonderheiten, die Dart von anderen Sprachen abheben:
 
-…
+#### Arithmetische Operatoren
+- **Grundlegende Operationen**
+  ```dart
+  int a = 10;
+  int b = 3;
+  int summe = a + b; // 13
+  int differenz = a - b; // 7
+  int produkt = a * b; // 30
+  double quotient = a / b; // 3.3333...
+  int ganzzahlQuotient = a ~/ b; // 3 (ganzzahlige Division)
+  int rest = a % b; // 1 (Modulo/Rest)
+  ```
+- **Increment und Decrement**
+  ```dart
+  a++; // a = a + 1
+  b--; // b = b - 1
+  ```
 
-💡 Nächste Woche – Fokus / Lernziele
+#### Vergleichsoperatoren
+- **Vergleiche**
+  ```dart
+  bool istGleich = a == b; // false
+  bool istNichtGleich = a != b; // true
+  bool istGroesser = a > b; // true
+  bool istKleiner = a < b; // false
+  bool istGroesserGleich = a >= b; // true
+  bool istKleinerGleich = a <= b; // false
+  ```
 
-…
+#### Logische Operatoren
+- **Logik**
+  ```dart
+  bool bedingung1 = true;
+  bool bedingung2 = false;
+  bool und = bedingung1 && bedingung2; // false (beide müssen wahr sein)
+  bool oder = bedingung1 || bedingung2; // true (mindestens eine muss wahr sein)
+  bool nicht = !bedingung1; // false (Negation)
+  ```
 
-…
+#### Zuweisungsoperatoren
+- **Kombinierte Zuweisungen**
+  ```dart
+  int c = 5;
+  c += 2; // c = c + 2
+  c -= 1; // c = c - 1
+  c *= 3; // c = c * 3
+  c ~/= 2; // c = c ~/ 2 (ganzzahlige Division)
+  ```
 
-…
+#### Besondere Operatoren in Dart
+- **Nullsicherheits-Operatoren** (wichtig für Null Safety)
+  ```dart
+  String? nullableString = null;
+  String nichtNull = nullableString ?? 'Standardwert'; // ?? bietet einen Fallback, wenn der Wert null ist
+  String? laenge = nullableString?.length.toString(); // Bedingter Zugriff
+  ```
+
+- **Typüberprüfung und Type-Cast**
+  ```dart
+  dynamic gemischt = 'Ein String';
+  if (gemischt is String) {
+    print('gemischt ist ein String');
+  }
+  if (gemischt is String) {
+    String alsString = gemischt as String; // Explizites Casting
+    print(alsString.toUpperCase());
+  }
+  ```
+
+- **Kaskaden-Notation (..)**
+  ```dart
+  var liste = [1, 2, 3]
+    ..add(4)
+    ..add(5)
+    ..remove(2); // Liste ist jetzt [1, 3, 4, 5]
+  ```
+  Die Kaskaden-Notation ist besonders in Flutter nützlich, wenn du mehrere Operationen auf demselben Objekt ausführen möchtest, ohne jedes Mal den Objektnamen wiederholen zu müssen.
+
+  ### Kontrollstrukturen in Dart
+
+Dart bietet alle üblichen Kontrollstrukturen wie `if-else`, Schleifen und `switch-case`. Zusätzlich gibt es moderne Erweiterungen wie Switch-Expressions in Dart 3.
+
+#### If-Else
+- **Bedingte Anweisungen**
+  ```dart
+  int alter = 18;
+  if (alter >= 18) {
+    print('Volljährig');
+  } else if (alter >= 14) {
+    print('Teenager');
+  } else {
+    print('Kind');
+  }
+  ```
+
+#### Schleifen
+- **For-Schleife**
+  ```dart
+  for (int i = 0; i < 5; i++) {
+    print('Durchlauf $i');
+  }
+  ```
+
+- **For-in-Schleife (für Collections)**
+  ```dart
+  List<String> früchte = ['Apfel', 'Banane', 'Kirsche'];
+  for (var frucht in früchte) {
+    print('Ich mag $frucht');
+  }
+  ```
+
+- **While-Schleife**
+  ```dart
+  int counter = 0;
+  while (counter < 5) {
+    print('Counter: $counter');
+    counter++;
+  }
+  ```
+
+- **Do-While-Schleife** (wird mindestens einmal ausgeführt)
+  ```dart
+  int doCounter = 0;
+  do {
+    print('Do counter: $doCounter');
+    doCounter++;
+  } while (doCounter < 5);
+  ```
+
+#### Switch-Case
+- **Klassische Switch-Case**
+  ```dart
+  String note = 'B';
+  switch (note) {
+    case 'A':
+      print('Sehr gut');
+      break;
+    case 'B':
+      print('Gut');
+      break;
+    case 'C':
+      print('Befriedigend');
+      break;
+    default:
+      print('Andere Note');
+  }
+  ```
+
+- **Moderne Switch-Expression (Dart 3)**
+  ```dart
+  String note = 'B';
+  String bewertung = switch (note) {
+    'A' => 'Sehr gut',
+    'B' => 'Gut',
+    'C' => 'Befriedigend',
+    _ => 'Andere Note' // _ ist der Default-Fall
+  };
+  ```
+
+Die modernen Switch-Expressions bieten eine kompakte und ausdrucksstarke Möglichkeit, mehrere Fälle zu behandeln.
+
+### Funktionen in Dart
+
+Funktionen sind in Dart Objekte erster Klasse. Das bedeutet, sie können Variablen zugewiesen, als Argumente übergeben und von anderen Funktionen zurückgegeben werden.
+
+#### Beispiele für Funktionen
+- **Einfache Funktion**
+  ```dart
+  void grüßen() {
+    print('Hallo!');
+  }
+  ```
+
+- **Funktion mit Parametern und Rückgabewert**
+  ```dart
+  int addieren(int a, int b) {
+    return a + b;
+  }
+  ```
+
+- **Optionale und benannte Parameter**
+  ```dart
+  void grüßenOptional(String name, [String? titel]) {
+    if (titel != null) {
+      print('Hallo, $titel $name!');
+    } else {
+      print('Hallo, $name!');
+    }
+  }
+
+  void personErstellen({
+    required String name,
+    required int alter,
+    String? beruf,
+  }) {
+    print('Name: $name, Alter: $alter');
+    if (beruf != null) {
+      print('Beruf: $beruf');
+    }
+  }
+  ```
+
+- **Anonyme Funktionen und höhere Ordnung**
+  ```dart
+  var quadrieren = (int x) => x * x;
+  print(quadrieren(4)); // 16
+
+  void applyOperation(int a, int b, int Function(int, int) operation) {
+    print('Ergebnis: ${operation(a, b)}');
+  }
+  applyOperation(4, 2, (a, b) => a + b); // Ergebnis: 6
+  ```
+
+In Flutter sind anonyme Funktionen besonders nützlich, z. B. für Callbacks und Event-Handler.
+
+---
+
+### Ausnahmebehandlung in Dart
+
+Dart unterstützt strukturierte Ausnahmebehandlung mit `try-catch-finally`, um Fehler sicher zu handhaben.
+
+#### Beispiele für Ausnahmebehandlung
+- **Grundlegende Ausnahmebehandlung**
+  ```dart
+  try {
+    int ergebnis = 10 ~/ 0; // Division durch Null
+  } on IntegerDivisionByZeroException {
+    print('Division durch Null ist nicht erlaubt');
+  } catch (e) {
+    print('Ein Fehler ist aufgetreten: $e');
+  } finally {
+    print('Aufräumarbeiten');
+  }
+  ```
+
+- **Eigene Ausnahmen werfen**
+  ```dart
+  void prüfeAlter(int alter) {
+    if (alter < 0) {
+      throw ArgumentError('Alter kann nicht negativ sein');
+    }
+  }
+  ```
+
+In Flutter-Anwendungen ist eine gute Ausnahmebehandlung wichtig, um Abstürze zu vermeiden und sinnvolle Fehlermeldungen anzuzeigen.
+
+---
+
+### Dart-Libraries und Importe
+
+In Dart werden Code-Module als Libraries organisiert. Du kannst Libraries importieren, um deren Funktionalität zu nutzen.
+
+#### Beispiele für Importe
+- **Standard-Libraries**
+  ```dart
+  import 'dart:math';
+  ```
+
+- **Mit Präfix zur Vermeidung von Namenskonflikten**
+  ```dart
+  import 'dart:math' as math;
+  ```
+
+- **Selektiver Import**
+  ```dart
+  import 'dart:math' show Random, min, max;
+  import 'dart:math' hide Random;
+  ```
+
+- **Externe Pakete und lokale Dateien**
+  ```dart
+  import 'package:flutter/material.dart';
+  import 'package:meine_app/models/user.dart';
+  ```
+
+In Flutter-Projekten sind Importe von Framework-Libraries und Paketen aus `pub.dev` essenziell.

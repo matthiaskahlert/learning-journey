@@ -134,9 +134,9 @@ Android Studio wird für die Flutter-Entwicklung empfohlen, insbesondere für An
 
 ---
 
-### **8. Android SDK-Komponenten und Emulator einrichten**
+## 8. Android SDK-Komponenten und Emulator einrichten
 
-#### **Android SDK-Komponenten installieren**
+### Android SDK-Komponenten installieren
 Nach der Installation von Android Studio:
 
 1. **SDK Manager öffnen**:
@@ -151,7 +151,7 @@ Nach der Installation von Android Studio:
      - Android Emulator
      - Android SDK Platform-Tools
 
-#### **Android Emulator einrichten**
+### Android Emulator einrichten
 Um Apps ohne physisches Gerät zu testen, richte einen Android Emulator ein:
 
 1. **AVD Manager öffnen**:
@@ -174,7 +174,7 @@ Um Apps ohne physisches Gerät zu testen, richte einen Android Emulator ein:
 
 ---
 
-### **9. Visual Studio für Windows-Desktop-Apps einrichten**
+## 9. Visual Studio für Windows-Desktop-Apps einrichten
 
 Falls du Windows-Desktop-Apps mit Flutter entwickeln möchtest, ist Visual Studio erforderlich. Hier sind die Schritte zur Installation und Konfiguration:
 
@@ -183,24 +183,24 @@ Falls du Windows-Desktop-Apps mit Flutter entwickeln möchtest, ist Visual Studi
    flutter config --enable-windows-desktop
    ```
 
-1. **Web-Unterstützung in Flutter aktivieren**:
+2. **Web-Unterstützung in Flutter aktivieren**:
    ```powershell
    flutter config --enable-web
    ```
 
-2. **Visual Studio herunterladen und installieren**:
+3. **Visual Studio herunterladen und installieren**:
    - Besuche die [offizielle Visual Studio Website](https://visualstudio.microsoft.com/).
    - Lade die **Community Edition** herunter und installiere sie.
 
-2. **Workloads auswählen**:
+4. **Workloads auswählen**:
    - Während der Installation wähle die folgenden Workloads aus:
      - **Desktopentwicklung mit C++**
      - **Entwicklung von universellen Windows-Plattform-Apps (UWP)**
 
-3. **Visual Studio Build Tools 2019 installieren** (optional):
+5. **Visual Studio Build Tools 2019 installieren** (optional):
    - Falls du ältere Projekte oder spezifische Build-Tools benötigst, lade die **Visual Studio 2019 Build Tools** herunter und installiere sie.
 
-4. **Installation überprüfen**:
+6. **Installation überprüfen**:
    - Nach der Installation führe im Terminal den Befehl aus:
      ```powershell
      flutter doctor
@@ -211,18 +211,63 @@ Falls du Windows-Desktop-Apps mit Flutter entwickeln möchtest, ist Visual Studi
 
 ---
 
-## Hinweise zur Repository-Struktur
+## 10. Problembehebung: Emulator-Kompatibilität und Einrichtung
 
-- Das Flutter SDK gehört **nicht** ins Repository (liegt in `.gitignore`)
-- Eigene Projekte → `flutter/projects/`
-- Übungsaufgaben → `flutter/exercises/`
-- Notizen → `flutter/notes/`
-- Das SDK liegt bei mir lokal unter `C:\flutter\flutter\` (nicht versioniert)
-- das android sdk musste ich umziehen, da der benutzername und somit auch der profilordner einen leerzeichen beinhaltete.
-- **Hinweis für andere Rechner**: Falls das Android SDK auf einem anderen Pfad liegt, passe den Pfad wie folgt an:
-  1. **Flutter**: Führe im Terminal aus:
-     ```powershell
-     flutter config --android-sdk "<Pfad-zum-SDK>"
-     ```
-  2. **Android Studio**: Gehe zu `File > Settings > Appearance & Behavior > System Settings > Android SDK` und wähle den korrekten SDK-Pfad aus.
+### Ausgangslage
+- Ziel: Einrichten einer Flutter-Entwicklungsumgebung, Erstellen einer "Hallo Welt"-App und Ausführen auf einem Android-Emulator.
+- Entwicklungsumgebung: Windows 11, VS Code, Flutter SDK, Android Studio.
+- Problem: Schwierigkeiten bei der Einrichtung eines funktionierenden Android-Emulators.
+
+### Schritte zur Problemlösung
+
+1. **Flutter SDK und Umgebung einrichten**:
+   - Flutter SDK wurde gemäß den Anweisungen heruntergeladen und entpackt.
+   - `flutter doctor` wurde ausgeführt, um die Installation zu überprüfen.
+   - Android Studio wurde installiert, und notwendige SDK-Komponenten wurden hinzugefügt.
+
+2. **Erstellen der "Hallo Welt"-App**:
+   - Mit dem Befehl `flutter create hallo_welt` wurde ein neues Projekt erstellt.
+   - Die Standard-Demo-App wurde in der Datei `main.dart` überprüft und als funktional bestätigt.
+
+3. **Emulator-Einrichtung**:
+   - Ein Pixel 10-Emulator wurde erstellt, jedoch als "unsupported" markiert.
+   - Ursache: Inkompatibles System-Image.
+   - Lösung: Wechsel zu einem Pixel 4-Emulator mit einem kompatiblen System-Image (API 30, Google Play x86).
+
+4. **System-Image installieren**:
+   - Über den Android Studio SDK Manager wurde das passende System-Image heruntergeladen.
+   - Nach der Installation wurde der Emulator erneut getestet.
+
+5. **Erfolgskontrolle**:
+   - Nach Abschluss der Einrichtung wurde die "Hallo Welt"-App erfolgreich auf dem Pixel 4-Emulator ausgeführt.
+
+### Fazit
+- Die Hauptprobleme lagen in der Kompatibilität des Emulators und der Auswahl des richtigen System-Images.
+- Durch die schrittweise Fehlerbehebung konnte die App erfolgreich ausgeführt werden.
+- Zukünftige Emulator-Einrichtungen sollten sicherstellen, dass ein kompatibles System-Image (z. B. x86 mit Google Play) verwendet wird.
+
+---
+
+## 11. Problemdokumentation: Java- und Gradle-Kompatibilität bei Flutter/Android
+
+**Ausgangslage:**  
+Beim Versuch, ein Flutter-Projekt für Android zu bauen, trat folgender Fehler auf:
+- Die verwendete Gradle-Version war zu alt (8.9 statt mindestens 8.13).
+- Die installierte Java-Version war zu neu (Java 25), während das Android-Gradle-Plugin nur Java 21 (LTS) unterstützt.
+
+**Lösungsschritte:**
+1. Die `gradle-wrapper.properties` wurde auf Gradle 8.13 aktualisiert:
+   ```
+   distributionUrl=https\://services.gradle.org/distributions/gradle-8.13-bin.zip
+   ```
+2. Es wurde festgestellt, dass Java 21 nicht installiert war.
+3. Java 21 wurde von der offiziellen Oracle-Seite heruntergeladen und unter `C:\Program Files\Java\jdk-21.0.10\` installiert.
+4. Die Umgebungsvariable `JAVA_HOME` wurde auf diesen Pfad gesetzt und `%JAVA_HOME%\bin` zur Systemvariable `Path` hinzugefügt.
+5. Nach einem Neustart des Terminals zeigte `java -version` die korrekte Java-Version 21 an.
+6. Hinweis: Durch das Setzen von `JAVA_HOME` und `Path` nutzen alle Java-Programme standardmäßig Java 21. Für Projekte, die andere Versionen benötigen, kann die Variable temporär angepasst oder in der IDE projektspezifisch gesetzt werden.
+
+**Lernpunkt:**  
+Android/Flutter-Projekte benötigen oft spezifische Java- und Gradle-Versionen. Zu neue Java-Versionen werden vom Android-Gradle-Plugin meist nicht unterstützt. Es ist wichtig, die Kompatibilität der eingesetzten Tools zu prüfen und die Umgebungsvariablen entsprechend zu setzen.
+
+---
 

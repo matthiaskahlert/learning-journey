@@ -842,3 +842,126 @@ Farbe meineFarbe = Farbe.blau;
 print('Blau als Hex: ${meineFarbe.hexString}'); // '#0000ff'
 ```
 Enums sind ideal für Status, Kategorien oder Optionen mit festem Wertebereich.
+
+---
+
+## Null Safety, Nullable und `late` leicht erklaert
+
+Seit Dart 2.12 gibt es **Null Safety**. Die Idee ist einfach: Viele Bugs entstehen, wenn man aus Versehen mit `null` arbeitet. Dart unterscheidet deshalb klar zwischen Typen, die `null` sein duerfen, und Typen, die es nicht sein duerfen.
+
+- **Non-nullable**: `String`, `int`, `bool` (duerfen nicht `null` sein)
+- **Nullable**: `String?`, `int?`, `bool?` (duerfen `null` sein)
+
+```dart
+String text = 'Hallo';   // nie null
+String? name = null;     // darf null sein
+```
+
+### 1) `??` ist nur eine Kurzform fuer eine if-else-Pruefung
+
+```dart
+String result = name ?? 'Gast';
+```
+
+Das bedeutet genau:
+
+```dart
+String result;
+if (name != null) {
+  result = name;
+} else {
+  result = 'Gast';
+}
+```
+
+Merksatz: **`??` nimmt den linken Wert, wenn er nicht null ist, sonst den rechten Fallback-Wert.**
+
+### 2) Wichtige Null-Aware-Operatoren
+
+- `?.` Zugriff nur, wenn nicht `null`
+- `??` Fallback bei `null`
+- `??=` Zuweisung nur dann, wenn aktuell `null`
+- `!` Ich bin sicher, dass es nicht `null` ist (vorsichtig einsetzen)
+
+```dart
+String? name = null;
+int? laenge = name?.length;          // null statt Fehler
+
+String? text = null;
+text ??= 'Standard';                 // setzt nur, weil text null ist
+text ??= 'Ignoriert';                // bleibt 'Standard'
+
+String? wert = 'Hallo';
+String sicher = wert!;               // ok
+```
+
+Hinweis zu `!`: Wenn der Wert doch `null` ist, gibt es zur Laufzeit einen Fehler.
+
+### 3) Flow Analysis: Dart denkt mit
+
+Wenn du vorher auf `null` pruefst, weiss Dart danach, dass der Wert nicht mehr `null` ist:
+
+```dart
+void printLaenge(String? input) {
+  if (input == null) {
+    print('Kein Text');
+    return;
+  }
+  // Hier ist input sicher nicht null
+  print(input.length);
+}
+```
+
+### 4) Nullable Parameter und Rueckgabewerte
+
+```dart
+String verarbeite(String? input) {
+  return input ?? 'Standardwert';
+}
+
+int? findeIndex(List<String> liste, String element) {
+  final index = liste.indexOf(element);
+  return index >= 0 ? index : null;
+}
+```
+
+### 5) Was macht `late`?
+
+`late` bedeutet: **Die Variable ist non-nullable, wird aber spaeter initialisiert.**
+
+Das ist hilfreich, wenn der Wert nicht sofort beim Erstellen bekannt ist, aber vor der ersten Nutzung sicher gesetzt wird.
+
+```dart
+class Person {
+  final String name;
+  late String adresse;
+
+  Person(this.name);
+
+  void setzeAdresse(String neueAdresse) {
+    adresse = neueAdresse;
+  }
+}
+```
+
+Wenn du auf ein `late`-Feld zugreifst, bevor es gesetzt wurde, gibt es einen Laufzeitfehler.
+
+#### `late` mit Lazy-Initialisierung
+
+Der Wert kann auch erst bei der **ersten Verwendung** berechnet werden:
+
+```dart
+class User {
+  final String vorname;
+  User(this.vorname);
+
+  late String vollerName = '$vorname Mustermann';
+}
+```
+
+### Kurz zusammengefasst
+
+- Nutze `?`, wenn `null` erlaubt sein soll.
+- Nutze `??`, um einen klaren Standardwert zu setzen.
+- Nutze `!` nur, wenn du wirklich sicher bist.
+- Nutze `late`, wenn ein non-nullable Wert spaeter gesetzt wird.

@@ -728,7 +728,7 @@ List<String> grosseFruechte = [for (var frucht in fruechte) frucht.toUpperCase()
 ```
 
 ### Maps
-Sammlung von Schlüssel-Wert-Paaren, ähnlich wie Dictionaries.
+Sammlung von Schlüssel-Wert-Paare, ähnlich wie Dictionaries.
 
 **Beispiele:**
 ```dart
@@ -975,3 +975,511 @@ class User {
 - Nutze `??`, um einen klaren Standardwert zu setzen.
 - Nutze `!` nur, wenn du wirklich sicher bist.
 - Nutze `late`, wenn ein non-nullable Wert spaeter gesetzt wird.
+
+## Lambda Funktionen
+
+### Lambda-Ausdruecke (anonyme Funktionen) kurz erklaert
+
+Lambda-Ausdruecke sind **Funktionen ohne Namen**, die direkt an der Stelle geschrieben werden, wo man sie braucht.
+Sie sind ideal fuer kurze Logik, zum Beispiel bei Callbacks oder als Funktionsargument.
+
+#### 1) Zwei Schreibweisen
+
+```dart
+// Lange Form
+var quadrieren = (int x) {
+  return x * x;
+};
+
+// Kurzform mit Arrow-Syntax (gleiches Verhalten)
+var quadrierenKurz = (int x) => x * x;
+
+// Zusaetzliches Beispiel: kubieren
+var kubieren = (int x) => x * x * x;
+
+print(quadrieren(3)); // 9
+print(quadrierenKurz(3)); // 9
+print(kubieren(3));   // 27
+```
+
+Merksatz: Wenn der Funktionskoerper nur aus **einem Ausdruck** besteht, ist `=>` oft die kuerzeste und lesbarste Form.
+
+#### 2) Haeufiger Einsatz: Callbacks
+
+```dart
+List<int> zahlen = [1, 2, 3, 4, 5];
+var quadratzahlen = zahlen.map((zahl) => zahl * zahl).toList();
+// [1, 4, 9, 16, 25]
+```
+
+Hier bekommt `map(...)` eine anonyme Funktion, die fuer jedes Element ausgefuehrt wird.
+
+#### 3) Auch mit benannten Parametern moeglich
+
+```dart
+var gruessen = ({required String name}) => 'Hallo, $name!';
+print(gruessen(name: 'Anna')); // Hallo, Anna!
+```
+
+#### 4) Closure: Funktion merkt sich ihren Kontext
+
+Eine Lambda-Funktion kann auf Variablen aus der umgebenden Funktion zugreifen.
+Das nennt man **Closure**.
+
+```dart
+Function multipliziere(int faktor) {
+  return (int zahl) => zahl * faktor;
+}
+
+var verdoppeln = multipliziere(2);
+var verdreifachen = multipliziere(3);
+
+print(verdoppeln(5));    // 10
+print(verdreifachen(5)); // 15
+```
+
+Warum das nuetzlich ist:
+- Du kannst schnell kleine, spezialisierte Funktionen bauen.
+- Dein Code bleibt kuerzer und oft besser lesbar.
+- Besonders in Flutter ist das praktisch fuer UI-Callbacks (`onPressed`, `onTap`, `map`, `where` usw.).
+
+## Rekursive Funktionen, Kaskaden, Generatoren und Komposition
+
+### Rekursive Funktionen
+
+Eine rekursive Funktion ruft sich selbst auf, bis eine Abbruchbedingung erreicht ist.
+
+```dart
+int fakultaet(int n) {
+  if (n <= 1) {
+    return 1; // Abbruchbedingung
+  }
+  return n * fakultaet(n - 1);
+}
+
+print(fakultaet(5)); // 120
+```
+
+Merke:
+- Ohne Abbruchbedingung laeuft Rekursion endlos weiter.
+- Rekursion ist gut fuer baumartige oder geschachtelte Strukturen.
+
+### Kaskadierte Funktionsaufrufe (`..`)
+
+Mit der Kaskaden-Notation fuehrst du mehrere Operationen auf demselben Objekt aus, ohne den Objektnamen zu wiederholen.
+
+```dart
+// Ohne Kaskade
+var liste = <int>[];
+liste.add(1);
+liste.add(2);
+liste.add(3);
+liste.remove(2);
+
+// Mit Kaskade
+var liste2 = <int>[]
+  ..add(1)
+  ..add(2)
+  ..add(3)
+  ..remove(2);
+
+print(liste);  // [1, 3]
+print(liste2); // [1, 3]
+```
+
+Einfach gesagt:
+- Ohne `..`: Liste, mach das. Liste, mach das.
+- Mit `..`: Liste, mach alles nacheinander bis zum Semikolon.
+
+### Generatorfunktionen
+
+Generatoren erzeugen Werte Schritt fuer Schritt statt alle auf einmal.
+
+```dart
+// Synchroner Generator
+Iterable<int> zaehlenBis(int n) sync* {
+  for (int i = 1; i <= n; i++) {
+    yield i;
+  }
+}
+
+for (var zahl in zaehlenBis(5)) {
+  print(zahl); // 1, 2, 3, 4, 5
+}
+```
+
+```dart
+// Asynchroner Generator
+Stream<int> periodicGenerator(int n, Duration abstand) async* {
+  for (int i = 1; i <= n; i++) {
+    await Future.delayed(abstand);
+    yield i;
+  }
+}
+
+periodicGenerator(3, const Duration(seconds: 1)).listen((zahl) {
+  print('Tick: $zahl');
+});
+```
+
+Wann nuetzlich:
+- Bei grossen Datenmengen
+- Bei Datenstroemen ueber Zeit (Events, Timer, Animationen)
+
+### Funktionskompositionen
+
+Bei der Funktionskomposition wird das Ergebnis einer Funktion direkt an die naechste weitergegeben.
+
+```dart
+int verdoppeln(int x) => x * 2;
+int plusEins(int x) => x + 1;
+
+int verdoppelnUndPlusEins(int x) => plusEins(verdoppeln(x));
+
+print(verdoppelnUndPlusEins(3)); // 7
+```
+
+```dart
+Function komposition(Function f, Function g) {
+  return (x) => g(f(x));
+}
+
+var verdoppelnDannPlusEins = komposition(verdoppeln, plusEins);
+print(verdoppelnDannPlusEins(3)); // 7
+```
+
+Vorteil:
+- Du baust komplexe Logik aus kleinen, gut testbaren Bausteinen auf.
+
+## Praktische Anwendungen von Funktionen in Flutter
+
+### Event-Handler und Callbacks
+
+```dart
+ElevatedButton(
+  onPressed: () {
+    print('Button wurde gedrueckt');
+    // Fuehre weitere Aktionen aus...
+  },
+  child: const Text('Druecken'),
+)
+```
+
+Leicht erklaert:
+- `onPressed` bekommt eine Funktion.
+- Diese Funktion wird erst ausgefuehrt, wenn der Button gedrueckt wird.
+
+### Widget-Fabriken
+
+```dart
+Widget personenKarte(Person person) {
+  return Card(
+    child: ListTile(
+      title: Text(person.name),
+      subtitle: Text('Alter: ${person.alter}'),
+    ),
+  );
+}
+
+ListView(
+  children: personen.map(personenKarte).toList(),
+)
+```
+
+Leicht erklaert:
+- Eine Funktion baut fuer jedes Datenobjekt ein passendes Widget.
+- So bleibt dein UI-Code kuerzer und wiederverwendbar.
+
+### Zustandsmanagement-Callbacks
+
+```dart
+void _toggleFavorit() {
+  setState(() {
+    _istFavorit = !_istFavorit;
+  });
+}
+
+IconButton(
+  icon: Icon(_istFavorit ? Icons.favorite : Icons.favorite_border),
+  onPressed: _toggleFavorit,
+)
+```
+
+Leicht erklaert:
+- Der Callback aendert den Zustand.
+- `setState` sagt Flutter: Bitte neu zeichnen.
+
+### BuildContext-Erweiterungen
+BuildContext ist in Flutter so etwas wie der aktuelle Ort eines Widgets im Widget-Baum.
+Der Widget-Baum ist die verschachtelte Struktur aller Widgets deiner App.
+
+MaterialApp
+└── Scaffold
+    ├── AppBar
+    │   └── Text
+    └── Center
+        └── ElevatedButton
+            └── Text
+
+Eine BuildContext-Erweiterung bedeutet:
+Du fügst diesem Ort eigene Hilfsfunktionen hinzu, damit du später kürzer und bequemer darauf zugreifen kannst.
+
+Beispiel ohne Erweiterung:
+```dart
+extension BuildContextExtensions on BuildContext {
+  ThemeData get theme => Theme.of(this);
+  TextTheme get textTheme => theme.textTheme;
+  ColorScheme get colorScheme => theme.colorScheme;
+
+  void showSnackBar(String message) {
+    ScaffoldMessenger.of(this).showSnackBar(
+      SnackBar(content: Text(message)),
+    );
+  }
+}
+
+ElevatedButton(
+  onPressed: () => context.showSnackBar('Aktion ausgefuehrt'),
+  child: const Text('Aktion'),
+)
+```
+
+Leicht erklaert:
+- Du erweiterst `BuildContext` um eigene Helferfunktionen.
+- Dadurch wird der Widget-Code klarer und lesbarer.
+
+## Kurzes Recaap zu Objektorientierter Programmierung in Dart
+
+Durch Mixins und Extensions wird in Dart die Klassesche OOP erweitert.
+Eine einfache Klasse wird wie folgt erstellt:
+```dart
+// Einfache Klasse
+class Person {
+  // Felder (Instanzvariablen)
+  String name;
+  int alter;
+  // Konstruktor
+  Person(this.name, this.alter);
+  // Methode
+  void vorstellen() {
+    print('Hallo, ich bin $name und $alter Jahre alt.');
+  }
+}
+
+// Verwendung der Klasse
+void main() {
+  // Erstellung eines Objekts (Instanz)
+  var person = Person('Anna', 30);
+  // Zugriff auf Felder
+  print(person.name); // 'Anna'
+  print(person.alter); // 30
+  // Aufruf einer Methode
+  person.vorstellen(); // 'Hallo, ich bin Anna und 30 Jahre alt.'
+  // Ändern von Feldern
+  person.alter = 31;
+  person.vorstellen(); // 'Hallo, ich bin Anna und 31 Jahre alt.'
+}
+
+
+```
+
+Die Konstruktorfunktion ist in Dart mit verschiedenen Fuktionen ausgestattet.
+
+Es gibt die klassische weise (Standardkonstruktor):
+```dart
+class Person {
+  String name;
+  int alter;
+  // Standardkonstruktor
+  Person(this.name, this.alter);
+}
+```
+
+Die bereits bekannte schreibweise this.name ist eine einfache Art und Weise, Konstruktorpaarameter direkt den Instanzvariablen zuzuweisen.
+
+Eine Alternative bildet die explizite form, Welche sich sehr an die Syntax aus anderen Programmiersprachen anlehnt:
+
+```dart
+class Person {
+  String name;
+  int alter;
+  // Standardkonstruktor (explizite Form)
+  Person(String name, int alter) {
+    this.name = name;
+    this.alter = alter;
+  }
+}
+```
+
+Darüber hinaus gibt es auch benannte Konstruktorfunktionen.
+Sie werden verwendet um mehrere Konstroktoren in einer Klasse zu definieren.
+Sie haben spezifische Namen der nach einem Punkt folgt.
+Beispiel:
+```dart
+class Person {
+  String name;
+  int age;
+
+  // Standardkonstruktor
+  Person(this.name, this.age);
+
+  // Benannter Konstruktor
+  Person.fromName(this.name) : age = 0;
+
+  Person.fromAge(this.age) : name = 'Unknown';
+}
+
+void main() {
+  var person1 = Person('Alice', 25);
+  var person2 = Person.fromName('Bob');
+  var person3 = Person.fromAge(30);
+
+  print('${person1.name}, ${person1.age}'); // Ausgabe: Alice, 25
+  print('${person2.name}, ${person2.age}'); // Ausgabe: Bob, 0
+  print('${person3.name}, ${person3.age}'); // Ausgabe: Unknown, 30
+}
+```
+| **Eigenschaft** | **Standardkonstruktor** | **Benannter Konstruktor** |
+|------------------|-------------------------|----------------------------|
+| **Name**        | Hat keinen Namen        | Hat einen spezifischen Namen |
+| **Anzahl**      | Es kann nur einen Standardkonstruktor geben | Es können mehrere benannte Konstruktoren geben |
+| **Verwendung**   | Wird für allgemeine Initialisierungen verwendet | Wird für spezifische Initialisierungen verwendet |
+| **Syntax**       | ClassName(...)         | ClassName.constructorName(...) |
+
+
+Ein Singleton-Fabrikkonstruktor ermöglicht es, eine globale Instanz einer Klasse zu erstellen, auf die alle Teile des Programms zugreifen können. Änderungen an dieser Instanz wirken sich global aus, da keine Kopien erstellt werden."
+
+Zusammenfassung der Vorteile
+Ein Singleton-Fabrikkonstruktor bietet:
+
+Globale Verfügbarkeit: Eine Instanz, die überall zugänglich ist.
+Zentrale Kontrolle: Du bestimmst, wie und wann die Instanz erstellt wird.
+Effizienz: Spart Speicher und Ressourcen durch Wiederverwendung.
+Konsistenz: Alle Teile des Programms verwenden dieselbe Instanz.
+Sicherheit: Verhindert unerwartete Instanzen durch Kapselung.
+Wann ist ein Singleton sinnvoll?
+Ein Singleton ist besonders nützlich, wenn:
+
+Du eine globale Ressource verwalten möchtest (z. B. Logger, Konfiguration, Datenbankverbindung).
+Du sicherstellen möchtest, dass es nur eine Instanz einer Klasse gibt.
+Du Speicher und Ressourcen sparen möchtest, indem du Instanzen wiederverwendest.
+Du eine Single Source of Truth benötigst, die überall im Programm konsistent ist.
+
+Beispiel: Logger-Klasse mit Singleton
+Ein Logger ist ein klassisches Beispiel für einen Singleton, da du sicherstellen möchtest, dass alle Teile des Programms dieselbe Instanz verwenden, um Log-Nachrichten zu schreiben.
+
+
+```dart
+class Logger {
+  static final Logger _instance = Logger._internal();
+
+  // Privater Konstruktor
+  Logger._internal();
+
+  // Fabrikkonstruktor gibt immer die gleiche Instanz zurück
+  factory Logger() {
+    return _instance;
+  }
+
+  void log(String message) {
+    print('[LOG]: $message');
+  }
+}
+
+void main() {
+  var logger1 = Logger();
+  var logger2 = Logger();
+
+  logger1.log('Dies ist eine Nachricht.');
+  logger2.log('Dies ist eine weitere Nachricht.');
+
+  print(identical(logger1, logger2)); // true
+}
+```
+
+Zusammenfassend lässt sich sagen, dass; Ein Singleton bietet eine globale Instanz, die sicherstellt, dass alle Teile des Programms dieselbe Klasse verwenden.
+Es gibt dir die absolute Sicherheit, dass keine unerwarteten Instanzen erstellt werden.
+Gleichzeitig birgt es die Gefahr von engen Kopplungen und unerwarteten Nebenwirkungen, wenn die Instanz unkontrolliert geändert wird.
+
+### Zusammenfassung: Initialisierungsliste und Singleton-Fabrik-Konstruktoren
+
+1. **Initialisierungsliste**:
+   - Wird verwendet, um Instanzvariablen vor der Ausführung des Konstruktorkörpers zu initialisieren.
+   - Besonders nützlich für `final`- und `const`-Variablen sowie für die Übergabe von Werten an Superklassen-Konstruktoren.
+   - Sorgt für eine effiziente und klare Initialisierung.
+
+2. **Singleton-Fabrik-Konstruktoren**:
+   - Stellen sicher, dass nur eine einzige Instanz einer Klasse existiert.
+   - Verhindern die wiederholte Erstellung von Objekten und sparen Ressourcen.
+   - Kombinieren sich gut mit Initialisierungslisten, um die Instanz direkt bei der Erstellung korrekt zu initialisieren.
+
+3. **Gemeinsamkeiten**:
+   - Beide Mechanismen bieten Kontrolle und Effizienz bei der Objektinitialisierung.
+   - Sie machen den Code klarer und strukturierter.
+
+4. **Unterschiede**:
+   - Initialisierungslisten sind für die Initialisierung von Variablen gedacht, während Singleton-Fabrik-Konstruktoren die Wiederverwendbarkeit einer Instanz sicherstellen.
+
+5. **Kombination**:
+   - Initialisierungslisten können verwendet werden, um die Variablen eines Singleton-Objekts effizient zu setzen.
+   - Dies ermöglicht eine klare Trennung zwischen der Initialisierung und der Singleton-Logik.
+
+### Zusammenfassung: Getter und Setter
+
+1. **Definition**:
+   - Getter und Setter sind spezielle Methoden, die den Zugriff auf Eigenschaften einer Klasse kontrollieren.
+   - Sie sehen aus wie normale Eigenschaften, verhalten sich aber wie Methoden.
+
+2. **Vorteile**:
+   - **Kapselung**: Verbergen die Implementierungsdetails einer Klasse und bieten eine saubere API.
+   - **Validierung**: Ermöglichen die Überprüfung von Werten, bevor sie gesetzt werden (z. B. Temperatur nicht unter -273,15 °C).
+   - **Berechnete Eigenschaften**: Getter können Werte dynamisch berechnen (z. B. Umrechnung von Celsius in Fahrenheit).
+
+3. **Beispiel**:
+   - Getter und Setter für eine Temperaturklasse:
+     - Getter: Berechnung von `fahrenheit` basierend auf `celsius`.
+     - Setter: Validierung von `celsius` und Umrechnung von `fahrenheit` in `celsius`.
+
+4. **Verwendung**:
+   - Getter und Setter bieten eine flexible Möglichkeit, Eigenschaften zu lesen und zu schreiben, ohne die interne Logik der Klasse offenzulegen.
+   - Sie sind nützlich für Validierung, berechnete Eigenschaften und das Observer-Pattern.
+
+
+
+### Klassenvererbung
+
+Vererbung bedeutet, dass eine Klasse (die Subklasse) von einer anderen Klasse (der Superklasse) erbt.
+Die Subklasse übernimmt Eigenschaften und Methoden der Superklasse und kann sie erweitern oder anpassen.
+
+Super bzw Elternklasse:
+```dart
+class Fahrzeug {
+  String typ;
+
+  // Konstruktor der Superklasse
+  Fahrzeug(this.typ);
+
+  void fahren() {
+    print('$typ fährt.');
+  }
+}
+
+```
+
+und hier ein beispiel für die sub bzw kindklasse:
+
+```dart
+class Auto extends Fahrzeug {
+  int ps;
+
+  // Konstruktor der Subklasse
+  Auto(this.ps) : super('Auto'); // Ruft den Konstruktor der Superklasse auf
+
+  @override
+  void fahren() {
+    super.fahren(); // Ruft die Methode der Superklasse auf
+    print('Das Auto hat $ps PS.');
+  }
+}
+```
+

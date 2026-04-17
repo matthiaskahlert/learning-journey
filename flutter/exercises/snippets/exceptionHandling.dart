@@ -2,6 +2,7 @@ void main() {
   // basis ausnahmebehandlung
   try {
     int ergebnis = 10 ~/ 0; // Division durch Null
+    print('Das Ergebnis ist: $ergebnis'); // Ergebnis wird genutzt
   } on UnsupportedError {
     print('Division durch Null ist nicht erlaubt');
   } catch (e) {

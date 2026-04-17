@@ -203,7 +203,7 @@ Dart unterstützt Type Promotion: Wenn der Compiler durch eine `is`-Prüfung wei
 void verarbeiteWert(Object wert) {
   if (wert is String) {
     // 'wert' ist hier automatisch als String bekannt
-    print('Länge: ${wert.length}'); // kein (wert as String) nötig
+    print('Laenge: ${wert.length}'); // kein (wert as String) noetig
   } else if (wert is int) {
     // 'wert' ist hier automatisch als int bekannt
     print('Doppelter Wert: ${wert * 2}');
@@ -324,7 +324,7 @@ Ein besonders nützliches Feature von Dart ist die String-Interpolation, die es 
   ```dart
   String name = 'Anna';
   int alter = 30;
-  String vorstellung = 'Ich heiße $name und bin $alter Jahre alt.';
+  String vorstellung = 'Ich heisse $name und bin $alter Jahre alt.';
   ```
 
 - **Komplexe Ausdrücke**: Verwende geschweifte Klammern für komplexere Ausdrücke
@@ -443,8 +443,8 @@ Dart bietet alle üblichen Kontrollstrukturen wie `if-else`, Schleifen und `swit
 
 - **For-in-Schleife (für Collections)**
   ```dart
-  List<String> früchte = ['Apfel', 'Banane', 'Kirsche'];
-  for (var frucht in früchte) {
+  List<String> fruechte = ['Apfel', 'Banane', 'Kirsche'];
+  for (var frucht in fruechte) {
     print('Ich mag $frucht');
   }
   ```
@@ -506,7 +506,7 @@ Funktionen sind in Dart Objekte erster Klasse. Das bedeutet, sie können Variabl
 #### Beispiele für Funktionen
 - **Einfache Funktion**
   ```dart
-  void grüßen() {
+  void gruessen() {
     print('Hallo!');
   }
   ```
@@ -520,14 +520,14 @@ Funktionen sind in Dart Objekte erster Klasse. Das bedeutet, sie können Variabl
 
 - **Optionale und benannte Parameter**
   ```dart
-  void grüßenOptional(String name, [String? titel]) {
+  void gruessenOptional(String name, [String? titel]) {
     if (titel != null) {
       print('Hallo, $titel $name!');
     } else {
       print('Hallo, $name!');
     }
   }
-
+// mit required werden benannte Parameter als erforderlich markiert 
   void personErstellen({
     required String name,
     required int alter,
@@ -665,11 +665,11 @@ hinweg.
 
 // String-Operationen
 String zusammengesetzt = einfach + ' ' + doppelt; // Konkatenation
-bool enthält = einfach.contains('einfach'); // true
+bool enthaelt = einfach.contains('einfach'); // true
 String kleingeschrieben = einfach.toLowerCase();
-String großgeschrieben = einfach.toUpperCase();
+String grossgeschrieben = einfach.toUpperCase();
 String teilstring = einfach.substring(4, 12); // 'einfache'
-List<String> wörter = einfach.split(' '); // ['Ein', 'einfacher', 'String']
+List<String> woerter = einfach.split(' '); // ['Ein', 'einfacher', 'String']
 
 // String-Interpolation
 String name = 'Anna';
@@ -723,8 +723,8 @@ List<int> mehrZahlen = [0, ...zahlen]; // Spread-Operator
 // Collection-If und Collection-For
 bool inkludiereSieben = true;
 List<int> dynamischeZahlen = [1, 2, if (inkludiereSieben) 7];
-List<String> früchte = ['Apfel', 'Banane', 'Kirsche'];
-List<String> großeFrüchte = [for (var frucht in früchte) frucht.toUpperCase()];
+List<String> fruechte = ['Apfel', 'Banane', 'Kirsche'];
+List<String> grosseFruechte = [for (var frucht in fruechte) frucht.toUpperCase()];
 ```
 
 ### Maps
@@ -753,21 +753,31 @@ Ungeordnete Sammlung eindeutiger Elemente (keine Duplikate).
 **Beispiele:**
 ```dart
 Set<int> eindeutigeZahlen = {1, 2, 3, 4, 5};
-Set<String> früchte = {'Apfel', 'Banane', 'Kirsche'};
+Set<String> fruechte = {'Apfel', 'Banane', 'Kirsche'};
 eindeutigeZahlen.add(3); // Keine Änderung
 eindeutigeZahlen.add(6); // {1, 2, 3, 4, 5, 6}
-bool enthältBanane = früchte.contains('Banane'); // true
+bool enthaeltBanane = fruechte.contains('Banane'); // true
 Set<int> andereZahlen = {4, 5, 6, 7, 8};
 Set<int> vereinigung = eindeutigeZahlen.union(andereZahlen); // {1, 2, 3, 4, 5, 6, 7, 8}
 Set<int> schnittmenge = eindeutigeZahlen.intersection(andereZahlen); // {4, 5, 6}
 Set<int> differenz = eindeutigeZahlen.difference(andereZahlen); // {1, 2, 3}
 ```
-
+Unterschiede
+| Eigenschaft        | Liste       | Map                          | Set                                 |
+|--------------------|-------------|------------------------------|-------------------------------------|
+| Geordnet           | Ja          | Nein (Schlüssel-Wert-Paare)  | Nein                                |
+| Duplikate erlaubt  | Ja          | Schlüssel: Nein, Werte: Ja   | Nein                                |
+| Zugriff            | Über Index  | Über Schlüssel               | Direkter Zugriff (ungeordnet)        |
+| Einsatzbereich     | Reihenfolge wichtig | Schlüssel-Wert-Zuordnung | Einzigartige Werte                  |
+Wann benutzt man was?
+Liste: Wenn die Reihenfolge wichtig ist oder du Duplikate speichern möchtest.
+Map: Wenn du Daten mit einem Schlüssel verknüpfen möchtest (z. B. Name → Alter).
+Set: Wenn du sicherstellen möchtest, dass alle Elemente einzigartig sind.
 **Hinweis:** Listen, Maps und Sets sind zentrale Werkzeuge für die Datenorganisation in Dart und Flutter.
 
 ---
 
-## Zusammenfassung: Records und Enums in Dart
+## Records und Enums in Dart
 
 ### Records (seit Dart 3.0)
 Records sind zusammengesetzte Datentypen, mit denen mehrere Werte ohne eigene Klasse gruppiert werden können.
@@ -830,7 +840,7 @@ Enums können Felder, Methoden und Konstruktoren enthalten.
 ```dart
 enum Farbe {
   rot(hex: 0xFF0000),
-  grün(hex: 0x00FF00),
+  gruen(hex: 0x00FF00),
   blau(hex: 0x0000FF);
 
   const Farbe({required this.hex});
@@ -885,7 +895,7 @@ Merksatz: **`??` nimmt den linken Wert, wenn er nicht null ist, sonst den rechte
 
 ```dart
 String? name = null;
-int? laenge = name?.length;          // null statt Fehler
+  int? laenge = name?.length;          // null statt Fehler
 
 String? text = null;
 text ??= 'Standard';                 // setzt nur, weil text null ist

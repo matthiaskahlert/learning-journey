@@ -1666,3 +1666,1105 @@ Die Operatorüberladung ist ein mächtiges Werkzeug, sollte jedoch mit Bedacht e
 
 
 
+## Collections und Generics in Dart
+### Queues / Warteschlangen in Dart
+
+Dart bietet mit der `dart:collection`-Bibliothek die Möglichkeit, Queues (Warteschlangen) zu verwenden, die sich besonders für FIFO (First-In-First-Out) oder LIFO (Last-In-First-Out) Operationen eignen. Queues bieten effizientere Einfüge- und Entfernungsoperationen am Anfang der Collection im Vergleich zu Listen.
+
+#### Beispiel:
+```dart
+import 'dart:collection';
+
+void main() {
+  // Erstellen einer Queue
+  Queue<String> warteschlange = Queue<String>();
+
+  // Elemente hinzufügen
+  warteschlange.add('Erster'); // Fügt am Ende hinzu
+  warteschlange.add('Zweiter');
+  warteschlange.addFirst('Neuer Erster'); // Fügt am Anfang hinzu
+  warteschlange.addLast('Letzter'); // Fügt am Ende hinzu
+  print(warteschlange); // (Neuer Erster, Erster, Zweiter, Letzter)
+
+  // Elemente entfernen
+  String erster = warteschlange.removeFirst(); // 'Neuer Erster'
+  String letzter = warteschlange.removeLast(); // 'Letzter'
+  print(warteschlange); // (Erster, Zweiter)
+
+  // Queue durchlaufen
+  for (var element in warteschlange) {
+    print(element);
+  }
+}
+```
+
+#### Vorteile von Queues:
+- **FIFO und LIFO:** Unterstützt sowohl First-In-First-Out als auch Last-In-First-Out Operationen.
+- **Effizienz:** Bietet effizientere Einfüge- und Entfernungsoperationen am Anfang der Collection im Vergleich zu Listen.
+
+### Unveränderliche Collections
+
+Dart bietet auch unveränderliche (immutable) Versionen der Collection-Typen an, die nach ihrer Erstellung nicht mehr geändert werden können.
+
+#### Beispiele:
+```dart
+// Unveränderliche Listen
+List<int> veränderlicheZahlen = [1, 2, 3];
+List<int> unveränderlicheZahlen = List.unmodifiable(veränderlicheZahlen);
+// unveränderlicheZahlen.add(4); // Fehler: Kann nicht modifiziert werden
+
+// Unveränderliche Sets
+Set<String> veränderlicheFrüchte = {'Apfel', 'Banane'};
+Set<String> unveränderlicheFrüchte = Set.unmodifiable(veränderlicheFrüchte);
+
+// Unveränderliche Maps
+Map<String, int> veränderlicheAlter = {'Anna': 30, 'Ben': 25};
+Map<String, int> unveränderlicheAlter = Map.unmodifiable(veränderlicheAlter);
+```
+
+#### Vorteile von unveränderlichen Collections:
+- **Datenintegrität:** Garantiert, dass Daten nicht versehentlich geändert werden.
+- **Nebenläufigkeit:** Besonders hilfreich in nebenläufigen Kontexten.
+- **Sicherheit:** Ideal bei der Übergabe von Daten an andere Funktionen.
+
+### Generics
+Generics einfach wie Platzhalter für Typen. 
+
+Normalerweise sagst du in Dart:
+
+int zahl = 5;
+String text = "Hallo";
+
+Mit Generics sagst du:
+👉 „Ich weiß noch nicht, welcher Typ hier reinkommt — das entscheide ich später.“
+
+Dafür nutzt man sowas wie <T>
+(T steht einfach für „Type“, könnte auch <X> heißen)
+
+
+Generics sind also Platzhalter für Typen. Sie ermöglichen es dir, Klassen, Funktionen oder Collections so zu schreiben, dass sie mit verschiedenen Typen arbeiten können, ohne die Typsicherheit zu verlieren.
+
+### Generische Collections
+Generische Collections wie `List<T>`, `Set<T>` (T für Type als Typparameter) und `Map<K, V>` (K und V für Key und Value) erlauben es, den Typ der enthaltenen Elemente zu spezifizieren. Dies verbessert die Typprüfung und die IDE-Unterstützung. Beispiele:
+- `List<String> namen = ['Anna', 'Ben', 'Clara'];`
+- `Set<int> zahlenSet = {1, 2, 3};`
+- `Map<String, double> gewichte = {'Apfel': 0.2, 'Banane': 0.15};`
+
+### Generische Klassen
+Eigene generische Klassen können erstellt werden, um wiederverwendbare und typsichere Komponenten zu entwickeln. 
+
+📦 **Beispiel: Eine Box**
+
+Ohne Generics:
+```dart
+class Box {
+  final dynamic wert;
+  Box(this.wert);
+}
+```
+Problem:
+👉 dynamic ist unsicher (kann alles sein → Fehler erst zur Laufzeit)
+
+Mit Generics:
+```dart
+class Box<T> {
+  final T wert;
+  Box(this.wert);
+  T öffnen() => wert;
+}
+```
+Verwendung:
+- `var stringBox = Box<String>('Hallo');`
+- `var intBox = Box<int>(42);`
+
+### Mehrere Typparameter
+Generische Typen können mehrere Typparameter haben, wie in der Klasse `Paar<K, V>`:
+```dart
+class Paar<K, V> {
+  final K erster;
+  final V zweiter;
+  Paar(this.erster, this.zweiter);
+}
+```
+
+### Generische Methoden
+Auch Methoden können generisch sein, unabhängig von der Klasse:
+```dart
+T ersteElement<T>(List<T> liste) {
+  if (liste.isEmpty) {
+    throw ArgumentError('Liste darf nicht leer sein');
+  }
+  return liste.first;
+}
+```
+
+### Einschränkung von Typparametern
+Mit `extends` können Typparameter eingeschränkt werden, um nur bestimmte Typen zuzulassen. Beispiel:
+```dart
+class NummerBox<T extends num> {
+  final T wert;
+  NummerBox(this.wert);
+  double quadrat() => wert * wert;
+}
+```
+
+### Generische Mixins
+Mixins können ebenfalls generisch sein, um die Wiederverwendbarkeit zu erhöhen:
+```dart
+mixin Loggable<T> {
+  void log(T wert) {
+    print('Log: $wert');
+  }
+}
+```
+
+Generics bieten in Dart eine leistungsstarke Möglichkeit, flexiblen und dennoch typsicheren Code zu schreiben.
+
+
+### Collection-Operationen
+
+## Zusammenfassung: Funktionale Methoden für Collections
+
+Funktionale Methoden in Dart ermöglichen es, Operationen auf Collections einfach und deklarativ auszudrücken. Hier ist eine vereinfachte Übersicht der wichtigsten Methoden und ihrer Bedeutungen:
+
+| Methode      | Bedeutung                     | Beschreibung |
+|--------------|-------------------------------|--------------|
+| **map**      | verändern                     |Transformiert jedes Element der Collection und gibt eine neue Collection zurück|
+| **where**    | filtern                       | Filtert die Collection und gibt eine neue Collection mit Elementen zurück, die eine Bedingung erfüllen|
+| **firstWhere** | erstes passendes            | Findet das erste Element, das eine Bedingung erfüllt|
+| **reduce**   | zusammenrechnen               |Reduziert die Collection auf einen einzelnen Wert durch Anwendung einer Funktion auf aufeinanderfolgende Elemente|
+| **fold**     | zusammenrechnen mit Startwert | Ähnlich wie reduce, aber mit einem expliziten Anfangswert|
+| **any**      | gibt es eins?                 | Prüft, ob mindestens ein Element eine Bedingung erfüllt|
+| **every**    | sind alle so?                 |  Prüft, ob alle Elemente eine Bedingung erfüllen|
+| **expand**   | flach machen                  |Erzeugt eine flache Liste aus einer Collection von Collections|
+| **forEach**  | für jedes Element etwas tun   |Führt eine Funktion für jedes Element aus|
+
+### Beispiele für die Methoden
+
+- **map**: Verändert jedes Element und gibt eine neue Collection zurück.
+  ```dart
+  var zahlen = [1, 2, 3];
+  var quadriert = zahlen.map((zahl) => zahl * zahl).toList(); // [1, 4, 9]
+  ```
+
+- **where**: Filtert Elemente basierend auf einer Bedingung.
+  ```dart
+  var zahlen = [1, 2, 3, 4];
+  var gerade = zahlen.where((zahl) => zahl % 2 == 0).toList(); // [2, 4]
+  ```
+
+- **reduce**: Reduziert die Collection auf einen Wert.
+  ```dart
+  var zahlen = [1, 2, 3];
+  var summe = zahlen.reduce((a, b) => a + b); // 6
+  ```
+
+- **fold**: Wie reduce, aber mit Startwert.
+  ```dart
+  var zahlen = [1, 2, 3];
+  var summe = zahlen.fold(10, (a, b) => a + b); // 16
+  ```
+
+- **any**: Prüft, ob mindestens ein Element eine Bedingung erfüllt.
+  ```dart
+  var zahlen = [1, 2, 3];
+  var hatGerade = zahlen.any((zahl) => zahl % 2 == 0); // true
+  ```
+
+- **every**: Prüft, ob alle Elemente eine Bedingung erfüllen.
+  ```dart
+  var zahlen = [2, 4, 6];
+  var alleGerade = zahlen.every((zahl) => zahl % 2 == 0); // true
+  ```
+
+- **firstWhere**: Findet das erste Element, das eine Bedingung erfüllt.
+  ```dart
+  var zahlen = [1, 2, 3];
+  var ersteGerade = zahlen.firstWhere((zahl) => zahl % 2 == 0); // 2
+  ```
+
+- **expand**: Macht eine Liste von Listen flach.
+  ```dart
+  var listen = [[1, 2], [3, 4]];
+  var flach = listen.expand((liste) => liste).toList(); // [1, 2, 3, 4]
+  ```
+
+- **forEach**: Führt eine Aktion für jedes Element aus.
+  ```dart
+  var früchte = ['Apfel', 'Banane'];
+  früchte.forEach((frucht) => print('Ich mag $frucht'));
+  ```
+
+Diese Methoden machen den Code kürzer, lesbarer und ausdrucksstärker. Sie sind besonders nützlich, wenn du mit Collections arbeitest und komplexe Operationen deklarativ ausdrücken möchtest.
+
+## Verketten von Collection-Operationen
+
+Ein großer Vorteil der funktionalen Methoden ist, dass sie verkettet werden können, um komplexe Transformationen als eine Folge einfacherer Operationen auszudrücken:
+
+```dart
+var personen = [
+  {'name': 'Anna', 'alter': 30, 'stadt': 'Berlin'},
+  {'name': 'Ben', 'alter': 25, 'stadt': 'München'},
+  {'name': 'Clara', 'alter': 35, 'stadt': 'Berlin'},
+  {'name': 'David', 'alter': 28, 'stadt': 'Hamburg'},
+  {'name': 'Eva', 'alter': 32, 'stadt': 'Berlin'},
+];
+
+// Finde das durchschnittliche Alter von Personen aus Berlin
+double durchschnittsalterBerlin = personen
+  .where((person) => person['stadt'] == 'Berlin')
+  .map((person) => person['alter'] as int)
+  .reduce((summe, alter) => summe + alter) /
+  personen.where((person) => person['stadt'] == 'Berlin').length;
+print(durchschnittsalterBerlin); // (30 + 35 + 32) / 3 = 32.33...
+
+// Namen aller Personen über 30, alphabetisch sortiert
+List<String> namenÜber30 = personen
+  .where((person) => (person['alter'] as int) > 30)
+  .map((person) => person['name'] as String)
+  .toList()
+  ..sort();
+print(namenÜber30); // [Clara, Eva]
+```
+
+## Collection Controls in Dart
+
+Collection Controls ermöglichen es, Listen und Maps dynamisch beim Erstellen zu bauen. Hier sind die wichtigsten Konzepte einfach erklärt:
+
+### 1. Collection if
+Mit `if` kannst du Elemente nur dann hinzufügen, wenn eine Bedingung erfüllt ist.
+
+```dart
+var liste = [
+  "Apfel",
+  if (true) "Banane",
+  "Kirsche"
+];
+// Ergebnis: ["Apfel", "Banane", "Kirsche"]
+
+var map = {
+  "Apfel": 1,
+  if (true) "Banane": 2,
+};
+// Ergebnis: {"Apfel": 1, "Banane": 2}
+```
+
+### 2. Collection for
+Mit `for` kannst du eine Liste direkt beim Erstellen transformieren.
+
+```dart
+var zahlen = [1, 2, 3];
+var quadriert = [
+  for (var z in zahlen) z * z
+];
+// Ergebnis: [1, 4, 9]
+
+var gerade = [
+  for (var z in zahlen)
+    if (z % 2 == 0) z * z
+];
+// Ergebnis: [4]
+
+var fruits = ["Apfel", "Banane"];
+var map = {
+  for (var f in fruits)
+    f: f.length
+};
+// Ergebnis: {"Apfel": 5, "Banane": 6}
+```
+
+### 3. Spread Operator `...`
+Der Spread-Operator fügt Elemente einer Liste in eine andere Liste ein.
+
+```dart
+var a = [1, 2];
+var b = [3, 4];
+var neu = [...a, ...b];
+// Ergebnis: [1, 2, 3, 4]
+
+var extra = true ? [5, 6] : [];
+var liste = [...a, ...extra];
+
+List<int>? maybe = null;
+var liste = [...a, ...?maybe];
+// Null-sicher: kein Crash!
+```
+
+### 4. Pattern Matching (Dart 3)
+Pattern Matching hilft, Listen und Maps zu "zerlegen" und Variablen direkt zuzuweisen.
+
+```dart
+// Listen auspacken
+var liste = [1, 2, 3];
+var [a, b, c] = liste;
+// a = 1, b = 2, c = 3
+
+// Rest nehmen
+var [first, second, ...rest] = [1, 2, 3, 4];
+// first = 1, second = 2, rest = [3, 4]
+
+// Map auspacken
+var person = {"name": "Anna", "alter": 30};
+var {"name": name, "alter": alter} = person;
+// name = "Anna", alter = 30
+
+// Pattern Matching in switch
+var wert = [1, 2];
+switch (wert) {
+  case [var x, var y]:
+    print(x + y);
+}
+// Erkennt automatisch: "Liste mit 2 Elementen"
+```
+
+### Mini-Zusammenfassung
+- **Collection if**: Element nur hinzufügen, wenn Bedingung true.
+- **Collection for**: Liste direkt transformieren.
+- **Spread (`...`)**: Liste in Liste einfügen.
+- **Spread null-safe (`...?`)**: Nur wenn nicht null.
+- **Pattern Matching**: Collections "auseinandernehmen" und Variablen erstellen.
+
+
+## Asynchrone Programmierung in Dart
+
+In Dart wird asynchrone Programmierung hauptsächlich durch zwei Konzepte unterstützt:
+- Futures: Repräsentieren einen einzelnen asynchronen Wert, der in der Zukunft verfügbar sein wird
+- Streams: Repräsentieren eine Sequenz asynchroner Ereignisse über Zeit
+
+### Futures
+
+Ein **Future** ist wie ein promise in JavaScript.
+
+- Das Ergebnis ist **jetzt noch nicht da**.
+- Es kommt **später** (oder es gibt einen Fehler).
+
+### Denkmodell in 1 Minute
+
+Wenn du eine Future-Funktion aufrufst, passiert Folgendes:
+
+1. Die Funktion startet eine asynchrone Arbeit.
+2. Dein Programm läuft **sofort weiter** (blockiert nicht).
+3. Später endet die Arbeit mit:
+   - einem Wert (Erfolg) oder
+   - einem Fehler.
+
+Das ist wichtig für Flutter, damit die UI flüssig bleibt.
+
+---
+
+### Einfaches Beispiel mit then, catchError, whenComplete
+
+```dart
+Future<String> fetchUserData() {
+  return Future.delayed(const Duration(seconds: 2), () {
+    return 'User data loaded';
+  });
+}
+
+void main() {
+  print('Fetching user data...');
+
+  fetchUserData()
+      .then((data) {
+        print('Data received: $data');
+      })
+      .catchError((error) {
+        print('Error: $error');
+      })
+      .whenComplete(() {
+        print('Operation completed');
+      });
+
+  print('Main function continues executing');
+}
+```
+
+Merke:
+- `then(...)`: läuft bei Erfolg.
+- `catchError(...)`: läuft bei Fehler.
+- `whenComplete(...)`: läuft immer (ähnlich wie `finally`).
+
+---
+
+### Wichtige Future-Konstruktoren
+
+```dart
+Future<int> sofortiger = Future.value(42);
+Future<int> fehlerhafter = Future.error(Exception('Something went wrong'));
+
+Future<String> verzoegerter = Future.delayed(
+  const Duration(seconds: 1),
+  () => 'Delayed result',
+);
+
+Future<int> zukunft = Future(() {
+  return 123;
+});
+```
+
+Wann welcher?
+- `Future.value(...)`: Ergebnis ist direkt bekannt.
+- `Future.error(...)`: gezielt einen Fehler-Future erzeugen.
+- `Future.delayed(...)`: Verzögerung simulieren (z. B. Netzwerk).
+- `Future(() { ... })`: asynchrone Berechnung starten.
+
+---
+
+### Futures verketten (Schritt für Schritt)
+
+```dart
+Future<String> getUserName() {
+  return Future.delayed(const Duration(seconds: 1), () => 'Anna');
+}
+
+Future<int> getUserAge(String name) {
+  return Future.delayed(const Duration(seconds: 1), () {
+    if (name == 'Anna') return 30;
+    throw Exception('User not found');
+  });
+}
+
+Future<String> createGreeting(String name, int age) {
+  return Future.value('Hallo, $name! Du bist $age Jahre alt.');
+}
+
+void main() {
+  getUserName()
+      .then((name) => getUserAge(name))
+      .then((age) => createGreeting('Anna', age))
+      .then((greeting) => print(greeting))
+      .catchError((e) => print('Error: $e'));
+}
+```
+
+Jeder `then` wartet auf den vorherigen Schritt.
+
+---
+
+### Fehlerbehandlung mit Fallback
+
+```dart
+Future<double> divideNumbers(int a, int b) {
+  return Future(() {
+    if (b == 0) {
+      throw Exception('Division by zero');
+    }
+    return a / b;
+  });
+}
+
+void main() {
+  divideNumbers(10, 0)
+      .then((result) => print('Result: $result'))
+      .catchError((error) {
+        print('Caught error: $error');
+        return 0.0; // Fallback-Wert
+      })
+      .then((value) => print('Final value: $value'));
+}
+```
+
+Didaktischer Punkt:
+- `catchError` kann nicht nur loggen, sondern auch einen Ersatzwert liefern.
+
+---
+
+### Selektiv Fehler abfangen
+
+```dart
+import 'dart:async';
+import 'dart:math';
+
+Future<Object> riskyOperation() {
+  return Future(() {
+    final random = Random().nextInt(3);
+    switch (random) {
+      case 0:
+        return 'Success';
+      case 1:
+        throw FormatException('Invalid format');
+      default:
+        throw TimeoutException('Operation timed out');
+    }
+  });
+}
+
+void main() {
+  riskyOperation()
+      .then((result) => print('Success: $result'))
+      .catchError(
+        (error) => print('Format error: $error'),
+        test: (error) => error is FormatException,
+      )
+      .catchError(
+        (error) => print('Timeout error: $error'),
+        test: (error) => error is TimeoutException,
+      )
+      .catchError((error) => print('Unknown error: $error'));
+}
+```
+
+Mit `test:` filterst du gezielt Fehlertypen.
+
+---
+
+### Mehrere Futures gleichzeitig
+
+```dart
+Future<String> fetchData1() =>
+    Future.delayed(const Duration(seconds: 1), () => 'Data 1');
+Future<String> fetchData2() =>
+    Future.delayed(const Duration(seconds: 2), () => 'Data 2');
+Future<String> fetchData3() =>
+    Future.delayed(const Duration(seconds: 3), () => 'Data 3');
+
+void main() {
+  Future.wait([fetchData1(), fetchData2(), fetchData3()]).then((results) {
+    print('All results: $results');
+  });
+
+  Future.any([fetchData1(), fetchData2(), fetchData3()]).then((result) {
+    print('First result: $result');
+  });
+}
+```
+
+Unterschied:
+- `Future.wait(...)`: wartet auf **alle**.
+- `Future.any(...)`: nimmt das **erste** fertige Ergebnis.
+
+Wichtig bei `wait`: Die Ergebnisliste ist in der **Eingabe-Reihenfolge**, nicht in der Reihenfolge der Fertigstellung.
+
+---
+
+### Häufige Stolperfallen
+
+- Fehler in Futures ohne `catchError` gehen leicht verloren.
+- Zu lange Ketten werden schnell unübersichtlich.
+- Nicht vergessen: Asynchron heißt, dass Code-Reihenfolge im Quelltext nicht automatisch Ausführungsreihenfolge bedeutet.
+
+---
+
+### Mini-Merkliste
+
+- Future = ein späterer Einzelwert oder Fehler.
+- `then` = Erfolg, `catchError` = Fehler, `whenComplete` = immer.
+- `Future.wait` für "alles parallel und dann weiter".
+- `Future.any` für "das schnellste Ergebnis reicht".
+
+
+## Async und Await in Dart
+
+Mit `async` und `await` kannst du asynchronen Code so schreiben, dass er fast wie synchroner Code aussieht.
+Das macht Abläufe meist leichter lesbar als lange `then(...)`-Ketten.
+
+### Grundidee
+
+- `async` markiert eine Funktion als asynchron.
+- Eine `async`-Funktion liefert immer einen `Future` zurück.
+- `await` wartet auf das Ergebnis eines `Future`.
+
+Wichtig:
+- `await` pausiert nur die aktuelle Funktion.
+- Der Rest der App (z. B. UI) läuft weiter.
+
+---
+
+### Einfaches Beispiel mit async/await
+
+```dart
+Future<String> getUserName() async {
+  return Future.delayed(const Duration(seconds: 1), () => 'Anna');
+}
+
+Future<int> getUserAge(String username) async {
+  return Future.delayed(const Duration(seconds: 1), () => 30);
+}
+
+Future<String> fetchUserData() async {
+  try {
+    final username = await getUserName();
+    final age = await getUserAge(username);
+    return 'User: $username, Age: $age';
+  } catch (e) {
+    return 'Error fetching user data: $e';
+  }
+}
+
+Future<void> main() async {
+  print('Fetching user data...');
+  final userData = await fetchUserData();
+  print(userData);
+  print('Operation completed');
+}
+```
+
+Didaktisch wichtig:
+- Die Schritte stehen von oben nach unten in natürlicher Reihenfolge.
+- Das ist meist einfacher zu lesen und zu debuggen.
+
+---
+
+### Gleiches Verhalten mit then-Kette (zum Vergleich)
+
+```dart
+Future<String> fetchUserData() {
+  return getUserName().then((username) {
+    return getUserAge(username).then((age) {
+      return 'User: $username, Age: $age';
+    });
+  }).catchError((e) {
+    return 'Error fetching user data: $e';
+  });
+}
+```
+
+Beide Varianten funktionieren.
+`async/await` ist aber bei mehreren Schritten oft klarer.
+
+---
+
+### Fehlerbehandlung mit try/catch/finally
+
+```dart
+Future<double> divideNumbers(int a, int b) async {
+  if (b == 0) {
+    throw Exception('Division by zero');
+  }
+  return a / b;
+}
+
+Future<void> main() async {
+  try {
+    final result = await divideNumbers(10, 0);
+    print('Result: $result');
+  } catch (e) {
+    print('Caught error: $e');
+  } finally {
+    print('Operation completed');
+  }
+}
+```
+
+Vorteil:
+- Fehlerbehandlung fühlt sich an wie bei synchronem Code.
+
+---
+
+### Parallel arbeiten mit async/await
+
+```dart
+Future<String> fetchData1() =>
+    Future.delayed(const Duration(seconds: 1), () => 'Data 1');
+Future<String> fetchData2() =>
+    Future.delayed(const Duration(seconds: 2), () => 'Data 2');
+Future<String> fetchData3() =>
+    Future.delayed(const Duration(seconds: 3), () => 'Data 3');
+
+Future<void> performParallelTasks() async {
+  print('Starting parallel tasks...');
+
+  // 1) Alle drei Futures gleichzeitig starten
+  final future1 = fetchData1();
+  final future2 = fetchData2();
+  final future3 = fetchData3();
+
+  // 2) Danach auf Ergebnisse warten
+  final result1 = await future1;
+  final result2 = await future2;
+  final result3 = await future3;
+
+  print('Results: $result1, $result2, $result3');
+
+  // Alternative: kompakt mit Future.wait
+  final allResults = await Future.wait([
+    fetchData1(),
+    fetchData2(),
+    fetchData3(),
+  ]);
+  print('All results: $allResults');
+}
+```
+
+Merke:
+- Wenn du sofort hintereinander `await` auf neue Aufrufe machst, laufen sie nacheinander.
+- Wenn du zuerst Futures startest und dann awaitest, laufen sie parallel.
+
+---
+
+### Typischer Anfängerfehler
+
+Nicht parallel (langsamer):
+
+```dart
+final a = await fetchData1();
+final b = await fetchData2();
+final c = await fetchData3();
+```
+
+Parallel (oft schneller):
+
+```dart
+final f1 = fetchData1();
+final f2 = fetchData2();
+final f3 = fetchData3();
+
+final a = await f1;
+final b = await f2;
+final c = await f3;
+```
+
+---
+
+### Isolate leicht erklärt
+
+Ein **Isolate** ist in Dart eine eigene Ausführungseinheit mit:
+
+- eigenem Speicher
+- eigenem Event-Loop
+
+Wichtig für dein Verständnis:
+
+- Standardmäßig läuft deine App im **Main-Isolate**.
+- `async/await` arbeitet innerhalb dieses Isolates.
+- `await` pausiert nur die aktuelle Funktion, nicht das ganze Isolate.
+- Deshalb können andere Aufgaben (z. B. UI-Events) weiterlaufen.
+
+Unterschied zu Threads in anderen Sprachen:
+
+- Isolates teilen **keinen** Speicher.
+- Kommunikation läuft über Nachrichten.
+- Das reduziert typische Race-Condition-Probleme.
+
+Praxis-Merke:
+
+- Für I/O-Wartezeiten (Netzwerk, Datei, Datenbank): `async/await` reicht meist.
+- Für lange, rechenintensive Arbeit: eigenes Isolate starten, damit die UI flüssig bleibt.
+
+---
+
+### Mini-Zusammenfassung
+
+- `async/await` macht Future-Code meist lesbarer.
+- `await` pausiert nur die aktuelle Funktion, nicht das gesamte Main-Isolate.
+- `try/catch/finally` ist der natürliche Weg für Fehlerbehandlung.
+- Für parallele Tasks: erst starten, dann awaiten, oder direkt `Future.wait` nutzen.
+
+
+## Streams in Dart
+
+Ein **Stream** ist wie ein Future – aber statt eines einzelnen Wertes liefert er **eine Folge von Werten über die Zeit**.
+
+- Ein Future: „Ich gebe dir irgendwann **einen** Wert."
+- Ein Stream: „Ich sende dir **mehrere** Werte, einen nach dem anderen."
+
+### Denkmodell in 1 Minute
+
+Stell dir vor, du horchst auf ein Radio:
+- Nicht du fragst, wann etwas kommt.
+- Das Radio **sendet** – und du hörst zu.
+
+Das ist ein Stream. Er sendet Ereignisse, und du reagierst darauf.
+
+---
+
+### Einfaches Beispiel mit `listen`
+
+```dart
+Stream<int> countStream(int max) async* {
+  for (int i = 1; i <= max; i++) {
+    await Future.delayed(const Duration(seconds: 1));
+    yield i;
+  }
+}
+
+void main() {
+  final subscription = countStream(5).listen(
+    (data) => print('Data: $data'),
+    onError: (error) => print('Error: $error'),
+    onDone: () => print('Stream completed'),
+    cancelOnError: false,
+  );
+
+  // Subscription nach 3 Sekunden abbrechen
+  Future.delayed(const Duration(seconds: 3), () {
+    subscription.cancel();
+    print('Subscription cancelled');
+  });
+}
+// Ausgabe:
+// Data: 1
+// Data: 2
+// Subscription cancelled
+```
+
+Merke:
+- `listen(...)`: horcht auf eingehende Werte.
+- `onError`: reagiert auf Fehler.
+- `onDone`: läuft, wenn der Stream beendet ist.
+- `cancelOnError: false`: Stream läuft trotz Fehler weiter.
+- `subscription.cancel()`: Abonnement jederzeit beendbar.
+
+---
+
+### Wichtige Stream-Konstruktoren
+
+```dart
+// async*-Generator: klassisch, schrittweise
+Stream<int> mitGenerator(int max) async* {
+  for (int i = 1; i <= max; i++) {
+    await Future.delayed(const Duration(seconds: 1));
+    yield i;
+  }
+}
+
+// StreamController: manuell steuern
+import 'dart:async';
+StreamController<String> mitController() {
+  final controller = StreamController<String>();
+  controller.add('Erstes Ereignis');
+  controller.add('Zweites Ereignis');
+  controller.addError('Etwas lief schief');
+  controller.close();
+  return controller;
+}
+
+// Aus Futures zusammensetzen
+Stream<int> ausFutures() {
+  return Stream.fromFutures([
+    Future.delayed(const Duration(seconds: 1), () => 1),
+    Future.delayed(const Duration(seconds: 2), () => 2),
+    Future.delayed(const Duration(seconds: 3), () => 3),
+  ]);
+}
+
+// Periodisch in festem Takt
+Stream<int> periodisch() {
+  return Stream.periodic(const Duration(seconds: 1), (count) => count + 1).take(5);
+}
+```
+
+Wann welcher?
+- `async*` mit `yield`: am häufigsten, gut lesbar.
+- `StreamController`: wenn Ereignisse von außen kommen (z. B. Nutzereingaben).
+- `Stream.fromFutures`: wenn Futures zu einem Stream gebündelt werden sollen.
+- `Stream.periodic`: für regelmäßige Ereignisse (z. B. Timer, Animationsframes).
+
+---
+
+### Stream-Transformationen
+
+Streams unterstützen dieselben Operationen wie Listen – aber asynchron, Wert für Wert:
+
+```dart
+Stream<int> numberStream() async* {
+  for (int i = 1; i <= 5; i++) {
+    await Future.delayed(const Duration(milliseconds: 500));
+    yield i;
+  }
+}
+
+void main() async {
+  // map – jeden Wert transformieren
+  numberStream()
+      .map((n) => n * 2)
+      .listen((data) => print('Doubled: $data'));
+
+  // where – nur passende Werte durchlassen
+  numberStream()
+      .where((n) => n % 2 == 0)
+      .listen((data) => print('Even: $data'));
+
+  // take – nur die ersten N Werte
+  numberStream()
+      .take(3)
+      .listen((data) => print('Taken: $data'));
+
+  // skip – die ersten N Werte überspringen
+  numberStream()
+      .skip(2)
+      .listen((data) => print('Skipped first 2: $data'));
+
+  // distinct – aufeinanderfolgende Duplikate entfernen
+  Stream.fromIterable([1, 1, 2, 2, 3, 3, 4])
+      .distinct()
+      .listen((data) => print('Distinct: $data'));
+
+  // Transformationen verketten
+  numberStream()
+      .where((n) => n % 2 == 1)
+      .map((n) => n * n)
+      .listen((data) => print('Odd squares: $data'));
+}
+```
+
+Merke:
+- Transformationen laufen asynchron – Schritt für Schritt mit jedem neuen Wert.
+- Sie können beliebig verkettet werden, ähnlich wie bei Collections.
+
+---
+
+### Fehlerbehandlung in Streams
+
+```dart
+Stream<int> errorStream() async* {
+  for (int i = 1; i <= 5; i++) {
+    await Future.delayed(const Duration(milliseconds: 500));
+    if (i == 3) throw Exception('Fehler bei Element 3');
+    yield i;
+  }
+}
+
+void main() {
+  // Variante 1: onError im listen-Aufruf
+  errorStream().listen(
+    (data) => print('Data: $data'),
+    onError: (error) => print('Fehler abgefangen: $error'),
+    onDone: () => print('Stream abgeschlossen'),
+    cancelOnError: false,
+  );
+
+  // Variante 2: handleError als Transformation
+  errorStream()
+      .handleError((error) => print('Behandelter Fehler: $error'))
+      .listen(
+        (data) => print('Daten nach Fehlerbehandlung: $data'),
+        onDone: () => print('Stream abgeschlossen'),
+      );
+}
+```
+
+Didaktischer Punkt:
+- `cancelOnError: false` lässt den Stream nach einem Fehler weiterlaufen.
+- `handleError(...)` kann wie `catchError` bei Futures einen `test:`-Parameter erhalten, um nur bestimmte Fehlertypen zu behandeln.
+
+---
+
+### Single-Subscription vs. Broadcast Stream
+
+Standardmäßig kann ein Stream **nur einen Listener** haben.
+Wenn mehrere Teile der App auf dieselben Ereignisse hören sollen, braucht man einen **Broadcast Stream**:
+
+```dart
+import 'dart:async';
+
+void main() {
+  // Single-Subscription: nur ein Listener erlaubt
+  final singleController = StreamController<int>();
+  singleController.stream.listen((data) => print('Listener 1: $data'));
+  // singleController.stream.listen(...); // würde Fehler werfen!
+
+  // Broadcast: mehrere Listener erlaubt
+  final broadcastController = StreamController<int>.broadcast();
+  broadcastController.stream.listen((data) => print('Broadcast 1: $data'));
+  broadcastController.stream.listen((data) => print('Broadcast 2: $data'));
+
+  broadcastController.add(1);
+  broadcastController.add(2);
+
+  Future.delayed(const Duration(seconds: 1), () {
+    singleController.close();
+    broadcastController.close();
+  });
+}
+```
+
+Unterschied:
+| | Single-Subscription | Broadcast |
+|---|---|---|
+| Listener | genau einer | beliebig viele |
+| Typischer Einsatz | einmalige Datenströme | UI-Events, State-Updates |
+
+---
+
+### `async*` und `yield` im Detail
+
+```dart
+// Einzelwerte ausgeben
+Stream<int> countStream(int max) async* {
+  for (int i = 1; i <= max; i++) {
+    await Future.delayed(const Duration(seconds: 1));
+    yield i;
+  }
+}
+
+// Bedingt yielden
+Stream<int> nurGerade(int max) async* {
+  for (int i = 1; i <= max; i++) {
+    await Future.delayed(const Duration(milliseconds: 500));
+    if (i % 2 == 0) yield i;
+  }
+}
+
+// Anderen Stream einbetten mit yield*
+Stream<int> verschachtelt(int outer, int inner) async* {
+  for (int i = 1; i <= outer; i++) {
+    yield i;
+    yield* innerStream(i, inner); // delegiert an anderen Stream
+  }
+}
+
+Stream<int> innerStream(int faktor, int count) async* {
+  for (int i = 1; i <= count; i++) {
+    yield faktor * 10 + i;
+  }
+}
+```
+
+Merke:
+- `yield`: fügt **einen** Wert zum Stream hinzu.
+- `yield*`: delegiert an einen **anderen Stream** und fügt alle seine Werte ein.
+
+---
+
+### `await for` – Über Streams iterieren
+
+Mit `await for` kannst du über einen Stream iterieren wie über eine normale Liste – aber asynchron:
+
+```dart
+Future<void> processStream() async {
+  print('Verarbeitung startet...');
+  await for (final data in countStream(5)) {
+    print('Verarbeitet: $data');
+  }
+  print('Verarbeitung abgeschlossen');
+}
+
+Future<void> main() async {
+  await processStream();
+}
+// Ausgabe:
+// Verarbeitung startet...
+// Verarbeitet: 1
+// Verarbeitet: 2
+// Verarbeitet: 3
+// Verarbeitet: 4
+// Verarbeitet: 5
+// Verarbeitung abgeschlossen
+```
+
+Didaktisch wichtig:
+- `await for` wartet auf jeden Wert, bevor der Schleifenkörper weiterläuft.
+- Die Schleife endet automatisch, wenn der Stream geschlossen wird.
+- Gut lesbar, wenn du alle Werte der Reihe nach verarbeiten willst.
+
+---
+
+### Häufige Stolperfallen
+
+- Single-Subscription-Stream mehrfach abonnieren → Fehler zur Laufzeit.
+- Subscription vergessen zu `cancel()` → Speicherlecks, besonders in Widgets.
+- Transformationen auf einem bereits abonnierten Stream anwenden → neuer Stream nötig.
+
+---
+
+### Mini-Merkliste
+
+- Stream = eine Folge asynchroner Werte über die Zeit.
+- `listen(...)` abonniert, `cancel()` beendet das Abonnement.
+- `async*` mit `yield` ist der einfachste Weg, Streams zu erstellen.
+- `map`, `where`, `take`, `skip`, `distinct` funktionieren wie bei Collections – aber asynchron.
+- `onError` / `handleError` für Fehlerbehandlung.
+- Broadcast Stream für mehrere Listener.
+- `await for` macht Stream-Iteration so lesbar wie eine normale Schleife.
+

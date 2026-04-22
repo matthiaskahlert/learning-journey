@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Portfolio von Matthias Kahlert – Senior QA Engineer, QA Lead und Test Manager."
+    />
+    <title>Matthias Kahlert | QA Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
+  </head>
+  <body>
+    <div class="mouse-bg" aria-hidden="true"></div>
+
+    <header class="site-header" id="top">
+      <nav class="nav container">
+        <a class="brand" href="#top">MK</a>
+        <button class="nav-toggle" aria-expanded="false" aria-controls="nav-menu">☰</button>
+        <ul class="nav-menu" id="nav-menu">
+          <li><a href="#about" data-i18n="nav.about">About</a></li>
+          <li><a href="#skills" data-i18n="nav.skills">Skills</a></li>
+          <li><a href="#services" data-i18n="nav.services">Services</a></li>
+          <li><a href="#projects" data-i18n="nav.projects">Projects</a></li>
+          <li><a href="#experience" data-i18n="nav.experience">Experience</a></li>
+          <li><a href="#contact" data-i18n="nav.contact">Contact</a></li>
+        </ul>
+        <div class="controls">
+          <button id="langToggle" class="control-btn" aria-label="Zu Englisch wechseln">EN</button>
+          <button id="themeToggle" class="control-btn" aria-label="Dark Mode umschalten">🌙</button>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero reveal" id="hero">
+        <div class="container hero-content">
+          <p class="eyebrow" data-i18n="hero.eyebrow">Portfolio</p>
+          <h1 class="hero-name" id="heroName">Matthias Kahlert</h1>
+          <p class="hero-role" id="roleTypewriter" aria-live="polite"></p>
+          <p class="hero-text" data-i18n="hero.text"></p>
+          <a class="btn btn-primary" href="#projects" data-i18n="hero.cta">Projekte ansehen</a>
+        </div>
+      </section>
+
+      <section class="section reveal" id="about">
+        <div class="container">
+          <h2 data-i18n="about.title">Über mich</h2>
+          <p data-i18n="about.text">
+            Ich unterstütze Teams dabei, Qualität frühzeitig in Produkte zu integrieren – mit Fokus auf Exploratory
+            Testing, API Testing und strukturierte Qualitätssicherung.
+          </p>
+        </div>
+      </section>
+
+      <section class="section reveal" id="skills">
+        <div class="container">
+          <h2 data-i18n="skills.title">Skills</h2>
+          <div class="skills-grid">
+  <article class="skill-card">
+    <i class="devicon-javascript-plain colored"></i>
+    <p>JavaScript</p>
+  </article>
+
+  <article class="skill-card">
+    <i class="devicon-mysql-plain colored"></i>
+    <p>SQL</p>
+  </article>
+
+  <article class="skill-card">
+    <i class="devicon-python-plain colored"></i>
+    <p>Python</p>
+  </article>
+
+  <article class="skill-card">
+    <i class="devicon-selenium-original colored"></i>
+    <p>Selenium</p>
+  </article>
+
+  <article class="skill-card">
+    <i class="devicon-jira-plain colored"></i>
+    <p>Jira</p>
+  </article>
+
+  <article class="skill-card">
+    <i class="devicon-jenkins-line colored"></i>
+    <p>CI/CD</p>
+  </article>
+
+  <article class="skill-card">
+    <i class="devicon-git-plain colored"></i>
+    <p>Git</p>
+  </article>
+
+  <article class="skill-card">
+    <i class="devicon-postman-plain colored"></i>
+    <p>API Testing</p>
+  </article>
+
+  <article class="skill-card">
+    <i class="devicon-java-plain colored"></i>
+    <p>Java</p>
+  </article>
+
+  <article class="skill-card">
+    <i class="devicon-ruby-plain colored"></i>
+    <p>Ruby</p>
+  </article>
+
+  <article class="skill-card">
+    <i class="devicon-confluence-plain colored"></i>
+    <p>Confluence</p>
+  </article>
+
+  <article class="skill-card">
+    <i class="devicon-vscode-plain colored"></i>
+    <p>VS Code</p>
+  </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section reveal" id="services">
+        <div class="container">
+          <h2 data-i18n="services.title">Services</h2>
+          <div class="cards">
+            <article class="card">
+              <h3 data-i18n="services.s1.title">QA Leadership</h3>
+              <p data-i18n="services.s1.text">Aufbau von QA-Prozessen, Teststrategie und Team-Guidance.</p>
+            </article>
+            <article class="card">
+              <h3 data-i18n="services.s2.title">Test Management</h3>
+              <p data-i18n="services.s2.text">Planung, Priorisierung und Absicherung von Releases.</p>
+            </article>
+            <article class="card">
+              <h3 data-i18n="services.s3.title">Quality Consulting</h3>
+              <p data-i18n="services.s3.text">Audit bestehender Prozesse und Einführung nachhaltiger Qualitätsmetriken.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section reveal" id="projects">
+        <div class="container">
+          <h2 data-i18n="projects.title">Projekte</h2>
+          <div class="projects-scroll" role="list">
+            <article class="project-card" role="listitem">
+              <img src="images/seafight.jpg" alt="Seafight Game Screenshot" loading="lazy" />
+              <div class="project-body">
+                <h3 data-i18n="projects.p1.title"></h3>
+                <p data-i18n="projects.p1.text"></p>
+                <p class="stack">Exploratory Testing · Regression · Live Ops · Jira · Outsourcing · Flash to Unity · Browser to Steam</p>
+              </div>
+            </article>
+            <article class="project-card" role="listitem">
+              <img src="images/darkorbit.jpg" alt="DarkOrbit Game Screenshot" loading="lazy" />
+              <div class="project-body">
+                <h3 data-i18n="projects.p2.title"></h3>
+                <p data-i18n="projects.p2.text"></p>
+                <p class="stack">Exploratory Testing · SQL · Feature Validation · CI/CD · Astral Ascension Feature</p>
+              </div>
+            </article>
+            <article class="project-card" role="listitem">
+              <img src="images/farmerama.jpg" alt="Farmerama Game Screenshot" loading="lazy" />
+              <div class="project-body">
+                <h3 data-i18n="projects.p3.title"></h3>
+                <p data-i18n="projects.p3.text"></p>
+                <p class="stack">Regression · UX Testing · Live Events · Alpen extension</p>
+              </div>
+            </article>
+            <article class="project-card" role="listitem">
+              <img src="images/bytro.jpg" alt="Bytro Strategy Game Screenshot" loading="lazy" />
+              <div class="project-body">
+                <h3 data-i18n="projects.p4.title"></h3>
+                <p data-i18n="projects.p4.text"></p>
+                <p class="stack">QA Leadership · Test Strategy · Release Management · Hero Feature Launch</p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section reveal" id="experience">
+        <div class="container">
+          <h2 data-i18n="experience.title">Experience</h2>
+            <div class="timeline">
+            
+              <article>
+                <h3 data-i18n="exp.1.title"></h3>
+                <p class="meta" data-i18n="exp.1.meta"></p>
+                <p data-i18n="exp.1.text"></p>
+                <p class="stack" data-i18n="exp.1.stack"></p>
+              </article>
+          
+              <article>
+                <h3 data-i18n="exp.2.title"></h3>
+                <p class="meta" data-i18n="exp.2.meta"></p>
+                <p data-i18n="exp.2.text"></p>
+                <p class="stack" data-i18n="exp.2.stack"></p>
+              </article>
+          
+              <article>
+                <h3 data-i18n="exp.3.title"></h3>
+                <p class="meta" data-i18n="exp.3.meta"></p>
+                <p data-i18n="exp.3.text"></p>
+                <p class="stack" data-i18n="exp.3.stack"></p>
+              </article>
+          
+              <article>
+                <h3 data-i18n="exp.4.title"></h3>
+                <p class="meta" data-i18n="exp.4.meta"></p>
+                <p data-i18n="exp.4.text"></p>
+                <p class="stack" data-i18n="exp.4.stack"></p>
+              </article>
+          
+            </div>
+        </div>
+      </section>
+
+      <section class="section reveal" id="contact">
+        <div class="container">
+          <h2 data-i18n="contact.title">Contact</h2>
+          <p data-i18n="contact.text">Lass uns über Qualität, Testing und stabile Releases sprechen.</p>
+          <a class="btn" href="https://www.linkedin.com/in/matthias-kahlert/" target="_blank" rel="noopener noreferrer" data-i18n="contact.cta">Kontakt aufnehmen</a>
+        </div>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>

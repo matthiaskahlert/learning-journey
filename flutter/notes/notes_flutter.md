@@ -2933,3 +2933,15 @@ Der Neuaufbau erfolgt in der nächsten Frame-Rendering-Phase, um Effizienz zu ge
 ### Widget-Lebenszyklus
 
 Ein gutes Verständnis des Lebenszyklus von Widgets ermöglicht es mir, Ressourcen effizienter zu verwalten sowie auf Veränderungen und Fehler zu reagieren.
+
+
+### Widget-Lebenszyklus & mounted status bei setState
+
+
+Ein State-Objekt ist mounted, wenn es im Widget-Baum aktiv ist (zwischen initState und dispose).
+setState() darf nur aufgerufen werden, wenn das State-Objekt noch gemountet ist (also: if (mounted) setState(...)).
+Besonders wichtig bei asynchronen Operationen (Timer, Future, Stream, API-Call):
+Prüfe immer if (mounted), bevor du nach Abschluss einer Async-Operation setState() aufrufst.
+Nach dispose() ist das State-Objekt nicht mehr gemountet d.H. ein setState() würde zu Fehlern führen.
+Fehlerbehandlung: Wenn das Widget nicht mehr gemountet ist, ignoriere Fehler oder logge sie nur, aber führe kein UI-Update mehr durch.
+Das Verständnis von mounted schützt vor Speicherlecks, Crashes und unerwartetem Verhalten in komplexen Flutter-Apps.

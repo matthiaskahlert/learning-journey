@@ -13,7 +13,7 @@ void main() {
   testWidgets('zeigt Titel und aktualisiert Daten', (
     WidgetTester tester,
   ) async {
-    await tester.pumpWidget(const LebenszyklusDemoApp());
+    await tester.pumpWidget(const MyApp());
 
     expect(find.text('Lebenszyklus Demo'), findsOneWidget);
     expect(find.text('Initialisierte Daten'), findsOneWidget);

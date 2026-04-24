@@ -20,7 +20,7 @@ javascript/
 - [x] Started Java course on 23rd of Feb '26 with aprox **three weeks delay**
 - [x] Start of the Ruby course **two weeks delayed** on 30th of March '26
 - [x] Started the Flutter course as of today afternoon of 14th of April **with ~ 1 Week and 2 days delay**
-- [ ] Add Showcsase repository with final projects and screenshots
+- [x] Add Showcsase repository with final projects and screenshots (deployed under https://matthiaskahlert.github.io/resumee/ but developmentprojects are just s small selection so far)
 
 
 ## Initial Schedule

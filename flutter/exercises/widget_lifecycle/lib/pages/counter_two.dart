@@ -57,10 +57,11 @@ class _CounterTwoPageState extends State<CounterTwoPage> {
             ),
             const SizedBox(height: 24),
             // FloatingActionButton im Body platziert, damit die Position
-            // mit Counter 1 übereinstimmt (Button mittig, nicht unten rechts).
+            // mit Counter 1 übereinstimmt (Button mittig).
             FloatingActionButton(
               onPressed: _incrementCounter,
               // Bei jedem Klick wird _incrementCounter aufgerufen.
+              tooltip: 'Zähler erhöhen',
               child: const Icon(Icons.add),
             ),
           ],

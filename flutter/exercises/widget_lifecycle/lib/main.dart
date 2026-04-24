@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'pages/counter_one.dart';
+import 'pages/counter_three.dart';
 import 'pages/counter_two.dart';
 
 void main() {
@@ -34,7 +35,9 @@ class HomePage extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const CounterOnePage()),
+                  MaterialPageRoute(
+                    builder: (context) => const CounterOnePage(),
+                  ),
                 );
               },
               child: const Text('Zu Zählerseite 1'),
@@ -43,10 +46,23 @@ class HomePage extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const CounterTwoPage()),
+                  MaterialPageRoute(
+                    builder: (context) => const CounterTwoPage(),
+                  ),
                 );
               },
               child: const Text('Zu Zählerseite 2'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const CounterThreePage(),
+                  ),
+                );
+              },
+              child: const Text('Zu Zählerseite 3'),
             ),
           ],
         ),

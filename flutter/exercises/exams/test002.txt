@@ -1,0 +1,274 @@
+import 'package:flutter/gestures.dart';
+import 'package:flutter/material.dart';
+
+/* Entwickle eine Flutter-App, die ein Dashboard für eine fiktive Bibliothek darstellt. 
+Das Dashboard soll folgende Elemente enthalten: eine Kopfzeile mit dem Namen der Bibliothek,
+ eine horizontale Liste von Buchkategorien, 
+ eine vertikale Liste von Büchern der ausgewählten Kategorie 
+ und ein Fußbereich mit Kontaktdaten der Bibliothek. 
+ Die App soll responsive sein, sodass sie sowohl auf einem Tablet 
+ als auch auf einem Smartphone gut aussieht. 
+ Berücksichtige dabei die Constraints und deren Auswirkungen auf die Widgets. 
+ Verwende keine interaktiven Elemente wie Buttons.
+
+a) Erstelle die Grundstruktur der App mit einem Scaffold, der eine AppBar 
+und einen Body enthält.
+
+b) Implementiere eine horizontale ListView für die Buchkategorien im oberen Teil des Body.
+ Jedes Element der Liste soll ein Container sein, der den Namen der Kategorie enthält.
+
+c) Implementiere unter der Liste der Kategorien eine vertikale ListView, 
+die Bücher der ausgewählten Kategorie anzeigt. 
+Jedes Buch soll in einem Container dargestellt werden, der den Buchtitel 
+und den Autor anzeigt.
+
+d) Stelle sicher, dass die App responsive ist, 
+indem du MediaQuery und Flexible Widgets nutzt, 
+um die Darstellung auf verschiedenen Bildschirmgrößen anzupassen.
+
+ */
+void main() {
+  runApp(const BibliothekDashboardApp());
+}
+
+class BibliothekDashboardApp extends StatelessWidget {
+  const BibliothekDashboardApp({super.key});
+
+  static final ScrollBehavior _scrollVerhalten = const MaterialScrollBehavior()
+      .copyWith(
+        dragDevices: <PointerDeviceKind>{
+          PointerDeviceKind.touch,
+          PointerDeviceKind.mouse,
+          PointerDeviceKind.stylus,
+          PointerDeviceKind.invertedStylus,
+          PointerDeviceKind.unknown,
+        },
+      );
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Bibliothek Dashboard',
+      theme: ThemeData(colorSchemeSeed: Colors.teal, useMaterial3: true),
+      scrollBehavior: _scrollVerhalten,
+      home: const BibliothekDashboardPage(),
+    );
+  }
+}
+
+class BibliothekDashboardPage extends StatefulWidget {
+  const BibliothekDashboardPage({super.key});
+
+  @override
+  State<BibliothekDashboardPage> createState() =>
+      _BibliothekDashboardPageState();
+}
+
+class _BibliothekDashboardPageState extends State<BibliothekDashboardPage> {
+  int _ausgewaehlterKategorieIndex = 0;
+
+  static const List<String> kategorien = [
+    'Roman',
+    'Sachbuch',
+    'Kinder',
+    'Geschichte',
+    'Informatik',
+    'Biografie',
+  ];
+
+  static const Map<String, List<Buch>> buecherNachKategorie = {
+    'Roman': [
+      Buch(titel: 'Der Vorleser', autor: 'Bernhard Schlink'),
+      Buch(titel: 'Tschick', autor: 'Wolfgang Herrndorf'),
+      Buch(titel: 'Momo', autor: 'Michael Ende'),
+      Buch(titel: 'Der Prozess', autor: 'Franz Kafka'),
+    ],
+    'Sachbuch': [
+      Buch(
+        titel: 'Eine kurze Geschichte der Menschheit',
+        autor: 'Yuval Noah Harari',
+      ),
+      Buch(titel: 'Factfulness', autor: 'Hans Rosling'),
+      Buch(
+        titel: 'Schnelles Denken, langsames Denken',
+        autor: 'Daniel Kahneman',
+      ),
+    ],
+    'Kinder': [
+      Buch(titel: 'Das kleine Gespenst', autor: 'Otfried Preussler'),
+      Buch(titel: 'Pippi Langstrumpf', autor: 'Astrid Lindgren'),
+      Buch(titel: 'Die unendliche Geschichte', autor: 'Michael Ende'),
+    ],
+    'Geschichte': [
+      Buch(titel: 'Sapiens', autor: 'Yuval Noah Harari'),
+      Buch(titel: 'Die Schlafwandler', autor: 'Christopher Clark'),
+      Buch(titel: 'SPQR', autor: 'Mary Beard'),
+    ],
+    'Informatik': [
+      Buch(titel: 'Clean Code', autor: 'Robert C. Martin'),
+      Buch(titel: 'Code Complete', autor: 'Steve McConnell'),
+      Buch(titel: 'Design Patterns', autor: 'Erich Gamma et al.'),
+    ],
+    'Biografie': [
+      Buch(titel: 'Steve Jobs', autor: 'Walter Isaacson'),
+      Buch(titel: 'Becoming', autor: 'Michelle Obama'),
+      Buch(titel: 'Long Walk to Freedom', autor: 'Nelson Mandela'),
+    ],
+  };
+
+  @override
+  Widget build(BuildContext context) {
+    final Size bildschirmGroesse = MediaQuery.of(context).size;
+    final bool istTablet = bildschirmGroesse.width >= 700;
+    final String ausgewaehlteKategorie =
+        kategorien[_ausgewaehlterKategorieIndex];
+    final List<Buch> ausgewaehlteBuecher =
+        buecherNachKategorie[ausgewaehlteKategorie] ?? const [];
+
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Bücherhallen Hamburg'),
+        centerTitle: true,
+      ),
+      body: SafeArea(
+        child: Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 1000),
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: istTablet ? 24 : 12,
+                vertical: istTablet ? 16 : 10,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 8),
+                    child: Text(
+                      'Kategorien',
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                  ),
+                  SizedBox(
+                    height: istTablet ? 90 : 72,
+                    child: ListView.separated(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: kategorien.length,
+                      separatorBuilder: (_, separatorIndex) =>
+                          const SizedBox(width: 10),
+                      itemBuilder: (context, index) {
+                        final String kategorie = kategorien[index];
+                        final bool istAusgewaehlt =
+                            index == _ausgewaehlterKategorieIndex;
+
+                        return InkWell(
+                          borderRadius: BorderRadius.circular(14),
+                          onTap: () {
+                            setState(() {
+                              _ausgewaehlterKategorieIndex = index;
+                            });
+                          },
+                          child: Container(
+                            constraints: BoxConstraints(
+                              minWidth: istTablet ? 150 : 120,
+                              maxWidth: istTablet ? 220 : 170,
+                            ),
+                            alignment: Alignment.center,
+                            padding: const EdgeInsets.symmetric(horizontal: 14),
+                            decoration: BoxDecoration(
+                              color: istAusgewaehlt
+                                  ? Theme.of(
+                                      context,
+                                    ).colorScheme.primaryContainer
+                                  : Theme.of(
+                                      context,
+                                    ).colorScheme.surfaceContainerHighest,
+                              borderRadius: BorderRadius.circular(14),
+                            ),
+                            child: Text(
+                              kategorie,
+                              textAlign: TextAlign.center,
+                              style: Theme.of(context).textTheme.titleSmall,
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  SizedBox(height: istTablet ? 18 : 12),
+                  Text(
+                    'Bücher in "$ausgewaehlteKategorie"',
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                  const SizedBox(height: 8),
+                  Expanded(
+                    flex: istTablet ? 8 : 7,
+                    child: ListView.separated(
+                      itemCount: ausgewaehlteBuecher.length,
+                      separatorBuilder: (_, separatorIndex) =>
+                          SizedBox(height: istTablet ? 12 : 8),
+                      itemBuilder: (context, index) {
+                        final Buch buch = ausgewaehlteBuecher[index];
+
+                        return Container(
+                          padding: EdgeInsets.all(istTablet ? 16 : 12),
+                          decoration: BoxDecoration(
+                            color: Theme.of(
+                              context,
+                            ).colorScheme.surfaceContainerLow,
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(
+                              color: Theme.of(
+                                context,
+                              ).colorScheme.outlineVariant,
+                            ),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                buch.titel,
+                                style: Theme.of(context).textTheme.titleSmall,
+                              ),
+                              const SizedBox(height: 4),
+                              Text(
+                                'Autor: ${buch.autor}',
+                                style: Theme.of(context).textTheme.bodyMedium,
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  SizedBox(height: istTablet ? 12 : 10),
+                  Container(
+                    width: double.infinity,
+                    padding: EdgeInsets.symmetric(
+                      horizontal: istTablet ? 24 : 16,
+                      vertical: istTablet ? 14 : 10,
+                    ),
+                    color: Theme.of(context).colorScheme.secondaryContainer,
+                    child: Text(
+                      'Kontakt: Bücherhallen Hamburg | Tel: 040 123456789 | E-Mail: info@bib-hh.de',
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class Buch {
+  final String titel;
+  final String autor;
+
+  const Buch({required this.titel, required this.autor});
+}

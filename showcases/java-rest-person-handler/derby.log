@@ -1,0 +1,13 @@
+----------------------------------------------------------------
+Mon Apr 20 17:33:19 CEST 2026:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.17.1.0 - (1913217): instance a816c00e-019d-ab86-5076-00000f42d920 
+on database directory memory:C:\Users\velpTEC edutainment\repositories\learning-journey\showcases\java-rest-person-handler\rest_test_db with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@70dea4e 
+Loaded from file:/C:/Users/velpTEC%20edutainment/.m2/repository/org/apache/derby/derby/10.17.1.0/derby-10.17.1.0.jar
+java.vendor=Oracle Corporation
+java.runtime.version=21.0.10+8-LTS-217
+user.dir=C:\Users\velpTEC edutainment\repositories\learning-journey\showcases\java-rest-person-handler
+os.name=Windows 11
+os.arch=amd64
+os.version=10.0
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''

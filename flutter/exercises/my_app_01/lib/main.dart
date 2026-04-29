@@ -1,0 +1,70 @@
+// Entwickle eine Flutter-Anwendung, die folgende Anforderungen erfüllt:
+
+// a) Erstelle ein Stateful Widget namens FeedbackCounter, das einen Zähler für Benutzerfeedbacks anzeigt. Dieses Widget soll einen Button enthalten, der bei jedem Klick den Zähler um eins erhöht.
+
+// b) Implementiere ein Stateless Widget namens WelcomeMessage, das eine Begrüßungsnachricht zusammen mit dem aktuellen Datum anzeigt. Verwende das DateFormat von intl Paket, um das Datum im Format "dd.MM.yyyy" darzustellen.
+
+// c) Integriere beide Widgets in die Hauptansicht deiner Anwendung. Platziere das FeedbackCounter Widget oben und das WelcomeMessage Widget darunter.
+
+// d) Stelle sicher, dass deine Anwendung das Material Design verwendet. Füge der App-Bar einen Titel hinzu, der "Feedback App" lautet, und verwende für den Button im FeedbackCounter Widget ein Icon anstelle von Text.
+
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Feedback App',
+      theme: ThemeData(primarySwatch: Colors.blue),
+      home: Scaffold(
+        appBar: AppBar(title: Text('Feedback App')),
+        body: Column(children: <Widget>[FeedbackCounter(), WelcomeMessage()]),
+      ),
+    );
+  }
+}
+
+class FeedbackCounter extends StatefulWidget {
+  @override
+  _FeedbackCounterState createState() => _FeedbackCounterState();
+}
+
+class _FeedbackCounterState extends State<FeedbackCounter> {
+  int _counter = 0;
+
+  void _incrementCounter() {
+    setState(() {
+      _counter++;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.all(20),
+      child: Column(
+        children: <Widget>[
+          Text('Feedback Count: $_counter', style: TextStyle(fontSize: 20)),
+          IconButton(icon: Icon(Icons.add), onPressed: _incrementCounter),
+        ],
+      ),
+    );
+  }
+}
+
+class WelcomeMessage extends StatelessWidget {
+  final String _date = DateFormat('dd.MM.yyyy').format(DateTime.now());
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.all(20),
+      child: Text('Welcome! Today is $_date', style: TextStyle(fontSize: 20)),
+    );
+  }
+}

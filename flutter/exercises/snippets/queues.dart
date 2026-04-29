@@ -14,6 +14,7 @@ void main() {
   // Elemente entfernen
   String erster = warteschlange.removeFirst(); // 'Neuer Erster'
   String letzter = warteschlange.removeLast(); // 'Letzter'
+  print('Entfernt: $erster und $letzter');
   print(warteschlange); // (Erster, Zweiter)
 
   // Queue durchlaufen

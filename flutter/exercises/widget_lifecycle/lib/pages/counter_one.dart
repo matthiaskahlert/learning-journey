@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class CounterOnePage extends StatefulWidget {
   final String titel;
 
-  const CounterOnePage({Key? key, this.titel = 'Counter 1'}) : super(key: key);
+  const CounterOnePage({super.key, this.titel = 'Counter 1'});
 
   // Der veränderliche Teil ist im State-Objekt _CounterOnePageState.
   @override

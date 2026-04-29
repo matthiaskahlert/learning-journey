@@ -1,9 +1,0 @@
-{
-  "java.project.excludeFolders": [
-    "**/android",
-    "**/ios",
-    "**/linux",
-    "**/macos",
-    "**/windows"
-  ]
-}

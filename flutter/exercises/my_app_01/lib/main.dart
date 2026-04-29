@@ -16,6 +16,8 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -30,6 +32,8 @@ class MyApp extends StatelessWidget {
 }
 
 class FeedbackCounter extends StatefulWidget {
+  const FeedbackCounter({super.key});
+
   @override
   _FeedbackCounterState createState() => _FeedbackCounterState();
 }
@@ -58,10 +62,11 @@ class _FeedbackCounterState extends State<FeedbackCounter> {
 }
 
 class WelcomeMessage extends StatelessWidget {
-  final String _date = DateFormat('dd.MM.yyyy').format(DateTime.now());
+  const WelcomeMessage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final String _date = DateFormat('dd.MM.yyyy').format(DateTime.now());
     return Container(
       margin: EdgeInsets.all(20),
       child: Text('Welcome! Today is $_date', style: TextStyle(fontSize: 20)),

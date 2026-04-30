@@ -1,28 +1,31 @@
 # teilpruefung_04 von Matthias Kahlert
 
-Flutter-Prüfungsprojekt für einen Liefer / Kurierdienst:
+Flutter-Prüfungsprojekt für einen lokalen Lieferdienst.
 
-- Startseite mit Lieferoptionen
-- Detailseite mit Lieferzeit und Kosten
-- Kartenansicht mit Geolokalisierung
-- Profilbereich mit Bestellhistorie
+## Tracking-Ansatz
 
-## Hinweis zur Aufgabenstellung (Karte)
+Die Kartenansicht nutzt bewusst eine Simulation statt echter GPS-Daten:
 
-In der Aufgabenstellung wird für die Kartenansicht die Fahrzeugposition in Echtzeit gefordert und die Nutzung von `google_maps_flutter` (mit OpenStreetMap-Bezug) sowie optional `geolocator` erwähnt. Ich hab nun aber keine Fahrzeugposition simuliert, sondern mich bewusst stattdessen direkt für die **Geolocation des aktuellen Devices** als Kartenposition entschieden.
+- Startpunkt ist der Rathausmarkt in Hamburg
+- Der Marker bewegt sich periodisch in kleinen Schritten
+
+
+Damit wird das geforderte Echtzeit-Tracking für die Pruefung demonstriert,
+In einer echten App würde die Fahrzeugposition von einem Backend-Service bereitgestellt,
+der die GPS-Daten des Fahrzeugs empfängt und an die App sendet.
+
+## Device
+Ich habe die app auf einem virtuellen Device über Android Studiu und zwar einem Pixel 10 mit API 37.0 "CinnamonBun" und Android 17.0 getestet. 
+
+## Start
+
+```bash
+flutter pub get
+flutter run
+```
 
 ## Tests
-
-Die Datei `test/widget_test.dart` enthält zusätzlich noch 21 Tests
-
-Tests starten mit:
 
 ```bash
 flutter test
 ```
-
-## Voraussetzungen
-
-- Flutter SDK ist installiert
-- Abhängigkeiten mit `flutter pub get` installieren
-- Für Android-Emulator-Tests muss eine gültige Mock-Location gesetzt sein, oder man landet bei der default location des meulators, bei mir war das mountain view von google...

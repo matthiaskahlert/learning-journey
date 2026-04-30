@@ -57,11 +57,13 @@ void main() {
       }
     });
 
-    testWidgets('Zeigt den App-Titel "SchnellBote"', (tester) async {
+    testWidgets('Zeigt den App-Titel "Fixkurier - Ihr Schneller Bote"', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(home: Startseite(beiBestellung: (_) {})),
       );
-      expect(find.text('SchnellBote'), findsOneWidget);
+      expect(find.text('Fixkurier - Ihr Schneller Bote'), findsOneWidget);
     });
 
     testWidgets('Tippen auf eine Karte öffnet die Detailseite', (tester) async {
@@ -214,7 +216,7 @@ void main() {
 
     testWidgets('Startet standardmäßig auf der Startseite', (tester) async {
       await tester.pumpWidget(const MaterialApp(home: Hauptbildschirm()));
-      expect(find.text('SchnellBote'), findsOneWidget);
+      expect(find.text('Fixkurier - Ihr Schneller Bote'), findsOneWidget);
     });
 
     testWidgets('Navigation zum Profil-Tab zeigt leere Bestellhistorie', (

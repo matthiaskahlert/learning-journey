@@ -25,10 +25,8 @@
 //     Die Lernziele (Kartenintegration, Live-Positionsanzeige, Navigation, State Management) bleiben identisch
 
 import 'dart:async';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
 
 void main() => runApp(const LieferApp());
@@ -92,17 +90,13 @@ class BestellverlaufEintrag {
   });
 }
 
-// ---------------------------------------------------------------------------
-// App-Einstieg
-// ---------------------------------------------------------------------------
-
 class LieferApp extends StatelessWidget {
   const LieferApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'SchnellBote',
+      title: 'Fixkurier - Ihr Schneller Bote',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         useMaterial3: true,
@@ -193,7 +187,10 @@ class Startseite extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('SchnellBote'), centerTitle: true),
+      appBar: AppBar(
+        title: const Text('Fixkurier - Ihr Schneller Bote'),
+        centerTitle: true,
+      ),
       body: ListView.builder(
         padding: const EdgeInsets.all(12),
         itemCount: kLieferoptionen.length,
@@ -457,9 +454,7 @@ class _InfoZeile extends StatelessWidget {
   }
 }
 
-// ---------------------------------------------------------------------------
-// Kartenansicht – Echtzeit-Fahrzeugposition (c)
-// ---------------------------------------------------------------------------
+// Kartenansicht
 
 class Kartenansicht extends StatefulWidget {
   final Lieferoption? aktiveBestellung;
@@ -470,179 +465,54 @@ class Kartenansicht extends StatefulWidget {
   State<Kartenansicht> createState() => _KartenansichtState();
 }
 // Hinweis: In einer echten App würde die Fahrzeugposition von einem Backend-Service bereitgestellt,
-// der die GPS-Daten des Fahrzeugs empfängt und an die App sendet.
+// der die GPS-Daten des Fahrzeugs empfängt und an die App sendet. Ich arbeite mit einer Simulation.
 
 class _KartenansichtState extends State<Kartenansicht> {
-  LatLng _aktuellePosition = const LatLng(48.1351, 11.5820);
+  // Startpunkt: Rathausmarkt, Hamburg
+  LatLng _aktuellePosition = const LatLng(53.5509, 9.9937);
   final MapController _kartenController = MapController();
-  StreamSubscription<Position>? _positionsStreamAbo;
-  bool _standortProblem = false;
-  String _standortQuelle = 'Unbekannt';
+  Timer? _simulationsTimer;
+  String _standortQuelle = 'Simulation';
 
   @override
   void didUpdateWidget(covariant Kartenansicht oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.aktiveBestellung != null &&
         oldWidget.aktiveBestellung != widget.aktiveBestellung) {
-      _standortVerfolgungStarten();
+      _starteSimulation();
     }
   }
 
   @override
   void initState() {
     super.initState();
-    _standortVerfolgungStarten();
+    _starteSimulation();
   }
 
-  Future<void> _standortVerfolgungStarten() async {
-    final standort = await _aktuellenStandortAufloesen();
-    if (!mounted) return;
+  void _starteSimulation() {
+    _simulationsTimer?.cancel();
 
-    setState(() {
-      _aktuellePosition = standort;
-    });
-    _kartenController.move(standort, 15);
+    _simulationsTimer = Timer.periodic(const Duration(seconds: 2), (_) {
+      if (!mounted) return;
 
-    _positionsStreamAbo?.cancel();
-    _positionsStreamAbo =
-        Geolocator.getPositionStream(
-          locationSettings: const LocationSettings(
-            accuracy: LocationAccuracy.high,
-            distanceFilter: 3,
-          ),
-        ).listen(
-          (position) {
-            if (!mounted) return;
-            if (_istWahrscheinlichGoogleStandardkoordinate(
-              position.latitude,
-              position.longitude,
-            )) {
-              setState(() {
-                _standortProblem = true;
-                _standortQuelle = 'Emulator-Default ignoriert';
-              });
-              return;
-            }
-
-            final naechstePosition = LatLng(
-              position.latitude,
-              position.longitude,
-            );
-            setState(() {
-              _standortProblem = false;
-              _standortQuelle = 'GPS';
-              _aktuellePosition = naechstePosition;
-            });
-          },
-          onError: (_) {
-            if (!mounted) return;
-            setState(() => _standortProblem = true);
-          },
+      setState(() {
+        _aktuellePosition = LatLng(
+          _aktuellePosition.latitude + 0.0002,
+          _aktuellePosition.longitude + 0.0003,
         );
-  }
-
-  Future<LatLng> _aktuellenStandortAufloesen() async {
-    try {
-      final praeziserStandort = await _praezisenStandortAufloesen();
-      if (praeziserStandort != null) {
-        _standortProblem = false;
-        _standortQuelle = 'GPS';
-        return praeziserStandort;
-      }
-
-      _standortProblem = true;
-      _standortQuelle = 'Kein gueltiger Geraetestandort';
-      return _aktuellePosition;
-    } catch (_) {
-      _standortProblem = true;
-      _standortQuelle = 'Standortfehler';
-      return _aktuellePosition;
-    }
-  }
-
-  Future<LatLng?> _praezisenStandortAufloesen() async {
-    final dienstAktiv = await Geolocator.isLocationServiceEnabled();
-    if (!dienstAktiv) return null;
-
-    var berechtigung = await Geolocator.checkPermission();
-    if (berechtigung == LocationPermission.denied) {
-      berechtigung = await Geolocator.requestPermission();
-    }
-
-    if (berechtigung == LocationPermission.denied ||
-        berechtigung == LocationPermission.deniedForever) {
-      return null;
-    }
-
-    final LocationSettings standortEinstellungen;
-    if (defaultTargetPlatform == TargetPlatform.android) {
-      standortEinstellungen = AndroidSettings(
-        accuracy: LocationAccuracy.bestForNavigation,
-        distanceFilter: 3,
-        forceLocationManager: true,
-        intervalDuration: Duration(seconds: 2),
-        timeLimit: Duration(seconds: 8),
-      );
-    } else {
-      standortEinstellungen = const LocationSettings(
-        accuracy: LocationAccuracy.high,
-        distanceFilter: 3,
-        timeLimit: Duration(seconds: 8),
-      );
-    }
-
-    final position = await Geolocator.getCurrentPosition(
-      locationSettings: standortEinstellungen,
-    );
-    if (_istWahrscheinlichGoogleStandardkoordinate(
-      position.latitude,
-      position.longitude,
-    )) {
-      _standortProblem = true;
-      _standortQuelle = 'Emulator-Mock-Standort erforderlich';
-      return null;
-    }
-    return LatLng(position.latitude, position.longitude);
-  }
-
-  bool _istWahrscheinlichGoogleStandardkoordinate(
-    double breitengrad,
-    double laengengrad,
-  ) {
-    // Viele Android-Emulatoren starten mit einer Standardposition nahe Googleplex.
-    const standardBreitengrad = 37.4219983;
-    const standardLaengengrad = -122.084;
-    final diffBreite = (breitengrad - standardBreitengrad).abs();
-    final diffLaenge = (laengengrad - standardLaengengrad).abs();
-    return diffBreite < 0.02 && diffLaenge < 0.02;
-  }
-
-  Future<void> _aufGeraetestandortZentrieren() async {
-    // Sofortiges Zentrieren verbessert die Bedienung in Chrome spuerbar.
-    _kartenController.move(_aktuellePosition, 15);
-
-    final standort = await _aktuellenStandortAufloesen();
-    if (!mounted) return;
-
-    setState(() {
-      _aktuellePosition = standort;
+        _standortQuelle = 'Simulation';
+      });
+      _kartenController.move(_aktuellePosition, 15);
     });
-    _kartenController.move(standort, 15);
+  }
 
-    if (_standortProblem) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text(
-            'Kein gueltiger Standort verfuegbar. Auf dem Emulator bitte einen Mock-Standort setzen.',
-          ),
-        ),
-      );
-    }
+  void _aufStandortZentrieren() {
+    _kartenController.move(_aktuellePosition, 15);
   }
 
   @override
   void dispose() {
-    _positionsStreamAbo?.cancel();
+    _simulationsTimer?.cancel();
     super.dispose();
   }
 
@@ -711,29 +581,11 @@ class _KartenansichtState extends State<Kartenansicht> {
               ),
             ),
           ),
-          if (_standortProblem)
-            Positioned(
-              top: 72,
-              left: 12,
-              right: 12,
-              child: Card(
-                color: colorScheme.tertiaryContainer,
-                child: Padding(
-                  padding: const EdgeInsets.all(12),
-                  child: Text(
-                    'Kein gueltiger Standort verfuegbar. Physisches Geraet nutzen oder im Emulator unter Extended controls > Location einen Mock-Standort setzen.',
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: colorScheme.onTertiaryContainer,
-                    ),
-                  ),
-                ),
-              ),
-            ),
         ],
       ),
       floatingActionButton: FloatingActionButton.small(
         tooltip: 'Position zentrieren',
-        onPressed: _aufGeraetestandortZentrieren,
+        onPressed: _aufStandortZentrieren,
         child: const Icon(Icons.my_location),
       ),
     );

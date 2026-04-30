@@ -7,11 +7,11 @@ class CounterOnePage extends StatefulWidget {
 
   // Der veränderliche Teil ist im State-Objekt _CounterOnePageState.
   @override
-  _CounterOnePageState createState() => _CounterOnePageState();
+  CounterOnePageState createState() => CounterOnePageState();
 }
 
 // Dieses State-Objekt enthält _daten, also den internen Zustand, der sich später ändern darf.
-class _CounterOnePageState extends State<CounterOnePage> {
+class CounterOnePageState extends State<CounterOnePage> {
   late String _daten;
 
   // _log speichert alle Lifecycle-Einträge, damit sie in der App angezeigt werden können.

@@ -13,7 +13,7 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -36,13 +36,13 @@ class MyApp extends StatelessWidget {
 }
 
 class MyCustomForm extends StatefulWidget {
-  const MyCustomForm({Key? key}) : super(key: key);
+  const MyCustomForm({super.key});
 
   @override
-  _MyCustomFormState createState() => _MyCustomFormState();
+  MyCustomFormState createState() => MyCustomFormState();
 }
 
-class _MyCustomFormState extends State<MyCustomForm> {
+class MyCustomFormState extends State<MyCustomForm> {
   final _controller = TextEditingController();
 
   @override

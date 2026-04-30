@@ -79,7 +79,7 @@ final List<Book> bookList = [
 List<Book> cartItems = [];
 
 class BookstoreApp extends StatelessWidget {
-  const BookstoreApp({Key? key}) : super(key: key);
+  const BookstoreApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -103,7 +103,7 @@ class BookstoreApp extends StatelessWidget {
 
 // a) Startseite mit Buchliste
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -149,7 +149,7 @@ class _HomePageState extends State<HomePage> {
 
 // Buchliste auf der Startseite
 class BookListPage extends StatelessWidget {
-  const BookListPage({Key? key}) : super(key: key);
+  const BookListPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -174,7 +174,7 @@ class BookListPage extends StatelessWidget {
 
 // b) Detailseite für ein ausgewähltes Buch
 class BookDetailPage extends StatelessWidget {
-  const BookDetailPage({Key? key}) : super(key: key);
+  const BookDetailPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -269,7 +269,7 @@ class BookDetailPage extends StatelessWidget {
 
 // d) Warenkorbseite
 class CartPage extends StatefulWidget {
-  const CartPage({Key? key}) : super(key: key);
+  const CartPage({super.key});
 
   @override
   State<CartPage> createState() => _CartPageState();
@@ -350,7 +350,7 @@ class _CartPageState extends State<CartPage> {
 
 // Über uns Seite
 class AboutPage extends StatelessWidget {
-  const AboutPage({Key? key}) : super(key: key);
+  const AboutPage({super.key});
 
   @override
   Widget build(BuildContext context) {

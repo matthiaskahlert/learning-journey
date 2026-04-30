@@ -17,6 +17,8 @@ void main() {
 }
 
 class MeineApp extends StatelessWidget {
+  const MeineApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -29,6 +31,8 @@ class MeineApp extends StatelessWidget {
 }
 
 class ResponsiveListView extends StatelessWidget {
+  const ResponsiveListView({super.key});
+
   @override
   Widget build(BuildContext context) {
     // Überprüfe die Größe des Bildschirms

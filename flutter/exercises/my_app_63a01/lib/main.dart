@@ -23,7 +23,7 @@ class NewsList extends StatelessWidget {
   final List<NewsItem> newsItems;
   final ValueChanged<NewsItem> onItemTap;
 
-  NewsList({required this.newsItems, required this.onItemTap});
+  const NewsList({super.key, required this.newsItems, required this.onItemTap});
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +42,7 @@ class NewsList extends StatelessWidget {
 class NewsDetail extends StatelessWidget {
   final NewsItem newsItem;
 
-  NewsDetail({required this.newsItem});
+  const NewsDetail({super.key, required this.newsItem});
 
   @override
   Widget build(BuildContext context) {
@@ -64,6 +64,8 @@ class MyApp extends StatelessWidget {
     ),
     // Füge hier weitere NewsItems hinzu
   ];
+
+  MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {

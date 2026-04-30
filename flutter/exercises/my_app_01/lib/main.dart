@@ -35,10 +35,10 @@ class FeedbackCounter extends StatefulWidget {
   const FeedbackCounter({super.key});
 
   @override
-  _FeedbackCounterState createState() => _FeedbackCounterState();
+  FeedbackCounterState createState() => FeedbackCounterState();
 }
 
-class _FeedbackCounterState extends State<FeedbackCounter> {
+class FeedbackCounterState extends State<FeedbackCounter> {
   int _counter = 0;
 
   void _incrementCounter() {
@@ -66,10 +66,10 @@ class WelcomeMessage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final String _date = DateFormat('dd.MM.yyyy').format(DateTime.now());
+    final String date = DateFormat('dd.MM.yyyy').format(DateTime.now());
     return Container(
       margin: EdgeInsets.all(20),
-      child: Text('Welcome! Today is $_date', style: TextStyle(fontSize: 20)),
+      child: Text('Welcome! Today is $date', style: TextStyle(fontSize: 20)),
     );
   }
 }
